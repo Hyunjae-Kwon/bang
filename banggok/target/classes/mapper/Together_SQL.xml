@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="together">
+
+	<!-- [selectTogetherDesc] 메인 페이지 - 최신 동행 구하기 4개 (작성일 기준) -->
+	<select id="selectTogetherDesc" resultType="hashmap">
+	 <![CDATA[
+			SELECT TG_NUM, TG_TITLE, TG_REGDATE, TG_ID, TG_CNT, TG_LIKE, TG_CONTENT, R
+			FROM (SELECT TG_NUM, TG_TITLE, TG_REGDATE, TG_ID, TG_CNT, TG_LIKE, TG_CONTENT, ROWNUM R
+				FROM (SELECT TG_NUM, TG_TITLE, TG_REGDATE, TG_ID, TG_CNT, TG_LIKE, TG_CONTENT
+					FROM TOGETHER
+					ORDER BY TG_REGDATE DESC)
+				)
+			WHERE R BETWEEN 1 AND 4
+	   ]]>
+	</select>
+
+</mapper>

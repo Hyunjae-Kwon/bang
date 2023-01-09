@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="recommend">
+
+	<!-- [selectRecomDesc] 메인 페이지 - 추천 여행지 3개 (기준 미정으로 임시로 조회수로 작성) -->
+	<select id="selectRecomDesc" resultType="hashmap">
+	 <![CDATA[
+			SELECT RC_NUM, RC_TITLE, RC_REGDATE, RC_ID, RC_CNT, RC_LIKE, RC_CONTENT, RC_IMAGE, R
+			FROM (SELECT RC_NUM, RC_TITLE, RC_REGDATE, RC_ID, RC_CNT, RC_LIKE, RC_CONTENT, RC_IMAGE, ROWNUM R
+				FROM (SELECT RC_NUM, RC_TITLE, RC_REGDATE, RC_ID, RC_CNT, RC_LIKE, RC_CONTENT, RC_IMAGE
+					FROM RECOMMEND
+					ORDER BY RC_CNT DESC)
+				)
+			WHERE R BETWEEN 1 AND 3
+	   ]]>
+	</select>
+
+</mapper>
