@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="trip">
+
+	<!-- [selectHotTrip] 메인 페이지 - 인기 여행 일정 3개 (좋아요 수 기준) -->
+	<select id="selectHotTrip" resultType="hashmap">
+	 <![CDATA[
+			SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, R
+			FROM (SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, ROWNUM R
+				FROM (SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE
+					FROM TRIP
+	                WHERE TR_SHARE = 'Y'
+					ORDER BY TR_LIKE DESC)
+				)
+			WHERE R BETWEEN 1 AND 3
+	   ]]>
+	</select>
+	
+	<!-- [selectAllShareTrip] 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 -->
+	<select id="selectAllShareTrip" resultType="hashmap">
+	 <![CDATA[
+			SELECT * FROM TRIP
+			WHERE TR_SHARE = 'Y'
+			ORDER BY TR_REGDATE DESC
+	   ]]>
+	</select>
+	
+	<!-- [selectSharedTrip] 여행 일정 공유 게시판 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 -->
+	<select id="selectSharedTrip" parameterType="hashmap" resultType="hashmap">
+	 <![CDATA[
+			SELECT * FROM TRIP
+			WHERE TR_NUM = #{TR_NUM}
+	   ]]>
+	</select>
+
+</mapper>
