@@ -46,15 +46,14 @@
 </style>
 </head>
     <body>
-    <form id="ftm" name="frm" action="/bang/tripDelete.tr">
+    <form id="frm" name="frm">
     	<input type="hidden" id="TR_NUM" name="TR_NUM" value="${trip.TR_NUM}">
-    </form>
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
             	<p>${trip.TR_ID}님의 여행 일정입니다.</p>
-                <h2>${trip.TR_TITLE}</h2>
+                <span style="margin: 0 auto;">제목을 입력해주세요. <input type="text" class="form-control input-sm" name="TR_TITLE" id="TR_TITLE" value="${trip.TR_TITLE}" style="max-width: 400px; float: right;"></span>
             </div>
         </div>
     </div>
@@ -74,23 +73,24 @@
                         <div class="col-sm-8">${trip.TR_LIKE}</div>
                     </div><br>
                     <h2>여행 일정</h2><br>
-                    <div class="row cont-row">
-                        <div class="col-sm-3"><label>${trip.TR_CONTENT}</label></div>
+                    <div>
+                        <div class="col-sm-3"><textarea class="form-control" name="TR_CONTENT" id="TR_CONTENT">${trip.TR_CONTENT}</textarea></div>
                     </div>
                     <h2>여행 세부 일정</h2><br>
-                    <div class="row cont-row">
-                        <div class="col-sm-3"><label>${trip.TR_SUBCONTENT}</label></div>
+                    <div>
+                        <div class="col-sm-3"><textarea class="form-control" name="TR_SUBCONTENT" id="TR_SUBCONTENT">${trip.TR_SUBCONTENT}</textarea></div>
                     </div>
                     <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
-                    <div style="margin-top:10px;">
-                        <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
-                        <div class="col-sm-8" style="max-width: 100%;">
-                        	<button class="btn btn-success btn-sm" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${trip.TR_NUM}'">수정하기</button>
+                    <div style="margin-top:10px;" class="row">
+                        <div style="padding-top:10px;" class="col-sm-3"><label></label></div>
+                        <div class="col-sm-8">
+                        	<button class="btn btn-success btn-sm" onClick="return fn_tripModify()">수정하기</button>
                         	<button class="btn btn-success btn-sm" onClick="return fn_tripDelete()">삭제하기</button>
-                            <button class="btn btn-success btn-sm" onClick="location.href='/bang/tripList.tr'">목록으로 돌아가기</button>
+                        	<input type="button" class="btn btn-success btn-sm" onClick="javascript:history.go(-1)" value="취소하기">
                         </div>
                     </div>
                 </div>
+                </form>
                 <div class="col-sm-5">
                     <div style="margin:20px" class="serv">
                     	<!-- 카카오 지도 드로잉 기능 -->
@@ -116,10 +116,39 @@
             </div>
         </div>
     </div>
-	<form id="commonForm" name="commonForm"></form>
+    <form id="commonForm" name="commonForm"></form>
     </body>
     <script>
-	    function fn_tripDelete(){
+		function fn_tripModify(){
+			var comSubmit = new ComSubmit("frm");
+			comSubmit.setUrl("/bang/tripModify.tr");
+			var TR_TITLE = document.getElementById("TR_TITLE").value;
+			var TR_CONTENT = document.getElementById("TR_CONTENT").value;
+			var TR_SUBCONTENT = document.getElementById("TR_SUBCONTENT").value;
+					
+			if (!$("#TR_TITLE").val()) {
+				alert("제목을 입력하세요.");
+				$("#TR_TITLE").focus();
+				return false;
+			}
+			
+			if (!$("#TR_CONTENT").val()) {
+				alert("본문 내용을 입력하세요.");
+				$("#TR_CONTENT").focus();
+				return false;
+			}
+			
+			if (!$("#TR_SUBCONTENT").val()) {
+				alert("상세 내용을 입력하세요.");
+				$("#TR_SUBCONTENT").focus();
+				return false;
+			}
+		
+			alert("게시판이 정상적으로 수정 되었습니다.");
+			comSubmit.submit();
+		}
+		 
+		function fn_tripDelete(){
 			var comSubmit = new ComSubmit();
 			var CONFIRM = confirm("정말로 삭제하시겠습니까?");
 			
