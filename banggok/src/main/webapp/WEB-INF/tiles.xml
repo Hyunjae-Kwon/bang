@@ -17,16 +17,4 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
 	</definition>
 	
-	<!-- Admin -->
-	<definition name="admin_layout" template="/WEB-INF/jsp/layout/admin_layout.jsp">
-		<put-attribute name="header" value="/WEB-INF/jsp/layout/main_header.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/jsp/layout/main_footer.jsp" />
-		<put-attribute name="left" value="/WEB-INF/jsp/layout/admin_left.jsp" />
-		<put-attribute name="body" value="/WEB-INF/jsp/admin/adminMain.jsp" />
-	</definition>
-	
-	<definition name="*/*/*" extends="admin_layout">
-		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
-	</definition>
-	
 </tiles-definitions>
