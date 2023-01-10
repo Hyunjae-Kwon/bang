@@ -16,4 +16,50 @@
 	   ]]>
 	</select>
 
+
+	<!-- 동행게시판 리스트 -->
+	<select id="togetherList" parameterType="hashmap"
+		resultType="hashmap">
+	<![CDATA[
+	SELECT
+		TG_NUM,
+		TG_TITLE,
+		TG_REGDATE,
+		TG_ID,
+		TG_CNT
+	FROM
+		TOGETHER
+	ORDER BY TG_NUM DESC
+	]]>
+	</select>
+
+	<!-- 카운트 -->
+	<update id="updateHitCnt" parameterType="hashmap">
+	<![CDATA[
+		UPDATE TOGETHER
+		SET
+			TG_CNT = NVL(TG_CNT, 0) + 1
+		WHERE
+			TG_NUM = #{TG_NUM}	
+	]]>
+	</update>
+	
+	<!-- 동행게시판 디테일 -->
+	<select id="togetherDetail" parameterType="hashmap"
+		resultType="hashmap">
+	<![CDATA[
+		SELECT
+			TG_NUM,
+			TG_CNT,
+			TG_ID,
+			TG_REGDATE,
+			TG_TITLE,
+			TG_CONTENT
+		FROM
+			TOGETHER
+		WHERE
+			TG_NUM = #{TG_NUM}		
+	]]>
+	</select>
+
 </mapper>
