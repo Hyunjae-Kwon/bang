@@ -196,12 +196,17 @@ function formCheck() {
 	$.ajax({
 		url : '/bang/checkMem.tr',
 		async: false,
-		dataType: 'json',
 		type : 'POST',
 		data : {MEM_NAME:memName.value, MEM_EMAIL:memEmail.value},
-		success : function(result) {
-			MEM_ID=result;
-			alert("웰컴");
+		success : function(data) {
+			MEM_ID=data;
+			if(MEM_ID==""){
+				alert(MEM_ID);
+				alert("회원이 아니무니다");
+			}else{
+				alert(MEM_ID);
+				alert("웰컴");
+			}
 		},
 		error : function(e) {
 			alert(MEM_ID);

@@ -246,7 +246,7 @@
 		     <artifactId>jackson-databind</artifactId>
 		     <version>2.5.1</version>
 		</dependency> 
-		
+				
 		<!-- MultipartHttpServletRequset -->
 		<dependency>
             <groupId>commons-io</groupId>
@@ -364,6 +364,13 @@
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-servlet</artifactId>
 		    <version>3.0.8</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib-ext-spring -->
+		<dependency>
+		    <groupId>net.sf.json-lib</groupId>
+		    <artifactId>json-lib-ext-spring</artifactId>
+		    <version>1.0.2</version>
 		</dependency>
 		
 	</dependencies>

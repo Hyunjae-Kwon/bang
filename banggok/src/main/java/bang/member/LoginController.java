@@ -31,18 +31,23 @@ public class LoginController {
 	/* 회원여부 확인(이름&이메일) */
 	@RequestMapping(value = "/checkMem.tr")
 	@ResponseBody
-	public ModelAndView checkMem(CommandMap commandMap) throws Exception {
+	public String checkMem(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("login/findId");
 		
-//		System.out.println("MEM_NAME ="+commandMap.get("MEM_NAME"));
-//		System.out.println("MEM_EMAIL="+commandMap.get("MEM_EMAIL"));
-			
+		String MEM_ID = null;
+		
 		Map<String, Object> data = loginService.checkMem(commandMap.getMap());
 		mv.addObject("MEM_ID", data);
+		try {
+			MEM_ID = (String) data.get("MEM_ID");
+		} catch(NullPointerException e) {
+		}
+		
 		System.out.println(data);
 		System.out.println(mv);
+		System.out.println(MEM_ID);
 		
-		return mv;
+		return MEM_ID;
 	}
 	
 	
