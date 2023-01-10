@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+     <!-- id중복확인 -->
+	 <select id="selectMemberIdCk" parameterType="String" resultType="int">
+	<![CDATA[
+		SELECT
+			COUNT(*)
+		FROM
+			MEMBER WHERE MEM_ID=#{MEM_ID}
+	]]>
+	</select> 
+
+    <!-- insertMember(회원가입 성공) -->
+	<insert id="insertMember" parameterType="hashmap">	
+	<![CDATA[	
+		INSERT INTO
+		MEMBER
+			(MEM_ID,
+			MEM_PW,
+			MEM_NAME,
+			MEM_NICKNAME,
+			MEM_REGDATE,
+			MEM_EMAIL,
+			MEM_PHONE,
+			MEM_TYPE,
+			MEM_BLOCK
+			)
+		VALUES
+			(#{MEM_ID},
+			#{MEM_PW},
+			#{MEM_NAME},
+			#{MEM_NICKNAME},
+			SYSDATE,
+			#{MEM_EMAIL},						
+			#{MEM_PHONE},
+			0,
+			'N'
+			)
+	]]>	
+	</insert>	
+
+</mapper>
