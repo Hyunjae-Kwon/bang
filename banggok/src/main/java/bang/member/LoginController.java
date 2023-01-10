@@ -40,18 +40,12 @@ public class LoginController {
 		mv.addObject("MEM_ID", data);
 		try {
 			MEM_ID = (String) data.get("MEM_ID");
-		} catch(NullPointerException e) {
-		}
+		} catch(NullPointerException e) {}		
 		
-		System.out.println(data);
-		System.out.println(mv);
 		System.out.println(MEM_ID);
 		
 		return MEM_ID;
 	}
-	
-	
-	
 	
 //	@RequestMapping(value = "/findIdResult.omc", method = RequestMethod.POST) // 입력한 정보에 맞춰서 아이디를 찾아주는 거
 //	public ModelAndView findIdResult(CommandMap commandMap) throws Exception {
