@@ -24,13 +24,25 @@ public class TripServiceImpl implements TripService {
 
 	/* 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 */
 	@Override
-	public List<Map<String, Object>> selectAllShareTrip(Map<String, Object> map) throws Exception {
-		return tripDAO.selectAllShareTrip(map);
+	public List<Map<String, Object>> tripList(Map<String, Object> map) throws Exception {
+		return tripDAO.tripList(map);
 	}
 
-	/* 여행 일정 공유 게시판 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 */
+	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 	@Override
-	public Map<String, Object> selectSharedTrip(Map<String, Object> map) throws Exception {
-		return tripDAO.selectSharedTrip(map);
+	public Map<String, Object> tripDetail(Map<String, Object> map) throws Exception {
+		return tripDAO.tripDetail(map);
+	}
+
+	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
+	@Override
+	public void tripModify(Map<String, Object> map) throws Exception {
+		tripDAO.tripModify(map);
+	}
+	
+	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
+	@Override
+	public void tripDelete(Map<String, Object> map) throws Exception {
+		tripDAO.tripDelete(map);
 	}
 }

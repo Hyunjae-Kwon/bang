@@ -11,9 +11,15 @@ public interface TripService {
 	List<Map<String, Object>> selectHotTrip(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 */
-	List<Map<String, Object>> selectAllShareTrip(Map<String, Object> map) throws Exception;
+	List<Map<String, Object>> tripList(Map<String, Object> map) throws Exception;
 	
-	/* 여행 일정 공유 게시판 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기*/
-	Map<String, Object> selectSharedTrip(Map<String, Object> map) throws Exception;
+	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기*/
+	Map<String, Object> tripDetail(Map<String, Object> map) throws Exception;
+	
+	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
+	void tripModify(Map<String, Object> map) throws Exception;
+	
+	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
+	void tripDelete(Map<String, Object> map) throws Exception;
 
 }

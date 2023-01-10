@@ -17,8 +17,8 @@
 	   ]]>
 	</select>
 	
-	<!-- [selectAllShareTrip] 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 -->
-	<select id="selectAllShareTrip" resultType="hashmap">
+	<!-- [tripList] 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 -->
+	<select id="tripList" resultType="hashmap">
 	 <![CDATA[
 			SELECT * FROM TRIP
 			WHERE TR_SHARE = 'Y'
@@ -26,12 +26,32 @@
 	   ]]>
 	</select>
 	
-	<!-- [selectSharedTrip] 여행 일정 공유 게시판 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 -->
-	<select id="selectSharedTrip" parameterType="hashmap" resultType="hashmap">
+	<!-- [tripDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 -->
+	<select id="tripDetail" parameterType="hashmap" resultType="hashmap">
 	 <![CDATA[
 			SELECT * FROM TRIP
 			WHERE TR_NUM = #{TR_NUM}
 	   ]]>
 	</select>
+	
+	<!-- [tripModify] 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 -->
+	<update id="tripModify" parameterType="hashmap">
+        <![CDATA[
+			UPDATE TRIP 
+			SET TR_TITLE=#{TR_TITLE}, 
+				TR_CONTENT=#{TR_CONTENT},
+				TR_SUBCONTENT=#{TR_SUBCONTENT}
+			WHERE TR_NUM=#{TR_NUM}
+	   ]]>
+	</update>
+	
+	<!-- [tripDelete] TR_NUM으로 여행 일정 삭제하기 -->
+	<delete id="tripDelete" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+			FROM TRIP
+			WHERE TR_NUM=#{TR_NUM}
+		]]>
+	</delete>
 
 </mapper>
