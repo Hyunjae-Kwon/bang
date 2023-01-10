@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="/WEB-INF/include/include-header.jspf" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -116,13 +119,12 @@
 				</div>
 				<div style="padding: 20px" class="col-sm-7">
 					<br>
-					<form id="findId" action="/bang/findIdResult.omc" method="post">
 					<div class="row cont-row">
 						<div class="col-sm-3">
 							<label>이 름</label><span>:</span>
 						</div>
 						<div class="col-sm-8">
-							<input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="Enter Name"	class="form-control input-sm">
+							<input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="Enter Name" class="form-control input-sm">
 						</div>
 					</div>
 					<div class="row cont-row">
@@ -130,15 +132,8 @@
 							<label>Email</label><span>:</span>
 						</div>
 						<div class="col-sm-8">
-							<input type="text" id="MEM_EMAIL1" name="MEM_EMAIL1" placeholder="Enter Email Address" class="form-control input-sm">
-							<select class="form-control" id="MEM_EMAIL2" name="MEM_EMAIL2">
-								<option value="직접입력">직접입력</option>
-								<option value="@naver.com">@naver.com</option>
-								<option value="@daum.net">@daum.net</option>
-								<option value="@gmail.com">@gmail.com</option>
-								<option value="@hanmail.com">@hanmail.com</option>
-								<option value="@yahoo.co.kr">@yahoo.co.kr</option>
-							</select>
+							<input type="text" id="MEM_EMAIL" name="MEM_EMAIL" placeholder="ex)abc@gmail.com" class="form-control input-sm">
+							<input type="hidden" id="MEM_ID" name="MEM_ID" value="${MEM_ID}">
 						</div>
 					</div>
 					<div style="margin-top: 0px;" class="row">
@@ -146,80 +141,82 @@
 							<label></label>
 						</div>
 						<div class="col-sm-8">
-							<input type="button" value="회원확인" class="btn btn-success btn-sm" onClick="return formCheck()">
-							<input type="button" value="인증번호 전송" class="btn btn-success btn-sm">
+							<input type="button" value="회원확인" class="btn btn-success btn-sm" onClick="formCheck()">
+							<!-- <input type="button" class="btn btn-primary py-2 px-4" onClick="insertCart()" value="장바구니"> -->
 						</div>
 					</div>
-					</form>
-					<div class="row cont-row">
-						<div class="col-sm-3">
-							<label>인증번호</label><span>:</span>
-						</div>
-						<div class="col-sm-8">
-							<input type="text" name="" placeholder="인증번호" class="form-control input-sm">
-						</div>
-					</div>
-					<div style="margin-top: 0px;" class="row">
-						<div style="padding-top: 10px;" class="col-sm-3">
-							<label></label>
-						</div>
-						<div class="col-sm-8">
-							<button type="button" class="btn btn-success btn-sm">인증번호 확인</button>
-						</div>
-					</div>
+					
+					<c:choose>
+						<c:when test="${MEM_ID!=null}">
+							<div class="row cont-row">
+								<div class="col-sm-3">
+									<label>인증번호</label><span>:</span>
+								</div>
+								<div class="col-sm-8">
+									<input type="text" name="" placeholder="인증번호" class="form-control input-sm">
+								</div>
+							</div>
+							<div style="margin-top: 0px;" class="row">
+								<div style="padding-top: 10px;" class="col-sm-3">
+									<label></label>
+								</div>
+								<div class="col-sm-8">
+									<button type="button" class="btn btn-success btn-sm">인증번호 확인</button>
+								</div>
+							</div>
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script>
-	/* 아이디 찾기 유효성 체크 */
-	function formCheck() {
-		var form = document.getElementById("findId");
-		var MEM_NAME = document.getElementById("MEM_NAME");
-		var MEM_EMAIL1 = document.getElementById("MEM_EMAIL1");
-		var MEM_EMAIL2 = document.getElementById("MEM_EMAIL2");
-		var MEM_EMAIL;
-		
-		if(MEM_NAME.value.trim()=="") {
-			alert("회원이름을 입력해주세요.");
-			MEM_NAME.focus();
-			return false;
-		} else if(MEM_EMAIL1.value.trim()=="") {
-			alert("이메일 주소를 입력해주세요.");
-			MEM_EMAIL1.focus();
-			return false;
-		} else if(MEM_EMAIL2.value.trim()=="직접입력") {
-			MEM_EMAIL = MEM_EMAIL1;
-			MEM_EMAIL2.focus();
-			if(validEmailCheck(MEM_EMAIL)==false){
-				alert('올바른 이메일 주소를 입력해주세요.')
-				MEM_EMAIL.value='';
-				MEM_EMAIL.focus();
-				return false;
-			} else {
-				alert('MEM_EMAIL');
-			}
-			return false;
-		} else if(MEM_EMAIL2.value.trim()!="직접입력") {
-			MEM_EMAIL = MEM_EMAIL1 + MEM_EMAIL2;
-			MEM_EMAIL2.focus();
-			if(validEmailCheck(MEM_EMAIL)==false){
-			    alert('올바른 이메일 주소를 입력해주세요.')
-			    MEM_EMAIL.value='';
-			    MEM_EMAIL.focus();
-			    return false;
-			} else {
-		    	alert(MEM_EMAIL);
-			}
-			return false;
-		}
+<script>
+/* 아이디 찾기 유효성 체크 */
+function formCheck() {
+	var memName = document.getElementById("MEM_NAME");
+	var memEmail = document.getElementById("MEM_EMAIL");
+	var MEM_ID;
+	
+	if(memName.value.trim()=="") {
+		alert("회원이름을 입력해주세요.");
+		memName.focus();
+		return false;
+	} else if(memEmail.value.trim()=="") {
+		alert("이메일 주소를 입력해주세요.");
+		memEmail.focus();
+		return false;
+	} else if(validEmailCheck(memEmail)==false) {
+		alert("이메일형식이 올바르지 않습니다.");
+		memEmail.focus();
+		return false;
 	}
-	function validEmailCheck(MEM_EMAIL){
-		var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-		return (MEM_EMAIL.value.match(pattern)!=null)
-	} 
-	</script>
-	<!--  ************************* Footer Start Here ************************** -->
+	
+	$.ajax({
+		url : '/bang/checkMem.tr',
+		async: false,
+		dataType: 'json',
+		type : 'POST',
+		data : {MEM_NAME:memName.value, MEM_EMAIL:memEmail.value},
+		success : function(result) {
+			MEM_ID=result;
+			alert("웰컴");
+		},
+		error : function(e) {
+			alert(MEM_ID);
+			alert("회원이 아니무니다");
+		}
+	});
+	return MEM_ID;
+}
+/* 이메일 주소 형식 확인 */
+function validEmailCheck(memEmail){
+	var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	return (memEmail.value.match(pattern)!=null)
+}
+</script>
+<!--  ************************* Footer Start Here ************************** -->
 <footer class="footer">
         <div class="container">
             <div class="row">

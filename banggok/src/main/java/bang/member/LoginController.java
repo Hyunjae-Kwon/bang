@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
@@ -24,11 +25,28 @@ public class LoginController {
 	public ModelAndView findId(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("login/findId");
 		
-		/* 회원여부 확인(이름&이메일) */
-		//Map<String, Object> result = loginService.checkMem(commandMap.getMap());
+		return mv;
+	}
+	
+	/* 회원여부 확인(이름&이메일) */
+	@RequestMapping(value = "/checkMem.tr")
+	@ResponseBody
+	public ModelAndView checkMem(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("login/findId");
+		
+//		System.out.println("MEM_NAME ="+commandMap.get("MEM_NAME"));
+//		System.out.println("MEM_EMAIL="+commandMap.get("MEM_EMAIL"));
+			
+		Map<String, Object> data = loginService.checkMem(commandMap.getMap());
+		mv.addObject("MEM_ID", data);
+		System.out.println(data);
+		System.out.println(mv);
 		
 		return mv;
 	}
+	
+	
+	
 	
 //	@RequestMapping(value = "/findIdResult.omc", method = RequestMethod.POST) // 입력한 정보에 맞춰서 아이디를 찾아주는 거
 //	public ModelAndView findIdResult(CommandMap commandMap) throws Exception {
