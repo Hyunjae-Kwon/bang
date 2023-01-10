@@ -15,5 +15,28 @@ public class RecommendDAO extends AbstractDAO {
 	public List<Map<String, Object>> selectRecomDesc(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("recommend.selectRecomDesc", map);
 	}
+	
+	/* 글상세 ----------------------------*/
+	@SuppressWarnings("unchecked")    //BOARD ㅎㅎㄱㅂㅈ
+	public Map<String, Object> recommendDetail(Map<String, Object>map) throws Exception {
+		return (Map<String,Object>) selectOne("recommend.recommendDetail",map);
+	}
+	
+	/* 글목록 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> recommendList(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList("recommend.recommendList", map);
+	}  
+	
+	/* 조회수 */
+	public void updateCnt(Map<String, Object> map) throws Exception{
+		update("recommend.updateCnt", map);
+	}
+	
+	/* 글쓰기 */
+	public void recommendInsert(Map<String, Object> map) throws Exception{
+		insert("recommend.recommendInsert", map);
+	}
+	
 
 }

@@ -21,4 +21,24 @@ public class RecommendServiceImpl implements RecommendService {
 		return recommendDAO.selectRecomDesc(map);
 	}
 	
+	/* 글목록 */
+	@Override
+	public List<Map<String, Object>> recommendList(Map<String,Object> map) throws Exception{
+		return recommendDAO.recommendList(map);
+	}  
+	
+	/* 글상세 */
+	@Override		//GOODS ㅎㅎㄱㅂㅈ
+	public Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception {
+		recommendDAO.updateCnt(map);
+		Map<String, Object> resultMap = recommendDAO.recommendDetail(map);
+		return resultMap;
+	}
+	
+	/* 글쓰기 */
+	@Override 
+	public void recommendInsert(Map<String, Object> map) throws Exception { 
+		recommendDAO.recommendInsert(map);
+	}
+	
 }
