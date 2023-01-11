@@ -3,7 +3,6 @@
 
 <mapper namespace="member">
 
-<<<<<<< HEAD
 <!-- 아이디 찾기=>회원여부 확인(이름&이메일) -->
 <select id="checkMemId" parameterType="hashmap" resultType="hashmap">
 <![CDATA[
@@ -40,7 +39,7 @@
 ]]>
 </select>
 
-=======
+
 	<!-- 회원 가입 -->
 	<!-- [selectMemberIdCk] id중복확인 -->
 	<select id="selectMemberIdCk" parameterType="String" resultType="int">
@@ -110,6 +109,5 @@
 		WHERE MEM_ID = #{MEM_ID}
 	]]>	
 	</delete>	
-	
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
+
 </mapper>
