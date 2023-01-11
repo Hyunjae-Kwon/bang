@@ -101,10 +101,10 @@
 	<div class="page-nav no-margin row">
 		<div class="container">
 			<div class="row">
-				<h2>아이디 찾기</h2>
+				<h2>비밀번호 찾기</h2>
 				<ul>
 					<li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-					<li><i class="fas fa-angle-double-right"></i> 아이디 찾기</li>
+					<li><i class="fas fa-angle-double-right"></i> 비밀번호 찾기</li>
 				</ul>
 			</div>
 		</div>
@@ -121,10 +121,10 @@
 					<br>
 					<div class="row cont-row">
 						<div class="col-sm-3">
-							<label>이 름</label><span>:</span>
+							<label>아이디</label><span>:</span>
 						</div>
 						<div class="col-sm-8">
-							<input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="Enter Name" class="form-control input-sm">
+							<input type="text" id="MEM_ID" name="MEM_ID" placeholder="Enter ID" class="form-control input-sm">
 						</div>
 					</div>
 					<div class="row cont-row">
@@ -140,7 +140,7 @@
 							<label></label>
 						</div>
 						<div class="col-sm-8">
-							<input type="button" value="인증번호 전송" class="btn btn-success btn-sm" onClick="formCheck()">
+							<input type="button" value="인증번호 전송" class="btn btn-success btn-sm" onClick="checkMem()">
 						</div>
 					</div>
 					<div class="row cont-row">
@@ -165,13 +165,13 @@
 	</div>
 <script>
 /* 아이디 찾기 유효성 체크 */
-function formCheck() {
-	var memName = document.getElementById("MEM_NAME");
+function checkMem() {
+	var memId = document.getElementById("MEM_ID");
 	var memEmail = document.getElementById("MEM_EMAIL");
 		
-	if(memName.value.trim()=="") {
-		alert("회원이름을 입력해주세요.");
-		memName.focus();
+	if(memId.value.trim()=="") {
+		alert("아이디를 입력해주세요.");
+		memId.focus();
 		return false;
 	} else if(memEmail.value.trim()=="") {
 		alert("이메일 주소를 입력해주세요.");
@@ -184,10 +184,10 @@ function formCheck() {
 	}
 	
 	$.ajax({
-		url : '/bang/checkMemId.tr',
+		url : '/bang/checkMemPw.tr',
 		async: false,
 		type : 'POST',
-		data : {MEM_NAME:memName.value, MEM_EMAIL:memEmail.value},
+		data : {MEM_ID:memId.value, MEM_EMAIL:memEmail.value},
 		success : function(data) {
 			if(data==""){
 				alert("일치하는 정보가 없습니다.");
@@ -196,10 +196,11 @@ function formCheck() {
 			}
 		},
 		error : function(e) {
-			alert(MEM_ID);
+			alert(MEM_NAME);
 			alert("일치하는 정보가 없습니다.");
 		}
 	});
+	return MEM_ID;
 }
 /* 이메일 주소 형식 확인 */
 function validEmailCheck(memEmail){

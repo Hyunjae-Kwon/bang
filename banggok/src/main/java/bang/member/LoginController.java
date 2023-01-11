@@ -20,7 +20,7 @@ public class LoginController {
 	@Resource(name = "loginService")
 	private LoginService loginService;
 	
-	/* 회원아이디 찾기 */
+	/* 아이디 찾기 */
 	@RequestMapping(value = "/findId.tr")
 	public ModelAndView findId(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("login/findId");
@@ -28,16 +28,14 @@ public class LoginController {
 		return mv;
 	}
 	
-	/* 회원여부 확인(이름&이메일) */
-	@RequestMapping(value = "/checkMem.tr")
+	/* 아이디 찾기=>회원여부 확인(이름&이메일) */
+	@RequestMapping(value = "/checkMemId.tr")
 	@ResponseBody
-	public String checkMem(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("login/findId");
+	public String checkMemId(CommandMap commandMap) throws Exception {
+				
+		String MEM_ID = null;//ajax String값 전달(value값만 전달)
 		
-		String MEM_ID = null;
-		
-		Map<String, Object> data = loginService.checkMem(commandMap.getMap());
-		mv.addObject("MEM_ID", data);
+		Map<String, Object> data = loginService.checkMemId(commandMap.getMap());
 		try {
 			MEM_ID = (String) data.get("MEM_ID");
 		} catch(NullPointerException e) {}		
@@ -47,26 +45,28 @@ public class LoginController {
 		return MEM_ID;
 	}
 	
-//	@RequestMapping(value = "/findIdResult.omc", method = RequestMethod.POST) // 입력한 정보에 맞춰서 아이디를 찾아주는 거
-//	public ModelAndView findIdResult(CommandMap commandMap) throws Exception {
-//		ModelAndView mv = new ModelAndView("login/findIdResult");
-//		List<Map<String, Object>> list = loginService.findId(commandMap.getMap());
-//		mv.addObject("list", list);
-//		return mv;
-//	}
-//		 
-//	//비밀번호찾기 
-//	@RequestMapping(value = "/findPw.omc")
-//	public ModelAndView findPw(CommandMap commandMap) throws Exception {
-//		ModelAndView mv = new ModelAndView("login/findPw");
-//		return mv;
-//	}
-//	
-//	@RequestMapping(value = "/findPwResult.omc", method = RequestMethod.POST) // 입력한 정보에 맞춰서 비밀번호를 찾아주는 거
-//	public ModelAndView findPwResult(CommandMap commandMap) throws Exception {
-//		ModelAndView mv = new ModelAndView("login/findPwResult");
-//		List<Map<String, Object>> list = loginService.findPw(commandMap.getMap());
-//		mv.addObject("list", list);
-//		return mv;
-//	}		
+	/* 비밀번호 찾기 */
+	@RequestMapping(value = "/findPw.tr")
+	public ModelAndView findPw(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("login/findPw");
+		
+		return mv;
+	}
+	
+	/* 비밀번호 찾기=>회원여부 확인(아이디&이메일) */
+	@RequestMapping(value = "/checkMemPw.tr")
+	@ResponseBody
+	public String checkMemPw(CommandMap commandMap) throws Exception {
+				
+		String MEM_ID = null;//ajax String값 전달(value값만 전달)
+		
+		Map<String, Object> data = loginService.checkMemPw(commandMap.getMap());
+		try {
+			MEM_ID = (String) data.get("MEM_ID");
+		} catch(NullPointerException e) {}		
+		
+		System.out.println(MEM_ID);
+		
+		return MEM_ID;
+	}
 }

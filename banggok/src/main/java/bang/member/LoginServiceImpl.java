@@ -14,10 +14,17 @@ public class LoginServiceImpl implements LoginService {
 	@Resource(name="loginDAO")
 	private LoginDAO loginDAO;
 	
-	/* 회원여부 확인(이름&이메일) */
+	/* 아이디 찾기=>회원여부 확인(이름&이메일) */
 	@Override
-	public Map<String, Object> checkMem(Map<String, Object> map) throws Exception {
-		Map<String, Object> resultMap = loginDAO.checkMem(map);
+	public Map<String, Object> checkMemId(Map<String, Object> map) throws Exception {
+		Map<String, Object> resultMap = loginDAO.checkMemId(map);
+		return resultMap;
+	}
+	
+	/* 비밀번호 찾기=>회원여부 확인(아이디&이메일) */
+	@Override
+	public Map<String, Object> checkMemPw(Map<String, Object> map) throws Exception {
+		Map<String, Object> resultMap = loginDAO.checkMemPw(map);
 		return resultMap;
 	}
 }

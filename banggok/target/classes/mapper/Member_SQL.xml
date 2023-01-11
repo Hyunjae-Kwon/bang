@@ -3,15 +3,27 @@
 
 <mapper namespace="member">
 
-<!-- 회원여부 확인(이름&이메일) -->
-<select id="checkMem" parameterType="hashmap" resultType="hashmap">
+<!-- 아이디 찾기=>회원여부 확인(이름&이메일) -->
+<select id="checkMemId" parameterType="hashmap" resultType="hashmap">
 <![CDATA[
 	SELECT
 		MEM_ID
 	FROM
 		MEMBER
 	WHERE
-		MEM_NAME = #{MEM_NAME} AND MEM_EMAIL = #{MEM_EMAIL}
+		MEM_NAME = #{MEM_NAME} AND MEM_EMAIL = #{MEM_EMAIL}		
+]]>
+</select>
+
+<!-- 비밀번호 찾기=>회원여부 확인(아이디&이메일) -->
+<select id="checkMemPw" parameterType="hashmap" resultType="hashmap">
+<![CDATA[
+	SELECT
+		MEM_ID
+	FROM
+		MEMBER
+	WHERE
+		MEM_ID = #{MEM_ID} AND MEM_EMAIL = #{MEM_EMAIL}		
 ]]>
 </select>
 

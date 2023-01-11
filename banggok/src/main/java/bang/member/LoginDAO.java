@@ -9,9 +9,15 @@ import bang.common.common.AbstractDAO;
 @Repository("loginDAO")
 public class LoginDAO extends AbstractDAO {
 	
-	/* 회원여부 확인(이름&이메일) */
+	/* 아이디 찾기=>회원여부 확인(이름&이메일) */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> checkMem(Map<String, Object> map) throws Exception{
-		return (Map<String, Object>) selectOne("member.checkMem", map);
+	public Map<String, Object> checkMemId(Map<String, Object> map) throws Exception{
+		return (Map<String, Object>) selectOne("member.checkMemId", map);
+	}
+	
+	/* 비밀번호 찾기=>회원여부 확인(아이디&이메일) */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> checkMemPw(Map<String, Object> map) throws Exception{
+		return (Map<String, Object>) selectOne("member.checkMemPw", map);
 	}
 }
