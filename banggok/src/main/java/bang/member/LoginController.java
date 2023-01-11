@@ -17,6 +17,9 @@ public class LoginController {
 	
 	Logger log = Logger.getLogger(this.getClass());
 	
+	@Resource(name = "mailSendService")
+	private MailSendService mailSendService;
+	
 	@Resource(name = "loginService")
 	private LoginService loginService;
 	
@@ -45,6 +48,17 @@ public class LoginController {
 		return MEM_ID;
 	}
 	
+	/* 아이디 찾기 결과 */
+	@RequestMapping(value = "/findIdResult.tr")
+	public ModelAndView findIdResult(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("login/findIdResult");
+		
+		Map<String, Object> member = loginService.checkMemId(commandMap.getMap()); 
+		mv.addObject("mem", member);
+		
+		return mv;
+	}
+	
 	/* 비밀번호 찾기 */
 	@RequestMapping(value = "/findPw.tr")
 	public ModelAndView findPw(CommandMap commandMap) throws Exception {
@@ -68,5 +82,35 @@ public class LoginController {
 		System.out.println(MEM_ID);
 		
 		return MEM_ID;
+	}
+	
+	/* 비밀번호 찾기 결과 */
+	@RequestMapping(value = "/findPwResult.tr")
+	public ModelAndView findPwResult(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("login/findPwResult");
+		
+		mv.addObject("mem", commandMap.getMap());
+		
+		return mv;
+	}
+	
+	/* 비밀번호 재설정 */
+	@RequestMapping(value = "/updatePw.tr")
+	public ModelAndView updatePw(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("login/findPwResult");
+		
+		loginService.updatePw(commandMap.getMap());
+		
+		return mv;
+	}
+		
+	/* 이메일 인증 */
+	@RequestMapping(value = "/mailCheck.tr")
+	@ResponseBody
+	public String mailCheck(String email) {
+		System.out.println("이메일 인증 요청이 들어옴!");
+		System.out.println("이메일 인증 이메일 : " + email);
+		
+		return mailSendService.joinEmail(email);
 	}
 }

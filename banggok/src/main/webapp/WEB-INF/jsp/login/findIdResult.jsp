@@ -97,122 +97,39 @@
         </div> 
     </header>
 
-	<!--  ************************* Page Title Starts Here ************************** -->
-	<div class="page-nav no-margin row">
-		<div class="container">
-			<div class="row">
-				<h2>아이디 찾기 결과</h2>
-				<ul>
-					<li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-					<li><i class="fas fa-angle-double-right"></i> 아이디 찾기</li>
-					<li><i class="fas fa-angle-double-right"></i> 결과</li>
-				</ul>
-			</div>
+<!--  ************************* Page Title Starts Here ************************** -->
+<div class="page-nav no-margin row">
+	<div class="container">
+		<div class="row">
+			<h2>아이디 찾기 결과</h2>
+			<ul>
+				<li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+				<li><i class="fas fa-angle-double-right"></i> 아이디 찾기</li>
+				<li><i class="fas fa-angle-double-right"></i> 결과</li>
+			</ul>
 		</div>
 	</div>
+</div>
 
-	<!--  ************************* 아이디 찾기 Starts Here ************************** -->
-	<div class="row contact-rooo no-margin">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-3">
-					<div style="margin:0px" class="serv"></div>
-				</div>
-				<div style="padding: 20px" class="col-sm-7">
-					<br>
-					<div class="row cont-row">
-						<div class="col-sm-3">
-							<label>이 름</label><span>:</span>
-						</div>
-						<div class="col-sm-8">
-							<input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="Enter Name" class="form-control input-sm">
-						</div>
-					</div>
-					<div class="row cont-row">
-						<div class="col-sm-3">
-							<label>Email</label><span>:</span>
-						</div>
-						<div class="col-sm-8">
-							<input type="text" id="MEM_EMAIL" name="MEM_EMAIL" placeholder="ex)abc@gmail.com" class="form-control input-sm">
-							<input type="hidden" id="MEM_ID" name="MEM_ID" value="${MEM_ID}">
-						</div>
-					</div>
-					<div style="margin-top: 0px;" class="row">
-						<div style="padding-top: 50px;" class="col-sm-3">
-							<label></label>
-						</div>
-						<div class="col-sm-8">
-							<input type="button" value="인증번호 전송" class="btn btn-success btn-sm" onClick="formCheck()">
-							<!-- <input type="button" class="btn btn-primary py-2 px-4" onClick="insertCart()" value="장바구니"> -->
-						</div>
-					</div>
-					<div class="row cont-row">
-						<div class="col-sm-3">
-							<label>인증번호</label><span>:</span>
-						</div>
-						<div class="col-sm-8">
-							<input type="text" name="" placeholder="인증번호" class="form-control input-sm">
-						</div>
-					</div>
-					<div style="margin-top: 0px;" class="row">
-						<div style="padding-top: 10px;" class="col-sm-3">
-							<label></label>
-						</div>
-						<div class="col-sm-8">
-							<button type="button" class="btn btn-success btn-sm">확인</button>
-						</div>
-					</div>	
-				</div>
-			</div>
-		</div>
+
+
+<!--  ************************* 아이디 찾기 결과 Starts Here ************************** -->
+<div class="our-team">
+	<div class="container">
+		<div class="row session-title">
+			<p><b>${mem.MEM_NAME}</b> 회원님의 아이디는</p>
+			<h2>${mem.MEM_ID}</h2>
+			<p>입니다. 감사합니다.</p>
+			<P><button type="button" class="btn btn-success btn-sm" onClick="location.href='/bang/login.tr'">로그인하기</button></P>
+		</div>  
 	</div>
-<script>
-/* 아이디 찾기 유효성 체크 */
-function formCheck() {
-	var memName = document.getElementById("MEM_NAME");
-	var memEmail = document.getElementById("MEM_EMAIL");
-	var MEM_ID;
-	
-	if(memName.value.trim()=="") {
-		alert("회원이름을 입력해주세요.");
-		memName.focus();
-		return false;
-	} else if(memEmail.value.trim()=="") {
-		alert("이메일 주소를 입력해주세요.");
-		memEmail.focus();
-		return false;
-	} else if(validEmailCheck(memEmail)==false) {
-		alert("이메일형식이 올바르지 않습니다.");
-		memEmail.focus();
-		return false;
-	}
-	
-	$.ajax({
-		url : '/bang/checkMem.tr',
-		async: false,
-		type : 'POST',
-		data : {MEM_NAME:memName.value, MEM_EMAIL:memEmail.value},
-		success : function(data) {
-			MEM_ID=data;
-			if(MEM_ID==""){
-				alert("일치하는 정보가 없습니다.");
-			}else{
-				alert("이메일로 발송된\n인증번호를 입력해 주세요");
-			}
-		},
-		error : function(e) {
-			alert(MEM_ID);
-			alert("일치하는 정보가 없습니다.");
-		}
-	});
-	return MEM_ID;
-}
-/* 이메일 주소 형식 확인 */
-function validEmailCheck(memEmail){
-	var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	return (memEmail.value.match(pattern)!=null)
-}
-</script>
+</div>
+
+
+
+
+
+
 <!--  ************************* Footer Start Here ************************** -->
 <footer class="footer">
         <div class="container">

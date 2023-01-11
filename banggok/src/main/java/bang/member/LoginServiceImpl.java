@@ -27,4 +27,10 @@ public class LoginServiceImpl implements LoginService {
 		Map<String, Object> resultMap = loginDAO.checkMemPw(map);
 		return resultMap;
 	}
+	
+	/* 비밀번호 재설정 */
+	@Override
+	public void updatePw(Map<String, Object> map) throws Exception {
+		loginDAO.updatePw(map);
+	}
 }

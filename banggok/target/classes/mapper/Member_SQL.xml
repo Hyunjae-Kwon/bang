@@ -7,7 +7,7 @@
 <select id="checkMemId" parameterType="hashmap" resultType="hashmap">
 <![CDATA[
 	SELECT
-		MEM_ID
+		*
 	FROM
 		MEMBER
 	WHERE
@@ -19,11 +19,23 @@
 <select id="checkMemPw" parameterType="hashmap" resultType="hashmap">
 <![CDATA[
 	SELECT
-		MEM_ID
+		*
 	FROM
 		MEMBER
 	WHERE
 		MEM_ID = #{MEM_ID} AND MEM_EMAIL = #{MEM_EMAIL}		
+]]>
+</select>
+
+<!-- 비밀번호 재설정 -->
+<select id="updatePw" parameterType="hashmap" resultType="hashmap">
+<![CDATA[
+	UPDATE
+		MEMBER
+	SET
+		MEM_PW = #{MEM_PW}
+	WHERE
+		MEM_ID = #{MEM_ID}		
 ]]>
 </select>
 
