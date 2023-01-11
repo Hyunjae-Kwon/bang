@@ -29,13 +29,13 @@
         p:order="1"
         />
     
-    <!-- <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+    <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"
         p:requestContextAttribute="requestContext"
         p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView"
         p:order="0"
         />
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
         p:definitions="/WEB-INF/tiles.xml"
-        />     -->
+        />
     
 </beans>
