@@ -164,6 +164,7 @@
 		</div>
 	</div>
 <script>
+
 /* 아이디 찾기 유효성 체크 */
 function checkMem() {
 	var memId = document.getElementById("MEM_ID");
