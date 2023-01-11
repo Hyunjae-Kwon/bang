@@ -34,7 +34,7 @@
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
-                <h2>여행 후기 글쓰기</h2>
+                <h2>여행 후기 수정하기</h2>
                 <ul>
                     <li> <a href="reviewList.tr"><i class="fas fa-blog"></i>여행 후기</a></li>
                     <li><i class="fas fa-angle-double-right"></i> Review</li>
@@ -48,64 +48,65 @@
         
         
     <!-- 폼 -->
-    <form id="inserReview" name="inserReview" enctype="multipart/form-data" action="<c:url value='/reviewWrite.tr'/>" method="post">
+    <form id="reviewModify" name="reviewModify" enctype="multipart/form-data" action="<c:url value='/reviewModify.tr'/>" method="post">
 
 	<!-- 제목 입력 부분 -->
-    <input type="text" id="RV_TITLE" placeholder="제목을 입력하세요" name="RV_TITLE" class="form-control input-sm">
+    <input type="text" id="RV_TITLE" placeholder="제목을 입력하세요" value="${review.RV_TITLE}" name="RV_TITLE" class="form-control input-sm">
     
     <!-- 쿼리문 동작을 위해 hidden으로 숨겨놓음 -->
-    <input type="hidden" id="RV_NUM" name="RV_NUM" value="${RV_NUM}"/>
-    <input type="hidden" id="RV_ID" name="RV_ID" value="${MEM_ID}"/>
-    <input type="hidden" id="RV_IMAGE" name="RV_IMAGE" value="${RV_IMAGE}"/>
+    <input type="hidden" id="RV_NUM" name="RV_NUM" value="${review.RV_NUM}"/>
+    <input type="hidden" id="RV_ID" name="RV_ID" value="${member.MEM_ID}"/>
+    <input type="hidden" id="RV_IMAGE" name="RV_IMAGE" value="${review.RV_IMAGE}"/>
     
     <!-- 글 작성 폼 -->
     <textarea id="summernote" class="RV_CONTENT" name="RV_CONTENT"></textarea>
     
     <!-- summernote 스크립트 -->
     <script>
-       $('#summernote').summernote({
-        placeholder: '내용을 입력하세요.',
-        tabsize: 2,
-        height: 300
-      }); 
+	       $('#summernote').summernote({
+	        placeholder: '내용을 입력하세요.',
+	        tabsize: 2,
+	        height: 300
+	      }); 
+	       
+	       /* summernote에 글 추가할 수 있는 함수 */
+	       $("#summernote").summernote('code',  '${review.RV_CONTENT}');
     </script>
     
     <!-- 버튼 가운데 정렬 -->
     <div style="text-align: center;">
-    <button id="frm" class="btn btn-primary" onclick="return insertReview()" type="submit">작성</button>
+    <button id="frm" class="btn btn-primary" onclick="return reviewModify()" type="submit">수정</button>
 	<button id="close" class="btn btn-primary" onclick="location.href='/bang/reviewList.tr'" type="button">취소</button>
 	</div>
 	
 	</form>
 
 
-	<!-- 글 작성 자바스크립트 -->
+	<!-- 글 수정 자바스크립트 -->
 	<script>
- 	function insertReview(){
+	function reviewModify(){
 
-		    var comSubmit = new ComSubmit("frm");
-		      comSubmit.setUrl("/bang/reviewWrite.tr");
-			var RV_TITLE = document.getElementById("RV_TITLE").value;
-			var RV_CONTENT = document.getElementByClassName("RV_CONTENT").value;	/* textarea에 id가 이미 부여되어있어서 class이름으로 생성 */
+		   var comSubmit = new ComSubmit("frm");
+		      comSubmit.setUrl("/bang/reviewModify.tr");
+			var BD_TITLE = document.getElementById("RV_TITLE").value;
+			var BD_CONTENT = document.getElementById("RV_CONTENT").value;
 
-				if (!$("#RV_TITLE").val()) {	/* #은 Id */
+				if (!$("#RV_TITLE").val()) {
 					alert("제목을 입력하세요.");
 					$("#RV_TITLE").focus();
 					return false;
 				}
 
-				if (!$(".RV_CONTENT").val()) {	/* .은 ClassName */
+				if (!$("#RV_CONTENT").val()) {
 					alert("내용을 입력하세요.");
-					$(".RV_CONTENT").focus();
+					$("#RV_CONTENT").focus();
 					return false;
 				}
 
-				alert("게시글이 정상적으로 등록 되었습니다.");
+				alert("여행후기가 정상적으로 수정 되었습니다.");
 				comSubmit.submit();
-
-			} 
-
-		</script>
+	}
+	</script>
 
   <!--  ************************* Footer Start Here ************************** -->
 

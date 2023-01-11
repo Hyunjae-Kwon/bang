@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
@@ -63,16 +64,47 @@ public class ReviewController {
 	}
 
 	/* 여행후기 글쓰기 */
-	@RequestMapping(value="/reviewWrite.tr", method = RequestMethod.POST)
-	public ModelAndView reviewWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
+	@RequestMapping(value="/reviewWrite.tr", method = RequestMethod.POST)	/* form태그의 action 속성에 있는 url */
+	public ModelAndView reviewWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{	/* form태그의 파라미터를 CommandMap으로 받음*/
+		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");	/* controller에서 처리된 후 보내질 페이지. */
 
-		reviewService.insertReview(commandMap.getMap());
+		reviewService.insertReview(commandMap.getMap());	/* controller에 들어온 파라미터를 DB에 등록 */
 
 		HttpSession session = request.getSession();
 		String RV_ID = (String) session.getValue("MEM_ID");
 		session.setAttribute("RV_ID", RV_ID);
 		return mv;
+	}
+	
+	/* 여행후기 수정 폼 */
+	@RequestMapping(value="/reviewModifyForm.tr") 
+	public ModelAndView reviewModifyForm(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("/review/reviewModifyForm");
+		Map<String, Object> map = reviewService.reviewModifyForm(commandMap.getMap());
+
+		mv.addObject("review", map);
+
+		return mv;
+	}
+	
+	/* 여행후기 수정 */
+	@RequestMapping(value="/reviewModify.tr", method = RequestMethod.POST)
+	public ModelAndView reviewModify(CommandMap commandMap)throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
+		
+		reviewService.reviewModify(commandMap.getMap());
+
+		return mv;
+	}
+	
+	/* 여행후기 삭제 */
+	@RequestMapping(value = "/reviewDel.tr")
+	public ModelAndView reviewDel(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
+		
+		reviewService.reviewDel(commandMap.getMap());
+
+		return mv;      
 	}
 	
 }

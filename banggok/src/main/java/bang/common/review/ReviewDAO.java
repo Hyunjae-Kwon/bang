@@ -31,7 +31,22 @@ public class ReviewDAO extends AbstractDAO {
 	/* 여행후기 글쓰기 */
 	public void insertReview(Map<String, Object> map) {
 		insert("review.insertReview", map);
-		
+	}
+	
+	/* 여행후기 수정 폼 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> reviewModifyForm(Map<String, Object> map)throws Exception{
+		return (Map<String, Object>)selectOne("review.reviewModifyForm", map); 
+	}
+
+	/* 여행후기 수정 */
+	public void reviewModify(Map<String, Object> map)throws Exception{
+		update("review.reviewModify", map);
+	}
+	
+	/* 여행후기 삭제 */
+	public void reviewDel(Map<String, Object> map) throws Exception {
+		delete("review.reviewDel", map);
 	}
 	
 }

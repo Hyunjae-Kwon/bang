@@ -43,10 +43,10 @@
 					<c:forEach var="review" items="${reviewList}" varStatus="status">
                     <div class="col-lg-4 col-md-6 col-sm-6">
                        <div class="blog-col">
-                       		<a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM }">
-                            <img src="resources/images/review/${review.RV_IMAGE}.jpg" alt="" ></a>
+                            <img src="resources/images/review/${review.RV_IMAGE}.jpg" alt="" >
                             <span>${review.RV_REGDATE }</span>
-                            <h4>${review.RV_TITLE }</h4>
+                       		<a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM }">
+                            <h4>${review.RV_TITLE }</h4></a>
                             <p>${review.RV_CONTENT }</p>
                        </div>
                     </div>

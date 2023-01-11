@@ -45,17 +45,66 @@
 	<![CDATA[
 			INSERT 
 				INTO REVIEW
+				(
+				RV_NUM,
+				RV_TITLE,
+				RV_CONTENT,
+				RV_REGDATE,
+				RV_ID,
+				RV_CNT,
+				RV_LIKE,
+				RV_IMAGE
+				)
 				VALUES(
 					RV_NUM_SEQ.NEXTVAL, 
 					#{RV_TITLE}, 
+					#{RV_CONTENT}, 
 					SYSDATE, 
 					#{RV_ID}, 
 					0, 
 					0, 
-					#{RV_CONTENT}, 
 					#{RV_IMAGE}
 					)
 	]]>
 	</insert>
+   
+   	<!-- [reviewModifyForm] 여행후기 수정 폼 -->
+	<select id="reviewModifyForm" parameterType="hashmap"
+		resultType="hashmap">
+      <![CDATA[
+         SELECT
+            RV_NUM,
+            RV_TITLE,
+            RV_CONTENT,
+            RV_REGDATE
+         FROM
+            REVIEW
+         WHERE
+            RV_NUM = #{RV_NUM}
+      ]]>
+	</select>
+	
+	<!-- [reviewModify] 여행후기 수정 -->
+	<update id="reviewModify" parameterType="hashmap">
+      <![CDATA[
+         UPDATE
+            REVIEW
+         SET
+            RV_TITLE = #{RV_TITLE},
+            RV_CONTENT = #{RV_CONTENT},
+            RV_REGDATE = sysdate
+         WHERE
+            RV_NUM = #{RV_NUM}                 
+      ]]>
+	</update>
+	
+	<!-- [reviewDel] 여행후기 삭제 -->
+	<delete id="reviewDel" parameterType="hashmap">
+	<![CDATA[
+		DELETE 
+			FROM REVIEW
+			WHERE RV_NUM = #{RV_NUM}
+	]]>
+	</delete>
    
 </mapper>

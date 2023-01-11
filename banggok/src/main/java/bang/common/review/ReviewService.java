@@ -17,4 +17,13 @@ public interface ReviewService {
 	/* 여행후기 글쓰기 */
 	void insertReview(Map<String, Object> map) throws Exception;
 	
+	/* 여행후기 수정 폼 */
+	Map<String, Object> reviewModifyForm(Map<String, Object> map) throws Exception;
+	 
+	/* 여행후기 수정 */
+	void reviewModify(Map<String, Object> map) throws Exception;
+	
+	/* 여행후기 삭제 */
+	void reviewDel(Map<String, Object> map) throws Exception;
+	
 }
