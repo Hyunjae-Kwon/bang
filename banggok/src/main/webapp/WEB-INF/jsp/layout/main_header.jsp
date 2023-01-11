@@ -45,10 +45,10 @@
 									<span><%= session.getAttribute("MEM_ID") %>님</span>
 								</li>
 								<li>
-									<a style="color: #bfbfbf;" href="/myPage.omc">마이페이지</a> 
+									<a style="color: #bfbfbf;" href="/bang/myPage.tr">마이페이지</a> 
 								</li>
 								<li>
-									<a style="color: #bfbfbf;" href="javascript:logoutCheck()">로그아웃</a> 
+									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 
 								</li>
 							</c:if>
                         </ul>

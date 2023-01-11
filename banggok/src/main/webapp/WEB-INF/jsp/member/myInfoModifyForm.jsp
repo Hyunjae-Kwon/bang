@@ -1,16 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="org.springframework.web.bind.annotation.SessionAttributes"%>
-<%@ include file="/WEB-INF/include/include-header.jspf" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
-<!-- 자바스크립트 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 	function checks() {
 		if (confirm("수정하시겠습니까?") == true) {
@@ -94,11 +89,26 @@
 <!-- 자바스크립트 끝 -->
     
     <body>
+        
+    <!--  ************************* Page Title Starts Here ************************** -->
+    <div class="page-nav no-margin row">
+        <div class="container">
+            <div class="row">
+                <h2>MyPage</h2>
+                <ul>
+                    <li><a href="/bang/main.tr"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="/bang/myTripList.tr"><i class="fas fa-blog"></i> 여행 일정</a></li>
+                    <li><a href="/bang/myReviewList.tr"><i class="fas fa-blog"></i> 여행 후기</a></li>
+                    <li><a href="/bang/myTogetherList.tr"><i class="fas fa-blog"></i> 동행</a></li>
+                    <li><a href="/bang/myInfoModifyForm.tr"><i class="fas fa-blog"></i> 회원 정보</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <!-- ************************* 회원 정보 수정 ************************** -->
         <div class="row contact-rooo no-margin">
         <div class="container">
-			
-			<form id="modifyForm" name="modifyForm" method="POST" action="/bang/myInfoModify.tr" class="billing-form">
+			<form id="modifyForm" name="modifyForm" method="POST" action="/bang/myInfoModify.tr">
                 <div style="padding:20px" class="col-sm-7">
                     <h2 >회원 정보 수정</h2> <br>
                     <div class="row cont-row">
@@ -147,6 +157,9 @@
                     </div>
                 <div class="col-sm-5">
                </div>
-             </form>
+               </div>
+         </form>
+         </div>
+         </div>
     </body>
 </html>
