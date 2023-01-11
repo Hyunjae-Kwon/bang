@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/include/include-header.jspf" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,17 +17,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
 </head>
-
     <body>
-    
-<!-- ################# Header Starts Here#######################--->
-
-
- 
-
-    
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -42,11 +31,7 @@
             </div>
         </div>
     </div>
-    
-    
      <!--*************** Blog Starts Here ***************-->
-        
-        
     <!-- 폼 -->
     <form id="inserReview" name="inserReview" enctype="multipart/form-data" action="<c:url value='/reviewWrite.tr'/>" method="post">
 
@@ -77,8 +62,6 @@
 	</div>
 	
 	</form>
-
-
 	<!-- 글 작성 자바스크립트 -->
 	<script>
  	function insertReview(){
@@ -106,11 +89,5 @@
 			} 
 
 		</script>
-
-  <!--  ************************* Footer Start Here ************************** -->
-
-    
-   
     </body>
-
 </html>

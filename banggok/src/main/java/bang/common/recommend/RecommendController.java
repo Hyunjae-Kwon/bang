@@ -26,7 +26,7 @@ public class RecommendController {
 	/* 관리자 추천글 리스트 */
 	@RequestMapping(value = "/allRecommendList.tr", method=RequestMethod.GET)
 	public ModelAndView recommendList(Map<String, Object> commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("trip/recommendList");
+		ModelAndView mv = new ModelAndView("recommend/recommendList");
 
 		List<Map<String, Object>> list = recommendService.recommendList(commandMap);
 		mv.addObject("recommendList", list);
@@ -36,7 +36,7 @@ public class RecommendController {
 	
 /*	@RequestMapping(value = "/recommendList.tr")   @@@안쓸것 나중에 삭제하기@@@
 	public ModelAndView recommendList(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("trip/recommendList");
+		ModelAndView mv = new ModelAndView("recommend/recommendList");
 
 		Map<String, Object> resultMap = recommendService.recommendList(commandMap.getMap());
 		// HttpSession session = request.getSession(true);
@@ -48,7 +48,7 @@ public class RecommendController {
 	/* 글상세 */
 	@RequestMapping(value = "/recommendDetail.tr")    //흐한개발자
 	public ModelAndView recommendDetail(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("trip/recommendDetail");
+		ModelAndView mv = new ModelAndView("recommend/recommendDetail");
 		Map<String,Object> map = recommendService.recommendDetail(commandMap.getMap());
 		mv.addObject("map", map);
 		
@@ -58,7 +58,7 @@ public class RecommendController {
 	/* 글입력폼 */
 	@RequestMapping(value="/recommendWriteForm.tr")
 	public ModelAndView recommendWriteForm(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("trip/recommendWriteForm");
+		ModelAndView mv = new ModelAndView("recommend/recommendWriteForm");
 		
 		return mv;
 	}
