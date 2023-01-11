@@ -51,16 +51,14 @@
     <form id="frm" name="frm" enctype="multipart/form-data" action="<c:url value='/recommendWrite.tr'/>" method="post">
                      
 	<!-- 제목 입력 부분 -->
-   <!--  <input type="text" placeholder="제목을 입력하세요" name="name" class="form-control input-sm"> -->
-    <input type="text" placeholder="!!!!제목을 입력하세요" id="RC_TITLE" name="RC_TITLE" class="form-control input-sm">
+    <input type="text" placeholder="제목을 입력하세요" id="RC_TITLE" name="RC_TITLE" class="form-control input-sm">
    <!--  추가 --> 
     <input type="hidden" id="RC_NUM" name="RC_NUM" value="${RC_NUM}"/> 
     <input type="hidden" id="RC_ID" name="RC_ID" value="${MEM_ID}"/>
-    <input type="hidden" id="RC_IMAGE" name="RC_IMAGE" value="${RC_IMAGE }" />   <!-- 파일기능 넣기전까지 이거로..안그러면 부적합한열에러 -->
-    
+    <input type="hidden" id="RC_IMAGE" name="RC_IMAGE" value="${RC_IMAGE }" />   
+ 
     
     <!-- 글 작성 폼 -->
-   <!--  <div id="summernote"></div> -->
    <textarea id="summernote" name="RC_CONTENT"></textarea>
     
     <!-- 글 작성 폼 스크립트 -->
@@ -81,14 +79,14 @@
 	</div>
 	
 	</form>
-
+<form id="commonForm" name="commonForm"></form>
 
 	<!-- 글 작성 자바스크립트 -->
 	<script>
-	function insertRecommend(){
+	function fn_insertRecommend(){
 
 		    var comSubmit = new ComSubmit("frm");
-		      comSubmit.setUrl("/trip/recommendWrite.tr");
+		      comSubmit.setUrl("/bang/recommendWrite.tr");
 			var RC_TITLE = document.getElementById("RC_TITLE").value;
 			var RC_CONTENT = document.getElementById("RC_CONTENT").value;
 

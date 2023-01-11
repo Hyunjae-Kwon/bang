@@ -47,13 +47,29 @@
 	</update>
 	
 	<!-- 여행지추천글 쓰기 -->
-	<insert id="recommendInsert" parameterType="hashmap">
+	<!-- jdbcType=VARCHAR 넣어봤는데 잘 모르겠음 오류는 다르게 뜨긴 --> 
+	<insert id="insertRecommend" parameterType="hashmap">  <!--
 	<![CDATA[
 			INSERT
 			INTO RECOMMEND
 			VALUES(
 				RC_NUM_SEQ.NEXTVAL,
-				#{RC_TITLE},
+				#{RC_TITLE, jdbcType=VARCHAR},   
+				SYSDATE,
+				#{RC_ID, jdbcType=VARCHAR},
+				0,
+				0,
+				#{RC_CONTENT, jdbcType=VARCHAR},
+				#{RC_IMAGE, jdbcType=VARCHAR}
+				)
+		]]>
+	</insert> -->
+	<![CDATA[
+			INSERT
+			INTO RECOMMEND
+			VALUES(
+				RC_NUM_SEQ.NEXTVAL,
+				#{RC_TITLE},   
 				SYSDATE,
 				#{RC_ID},
 				0,
@@ -63,6 +79,43 @@
 				)
 		]]>
 	</insert>
-	<!-- .. -->
+	
+	<!-- 글삭제 -->
+	<delete id="deleteRecommend" parameterType="hashmap">
+	<![CDATA[
+		DELETE 
+			FROM RECOMMEND
+			WHERE RC_NUM=#{RC_NUM}
+	]]>
+	</delete>
+	
+	<!-- 수정 폼 -->
+	<select id="recommendModifyForm" parameterType="hashmap" resultType="hashmap">
+      <![CDATA[
+         SELECT
+            RC_NUM,
+            RC_TITLE,
+            RC_CONTENT,
+            RC_REGDATE
+         FROM
+            RECOMMEND
+         WHERE
+            RC_NUM = #{RC_NUM}
+      ]]>
+	</select>
+
+	<!-- 글수정 -->
+	<update id="recommendModify" parameterType="hashmap">
+      <![CDATA[
+         UPDATE
+            RECOMMEND
+         SET
+            RC_TITLE = #{RC_TITLE},
+            RC_CONTENT = #{RC_CONTENT}
+         WHERE
+            RC_NUM = #{RC_NUM}                 
+      ]]>
+	</update>
+	
 
 </mapper>

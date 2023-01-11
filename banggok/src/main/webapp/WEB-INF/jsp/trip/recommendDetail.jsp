@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="/WEB-INF/include/include-header.jspf" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<%@ include file="/WEB-INF/include/include-header.jspf" %>
 </head>
 <body>
-<!-- .. -->
+
 	<table class="board_view">
 	<h3>게시글 상세</h3>
 		<colgroup>
@@ -19,8 +21,9 @@
 		<tbody>
 		
 			<tr>
-				<th scope="row">글 번호</th>
-				<td>${map.RC_NUM }</td>
+				<th scope="row">글번호</th>
+				<td>${map.RC_NUM }
+				<input type="hidden" id="RC_NUM" name="RC_NUM" value="${map.RC_NUM }"></td>
 				<th scope="row">조회수</th>
 				<td>${map.RC_CNT }</td>
 			</tr>
@@ -42,26 +45,23 @@
 	</table>
 	<div class="col-sm-8">
        <button class="btn btn-success btn-sm" onClick="location.href='/bang/allRecommendList.tr'">목록</button>
-    </div>
-	<a href="#this" class="btn" id="update">수정하기</a>
+      <c:if test="${MEM_ID eq map.RC_ID}">
+       <button class="btn btn-success btn-sm" onClick="location.href='/bang/recommendModifyForm.tr?RC_NUM=${map.RC_NUM}'">수정</button>
+       <button class="btn btn-success btn-sm" onClick="return deleteCheck()">삭제</button>
+	  </c:if>
+	</div>
 	
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
-	<script type="text/javascript">
-		$(document).ready(function(){		
-			$("#update").on("click", function(e){
-				e.preventDefault();
-				fn_openBoardUpdate();
-			});
-		});
-		
-		
-		function fn_openBoardUpdate(){
-			var RC_ID = "${map.RC_ID}";
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/bang/recommendUpdate.tr' />");
-			comSubmit.addParam("RC_ID", RC_ID);
-			comSubmit.submit();
-		}  
-	</script>
+	
+
 </body>
+<script>
+function deleteCheck() {
+	var RC_NUM = document.getElementById('RC_NUM').value;
+	if(confirm("삭제하시겠습니까?") == true) {
+		location.href="recommendDelete.tr?RC_NUM=" + RC_NUM;
+	}
+}
+</script>
+
 </html>

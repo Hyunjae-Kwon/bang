@@ -38,5 +38,19 @@ public class RecommendDAO extends AbstractDAO {
 		insert("recommend.insertRecommend", map);
 	}
 	
+	/* 글삭제 */
+	public void deleteRecommend(Map<String, Object> map) throws Exception {
+		delete("recommend.deleteRecommend", map);
+	}
+	
+	/* 글수정 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> recommendModifyForm(Map<String, Object> map)throws Exception{
+		return (Map<String, Object>)selectOne("recommend.recommendModifyForm", map); 
+	}
+
+	public void recommendModify(Map<String, Object> map)throws Exception{
+		update("recommend.recommendModify", map);
+	}
 
 }

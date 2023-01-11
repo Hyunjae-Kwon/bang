@@ -41,4 +41,20 @@ public class RecommendServiceImpl implements RecommendService {
 		recommendDAO.insertRecommend(map);
 	}
 	
+	/* 글삭제 */
+	@Override
+	public void deleteRecommend(Map<String, Object> map) throws Exception {
+		recommendDAO.deleteRecommend(map);
+	}
+	
+	/* 글수정 */
+	@Override
+	public Map<String, Object> recommendModifyForm(Map<String, Object> map) throws Exception{
+		return recommendDAO.recommendModifyForm(map);
+	}
+
+	public void recommendModify(Map<String, Object> map) throws Exception{
+		recommendDAO.recommendModify(map);
+	}
+	
 }

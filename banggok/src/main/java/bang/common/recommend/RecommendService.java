@@ -16,5 +16,14 @@ public interface RecommendService {
 	
 	/* 글쓰기 */
 	void insertRecommend(Map<String, Object> map) throws Exception;
+	
+	/* 글삭제 */
+	void deleteRecommend(Map<String, Object> map) throws Exception;
+	
+	/* 글수정 */
+	Map<String, Object> recommendModifyForm(Map<String, Object> map) throws Exception;
+	 
+	void recommendModify(Map<String, Object> map)throws Exception;
+	
 
 }
