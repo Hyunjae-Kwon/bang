@@ -13,7 +13,8 @@ public interface RecommendService {
 	
 	/* 글 상세보기 */
 	Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception;   //GOODS ㅎㅎㄱㅂㅈ
+	
 	/* 글쓰기 */
-	void recommendInsert(Map<String, Object> map) throws Exception;
+	void insertRecommend(Map<String, Object> map) throws Exception;
 
 }

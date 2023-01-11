@@ -58,20 +58,20 @@ public class RecommendController {
 	/* 글입력폼 */
 	@RequestMapping(value="/recommendWriteForm.tr")
 	public ModelAndView recommendWriteForm(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("/bang/recommendWriteForm");
+		ModelAndView mv = new ModelAndView("trip/recommendWriteForm");
 		
 		return mv;
 	}
 	
 	/* 글쓰기  */
-	@RequestMapping(value="/recommendWrite.tr")
-	public ModelAndView recommendInsert(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/boardList.omc");
+	@RequestMapping(value="/recommendWrite.tr", method = RequestMethod.POST)
+	public ModelAndView recommendWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/allRecommendList.tr");
 
-		recommendService.recommendInsert(commandMap.getMap());
+		recommendService.insertRecommend(commandMap.getMap());
 
 		HttpSession session = request.getSession();
-		String RC_ID = (String) session.getValue("RC_ID");
+		String RC_ID = (String) session.getValue("MEM_ID");
 		session.setAttribute("RC_ID",RC_ID);
 		return mv;
 	}

@@ -5,7 +5,7 @@
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
 </head>
 <body>
-
+<!-- .. -->
 	<table class="board_view">
 	<h3>게시글 상세</h3>
 		<colgroup>
@@ -61,7 +61,7 @@
 			comSubmit.setUrl("<c:url value='/bang/recommendUpdate.tr' />");
 			comSubmit.addParam("RC_ID", RC_ID);
 			comSubmit.submit();
-		}
+		}  
 	</script>
 </body>
 </html>

@@ -34,8 +34,8 @@ public class RecommendDAO extends AbstractDAO {
 	}
 	
 	/* 글쓰기 */
-	public void recommendInsert(Map<String, Object> map) throws Exception{
-		insert("recommend.recommendInsert", map);
+	public void insertRecommend(Map<String, Object> map) throws Exception{
+		insert("recommend.insertRecommend", map);
 	}
 	
 

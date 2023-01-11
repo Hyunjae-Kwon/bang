@@ -37,8 +37,8 @@ public class RecommendServiceImpl implements RecommendService {
 	
 	/* 글쓰기 */
 	@Override 
-	public void recommendInsert(Map<String, Object> map) throws Exception { 
-		recommendDAO.recommendInsert(map);
+	public void insertRecommend(Map<String, Object> map) throws Exception { 
+		recommendDAO.insertRecommend(map);
 	}
 	
 }
