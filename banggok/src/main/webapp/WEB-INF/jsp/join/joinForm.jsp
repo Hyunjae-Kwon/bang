@@ -21,7 +21,7 @@
 /* 아이디 중복 체크 */	
 function checkId() { 
   
-  var inputed = $('input#MEM_ID').val();
+  var inputed = $('#MEM_ID').val();
   console.log(inputed);
   
   $.ajax({
@@ -46,36 +46,38 @@ function checkId() {
 function sendMail() {
 	const email= $('#MEM_EMAIL').val(); // 이메일 주소값 얻어오기!
 	console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
-	const checkInput = $('#mail-check-input') // 인증번호 입력하는곳 
+	const checkInput = $('#MEM_EMAIL2') // 인증번호 입력하는곳 
 	
 	$.ajax({
 		type : 'get',
-		url : '/bang/confirmMail.tr?email='+ email, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+		url : '/bang/confirmMail.tr?email='+ email, 
 		success : function (data) {
 			console.log("data : " +  data);
 			checkInput.attr('disabled',false);
-			code =data;
+			code = data;
 			alert('인증번호가 전송되었습니다.')
 		}			
 	}); // end ajax
 }; // end send eamil
 
 //인증번호 비교 
-// blur -> focus가 벗어나는 경우 발생
-$('mail-check-input').blur(function () {
-	const inputCode = $(this).val();
+//버튼눌렀을때 발생
+function checkMail(){
+	const inputCode = $('input#MEM_EMAIL2').val();
 	const $resultMsg = $('#mail-check-warn');
 	
  	if(inputCode === code){
 		$resultMsg.html('인증번호가 일치합니다.');
 		$resultMsg.css('color','green');
-		$('#mail-Check-Btn').attr('disabled',true);
-		$('#MEM_EMAIL').attr('readonly',true);		
+		$('#mail-Send-Btn').attr('disabled',true);
+		$('#MEM_EMAIL').attr('readonly',true);
+		return true;
 	}else{
-		$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
+		$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!');
 		$resultMsg.css('color','red');
+		return false;
 	} 
-});
+};
 
 </script>
 <script>
@@ -88,6 +90,7 @@ $('mail-check-input').blur(function () {
 		var MEM_EMAIL = document.getElementById("MEM_EMAIL");
 		var MEM_EMAIL2 = document.getElementById("MEM_EMAIL2");
 		var MEM_PHONE = document.getElementById("MEM_PHONE");
+		
 		
 		if(MEM_ID.value.trim() == ""){
 			alert("아이디를 입력해주세요.");
@@ -125,8 +128,8 @@ $('mail-check-input').blur(function () {
 			return false;
 		}
 		
-		if(MEM_EMAIL2.value.trim() == ""){
-			alert("인증번호를 입력해주세요.");
+		if(checkMail(MEM_EMAIL2) == false ){
+			alert("인증번호가 일치하지않습니다.");
 			MEM_EMAIL2.focus();
 			return false;
 		}
@@ -269,11 +272,13 @@ $('mail-check-input').blur(function () {
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>이메일 인증</label></div>
                         <div class="col-sm-4"><input type="text" id="MEM_EMAIL" name="MEM_EMAIL" placeholder="이메일" class="form-control input-sm"  ></div>
-                        <button type="button" id="mail-Check-Btn" class="btn btn-default filter-button" onclick="sendMail()">번호전송</button>
+                        <button type="button" id="mail-Send-Btn" class="btn btn-default filter-button" onclick="sendMail()">번호전송</button>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>인증 번호</label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_EMAIL2" name="MEM_EMAIL2" placeholder="인증번호 입력" class="form-control input-sm" ></div>
+                        <div class="col-sm-4">
+                        <input id="MEM_EMAIL2" name="MEM_EMAIL2" placeholder="인증번호 입력" class="form-control input-sm" disabled="disabled" maxlength="6" ></div>
+                        <button type="button" id="mail-Check-Btn" class="btn btn-default filter-button" onclick="checkMail()">번호등록</button>
                    
                      </div>
 						<span id="mail-check-warn"></span>
