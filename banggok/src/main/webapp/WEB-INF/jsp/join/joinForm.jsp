@@ -28,11 +28,23 @@ function checkId() {
   };
 </script>  
 <script  type="text/javascript">
-function sendMail() {
+/* 이메일 주소 형식 확인 */
+function validEmailCheck(memEmail) {
+	var memEmail = document.getElementById("MEM_EMAIL");
+	var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	return (memEmail.value.match(pattern)!=null)
+}
+
+function sendMail(memMail) {
 	const email= $('#MEM_EMAIL').val(); // 이메일 주소값 얻어오기!
 	console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
 	const checkInput = $('#MEM_EMAIL2') // 인증번호 입력하는곳 
-	
+	if(validEmailCheck(email)==false) {
+		alert("이메일형식이 올바르지 않습니다.");
+		email.focus();
+		return false;
+	} else { 
+		
 	$.ajax({
 		type : 'get',
 		url : '/bang/confirmMail.tr?email='+ email, 
@@ -43,6 +55,7 @@ function sendMail() {
 			alert('인증번호가 전송되었습니다.')
 		}			
 	}); // end ajax
+	}
 }; // end send eamil
 
 //인증번호 비교 
@@ -193,7 +206,7 @@ function checkMail(){
                     
                     
                     <div align="center">						
-						<button type="button" id="btnCancel" class="btn btnbtn-default filter-button" onclick="location.href='/loginForm.tr'">취소</button>
+						<button type="button" id="btnCancel" class="btn btnbtn-default filter-button" onclick="location.href='/bang/loginForm.tr'">취소</button>
 						&nbsp;&nbsp;
 						<button type="reset" class="btn btn-default filter-button">다시 입력</button>
 						&nbsp;&nbsp;
