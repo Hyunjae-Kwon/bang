@@ -63,7 +63,7 @@ function sendMail() {
 //인증번호 비교 
 //버튼눌렀을때 발생
 function checkMail(){
-	const inputCode = $('input#MEM_EMAIL2').val();
+	const inputCode = $('#MEM_EMAIL2').val();
 	const $resultMsg = $('#mail-check-warn');
 	
  	if(inputCode === code){
