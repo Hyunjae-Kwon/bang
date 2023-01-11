@@ -46,27 +46,33 @@
     
      <!--*************** Blog Starts Here ***************-->
         
+        
     <!-- 폼 -->
-    <form id="frm" name="frm" enctype="multipart/form-data" action="<c:url value='/reviewWrite.tr'/>" method="post">
-                     
+    <form id="inserReview" name="inserReview" enctype="multipart/form-data" action="<c:url value='/reviewWrite.tr'/>" method="post">
+
 	<!-- 제목 입력 부분 -->
-    <input type="text" placeholder="제목을 입력하세요" name="name" class="form-control input-sm">
+    <input type="text" id="RV_TITLE" placeholder="제목을 입력하세요" name="RV_TITLE" class="form-control input-sm">
+    
+    <!-- 쿼리문 동작을 위해 hidden으로 숨겨놓음 -->
+    <input type="hidden" id="RV_NUM" name="RV_NUM" value="${RV_NUM}"/>
+    <input type="hidden" id="RV_ID" name="RV_ID" value="${MEM_ID}"/>
+    <input type="hidden" id="RV_IMAGE" name="RV_IMAGE" value="${RV_IMAGE}"/>
     
     <!-- 글 작성 폼 -->
-    <div id="summernote"></div>
+    <textarea id="summernote" class="RV_CONTENT" name="RV_CONTENT"></textarea>
     
-    <!-- 글 작성 폼 스크립트 -->
+    <!-- summernote 스크립트 -->
     <script>
-      $('#summernote').summernote({
+       $('#summernote').summernote({
         placeholder: '내용을 입력하세요.',
         tabsize: 2,
         height: 300
-      });
+      }); 
     </script>
     
     <!-- 버튼 가운데 정렬 -->
     <div style="text-align: center;">
-    <button id="write" class="btn btn-primary" onclick="insertReview()" type="submit">작성</button>
+    <button id="frm" class="btn btn-primary" onclick="return insertReview()" type="submit">작성</button>
 	<button id="close" class="btn btn-primary" onclick="location.href='/bang/reviewList.tr'" type="button">취소</button>
 	</div>
 	
@@ -75,30 +81,29 @@
 
 	<!-- 글 작성 자바스크립트 -->
 	<script>
-	function insertReview(){
+ 	function insertReview(){
 
 		    var comSubmit = new ComSubmit("frm");
 		      comSubmit.setUrl("/bang/reviewWrite.tr");
 			var RV_TITLE = document.getElementById("RV_TITLE").value;
-			var RV_CONTENT = document.getElementById("RV_CONTENT").value;
+			var RV_CONTENT = document.getElementByClassName("RV_CONTENT").value;	/* textarea에 id가 이미 부여되어있어서 class이름으로 생성 */
 
-				if (!$("#RV_TITLE").val()) {
+				if (!$("#RV_TITLE").val()) {	/* #은 Id */
 					alert("제목을 입력하세요.");
 					$("#RV_TITLE").focus();
 					return false;
 				}
 
-				if (!$("#RV_CONTENT").val()) {
+				if (!$(".RV_CONTENT").val()) {	/* .은 ClassName */
 					alert("내용을 입력하세요.");
-					$("#RV_CONTENT").focus();
+					$(".RV_CONTENT").focus();
 					return false;
 				}
 
 				alert("게시글이 정상적으로 등록 되었습니다.");
 				comSubmit.submit();
 
-			}
-	
+			} 
 
 		</script>
 
