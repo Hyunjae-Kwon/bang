@@ -86,6 +86,38 @@ public class ReviewController {
 		return mv;
 	}
 	
+	
+	/* 여행후기 수정 폼 */
+	@RequestMapping(value="/reviewModifyForm.tr") 
+	public ModelAndView reviewModifyForm(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("/review/reviewModifyForm");
+		Map<String, Object> map = reviewService.reviewModifyForm(commandMap.getMap());
+
+		mv.addObject("review", map);
+
+		return mv;
+	}
+	
+	/* 여행후기 수정 */
+	@RequestMapping(value="/reviewModify.tr", method = RequestMethod.POST)
+	public ModelAndView reviewModify(CommandMap commandMap)throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
+		
+		reviewService.reviewModify(commandMap.getMap());
+
+		return mv;
+	}
+	
+	/* 여행후기 삭제 */
+	@RequestMapping(value = "/reviewDel.tr")
+	public ModelAndView reviewDel(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
+		
+		reviewService.reviewDel(commandMap.getMap());
+
+		return mv;      
+	}
+	
 	/* summernote 파일 업로드 (진행중) ※에러날시 주석처리 해주세요※ */
 	@RequestMapping(value="/uploadSummernoteImageFile.tr", produces = "application/json; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
