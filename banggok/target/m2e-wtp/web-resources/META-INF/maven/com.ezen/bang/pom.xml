@@ -246,7 +246,7 @@
 		     <artifactId>jackson-databind</artifactId>
 		     <version>2.5.1</version>
 		</dependency> 
-		
+				
 		<!-- MultipartHttpServletRequset -->
 		<dependency>
             <groupId>commons-io</groupId>
@@ -365,10 +365,9 @@
 		    <artifactId>tiles-servlet</artifactId>
 		    <version>3.0.8</version>
 		</dependency>
-		
+						
 	</dependencies>
-	
-	
+		
     <build>
     	<defaultGoal>install</defaultGoal>
 		<directory>${basedir}/target</directory>
