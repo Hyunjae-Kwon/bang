@@ -1,13 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
+
+</head>
+<body>
+
  <script type="text/javascript">
 /* 아이디 중복 체크 */	
+ 
 function checkId() { 
   
   var inputed = $('#MEM_ID').val();
   console.log(inputed);
+  if(inputed.trim() ==""){
+	  alert("아이디를 입력해주세요.");
+	  $('#MEM_ID').focus();
+	  return false;
+  }
   
   $.ajax({
 	    data : {id:inputed} ,
@@ -19,7 +30,7 @@ function checkId() {
 	    	
 	    	if(result > 0) {
 	    		alert("이미 사용중인 아이디입니다.");
-	    		window.location.reload();
+	    		$('#MEM_ID').val("");
 	    	} else if (result == 0) {
 	    		alert("사용가능한 아이디입니다.");
 	    	}
@@ -65,13 +76,16 @@ function checkMail(){
 	const inputCode = $('#MEM_EMAIL2').val();
 	const $resultMsg = $('#mail-check-warn');
 	
- 	if(inputCode === code){
-		$resultMsg.html('인증번호가 일치합니다.');
+ 	  if(inputCode === ""){
+ 		$resultMsg.html('인증번호를 입력해 주세요.');
+ 	    $resultMsg.css('color','red');
+ 	} else if(inputCode === code) {	
+    	$resultMsg.html('인증번호가 일치합니다.');   
 		$resultMsg.css('color','green');
 		$('#mail-Send-Btn').attr('disabled',true);
 		$('#MEM_EMAIL').attr('readonly',true);
 		return true;
-	}else{
+	} else {
 		$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!');
 		$resultMsg.css('color','red');
 		return false;
@@ -97,58 +111,61 @@ function checkMail(){
 			return false;
 		}
 		
-		if(MEM_PW.value.trim() == ""){
+		else if(MEM_PW.value.trim() == ""){
 			alert("비밀번호를 입력해주세요.");
 			MEM_PW.focus();
 			return false;
 		}
 		
-		if(MEM_PW.value != MEM_PW2.value){
+		else if(MEM_PW.value != MEM_PW2.value){
 			alert("비밀번호가 일치하지 않습니다.");
 			MEM_PW2.focus();
 			return false;
 		}
 		
-		if(MEM_NAME.value.trim() == ""){
+		else if(MEM_NAME.value.trim() == ""){
 			alert("이름을 입력해주세요.");
 			MEM_NAME.focus();
 			return false;
 		}
 		
-		if(MEM_NICKNAME.value.trim() == ""){
+		else if(MEM_NICKNAME.value.trim() == ""){
 			alert("닉네임을 입력해주세요.");
 			MEM_NICKNAME.focus();
 			return false;
 		}
 		
-		if(MEM_EMAIL.value.trim() == ""){
+		else if(MEM_EMAIL.value.trim() == ""){
 			alert("이메일을 입력해주세요.");
 			MEM_EMAIL.focus();
 			return false;
 		}
 		
-		if(checkMail(MEM_EMAIL2) == false ){
+		else if(checkMail(MEM_EMAIL2) == false ){
 			alert("인증번호가 일치하지않습니다.");
 			MEM_EMAIL2.focus();
 			return false;
 		}
 		
-		if(MEM_PHONE.value.trim() == ""){
+		else if(MEM_PHONE.value.trim() == ""){
 			alert("핸드폰 번호를 입력해주세요.");
 			MEM_PHONE.focus();
 			return false;
-		}		
+		}
+		else {
+			checkId();
+			return false;
+		}
 		document.joinForm.submit();
 	}
 </script>  
-</head>
-<body>
+
 <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
                 <h2>회원가입</h2>
                 <ul>
-                    <li> <a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li> <a href="/bang/main.tr"><i class="fas fa-home"></i> Home</a></li>
                     <li><i class="fas fa-angle-double-right"></i> 회원가입 </li>
                 </ul>
             </div>
@@ -216,6 +233,6 @@ function checkMail(){
                 </div>
             </div>
          </div>
-</div>         
-    </body>
+	</div>
+</body>
 </html>
