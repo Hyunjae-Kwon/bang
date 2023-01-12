@@ -40,5 +40,4 @@ public class LoginServiceImpl implements LoginService {
 	public void updatePw(Map<String, Object> map) throws Exception {
 		loginDAO.updatePw(map);
 	}
-
 }

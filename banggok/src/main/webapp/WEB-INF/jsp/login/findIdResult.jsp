@@ -7,19 +7,9 @@
 <html lang="ko">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>findId</title>
-    <link rel="shortcut icon" href="resources/images/fav.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="resources/images/fav.jpg">
-    <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="resources/css/all.min.css">
-    <link rel="stylesheet" href="resources/css/animate.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/style.css" />
 </head>
 
-    <body>
+<body>
 
 <!--  ************************* Page Title Starts Here ************************** -->
 <div class="page-nav no-margin row">
@@ -49,12 +39,5 @@
 	</div>
 </div>
 
-    </body>
-
-    <script src="resources/js/jquery-3.2.1.min.js"></script>
-    <script src="resources/js/popper.min.js"></script>
-    <script src="resources/js/bootstrap.min.js"></script>
-    <script src="resources/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
-    <script src="resources/plugins/slider/js/owl.carousel.min.js"></script>
-    <script src="resources/js/script.js"></script>
+</body>
 </html>

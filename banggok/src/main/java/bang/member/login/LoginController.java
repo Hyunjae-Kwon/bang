@@ -186,5 +186,4 @@ public class LoginController {
 		
 		return mailService.joinEmail(email);
 	}
-
 }
