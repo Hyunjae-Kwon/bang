@@ -3,74 +3,110 @@
 
 <mapper namespace="member">
 
-	<!-- 회원 가입 -->
-	<!-- [selectMemberIdCk] id중복확인 -->
-	<select id="selectMemberIdCk" parameterType="String" resultType="int">
-	<![CDATA[
-		SELECT COUNT(*) 
-		FROM MEMBER 
-		WHERE MEM_ID = #{MEM_ID}
-	]]>
-	</select> 
+<!-- 회원 가입 -->
+<!-- [selectMemberIdCk] id중복확인 -->
+<select id="selectMemberIdCk" parameterType="String" resultType="int">
+<![CDATA[
+	SELECT COUNT(*) 
+	FROM MEMBER 
+	WHERE MEM_ID = #{MEM_ID}
+]]>
+</select> 
 
-    <!-- [insertMember] 회원가입 성공 -->
-	<insert id="insertMember" parameterType="hashmap">	
-	<![CDATA[	
-		INSERT INTO MEMBER (
-			MEM_ID,
-			MEM_PW,
-			MEM_NAME,
-			MEM_NICKNAME,
-			MEM_REGDATE,
-			MEM_EMAIL,
-			MEM_PHONE,
-			MEM_TYPE,
-			MEM_BLOCK
-		)
-		VALUES (
-			#{MEM_ID},
-			#{MEM_PW},
-			#{MEM_NAME},
-			#{MEM_NICKNAME},
-			SYSDATE,
-			#{MEM_EMAIL},						
-			#{MEM_PHONE},
-			0,
-			'N'
-		)
-	]]>	
-	</insert>	
+<!-- [insertMember] 회원가입 성공 -->
+<insert id="insertMember" parameterType="hashmap">	
+<![CDATA[	
+	INSERT INTO MEMBER (
+		MEM_ID,
+		MEM_PW,
+		MEM_NAME,
+		MEM_NICKNAME,
+		MEM_REGDATE,
+		MEM_EMAIL,
+		MEM_PHONE,
+		MEM_TYPE,
+		MEM_BLOCK
+	)
+	VALUES (
+		#{MEM_ID},
+		#{MEM_PW},
+		#{MEM_NAME},
+		#{MEM_NICKNAME},
+		SYSDATE,
+		#{MEM_EMAIL},						
+		#{MEM_PHONE},
+		0,
+		'N'
+	)
+]]>	
+</insert>	
 
-	<!-- [selectMemberId] 아이디중복검사, 로그인, 회원정보수정폼, 회원상세 -->
-	<select id="selectMemberId" parameterType="hashmap" resultType="hashmap">	
-	<![CDATA[
-		SELECT *
-		FROM MEMBER
-		WHERE MEM_ID = #{MEM_ID}
-	]]>	
-	</select>
+<!-- [selectMemberId] 아이디중복검사, 로그인, 회원정보수정폼, 회원상세 -->
+<select id="selectMemberId" parameterType="hashmap" resultType="hashmap">	
+<![CDATA[
+	SELECT *
+	FROM MEMBER
+	WHERE MEM_ID = #{MEM_ID}
+]]>	
+</select>
 
-	<!-- [updateMember] 회원정보수정 -->
-	<update id="updateMember" parameterType="hashmap" >	
-	<![CDATA[	
-		UPDATE MEMBER
-		SET 
-			MEM_PW = #{MEM_PW},
-			MEM_NICKNAME = #{MEM_NICKNAME},
-			MEM_EMAIL = #{MEM_EMAIL},
-			MEM_PHONE = #{MEM_PHONE}
-			WHERE
-			MEM_ID = #{MEM_ID}
-	]]>	
-	</update>		
+<!-- [updateMember] 회원정보수정 -->
+<update id="updateMember" parameterType="hashmap" >	
+<![CDATA[	
+	UPDATE MEMBER
+	SET 
+		MEM_PW = #{MEM_PW},
+		MEM_NICKNAME = #{MEM_NICKNAME},
+		MEM_EMAIL = #{MEM_EMAIL},
+		MEM_PHONE = #{MEM_PHONE}
+		WHERE
+		MEM_ID = #{MEM_ID}
+]]>	
+</update>		
 
-	<!-- [deleteMember] 회원탈퇴 -->
-	<delete id="deleteMember" parameterType="hashmap">	
-	<![CDATA[	
-		DELETE
-		FROM MEMBER
-		WHERE MEM_ID = #{MEM_ID}
-	]]>	
-	</delete>	
+<!-- [deleteMember] 회원탈퇴 -->
+<delete id="deleteMember" parameterType="hashmap">	
+<![CDATA[	
+	DELETE
+	FROM MEMBER
+	WHERE MEM_ID = #{MEM_ID}
+]]>	
+</delete>
 	
+<!-- 아이디 찾기=>회원여부 확인(이름&이메일) -->
+<select id="checkMemId" parameterType="hashmap" resultType="hashmap">
+<![CDATA[
+	SELECT
+		*
+	FROM
+		MEMBER
+	WHERE
+		MEM_NAME = #{MEM_NAME} AND MEM_EMAIL = #{MEM_EMAIL}		
+]]>
+</select>
+
+<!-- 비밀번호 찾기=>회원여부 확인(아이디&이메일) -->
+<select id="checkMemPw" parameterType="hashmap" resultType="hashmap">
+<![CDATA[
+	SELECT
+		*
+	FROM
+		MEMBER
+	WHERE
+		MEM_ID = #{MEM_ID} AND MEM_EMAIL = #{MEM_EMAIL}		
+]]>
+</select>
+
+<!-- 비밀번호 재설정 -->
+<select id="updatePw" parameterType="hashmap" resultType="hashmap">
+<![CDATA[
+	UPDATE
+		MEMBER
+	SET
+		MEM_PW = #{MEM_PW}
+	WHERE
+		MEM_ID = #{MEM_ID}		
+]]>
+</select>
+
 </mapper>
