@@ -154,7 +154,12 @@ function checkMail(){
 		document.joinForm.submit();
 	}
 </script>  
+<<<<<<< HEAD
 
+=======
+</head>
+<body>
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
@@ -228,6 +233,11 @@ function checkMail(){
                 </div>
             </div>
          </div>
+<<<<<<< HEAD
      </div>         
 </body>
+=======
+</div>         
+    </body>
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 </html>

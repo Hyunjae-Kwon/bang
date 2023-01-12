@@ -15,12 +15,17 @@ public class LoginServiceImpl implements LoginService {
 	@Resource(name="loginDAO")
 	private LoginDAO loginDAO;
 
+<<<<<<< HEAD
 	/* 로그인 */ 
+=======
+	/* 로그인 */
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 	@Override
 	public Map<String, Object> selectMemberId(Map<String, Object> map) throws Exception {
 		return loginDAO.selectMemberId(map);
 	}
 	
+<<<<<<< HEAD
 	/* 아이디 찾기=>회원여부 확인(이름&이메일) */
 	@Override
 	public Map<String, Object> checkMemId(Map<String, Object> map) throws Exception {
@@ -41,3 +46,12 @@ public class LoginServiceImpl implements LoginService {
 		loginDAO.updatePw(map);
 	}
 }
+=======
+	/* 카카오 로그인 데이터 검사 */
+	@Override
+	public Map<String, Object> selectKakaoMemberId(Map<String, Object> map) throws Exception {
+		return loginDAO.selectKakaoMemberId(map);
+	}
+
+}
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
