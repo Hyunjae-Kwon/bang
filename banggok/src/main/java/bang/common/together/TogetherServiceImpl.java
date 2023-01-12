@@ -21,18 +21,36 @@ public class TogetherServiceImpl implements TogetherService {
 		return togetherDAO.selectTogetherDesc(map);
 	}
 	
-	/*동행게시판 리스트*/
+	/* 동행게시판 리스트 */
 	@Override
 	public List<Map<String, Object>> togetherList(Map<String, Object> map) throws Exception {
 
 		return togetherDAO.togetherList(map);
 	}
 	
-	/*동행게시판 디테일*/
+	/* 동행게시판 디테일 */
 	@Override
 	public Map<String, Object> togetherDetail(Map<String, Object> map) throws Exception {
 		togetherDAO.updateHitCnt(map);
 		Map<String, Object> resultMap = togetherDAO.togetherDetail(map);
 		return resultMap;
+	}
+
+	/* 동행게시판 글작성 */
+	@Override
+	public void togetherWrite(Map<String, Object> map) throws Exception {
+		togetherDAO.togetherWrite(map);
+	}
+	
+	/* 동행게시판 글수정 */
+	@Override
+	public void togetherModify(Map<String, Object> map) throws Exception{
+		togetherDAO.togetherModify(map);
+	}
+	
+	/* 동행게시판 글삭제 */
+	@Override
+	public void togetherDelete(Map<String, Object> map) throws Exception {
+		togetherDAO.togetherDelete(map);
 	}
 }

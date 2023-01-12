@@ -2,16 +2,15 @@
 
 <!DOCTYPE html>
 <html>
-<head>
 
+<head>
 </head>
+
 <body>
 
  <script type="text/javascript">
 /* 아이디 중복 체크 */	
- 
 function checkId() { 
-  
   var inputed = $('#MEM_ID').val();
   console.log(inputed);
   if(inputed.trim() ==""){
@@ -50,8 +49,12 @@ function sendMail(memMail) {
 	const email= $('#MEM_EMAIL').val(); // 이메일 주소값 얻어오기!
 	console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
 	const checkInput = $('#MEM_EMAIL2') // 인증번호 입력하는곳 
-
-	if(validEmailCheck(email)==false) {
+	
+	if(email.trim() == ""){
+		alert("이메일을 입력해주세요.");
+		$('#MEM_EMAIL').focus();
+		return false;
+	}else if(validEmailCheck(email)==false) {
 		alert("이메일형식이 올바르지 않습니다.");
 		$('#MEM_EMAIL').focus();
 		return false;
@@ -91,7 +94,21 @@ function checkMail(){
 		return false;
 	} 
 };
-
+</script>
+<script>
+	$('.MEM_PW2').blur(function () {
+		var memPw = $('#MEM_PW').val();
+		const memPw2 = $('#MEM_PW2').val();
+		const $resultMsg = $('#pw-check-warn');
+			
+		if(memPw2 === memPw){
+			$resultMsg.html('비밀번호가 일치합니다.');
+			$resultMsg.css('color','green');
+		}else{
+			$resultMsg.html('비밀번호가 불일치 합니다. 다시 확인해주세요!.');
+			$resultMsg.css('color','red');
+		}
+	});
 </script>
 <script>
 	function checks() {
@@ -103,72 +120,65 @@ function checkMail(){
 		var MEM_EMAIL = document.getElementById("MEM_EMAIL");
 		var MEM_EMAIL2 = document.getElementById("MEM_EMAIL2");
 		var MEM_PHONE = document.getElementById("MEM_PHONE");
-		
-		
+
 		if(MEM_ID.value.trim() == ""){
 			alert("아이디를 입력해주세요.");
 			MEM_ID.focus();
 			return false;
 		}
-		
-		else if(MEM_PW.value.trim() == ""){
+		if(MEM_PW.value.trim() == ""){
 			alert("비밀번호를 입력해주세요.");
 			MEM_PW.focus();
 			return false;
 		}
-		
-		else if(MEM_PW.value != MEM_PW2.value){
+		if(MEM_PW.value != MEM_PW2.value){
 			alert("비밀번호가 일치하지 않습니다.");
 			MEM_PW2.focus();
 			return false;
 		}
-		
-		else if(MEM_NAME.value.trim() == ""){
+		if(MEM_NAME.value.trim() == ""){
 			alert("이름을 입력해주세요.");
 			MEM_NAME.focus();
 			return false;
 		}
-		
-		else if(MEM_NICKNAME.value.trim() == ""){
+		if(MEM_NICKNAME.value.trim() == ""){
 			alert("닉네임을 입력해주세요.");
 			MEM_NICKNAME.focus();
 			return false;
 		}
-		
-		else if(MEM_EMAIL.value.trim() == ""){
+		if(MEM_EMAIL.value.trim() == ""){
 			alert("이메일을 입력해주세요.");
 			MEM_EMAIL.focus();
 			return false;
 		}
-		
-		else if(checkMail(MEM_EMAIL2) == false ){
+		if(checkMail(MEM_EMAIL2) == false ){
 			alert("인증번호가 일치하지않습니다.");
 			MEM_EMAIL2.focus();
 			return false;
 		}
-		
-		else if(MEM_PHONE.value.trim() == ""){
+		if(MEM_PHONE.value.trim() == ""){
 			alert("핸드폰 번호를 입력해주세요.");
 			MEM_PHONE.focus();
 			return false;
 		}
-		else {
-			checkId();
-			return false;
-		}
-		document.joinForm.submit();
+		$.ajax({
+		    data : {id:MEM_ID.value} ,
+		    url : "/bang/confirmId.tr",
+		    type : "POST",
+		    dataType : "text",
+		    success : function(data){
+		    	var result = JSON.parse(data);
+		    	if(result > 0) {
+		    		alert("이미 사용중인 아이디입니다.");
+		    		$('#MEM_ID').val("");
+		    	} else if (result == 0) {
+		    		document.joinForm.submit();
+		    	}
+		    }
+		});
 	}
 </script>  
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-
-=======
-</head>
-<body>
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
->>>>>>> branch 'kyungmin' of https://github.com/Hyunjae-Kwon/bang.git
 <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
@@ -200,6 +210,7 @@ function checkMail(){
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>비밀번호 확인</label></div>
                         <div class="col-sm-6"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인" class="form-control input-sm"  ></div>
+                    	<!-- <span id="pw-check-warn"></span> -->
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>이름</label></div>
@@ -227,21 +238,21 @@ function checkMail(){
 				   	                      
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>휴대폰 번호</label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_PHONE"name="MEM_PHONE" placeholder="연락처 " class="form-control input-sm"  ></div>
+                        <div class="col-sm-6"><input type="text" id="MEM_PHONE"name="MEM_PHONE" placeholder="연락처 " class="form-control input-sm" maxlength="11" ></div>
                     </div>
                     
                     
-                    <div align="center">						
+					<div align="center">						
 						<button type="button" id="btnCancel" class="btn btnbtn-default filter-button" onclick="location.href='/bang/loginForm.tr'">취소</button>
 						&nbsp;&nbsp;
 						<button type="reset" class="btn btn-default filter-button">다시 입력</button>
 						&nbsp;&nbsp;
 						<button type="button" class="btn btn-default filter-button" value="회원가입" onClick="checks(this.form)">회원가입</button>
-			         </div> 
-			         </form>                   
+					</div> 
+			        </form>                   
                 </div>
             </div>
          </div>
-	</div>
+     </div>         
 </body>
 </html>

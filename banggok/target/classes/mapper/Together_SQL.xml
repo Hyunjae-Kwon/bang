@@ -16,8 +16,7 @@
 	   ]]>
 	</select>
 
-
-	<!-- 동행게시판 리스트 -->
+	<!-- [togetherList] 동행게시판 리스트 -->
 	<select id="togetherList" parameterType="hashmap"
 		resultType="hashmap">
 	<![CDATA[
@@ -33,7 +32,7 @@
 	]]>
 	</select>
 
-	<!-- 카운트 -->
+	<!-- [updateHitCnt] 조회수카운트 -->
 	<update id="updateHitCnt" parameterType="hashmap">
 	<![CDATA[
 		UPDATE TOGETHER
@@ -44,7 +43,7 @@
 	]]>
 	</update>
 	
-	<!-- 동행게시판 디테일 -->
+	<!-- [togetherDetail] 동행게시판 디테일 -->
 	<select id="togetherDetail" parameterType="hashmap"
 		resultType="hashmap">
 	<![CDATA[
@@ -54,7 +53,8 @@
 			TG_ID,
 			TG_REGDATE,
 			TG_TITLE,
-			TG_CONTENT
+			TG_CONTENT,
+			TG_LIKE
 		FROM
 			TOGETHER
 		WHERE
@@ -62,4 +62,41 @@
 	]]>
 	</select>
 
+	<!-- [togetherWrite] 동행게시판 글쓰기 -->
+	<insert id="togetherWrite" parameterType="hashmap">
+		<![CDATA[
+			INSERT 
+				INTO TOGETHER
+			VALUES(
+				TG_NUM_SEQ.NEXTVAL, 
+			    #{TG_TITLE},
+			    SYSDATE,
+			    #{TG_ID},
+			    0,
+			    0,
+			    #{TG_CONTENT}
+			)
+		]]>
+	</insert>
+	
+	<!-- [togetherModify] 동행게시판 글수정 -->
+	<update id="togetherModify" parameterType="hashmap">
+		<![CDATA[
+			UPDATE TOGETHER
+			SET
+				TG_TITLE = #{TG_TITLE},
+				TG_CONTENT = #{TG_CONTENT}
+			WHERE
+				TG_NUM = #{TG_NUM}	
+		]]>
+	</update>
+	
+	<!-- [togetherDelete] 동행게시판 글삭제 -->
+	<delete id="togetherDelete" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+				FROM TOGETHER
+				WHERE TG_NUM=#{TG_NUM}
+		]]>
+	</delete>
 </mapper>

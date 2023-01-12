@@ -65,18 +65,22 @@
 			</table>
 
 		</div>
+		 <div align="center"> 
+			<input type="button" value="글쓰기" class="btn btn-outline-success" style="height:55px;" onClick="return fn_openWriteForm()">
+		</div>
 	</div>
+		<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
 
-		function fn_openBoardWrite() {
+		function fn_openWriteForm() {
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/bang/togetherWriteForm.tr' />");
+			comSubmit.setUrl("<c:url value='/togetherWriteForm.tr' />");
 			comSubmit.submit();
 		}
 
 		function fn_openBoardDetail(obj) {
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/bang/togetherDetail.tr' />");
+			comSubmit.setUrl("<c:url value='/togetherDetail.tr' />");
 			comSubmit.addParam("TG_NUM", obj.parent().find("#TG_NUM").val());
 			comSubmit.submit();
 		}
