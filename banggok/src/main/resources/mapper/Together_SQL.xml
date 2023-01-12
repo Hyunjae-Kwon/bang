@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="together">
+
+	<!-- [selectTogetherDesc] 메인 페이지 - 최신 동행 구하기 4개 (작성일 기준) -->
+	<select id="selectTogetherDesc" resultType="hashmap">
+	 <![CDATA[
+			SELECT TG_NUM, TG_TITLE, TG_REGDATE, TG_ID, TG_CNT, TG_LIKE, TG_CONTENT, R
+			FROM (SELECT TG_NUM, TG_TITLE, TG_REGDATE, TG_ID, TG_CNT, TG_LIKE, TG_CONTENT, ROWNUM R
+				FROM (SELECT TG_NUM, TG_TITLE, TG_REGDATE, TG_ID, TG_CNT, TG_LIKE, TG_CONTENT
+					FROM TOGETHER
+					ORDER BY TG_REGDATE DESC)
+				)
+			WHERE R BETWEEN 1 AND 4
+	   ]]>
+	</select>
+
+
+	<!-- 동행게시판 리스트 -->
+	<select id="togetherList" parameterType="hashmap"
+		resultType="hashmap">
+	<![CDATA[
+	SELECT
+		TG_NUM,
+		TG_TITLE,
+		TG_REGDATE,
+		TG_ID,
+		TG_CNT
+	FROM
+		TOGETHER
+	ORDER BY TG_NUM DESC
+	]]>
+	</select>
+
+	<!-- 카운트 -->
+	<update id="updateHitCnt" parameterType="hashmap">
+	<![CDATA[
+		UPDATE TOGETHER
+		SET
+			TG_CNT = NVL(TG_CNT, 0) + 1
+		WHERE
+			TG_NUM = #{TG_NUM}	
+	]]>
+	</update>
+	
+	<!-- 동행게시판 디테일 -->
+	<select id="togetherDetail" parameterType="hashmap"
+		resultType="hashmap">
+	<![CDATA[
+		SELECT
+			TG_NUM,
+			TG_CNT,
+			TG_ID,
+			TG_REGDATE,
+			TG_TITLE,
+			TG_CONTENT
+		FROM
+			TOGETHER
+		WHERE
+			TG_NUM = #{TG_NUM}		
+	]]>
+	</select>
+
+</mapper>
