@@ -43,11 +43,15 @@
 					<c:forEach var="review" items="${reviewList}" varStatus="status">
                     <div class="col-lg-4 col-md-6 col-sm-6">
                        <div class="blog-col">
+                       		<a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM }">
                             <img src="resources/images/review/${review.RV_IMAGE}.jpg" alt="" >
                             <span>${review.RV_REGDATE }</span>
-                       		<a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM }">
-                            <h4>${review.RV_TITLE }</h4></a>
+                            <span style="float: right;">${review.RV_ID }</span>
+                            <h4>${review.RV_TITLE }</h4>
                             <p>${review.RV_CONTENT }</p>
+		                    <span style="float: right;">| 조회수 ${review.RV_CNT}</span> 
+		                    <span style="float: right;">추천수 ${review.RV_LIKE}&nbsp;&nbsp;</span><br>
+		                    </a>
                        </div>
                     </div>
 					</c:forEach>

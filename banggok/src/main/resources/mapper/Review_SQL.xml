@@ -3,6 +3,19 @@
 
 <mapper namespace="review">
  
+ 	<!-- [selectReviewDesc] 메인 페이지 - 최신 여행 후기 3개 (작성일 기준) -->
+	<select id="selectReviewDesc" resultType="hashmap">
+	 <![CDATA[
+		SELECT RV_NUM, RV_TITLE, RV_REGDATE, RV_ID, RV_CNT, RV_LIKE, RV_CONTENT, RV_IMAGE, R
+		FROM (SELECT RV_NUM, RV_TITLE, RV_REGDATE, RV_ID, RV_CNT, RV_LIKE, RV_CONTENT, RV_IMAGE, ROWNUM R
+			FROM (SELECT RV_NUM, RV_TITLE, RV_REGDATE, RV_ID, RV_CNT, RV_LIKE, RV_CONTENT, RV_IMAGE
+				FROM REVIEW
+				ORDER BY RV_REGDATE DESC)
+			)
+		WHERE R BETWEEN 1 AND 3
+	   ]]>
+	</select>
+ 
  	<!-- 여행 후기 리스트 -->
 	<!-- [reviewList] 여행후기 게시판 리스트 -->
  	<select id="reviewList" resultType="hashmap">
@@ -106,5 +119,15 @@
 			WHERE RV_NUM = #{RV_NUM}
 	]]>
 	</delete>
+	
+	<!-- [myReviewList] 마이페이지 여행후기 -->
+	<select id="myReviewList" parameterType="hashmap"
+		resultType="hashmap">
+		<![CDATA[
+				SELECT * 
+				FROM REVIEW 
+				WHERE RV_ID=#{MEM_ID}
+		]]>
+	</select>
    
 </mapper>

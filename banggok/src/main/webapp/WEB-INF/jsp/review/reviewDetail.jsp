@@ -26,7 +26,7 @@
             <div class="row">
                 <h2>여행 후기</h2>
                 <ul>
-                    <li> <a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li> <a href="/bang/reviewList.tr"><i class="fas fa-blog"></i> 목록</a></li>
                     <li> <a href="/bang/reviewModifyForm.tr?RV_NUM=${review.RV_NUM }"><i class="fas fa-blog"></i> 수정/삭제</a></li>
                     <li><i class="fas fa-angle-double-right"></i> Review</li>
                 </ul>
@@ -38,46 +38,64 @@
      <!--*************** Blog Starts Here ***************-->
                      
         <div class="about-us container-fluid">
-    <div class="container">
+    <div class="container" style="text-align: center";>
 
 	<c:forEach var="review" items="${reviewDetail}" varStatus="status">
-        <div class="row natur-row no-margin w-100">
-            <div class="text-part col-md-6">
-                <h2>${review.RV_TITLE }</h2>
-                <p>${review.RV_CONTENT }</p>
-                
+                <h2 style="text-align: center; margin-bottom: 100px; width: 100%;">${review.RV_TITLE }</h2>
+                <p style="margin-bottom: 100px; width: 100%;">${review.RV_CONTENT }</p>
+                <img src="resources/images/review/${review.RV_IMAGE}.jpg" alt="">  
                 
   				<input type="hidden" name="RV_NUM" id="RV_NUM" value="${review.RV_NUM}">
 
-            </div>
-            <div class="image-part col-md-6">
-                <img src="resources/images/review/${review.RV_IMAGE}.jpg" alt="">
-            </div>
-        </div>
         <!-- 버튼 가운데 정렬 -->
-	    <div style="text-align: center;">
+	    <div style="text-align: center; margin-bottom: 100px; width: 100%;">
             <input type="button" value="수정" class="btn btn-primary py-2 px-2" style="height:55px;" onClick="location.href='reviewModifyForm.tr?RV_NUM=${review.RV_NUM}'">
 			<input type="button" value="삭제" class="btn btn-primary py-2 px-2" style="height:55px;" onClick="return reviewDel()">
 			<input type="button" value="목록" class="btn btn-primary py-2 px-2" style="height:55px;" onclick="location.href='reviewList.tr';">
-        </div>
+         	</div>
     </c:forEach>
     
     </div>
     </div>
                 
 
+          <!--  ************************* Contact Us Starts Here ************************** -->
+
+
+    <div class="row contact-rooo no-margin">
+        <div class="container">
+                    <h2 >댓글 입력</h2> <br>
+                    <div class="row cont-row">
+                        <div  class="col-sm-3"><label>작성자 </label><span>:</span></div>
+                        <div class="col-sm-8"><input type="text" placeholder="${RV_ID}" name="name" class="form-control input-sm" readonly></div>
+                    </div>
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>내용</label><span>:</span></div>
+                        <div class="col-sm-8">
+                            <textarea rows="5" placeholder="Enter Your Message" class="form-control input-sm"></textarea>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px;" class="row">
+                        <div style="padding-top:10px;" class="col-sm-3"><label></label></div>
+                        <div class="col-sm-8">
+                            <button class="btn btn-success btn-sm">작성</button>
+                            <button class="btn btn-success btn-sm">수정</button>
+                            <button class="btn btn-success btn-sm">삭제</button>
+                        </div>
+                    </div>
+        </div>
+    </div>
 
 	<!-- 댓글 -->
 	<div class="review container-fluid">
          <div class="container">
-              <div class="session-title">
-                <h2>댓글</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sollicitudin nisi id consequat bibendum. Phasellus at convallis elit. In purus enim, scelerisque id arcu vitae</p>
+              <div class="session-title" style="text-align: center">
+                <a href="#"><h2>댓글</h2></a>
             </div>
             <div class="row review-row">
-				<c:forEach var="comment" items="${reviewCommentList}" varStatus="status">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="review-col">
+					<c:forEach var="comment" items="${reviewCommentList}" varStatus="status">
                         <div class="profil">
                           <img src="resources/images/testimonial/member-01.jpg" alt="">  
                         </div>
@@ -88,16 +106,20 @@
                             <ul class="rat">
                             </ul>
                         </div>
+					</c:forEach>
                     </div>
-                
                 </div>
-                </c:forEach>
-                
-			   
+			</div>
             </div>
-            
          </div>
-     </div>
+         
+         
+	<!-- 댓글 모달창 -->
+	<script>
+	  $('#cmtModal').on('click', function(){
+	    $('.black-bg').addClass('show-modal');
+	  });
+	</script>
   <!--  ************************* Footer Start Here ************************** -->
 
     </body>
@@ -110,5 +132,6 @@
 		}
 	}
 	</script>
+	
 
 </html>

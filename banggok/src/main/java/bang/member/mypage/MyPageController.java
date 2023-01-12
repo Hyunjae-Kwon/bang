@@ -1,5 +1,6 @@
 package bang.member.mypage;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
+import bang.common.review.ReviewService;
 
 /* Controller 객체임을 선언 */
 @Controller
@@ -25,6 +27,10 @@ public class MyPageController {
 	/* MyPageService에 접근하기 위한 선언 */
 	@Resource(name = "myPageService")
 	private MyPageService myPageService;
+	
+	/* ReviewService에 접근하기 위한 선언 */
+	@Resource(name = "reviewService")
+	private ReviewService reviewService;
 	
 	/* 마이페이지 */
 	@RequestMapping(value = "/myPage.tr")	/* myPage.tr url을 요청 */
@@ -79,5 +85,22 @@ public class MyPageController {
 		
 		return mv;
 	}
+	
+	/* 마이페이지 여행후기 리스트 */
+	@RequestMapping(value="/myReviewList.tr")
+	public ModelAndView myReviewList(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("member/myReviewList");
+			
+		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("MEM_ID");
+		commandMap.put("MEM_ID", id);
+		
+		List<Map<String, Object>> map = reviewService.myReviewList(commandMap.getMap());
+		mv.addObject("reviewCount", map.size());
+		mv.addObject("myReviewList", map);
+		
+		return mv;
+	}
+
 	
 }

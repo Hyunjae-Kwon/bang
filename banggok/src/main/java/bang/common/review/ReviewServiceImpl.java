@@ -16,6 +16,12 @@ public class ReviewServiceImpl implements ReviewService {
 	@Resource(name="reviewDAO")
 	private ReviewDAO reviewDAO;
 	
+	/* 메인 페이지 - 최신 여행 후기 3개 */
+	@Override
+	public List<Map<String, Object>> selectReviewDesc(Map<String, Object> map) throws Exception {
+		return reviewDAO.selectReviewDesc(map);
+	}
+	
 	/* 여행후기 리스트 */
 	@Override
 	public List<Map<String, Object>> reviewList(Map<String, Object> map) throws Exception {
@@ -58,5 +64,11 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void reviewDel(Map<String, Object> map) throws Exception {
 		reviewDAO.reviewDel(map);
+	}
+
+	/* 마이페이지 여행후기 리스트 */
+	@Override
+	public List<Map<String, Object>> myReviewList(Map<String, Object> map) {
+		return reviewDAO.myReviewList(map);
 	}
 }
