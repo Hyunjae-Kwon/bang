@@ -7,6 +7,9 @@ public interface JoinService {
 	/* ID 중복 확인 */
 	int selectMemberIdCk(String id) throws Exception;
 	
+	/* Email 중복 확인 */
+	int selectMemberEmailCk(String email) throws Exception;
+	
 	/* 회원가입 등록 */
 	void insertMember(Map<String, Object> map) throws Exception;
 	

@@ -21,6 +21,12 @@ Logger log = Logger.getLogger(this.getClass());
 		return joinDAO.selectMemberIdCk(id);
 	}
 	
+	/* Email 중복 검사 */
+	@Override
+	public int selectMemberEmailCk(String email) throws Exception {
+		return joinDAO.selectMemberEmailCk(email);
+	}
+	
 	/* 회원가입 등록 */
 	@Override
 	public void insertMember(Map<String, Object> map) throws Exception {

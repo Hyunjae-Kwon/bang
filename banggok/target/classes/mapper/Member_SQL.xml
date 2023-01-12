@@ -13,6 +13,15 @@
 ]]>
 </select> 
 
+<!-- [selectMemberEmailCk] Email 중복 확인 -->
+<select id="selectMemberEmailCk" parameterType="String" resultType="int">
+<![CDATA[
+	SELECT COUNT(*) 
+	FROM MEMBER 
+	WHERE MEM_EMAIL = #{MEM_EMAIL}
+]]>
+</select> 
+
 <!-- [insertMember] 회원가입 성공 -->
 <insert id="insertMember" parameterType="hashmap">	
 <![CDATA[	
@@ -39,7 +48,7 @@
 		'N'
 	)
 ]]>	
-</insert>	
+</insert>
 
 <!-- [selectMemberId] 아이디중복검사, 로그인, 회원정보수정폼, 회원상세 -->
 <select id="selectMemberId" parameterType="hashmap" resultType="hashmap">	

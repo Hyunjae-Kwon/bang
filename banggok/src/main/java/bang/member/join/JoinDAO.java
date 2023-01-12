@@ -14,6 +14,11 @@ public class JoinDAO extends AbstractDAO {
 		return (Integer) selectOne("member.selectMemberIdCk", id);
 	}
 	
+	/* ID 중복 확인 */
+	public int selectMemberEmailCk(String email) throws Exception {
+		return (Integer) selectOne("member.selectMemberEmailCk", email);
+	}
+	
 	/* 회원가입 등록 */
 	public void insertMember(Map<String, Object> map) throws Exception {
 		insert("member.insertMember", map);
