@@ -34,7 +34,6 @@ public class JoinController {
 		return mv;
 	}
 
-
 	/* id 중복 체크 */
 	@RequestMapping(value = "/confirmId.tr", method = RequestMethod.POST)
 	@ResponseBody

@@ -18,10 +18,16 @@ public class LoginServiceImpl implements LoginService {
 	@Resource(name="loginDAO")
 	private LoginDAO loginDAO;
 
-	//로그인 
+	/* 로그인 */
 	@Override
 	public Map<String, Object> selectMemberId(Map<String, Object> map) throws Exception {
 		return loginDAO.selectMemberId(map);
+	}
+	
+	/* 카카오 로그인 데이터 검사 */
+	@Override
+	public Map<String, Object> selectKakaoMemberId(Map<String, Object> map) throws Exception {
+		return loginDAO.selectKakaoMemberId(map);
 	}
 
 }

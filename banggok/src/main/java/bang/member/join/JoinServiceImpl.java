@@ -27,8 +27,10 @@ Logger log = Logger.getLogger(this.getClass());
 		joinDAO.insertMember(map);
 		
 	}
-	
-	
-	
 
+	/* 카카오 로그인 시 회원 등록 */
+	@Override
+	public void insertKakaoMember(Map<String, Object> map) throws Exception {
+		joinDAO.insertKakaoMember(map);
+	}
 }

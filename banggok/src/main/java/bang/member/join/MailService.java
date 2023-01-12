@@ -25,8 +25,7 @@ public class MailService {
 			authNumber = checkNum;
 		}
 		
-		
-				//이메일 보낼 양식! 
+		//이메일 보낼 양식! 
 		public String joinEmail(String email) {
 			makeRandomNumber();
 			String toMail = email;
@@ -57,6 +56,4 @@ public class MailService {
 				e.printStackTrace();
 			}
 		}
-		
-	
 }
