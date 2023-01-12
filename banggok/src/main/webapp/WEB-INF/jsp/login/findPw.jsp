@@ -16,7 +16,7 @@
 		<div class="row">
 			<h2>비밀번호 찾기</h2>
 			<ul>
-				<li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+				<li><a href="/bang/main.tr"><i class="fas fa-home"></i> Home</a></li>
 				<li><i class="fas fa-angle-double-right"></i> 비밀번호 찾기</li>
 			</ul>
 		</div>

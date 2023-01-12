@@ -41,7 +41,6 @@
 ]]>	
 </insert>	
 
-<<<<<<< HEAD
 <!-- [selectMemberId] 아이디중복검사, 로그인, 회원정보수정폼, 회원상세 -->
 <select id="selectMemberId" parameterType="hashmap" resultType="hashmap">	
 <![CDATA[
@@ -50,68 +49,67 @@
 	WHERE MEM_ID = #{MEM_ID}
 ]]>	
 </select>
-=======
-    <!-- [insertMember] 회원가입 성공 -->
-	<insert id="insertMember" parameterType="hashmap">	
-	<![CDATA[	
-		INSERT INTO MEMBER (
-			MEM_ID,
-			MEM_PW,
-			MEM_NAME,
-			MEM_NICKNAME,
-			MEM_REGDATE,
-			MEM_EMAIL,
-			MEM_PHONE,
-			MEM_TYPE,
-			MEM_BLOCK
-		)
-		VALUES (
-			#{MEM_ID},
-			#{MEM_PW},
-			#{MEM_NAME},
-			#{MEM_NICKNAME},
-			SYSDATE,
-			#{MEM_EMAIL},						
-			#{MEM_PHONE},
-			0,
-			'N'
-		)
-	]]>	
-	</insert>	
+
+<!-- [insertMember] 회원가입 성공 -->
+<insert id="insertMember" parameterType="hashmap">	
+<![CDATA[	
+	INSERT INTO MEMBER (
+		MEM_ID,
+		MEM_PW,
+		MEM_NAME,
+		MEM_NICKNAME,
+		MEM_REGDATE,
+		MEM_EMAIL,
+		MEM_PHONE,
+		MEM_TYPE,
+		MEM_BLOCK
+	)
+	VALUES (
+		#{MEM_ID},
+		#{MEM_PW},
+		#{MEM_NAME},
+		#{MEM_NICKNAME},
+		SYSDATE,
+		#{MEM_EMAIL},						
+		#{MEM_PHONE},
+		0,
+		'N'
+	)
+]]>	
+</insert>	
 	
-	<!-- [insertKakaoMember] 카카오 로그인 성공 -->
-	<insert id="insertKakaoMember" parameterType="hashmap">	
-	<![CDATA[	
-		INSERT INTO MEMBER (
-			MEM_ID,
-			MEM_NAME,
-			MEM_NICKNAME,
-			MEM_REGDATE,
-			MEM_EMAIL,
-			MEM_TYPE,
-			MEM_BLOCK
-		)
-		VALUES (
-			#{kakaoEmail},
-			#{kakaoNickname},
-			#{kakaoNickname},
-			SYSDATE,
-			#{kakaoEmail},						
-			0,
-			'N'
-		)
-	]]>	
-	</insert>	
+<!-- [insertKakaoMember] 카카오 로그인 성공 -->
+<insert id="insertKakaoMember" parameterType="hashmap">	
+<![CDATA[	
+	INSERT INTO MEMBER (
+		MEM_ID,
+		MEM_NAME,
+		MEM_NICKNAME,
+		MEM_REGDATE,
+		MEM_EMAIL,
+		MEM_TYPE,
+		MEM_BLOCK
+	)
+	VALUES (
+		#{kakaoEmail},
+		#{kakaoNickname},
+		#{kakaoNickname},
+		SYSDATE,
+		#{kakaoEmail},						
+		0,
+		'N'
+	)
+]]>	
+</insert>	
 	
-	<!-- [selectKakaoMemberId] 카카오 로그인 데이터 검사 -->
-	<select id="selectKakaoMemberId" parameterType="hashmap" resultType="hashmap">	
-	<![CDATA[
-		SELECT *
-		FROM MEMBER
-		WHERE MEM_ID = #{kakaoEmail}
-	]]>	
-	</select>
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
+<!-- [selectKakaoMemberId] 카카오 로그인 데이터 검사 -->
+<select id="selectKakaoMemberId" parameterType="hashmap" resultType="hashmap">	
+<![CDATA[
+	SELECT *
+	FROM MEMBER
+	WHERE MEM_ID = #{kakaoEmail}
+]]>	
+</select>
 
 <!-- [updateMember] 회원정보수정 -->
 <update id="updateMember" parameterType="hashmap" >	
@@ -136,7 +134,7 @@
 ]]>	
 </delete>
 	
-<!-- 아이디 찾기=>회원여부 확인(이름&이메일) -->
+<!-- [checkMemId] 아이디 찾기=>회원여부 확인(이름&이메일) -->
 <select id="checkMemId" parameterType="hashmap" resultType="hashmap">
 <![CDATA[
 	SELECT
@@ -148,7 +146,7 @@
 ]]>
 </select>
 
-<!-- 비밀번호 찾기=>회원여부 확인(아이디&이메일) -->
+<!-- [checkMemPw] 비밀번호 찾기=>회원여부 확인(아이디&이메일) -->
 <select id="checkMemPw" parameterType="hashmap" resultType="hashmap">
 <![CDATA[
 	SELECT
@@ -160,7 +158,7 @@
 ]]>
 </select>
 
-<!-- 비밀번호 재설정 -->
+<!-- [updatePw] 비밀번호 재설정 -->
 <select id="updatePw" parameterType="hashmap" resultType="hashmap">
 <![CDATA[
 	UPDATE

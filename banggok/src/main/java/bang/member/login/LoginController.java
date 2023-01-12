@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
-<<<<<<< HEAD
 import bang.member.join.MailService;
-=======
 import bang.member.join.JoinService;
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 
 @Controller
 public class LoginController {

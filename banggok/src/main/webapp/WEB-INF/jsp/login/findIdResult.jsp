@@ -17,7 +17,7 @@
 		<div class="row">
 			<h2>아이디 찾기 결과</h2>
 			<ul>
-				<li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+				<li><a href="/bang/main.tr"><i class="fas fa-home"></i> Home</a></li>
 				<li><i class="fas fa-angle-double-right"></i> 아이디 찾기</li>
 				<li><i class="fas fa-angle-double-right"></i> 결과</li>
 			</ul>
