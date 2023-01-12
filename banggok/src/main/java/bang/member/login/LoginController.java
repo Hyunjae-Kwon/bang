@@ -45,12 +45,11 @@ public class LoginController {
 	public ModelAndView login(CommandMap commandMap,HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("login/login");
 		HttpSession session = request.getSession();
-		
-		Map<String,Object> result = loginService.selectMemberId(commandMap.getMap());
+		Map<String,Object> result = loginService.selectMemberId(commandMap.getMap());		/* 회원 정보 조회 */
 		
 		/* 카카오로 로그인 한 경우 */
 		if(request.getParameter("kakaoEmail") != null) {	/* kakaoEmail이 전달됐다면 */
-			Map<String, Object> kakao = loginService.selectKakaoMemberId(commandMap.getMap());	/* 최초 로그인인지 확인 */
+			Map<String, Object> kakao = loginService.selectKakaoMemberId(commandMap.getMap());	/* 카카오 최초 로그인인지 확인 */
 			/* 최초 로그인인 경우 */
 			if(kakao == null) {
 				joinService.insertKakaoMember(commandMap.getMap());	/* 카카오로 로그인하면서 전달받은 정보로 회원 가입 */
@@ -62,7 +61,10 @@ public class LoginController {
 			mv.addObject("url", "/main.tr");
 			
 			return mv;
-		} else if(result == null || result.get("MEM_ID").equals("N")) {
+			
+		}
+		
+		if(result == null || result.get("MEM_ID").equals("N")) {
 			mv.addObject("msg","회원을 찾을 수 없습니다.");
 			mv.addObject("url", "/loginForm.tr");
 			
@@ -80,7 +82,7 @@ public class LoginController {
 				session.setAttribute("MEM_NUM", result.get("MEM_NUM")); 
 
 				/* 관리자 체크*/
-				if (result.get("MEM_ID").equals("ADMIN")) {
+				if (result.get("MEM_ID").equals("admin")) {
 					mv.addObject("msg", "관리자 로그인 성공!");
 					mv.addObject("url", "/adminMain.tr");
 					

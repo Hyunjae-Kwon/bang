@@ -3,8 +3,6 @@ package bang.common.trip;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Repository;
 
 import bang.common.common.AbstractDAO;

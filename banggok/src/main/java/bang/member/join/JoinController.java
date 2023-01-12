@@ -60,7 +60,7 @@ public class JoinController {
 
 		/* 회원가입 성공 */
 		mv.addObject("msg", "회원가입 성공!");
-		mv.addObject("url", "/bang/main.tr");
+		mv.addObject("url", "/bang/loginForm.tr");
 
 		joinService.insertMember(commandMap.getMap());
 

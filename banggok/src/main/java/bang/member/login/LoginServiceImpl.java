@@ -7,9 +7,6 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import bang.member.login.LoginDAO;
-import bang.member.login.LoginService;
-
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
 

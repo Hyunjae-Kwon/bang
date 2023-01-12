@@ -115,9 +115,6 @@
 				</ul>
 				<ul>
 					<li>
-						<input type="hidden" id="kakaoEmail" name="kakaoEmail">
-						<input type="hidden" id="kakaoNickname" name="kakaoNickname">
-						<input type="hidden" id="kakaoImage" name="kakaoImage">
 						<a href="javascript:kakaoLogin()">
 							<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" alt=" " width="200" height="50">
 						</a>
@@ -128,11 +125,17 @@
 			<a href="/bang/findId.tr" class="nav-link" style="font-size: large;">아이디 찾기</a>
 			<a href="/bang/findPw.tr" class="nav-link" style="font-size: large;">비밀번호 찾기</a>
 		</form>
+		<form id="kakaoLogin" name="kakaoLogin" action="/bang/login.tr" method="post">
+			<input type="hidden" id="MEM_ID" name="MEM_ID">
+			<input type="hidden" id="kakaoEmail" name="kakaoEmail">
+			<input type="hidden" id="kakaoNickname" name="kakaoNickname">
+			<input type="hidden" id="kakaoImage" name="kakaoImage">
+		</form>
 	</div>
 	<!-- 네이버 로그인 API -->
 	<script>
 		var naverLogin = new naver.LoginWithNaverId({
-			clientId : "szPhTBM3ONRDghB7fr8x", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
+			clientId : "MN8DQhdsFSnrmaWRZ4R6", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
 			callbackUrl : "http://localhost:8080/bang/main.tr", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
 			isPopup : false,
 			callbackHandle : true
@@ -204,7 +207,7 @@
 	                	$('#kakaoEmail').val(email);
 	                	$('#kakaoNickname').val(nickname);
 	                	$('#kakaoImage').val(image);
-	                	document.loginForm.submit();
+	                	document.kakaoLogin.submit();
 	                }
 	            });
 	        },

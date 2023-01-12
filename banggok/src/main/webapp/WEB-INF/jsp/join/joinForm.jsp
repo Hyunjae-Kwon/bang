@@ -143,7 +143,6 @@ function checkMail(){
 </script>  
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
@@ -219,11 +218,4 @@ function checkMail(){
          </div>
 </div>         
     </body>
-
-    <script src="resources/js/jquery-3.2.1.min.js"></script>
-    <script src="resources/js/popper.min.js"></script>
-    <script src="resources/js/bootstrap.min.js"></script>
-    <script src="resources/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
-    <script src="resources/plugins/slider/js/owl.carousel.min.js"></script>
-    <script src="resources/js/script.js"></script>
 </html>

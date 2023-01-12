@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
-import bang.member.mypage.MyPageDAO;
-import bang.member.mypage.MyPageService;
-
 @Service("myPageService")
 public class MyPageServiceImpl implements MyPageService {
 
