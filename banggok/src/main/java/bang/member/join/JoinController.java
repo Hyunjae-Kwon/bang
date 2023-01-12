@@ -4,9 +4,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,7 +43,8 @@ public class JoinController {
 
 		return String.valueOf(result);
 	}
-
+    
+	/* 이메일 인증 */
 	@RequestMapping(value = "/confirmMail.tr", method = RequestMethod.GET)
 	@ResponseBody
 	public String mailCheck(String email) {
