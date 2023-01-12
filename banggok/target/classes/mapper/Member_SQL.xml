@@ -39,7 +39,7 @@
 		'N'
 	)
 ]]>	
-</insert>	
+</insert>
 
 <!-- [selectMemberId] 아이디중복검사, 로그인, 회원정보수정폼, 회원상세 -->
 <select id="selectMemberId" parameterType="hashmap" resultType="hashmap">	
@@ -49,34 +49,6 @@
 	WHERE MEM_ID = #{MEM_ID}
 ]]>	
 </select>
-
-<!-- [insertMember] 회원가입 성공 -->
-<insert id="insertMember" parameterType="hashmap">	
-<![CDATA[	
-	INSERT INTO MEMBER (
-		MEM_ID,
-		MEM_PW,
-		MEM_NAME,
-		MEM_NICKNAME,
-		MEM_REGDATE,
-		MEM_EMAIL,
-		MEM_PHONE,
-		MEM_TYPE,
-		MEM_BLOCK
-	)
-	VALUES (
-		#{MEM_ID},
-		#{MEM_PW},
-		#{MEM_NAME},
-		#{MEM_NICKNAME},
-		SYSDATE,
-		#{MEM_EMAIL},						
-		#{MEM_PHONE},
-		0,
-		'N'
-	)
-]]>	
-</insert>	
 	
 <!-- [insertKakaoMember] 카카오 로그인 성공 -->
 <insert id="insertKakaoMember" parameterType="hashmap">	
