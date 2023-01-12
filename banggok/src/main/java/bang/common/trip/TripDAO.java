@@ -37,4 +37,10 @@ public class TripDAO extends AbstractDAO {
 	public void tripDelete(Map<String, Object> map) throws Exception {
 		update ("trip.tripDelete", map);
 	}
+	
+	/* 여행 일정 검색 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> searchTrip(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("trip.searchTrip", map);
+	}
 }

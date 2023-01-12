@@ -3,6 +3,10 @@ package bang.common.trip;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import bang.common.common.CommandMap;
+
 public interface TripService {
 	
 	/* 메인 페이지 - 인기 여행 일정 3개 */
@@ -19,5 +23,8 @@ public interface TripService {
 	
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
 	void tripDelete(Map<String, Object> map) throws Exception;
+	
+	/* 여행 일정 검색하기 */
+	List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception;
 
 }

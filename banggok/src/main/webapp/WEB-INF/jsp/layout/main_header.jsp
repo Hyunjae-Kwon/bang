@@ -6,10 +6,47 @@
 <html lang="en">
 <head>
 </head>
+<style>
+.search-btn{
+  text-decoration: none;
+  float: right;
+  width: 25px;
+  height: 25px;
+  background-color: #BFBFBF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #334960;
+}
+.search-box:hover > .search-btn{
+  background-color: #fff;
+}
+.search-txt{
+  display: flex;
+  padding: 0;
+  width: 0px;
+  border:none;
+  background: none;
+  outline: none;
+  float: left;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: .4s;
+}
+.search-box:hover > .search-txt{
+  width: 140px;
+  padding: 0 6px;
+  background-color: #fff;
+  border-radius: 30px;
+  border: 1px solid #BFBFBF
+}
+
+</style>
 <body>
 	<!-- ################# Header Starts Here#######################--->
     <header class="continer-fluid ">
-        <div  class="header-top">
+        <div class="header-top">
             <div class="container">
                 <div class="row col-det">
                     <div class="col-lg-6 d-none d-lg-block">
@@ -37,6 +74,14 @@
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/joinForm.tr">회원가입</a>
 								</li>
+								<li style="line-height: 1.5; padding: 0px;">
+									<form action="/bang/searchAll.tr" method="GET">
+										<li class="search-box">
+											<input type="text" class="search-txt" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px;"></i></button>
+										</li>
+									</form>
+								</li>
 							</c:if>
 					
 							<!-- 로그인을 했을 경우 -->
@@ -49,6 +94,12 @@
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 
+								</li>
+								<li class="search-box">
+									<form action="/searchAll.tr" method="GET">
+							        	<input type="text" class="search-txt" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+										<a class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px;"></i></a>
+							        </form>
 								</li>
 							</c:if>
                         </ul>

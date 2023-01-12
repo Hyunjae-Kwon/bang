@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+
+import bang.common.common.CommandMap;
 
 @Service("tripService")
 public class TripServiceImpl implements TripService {
@@ -43,5 +46,11 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void tripDelete(Map<String, Object> map) throws Exception {
 		tripDAO.tripDelete(map);
+	}
+	
+	/* 여행 일정 검색 */
+	@Override
+	public List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		return tripDAO.searchTrip(map);
 	}
 }

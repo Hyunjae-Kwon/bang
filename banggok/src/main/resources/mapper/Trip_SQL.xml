@@ -53,5 +53,13 @@
 			WHERE TR_NUM=#{TR_NUM}
 		]]>
 	</delete>
+	
+	<!-- [searchTrip] 여행 일정 검색 -->
+	<select id="searchTrip" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT * FROM TRIP
+			WHERE TR_TITLE LIKE '%'||#{keyword}||'%' OR TR_CONTENT LIKE '%'||#{keyword}||'%' OR TR_SUBCONTENT LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
 
 </mapper>
