@@ -89,7 +89,7 @@ public class RecommendController {
 	/* 글수정폼 */
 	@RequestMapping(value="/recommendModifyForm.tr") 
 	public ModelAndView recommendModifyForm(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("trip/recommendModifyForm");
+		ModelAndView mv = new ModelAndView("recommend/recommendModifyForm");
 		Map<String, Object> map = recommendService.recommendModifyForm(commandMap.getMap());
 
 		mv.addObject("map", map);
