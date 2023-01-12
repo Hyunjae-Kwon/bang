@@ -39,9 +39,10 @@ function sendMail(memMail) {
 	const email= $('#MEM_EMAIL').val(); // 이메일 주소값 얻어오기!
 	console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
 	const checkInput = $('#MEM_EMAIL2') // 인증번호 입력하는곳 
+
 	if(validEmailCheck(email)==false) {
 		alert("이메일형식이 올바르지 않습니다.");
-		email.focus();
+		$('#MEM_EMAIL').focus();
 		return false;
 	} else { 
 		
