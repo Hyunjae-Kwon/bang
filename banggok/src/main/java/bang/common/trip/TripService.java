@@ -3,8 +3,6 @@ package bang.common.trip;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 public interface TripService {
 	
 	/* 메인 페이지 - 인기 여행 일정 3개 */

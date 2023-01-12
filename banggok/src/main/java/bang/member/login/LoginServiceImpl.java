@@ -15,12 +15,12 @@ public class LoginServiceImpl implements LoginService {
 	@Resource(name="loginDAO")
 	private LoginDAO loginDAO;
 
-	/* 로그인 */ 
+	/* 로그인 */
 	@Override
 	public Map<String, Object> selectMemberId(Map<String, Object> map) throws Exception {
 		return loginDAO.selectMemberId(map);
 	}
-	
+
 	/* 아이디 찾기=>회원여부 확인(이름&이메일) */
 	@Override
 	public Map<String, Object> checkMemId(Map<String, Object> map) throws Exception {
@@ -39,5 +39,11 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public void updatePw(Map<String, Object> map) throws Exception {
 		loginDAO.updatePw(map);
+	}
+
+	/* 카카오 로그인 데이터 검사 */
+	@Override
+	public Map<String, Object> selectKakaoMemberId(Map<String, Object> map) throws Exception {
+		return loginDAO.selectKakaoMemberId(map);
 	}
 }

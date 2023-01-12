@@ -28,7 +28,7 @@
                     </div>
                     <!-- 로그인, 로그아웃, 회원가입, 마이페이지 등 -->
                     <div class="col-lg-6 col-md-12">
-                        <ul class="ulright">
+                        <ul id="login" class="ulright">
                         	<!-- 로그인을 하지 않았을 경우 -->
 							<c:if test="${ empty MEM_ID }">
 								<li>

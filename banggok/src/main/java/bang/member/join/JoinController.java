@@ -31,7 +31,6 @@ public class JoinController {
 		return mv;
 	}
 
-
 	/* id 중복 체크 */
 	@RequestMapping(value = "/confirmId.tr", method = RequestMethod.POST)
 	@ResponseBody
@@ -61,7 +60,7 @@ public class JoinController {
 
 		/* 회원가입 성공 */
 		mv.addObject("msg", "회원가입 성공!");
-		mv.addObject("url", "/bang/main.tr");
+		mv.addObject("url", "/bang/loginForm.tr");
 
 		joinService.insertMember(commandMap.getMap());
 

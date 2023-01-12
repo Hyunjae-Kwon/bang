@@ -18,7 +18,7 @@
             <div class="carousel-inner">
                 <div class="carousel-item active">
                 	<!-- 배너 이미지 누르면 이동하는 경로 -->
-                    <a href="single.html">
+                    <a href="/bang/main.tr">
                         <img src="resources/images/slider/slid_1.jpg" class="d-block w-100" alt="..." style="max-height:500px;">
                         <!-- 배너 이미지 하단 설명 글, 필요 없을것 같아서 주석 처리 -->
                         <!-- <div class="detail-card">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="carousel-item">
                 	<!-- 배너 이미지 누르면 이동하는 경로 -->
-                    <a href="single.html">
+                    <a href="/bang/main.tr">
                         <img src="resources/images/slider/slid_2.jpg" class="d-block w-100" alt="..." style="max-height:500px;">
                         <!-- 배너 이미지 하단 설명 글, 필요 없을것 같아서 주석 처리 -->
                         <!-- <div class="detail-card">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="carousel-item">
                 	<!-- 배너 이미지 누르면 이동하는 경로 -->
-                    <a href="single.html">
+                    <a href="/bang/main.tr">
                         <img src="resources/images/slider/slid_3.jpg" class="d-block w-100" alt="..." style="max-height:500px;">
                         <!-- 배너 이미지 하단 설명 글, 필요 없을것 같아서 주석 처리 -->
                         <!-- <div class="detail-card">
