@@ -96,19 +96,21 @@ function checkMail(){
 };
 </script>
 <script>
-	$('.MEM_PW2').blur(function () {
-		var memPw = $('#MEM_PW').val();
-		const memPw2 = $('#MEM_PW2').val();
+$(document).ready(function(){
+	$('#MEM_PW2').blur(function () {
+		const memPw = $('#MEM_PW').val();
+		const memPw2 = $(this).val();
 		const $resultMsg = $('#pw-check-warn');
 			
 		if(memPw2 === memPw){
-			$resultMsg.html('비밀번호가 일치합니다.');
+			$resultMsg.html('비밀번호 일치!');
 			$resultMsg.css('color','green');
 		}else{
-			$resultMsg.html('비밀번호가 불일치 합니다. 다시 확인해주세요!.');
+			$resultMsg.html('비밀번호가 불일치!');
 			$resultMsg.css('color','red');
 		}
 	});
+});
 </script>
 <script>
 	function checks() {
@@ -209,9 +211,18 @@ function checkMail(){
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>비밀번호 확인</label></div>
-                        <div class="col-sm-6"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인" class="form-control input-sm"  ></div>
-                    	<!-- <span id="pw-check-warn"></span> -->
+                        <div class="col-sm-6">
+                        	<input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인"class="form-control input-sm">
+                        </div>
                     </div>
+                    <div style="margin-top: 0px;" class="row">
+						<div style="padding-top: 10px;" class="col-sm-3">
+							<label></label>
+						</div>
+						<div>
+							<span id="pw-check-warn"></span>
+						</div>
+					</div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>이름</label></div>
                         <div class="col-sm-6"><input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="이름" class="form-control input-sm"  ></div>
