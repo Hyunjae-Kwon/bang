@@ -1,13 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
+
+</head>
+<body>
+
  <script type="text/javascript">
 /* 아이디 중복 체크 */	
 function checkId() { 
   
   var inputed = $('#MEM_ID').val();
   console.log(inputed);
+  if(inputed.trim() ==""){
+	  alert("아이디를 입력해주세요.");
+	  $('#MEM_ID').focus();
+	  return false;
+  }
   
   $.ajax({
 	    data : {id:inputed} ,
@@ -19,7 +29,7 @@ function checkId() {
 	    	
 	    	if(result > 0) {
 	    		alert("이미 사용중인 아이디입니다.");
-	    		window.location.reload();
+	    		
 	    	} else if (result == 0) {
 	    		alert("사용가능한 아이디입니다.");
 	    	}
@@ -65,13 +75,16 @@ function checkMail(){
 	const inputCode = $('#MEM_EMAIL2').val();
 	const $resultMsg = $('#mail-check-warn');
 	
- 	if(inputCode === code){
-		$resultMsg.html('인증번호가 일치합니다.');
+ 	  if(inputCode === ""){
+ 		$resultMsg.html('인증번호를 입력해 주세요.');
+ 	    $resultMsg.css('color','red');
+ 	} else if(inputCode === code) {	
+    	$resultMsg.html('인증번호가 일치합니다.');   
 		$resultMsg.css('color','green');
 		$('#mail-Send-Btn').attr('disabled',true);
 		$('#MEM_EMAIL').attr('readonly',true);
 		return true;
-	}else{
+	} else {
 		$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!');
 		$resultMsg.css('color','red');
 		return false;
@@ -141,15 +154,13 @@ function checkMail(){
 		document.joinForm.submit();
 	}
 </script>  
-</head>
-<body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
                 <h2>회원가입</h2>
                 <ul>
-                    <li> <a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li> <a href="/bang/main.tr"><i class="fas fa-home"></i> Home</a></li>
                     <li><i class="fas fa-angle-double-right"></i> 회원가입 </li>
                 </ul>
             </div>
@@ -217,13 +228,6 @@ function checkMail(){
                 </div>
             </div>
          </div>
-</div>         
-    </body>
-
-    <script src="resources/js/jquery-3.2.1.min.js"></script>
-    <script src="resources/js/popper.min.js"></script>
-    <script src="resources/js/bootstrap.min.js"></script>
-    <script src="resources/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
-    <script src="resources/plugins/slider/js/owl.carousel.min.js"></script>
-    <script src="resources/js/script.js"></script>
+     </div>         
+</body>
 </html>
