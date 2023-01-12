@@ -45,10 +45,17 @@
 	</table>
 	<div class="col-sm-8">
        <button class="btn btn-success btn-sm" onClick="location.href='/bang/allRecommendList.tr'">목록</button>
-      <c:if test="${MEM_ID eq map.RC_ID}">
+       
+      <c:if test = "${MEM_ID != map.RC_ID }">  <!-- 작성자가 아닐 경우에만 추천버튼 보이게 -->
+       <button class="btn btn-success btn-sm" onclick="recommendLike()">추천</button>
+     <%--   <button class="btn btn-success btn-sm" onclick="fn_recommendLike(${var.index});">추천</button> --%>
+      </c:if>
+       
+      <c:if test="${MEM_ID eq map.RC_ID}">  <!--  작성자일때만 보이게 -->
        <button class="btn btn-success btn-sm" onClick="location.href='/bang/recommendModifyForm.tr?RC_NUM=${map.RC_NUM}'">수정</button>
        <button class="btn btn-success btn-sm" onClick="return deleteCheck()">삭제</button>
 	  </c:if>
+	 
 	</div>
 	
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
@@ -62,6 +69,39 @@ function deleteCheck() {
 		location.href="recommendDelete.tr?RC_NUM=" + RC_NUM;
 	}
 }
+</script>
+
+<script>
+/* function recommendLike() {
+	var RC_NUM = document.getElementById('RC_NUM').value;
+	if(confirm("추천하시겠습니까?") == true) {
+		location.href="recommendLike.tr?RC_NUM=" + RC_NUM;
+	}
+} */   //하는중
+function recommendLike(){
+	var RC_NUM = document.getElementById('RC_NUM').value;
+	if(confirm("추천하시겠습니까?") == true) {
+		$.ajax({
+			 url : "<c:url value='/bang/recommendLike.tr?RC_NUM=${map.RC_NUM}' />",
+			 type : "post",
+			 dataType : 'json',
+			 contentType : "application/json; charset=UTF-8",
+			 success : function(result){
+				 alert("댓글추천");
+				 check_recommend = false;
+			 },
+			 error : function(){
+				 alert("서버요청실패");
+			 }
+		 })			
+	}else{
+		alert("추천은 한번");
+	}
+}
+location.href="recommendLike.tr?RC_NUM=" + RC_NUM;
+}
+
+if(check_recommend){
 </script>
 
 </html>

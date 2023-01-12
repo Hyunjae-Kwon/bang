@@ -117,5 +117,13 @@
       ]]>
 	</update>
 	
+	<!-- 좋아요 -->
+	<update id="recommendLike" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			RECOMMEND 
+		SET RC_LIKE = RC_LIKE + 1 WHERE RC_NUM = #{RC_NUM}
+	]]>
+	</update>
 
 </mapper>

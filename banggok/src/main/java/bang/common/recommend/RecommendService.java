@@ -25,5 +25,6 @@ public interface RecommendService {
 	 
 	void recommendModify(Map<String, Object> map)throws Exception;
 	
-
+	/* 추천 */
+	int recommendLike(Map<String, Object> map) throws Exception;
 }

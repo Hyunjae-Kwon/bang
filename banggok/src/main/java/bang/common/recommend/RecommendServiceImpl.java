@@ -57,4 +57,10 @@ public class RecommendServiceImpl implements RecommendService {
 		recommendDAO.recommendModify(map);
 	}
 	
+	/* 추천 */
+	@Override
+	public int recommendLike(Map<String, Object> map) throws Exception {
+		return recommendDAO.recommendLike(map);
+		
+	}
 }
