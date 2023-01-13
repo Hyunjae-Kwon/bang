@@ -248,8 +248,6 @@ $(document).ready(function(){
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>비밀번호 확인</label></div>
-                        <div class="col-sm-6"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인"class="form-control input-sm"></div>
-                        <div class="col-sm-6"><span id="pw-check-warn"></span></div>
                         <div class="col-sm-4"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인"class="form-control input-sm"></div>
                         <div align="left"  class="col-sm-4"><span id="pw-check-warn"></span></div>
                     </div>
