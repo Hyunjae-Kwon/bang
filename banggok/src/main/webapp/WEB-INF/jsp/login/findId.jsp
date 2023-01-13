@@ -64,7 +64,7 @@
 						 	disabled="disabled" maxlength="6">
 					</div>
 					<div class="col-sm-4">
-						<input type="button" value="확인" class="btn btn-success btn-sm" onClick="findId()">
+						<input type="button" value="확  인" class="btn btn-success btn-sm" onClick="findId()">
 					</div>
 				</div>
 				<div style="margin-top: 0px;" class="row">
@@ -141,12 +141,10 @@ function findId() {
 		$resultMsg.css('color','green');
 		location.href="/bang/findIdResult.tr?MEM_NAME=" + memName + "&MEM_EMAIL=" + memEmail;
 	}else{
-		$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요.');
+		$resultMsg.html('인증번호 불일치! 다시 확인해주세요.');
 		$resultMsg.css('color','red');
 	}	
 } // end findId()
-
-
 
 /* 아이디 찾기 유효성 체크 */
 function checkMem() {
