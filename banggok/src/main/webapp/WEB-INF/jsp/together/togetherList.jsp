@@ -49,8 +49,7 @@
 
 									<td align="center">${list.TG_ID }
 									<td align="center">${list.TG_CNT }</td>
-									<td align="center" ${list.TG_REGDATE }><fmt:formatDate
-											value="${list.TG_REGDATE}" pattern="yyyy-MM-dd" /></td>
+									<td align="center" ${list.TG_REGDATE }><fmt:formatDate value="${list.TG_REGDATE}" pattern="yyyy-MM-dd" /></td>
 								</tr>
 							</c:forEach>
 						</c:when>
@@ -60,10 +59,14 @@
 							</tr>
 						</c:otherwise>
 					</c:choose>
-
 				</tbody>
 			</table>
-
+		</div>
+		<div>
+			<form action="/bang/searchTogether.tr" method="GET">
+				<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
+				<input type="text" id="keyword" name="keyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
+			</form>
 		</div>
 		 <div align="center"> 
 			<input type="button" value="글쓰기" class="btn btn-outline-success" style="height:55px;" onClick="return fn_openWriteForm()">
@@ -85,7 +88,6 @@
 			comSubmit.submit();
 		}
 	</script>
-
 
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="resources/js/jquery-3.2.1.min.js"></script>

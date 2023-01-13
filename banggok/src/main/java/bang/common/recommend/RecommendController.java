@@ -24,7 +24,7 @@ public class RecommendController {
 	@Resource(name = "recommendService")
 	RecommendService recommendService;
 	
-	/* 관리자 추천글 리스트 */
+	/* 여행지 추천 게시글 리스트 */
 	@RequestMapping(value = "/allRecommendList.tr", method=RequestMethod.GET)
 	public ModelAndView recommendList(Map<String, Object> commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("recommend/recommendList");
@@ -46,7 +46,7 @@ public class RecommendController {
 		return mv;
 	} */
 	
-	/* 글상세 */
+	/* 여행지 추천 게시글 상세보기 */
 	@RequestMapping(value = "/recommendDetail.tr")    //흐한개발자
 	public ModelAndView recommendDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("recommend/recommendDetail");
@@ -56,7 +56,7 @@ public class RecommendController {
 		return mv;
 	}
 	
-	/* 글입력폼 */
+	/* 여행지 추천 게시글 작성하기 폼 */
 	@RequestMapping(value="/recommendWriteForm.tr")
 	public ModelAndView recommendWriteForm(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("recommend/recommendWriteForm");
@@ -64,7 +64,7 @@ public class RecommendController {
 		return mv;
 	}
 	
-	/* 글쓰기  */
+	/* 여행지 추천 게시글 작성하기 */
 	@RequestMapping(value="/recommendWrite.tr", method = RequestMethod.POST)
 	public ModelAndView recommendWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/allRecommendList.tr");
@@ -77,7 +77,7 @@ public class RecommendController {
 		return mv;
 	}
 	
-	/* 글삭제 */
+	/* 여행지 추천 게시글 삭제하기 */
 	@RequestMapping(value = "/recommendDelete.tr")
 	public ModelAndView recommendDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/allRecommendList.tr");
@@ -86,7 +86,7 @@ public class RecommendController {
 		return mv;      
 	}
 	
-	/* 글수정폼 */
+	/* 여행지 추천 게시글 수정 폼 */
 	@RequestMapping(value="/recommendModifyForm.tr") 
 	public ModelAndView recommendModifyForm(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("recommend/recommendModifyForm");
@@ -97,7 +97,7 @@ public class RecommendController {
 		return mv;
 	}
 
-	/* 글수정 */
+	/* 여행지 추천 게시글 수정하기 */
 	@RequestMapping(value="/recommendModify.tr", method = RequestMethod.POST)
 	public ModelAndView recommendModify(CommandMap commandMap)throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/allRecommendList.tr");
@@ -106,12 +106,27 @@ public class RecommendController {
 		return mv;
 	}
 	
-	/* 추천 */
+	/* 추천하기 */
 	@RequestMapping(value="/recommendLike.tr", method = {RequestMethod.POST, RequestMethod.GET} )
 	@ResponseBody
 	public int recommendLike(CommandMap commandMap, HttpServletRequest request) throws Exception { 
 		int like_result = recommendService.recommendLike(commandMap.getMap());
 
 		return like_result;
-		}
+	}
+	
+	/* 여행지 추천 게시글 검색하기 */
+	@RequestMapping(value="/searchRecommend.tr", method=RequestMethod.GET)
+	public ModelAndView searchRecommend(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("recommend/searchRecommend");
+		
+		String keyword = request.getParameter("keyword");
+		
+		List<Map<String, Object>> recom = recommendService.searchRecommend(commandMap.getMap(), request);
+				
+		mv.addObject("keyword", keyword);
+		mv.addObject("recom", recom);
+		
+		return mv;
+	}
 }

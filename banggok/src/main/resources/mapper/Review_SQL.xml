@@ -66,4 +66,11 @@
 	  ]]>
 	</insert>
    
+	<!-- [searchReview] 여행 후기 검색 -->
+	<select id="searchReview" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT * FROM REVIEW
+			WHERE RV_TITLE LIKE '%'||#{keyword}||'%' OR RV_CONTENT LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
 </mapper>

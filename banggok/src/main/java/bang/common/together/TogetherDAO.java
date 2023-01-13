@@ -22,15 +22,15 @@ public class TogetherDAO extends AbstractDAO {
 		return (List<Map<String, Object>>)selectList("together.togetherList", map);
 	}
 	
-	/* 조회수 */
-	public void updateHitCnt(Map<String, Object> map) throws Exception{
-		update("together.updateHitCnt", map);
-	}
-	
 	/* 동행게시판 디테일 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> togetherDetail(Map<String, Object> map) throws Exception {
 		return (Map<String, Object>) selectOne("together.togetherDetail", map);
+	}
+	
+	/* 조회수 증가 */
+	public void updateHitCnt(Map<String, Object> map) throws Exception{
+		update("together.updateHitCnt", map);
 	}
 
 	/* 동행게시판 글쓰기 */ 
@@ -46,5 +46,11 @@ public class TogetherDAO extends AbstractDAO {
 	/* 동행게시판 삭제 */
 	public void togetherDelete(Map<String, Object> map) throws Exception {
 		delete("together.togetherDelete", map);
+	}
+	
+	/* 여행 일정 검색 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> searchTogether(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("together.searchTogether", map);
 	}
 }

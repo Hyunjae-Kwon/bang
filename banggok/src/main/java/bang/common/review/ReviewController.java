@@ -127,4 +127,19 @@ public class ReviewController {
 		return a;
 	}
 	
+	/* 여행 후기 게시판 검색 */
+	@RequestMapping(value="/searchReview.tr", method=RequestMethod.GET)
+	public ModelAndView searchReview(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("review/searchReview");
+		
+		String keyword = request.getParameter("keyword");
+		
+		List<Map<String, Object>> review = reviewService.searchReview(commandMap.getMap(), request);
+				
+		mv.addObject("keyword", keyword);
+		mv.addObject("review", review);
+		
+		return mv;
+	}
+	
 }

@@ -28,6 +28,11 @@ public class TripDAO extends AbstractDAO {
 		return (Map<String, Object>) selectOne ("trip.tripDetail", map);
 	}
 	
+	/* 조회수 증가 */
+	public void updateHitCnt(Map<String, Object> map) throws Exception{
+		update("trip.updateHitCnt", map);
+	}
+	
 	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
 	public void tripModify(Map<String, Object> map) throws Exception {
 		update ("trip.tripModify", map);
