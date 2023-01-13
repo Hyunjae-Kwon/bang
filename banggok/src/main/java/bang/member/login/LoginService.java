@@ -15,6 +15,10 @@ public interface LoginService {
 	
 	/* 비밀번호 재설정 */
 	void updatePw(Map<String, Object> map) throws Exception;
+	
 	/* 카카오 로그인 데이터 검사 */
 	public Map<String, Object> selectKakaoMemberId(Map<String, Object> map) throws Exception;
+	
+	/* 네이버 로그인 데이터 검사 */
+	public Map<String, Object> selectNaverMemberId(Map<String, Object> map) throws Exception;
 }

@@ -101,14 +101,15 @@
 			<div class="gallery-filter d-none d-sm-block">
 				<input type="button" value="로 그 인" class="btn btn-default filter-button" onClick="fsubmit();">
 				<input type="button" value="회원가입" onClick="location.href='/bang/joinForm.tr'" class="btn btn-default filter-button"><br>
-
+				
+				<div id="naver_id_login"></div> 
 				<ul>
-					<li>
-						<!-- 네이버로그인 --> 
+					<!-- <li>
+						네이버로그인 
 						<a id="naverIdLogin_loginButton" href="javascript:void(0)">
 							<img src="resources/images/naverlogin.png" alt=" " width="200" height="50">
 						</a>
-					</li>
+					</li> -->
 					<li onclick="naverLogout(); return false;">
 						<a href="javascript:void(0)"><span>네이버 로그아웃</span></a>
 					</li>
@@ -125,16 +126,58 @@
 			<a href="/bang/findId.tr" class="nav-link" style="font-size: large;">아이디 찾기</a>
 			<a href="/bang/findPw.tr" class="nav-link" style="font-size: large;">비밀번호 찾기</a>
 		</form>
+		
+		<!-- 카카오 로그인 데이터 전송을 위해 숨겨져 있는 폼 -->
 		<form id="kakaoLogin" name="kakaoLogin" action="/bang/login.tr" method="post">
 			<input type="hidden" id="MEM_ID" name="MEM_ID">
 			<input type="hidden" id="kakaoEmail" name="kakaoEmail">
 			<input type="hidden" id="kakaoNickname" name="kakaoNickname">
 			<input type="hidden" id="kakaoImage" name="kakaoImage">
 		</form>
+		
+		<!-- 네이버 로그인 데이터 전송을 위해 숨겨져 있는 폼 -->
+		<form id="naverLogin" name="naverLogin" action="/bang/login.tr" method="post">
+			<input type="hidden" id="MEM_ID" name="MEM_ID">
+			<input type="hidden" id="naverEmail" name="naverEmail">
+			<input type="hidden" id="naverNickname" name="naverNickname">
+			<input type="hidden" id="naverImage" name="naverImage">
+			<input type="hidden" id="naverName" name="naverName">
+		</form>
 	</div>
 	<!-- 네이버 로그인 API -->
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+	<!-- //네이버 로그인 버튼 노출 영역 -->
+	<script type="text/javascript">
+		var naver_id_login = new naver_id_login("szPhTBM3ONRDghB7fr8x", "http://localhost:8080/bang/loginForm.tr");
+	  	var state = naver_id_login.getUniqState();
+	  	naver_id_login.setButton("white", 2,40);
+	  	naver_id_login.setDomain("http://localhost:8080/bang");
+	  	naver_id_login.setState(state);
+	  	naver_id_login.init_naver_id_login();
+	  	
+	 	// 네이버 사용자 프로필 조회
+	    naver_id_login.get_naver_userprofile("naverSignInCallback()");
+	 	
+	    // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+	    function naverSignInCallback() {
+	    	
+	    	var naveremail = naver_id_login.getProfileData('email');
+	    	var navernickname = naver_id_login.getProfileData('nickname');
+	    	var navername = naver_id_login.getProfileData('name');
+	    	var naverimage = naver_id_login.getProfileData('profile_image');
+	    	
+	    	$('#naverEmail').val(naveremail);
+	    	$('#naverNickname').val(navernickname);
+	    	$('#naverImage').val(naverimage);
+	    	$('#naverName').val(navername);
+	    	document.naverLogin.submit();
+	    } 
+	  	
+	</script>
+	
+	<!-- 기존 네이버 로그인 API -->
 	<script>
-		var naverLogin = new naver.LoginWithNaverId({
+		/* var naverLogin = new naver.LoginWithNaverId({
 			clientId : "MN8DQhdsFSnrmaWRZ4R6", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
 			callbackUrl : "http://localhost:8080/bang/main.tr", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
 			isPopup : false,
@@ -159,7 +202,7 @@
 					console.log("callback 처리에 실패하였습니다.");
 				}
 			});
-		});
+		}); */
 
 		/* 네이버 로그아웃 */
 		var testPopUp;

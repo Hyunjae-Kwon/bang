@@ -39,4 +39,10 @@ Logger log = Logger.getLogger(this.getClass());
 	public void insertKakaoMember(Map<String, Object> map) throws Exception {
 		joinDAO.insertKakaoMember(map);
 	}
+	
+	/* 네이버 로그인 시 회원 등록 */
+	@Override
+	public void insertNaverMember(Map<String, Object> map) throws Exception {
+		joinDAO.insertNaverMember(map);
+	}
 }
