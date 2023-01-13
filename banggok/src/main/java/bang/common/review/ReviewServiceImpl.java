@@ -55,4 +55,13 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return reviewDAO.searchReview(map);
 	}
+	
+    /* 마이페이지 여행후기 리스트 */
+	@Override
+	public List<Map<String, Object>> myReviewList(Map<String, Object> map) throws Exception {
+		
+		return reviewDAO.myReviewList(map);
+	}
+	
+	
 }
