@@ -39,9 +39,9 @@
 	<![CDATA[
 		UPDATE TRIP
 		SET
-			TR_CNT = NVL(TG_CNT, 0) + 1
+			TR_CNT = NVL(TR_CNT, 0) + 1
 		WHERE
-			TR_NUM = #{TR_NUM}	
+			TR_NUM = #{TR_NUM}
 	]]>
 	</update>
 	
