@@ -27,60 +27,56 @@
 <div class="row contact-rooo no-margin">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-3">
-				<div style="margin:0px" class="serv"></div>
-			</div>
+			<div class="col-sm-3"></div>
 			<div style="padding: 20px" class="col-sm-7">
 				<br>
 				<div class="row cont-row">
-					<div class="col-sm-3">
+					<div class="col-sm-2">
 						<label>아이디</label><span>:</span>
 					</div>
-					<div class="col-sm-8">
+					<div class="col-sm-6">
 						<input type="text" id="MEM_ID" name="MEM_ID" placeholder="Enter ID" class="form-control input-sm">
 					</div>
 				</div>
 				<div class="row cont-row">
-					<div class="col-sm-3">
+					<div class="col-sm-2">
 						<label>Email</label><span>:</span>
 					</div>
-					<div class="col-sm-8">
-						<input type="text" id="MEM_EMAIL" name="MEM_EMAIL" placeholder="ex)abc@gmail.com" class="form-control input-sm">
+					<div class="col-sm-6">
+						<input type="text" id="MEM_EMAIL" name="MEM_EMAIL" placeholder="ex)abc@gmail.com" class="form-control input-sm" oninput="checkEmail()">
 					</div>
+					<div class="col-sm-4">
+						<input type="button" value="인증번호 전송" class="btn btn-success btn-sm" onClick="checkMem()">
+					</div> 
 				</div>
 				<div style="margin-top: 0px;" class="row">
-					<div style="padding-top: 50px;" class="col-sm-3">
+					<div style="padding-top: 50px;" class="col-sm-2">
 						<label></label>
 					</div>
-					<div class="col-sm-8">
-						<input type="button" value="인증번호 전송" class="btn btn-success btn-sm" onClick="checkMem()">
-					</div>
+					<div class="col-sm-6"><span id="email-check-warn"></span></div>
 				</div>
 				<div class="row cont-row">
-					<div class="col-sm-3">
+					<div class="col-sm-2">
 						<label>인증번호</label><span>:</span>
 					</div>
-					<div class="col-sm-8">
+					<div class="col-sm-6">
 						<input class="form-control input-sm" id="checkNum" name="checkNum" placeholder="인증번호 6자리를 입력." 
 						 	disabled="disabled" maxlength="6">
 					</div>
+					<div class="col-sm-4">
+						<input type="button" value="확인" class="btn btn-success btn-sm" onClick="findId()">
+					</div>
 				</div>
 				<div style="margin-top: 0px;" class="row">
-					<div style="padding-top: 10px;" class="col-sm-3">
+					<div style="padding-top: 10px;" class="col-sm-2">
 						<label></label>
 					</div>
 					<div>
-						<span id="mail-check-warn"></span>
+						<div class="col-sm-4">
+							<span id="mail-check-warn"></span>
+						</div>
 					</div>
 				</div>
-				<div style="margin-top: 0px;" class="row">
-				<div style="padding-top: 10px;" class="col-sm-3">
-					<label></label>
-					</div>
-					<div class="col-sm-8">
-						<input type="button" value="비밀번호 찾기" class="btn btn-success btn-sm" onClick="findPw()">
-					</div>
-				</div>	
 			</div>
 		</div>
 	</div>
