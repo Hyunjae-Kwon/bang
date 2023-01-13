@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="trip">
+
+	<!-- [selectHotTrip] 메인 페이지 - 인기 여행 일정 3개 (좋아요 수 기준) -->
+	<select id="selectHotTrip" resultType="hashmap">
+	 <![CDATA[
+			SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, R
+			FROM (SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, ROWNUM R
+				FROM (SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE
+					FROM TRIP
+	                WHERE TR_SHARE = 'Y'
+					ORDER BY TR_LIKE DESC)
+				)
+			WHERE R BETWEEN 1 AND 3
+	   ]]>
+	</select>
+	
+	<!-- [tripList] 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 -->
+	<select id="tripList" resultType="hashmap">
+	 <![CDATA[
+			SELECT * FROM TRIP
+			WHERE TR_SHARE = 'Y'
+			ORDER BY TR_REGDATE DESC
+	   ]]>
+	</select>
+	
+	<!-- [tripDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 -->
+	<select id="tripDetail" parameterType="hashmap" resultType="hashmap">
+	 <![CDATA[
+			SELECT * FROM TRIP
+			WHERE TR_NUM = #{TR_NUM}
+	   ]]>
+	</select>
+	
+	<!-- [updateHitCnt] 조회수 증가 -->
+	<update id="updateHitCnt" parameterType="hashmap">
+	<![CDATA[
+		UPDATE TRIP
+		SET
+			TR_CNT = NVL(TG_CNT, 0) + 1
+		WHERE
+			TR_NUM = #{TR_NUM}	
+	]]>
+	</update>
+	
+	<!-- [tripModify] 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 -->
+	<update id="tripModify" parameterType="hashmap">
+        <![CDATA[
+			UPDATE TRIP 
+			SET TR_TITLE=#{TR_TITLE}, 
+				TR_CONTENT=#{TR_CONTENT},
+				TR_SUBCONTENT=#{TR_SUBCONTENT}
+			WHERE TR_NUM=#{TR_NUM}
+	   ]]>
+	</update>
+	
+	<!-- [tripDelete] TR_NUM으로 여행 일정 삭제하기 -->
+	<delete id="tripDelete" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+			FROM TRIP
+			WHERE TR_NUM=#{TR_NUM}
+		]]>
+	</delete>
+	
+	<!-- [searchTrip] 여행 일정 검색 -->
+	<select id="searchTrip" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT * FROM TRIP
+			WHERE TR_TITLE LIKE '%'||#{keyword}||'%' OR TR_CONTENT LIKE '%'||#{keyword}||'%' OR TR_SUBCONTENT LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
+
+</mapper>
