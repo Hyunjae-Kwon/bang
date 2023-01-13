@@ -68,14 +68,10 @@
 					</div>
 				</div>
 				<div style="margin-top: 0px;" class="row">
-					<div style="padding-top: 10px;" class="col-sm-2">
+					<div style="padding-top: 50px;" class="col-sm-2">
 						<label></label>
 					</div>
-					<div>
-						<div class="col-sm-6">
-							<span id="mail-check-warn"></span>
-						</div>
-					</div>
+					<div class="col-sm-6"><span id="mail-check-warn"></span></div>
 				</div>
 			</div>
 		</div>
