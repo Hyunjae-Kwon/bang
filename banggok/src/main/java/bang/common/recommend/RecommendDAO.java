@@ -55,8 +55,9 @@ public class RecommendDAO extends AbstractDAO {
 	}
 	
 	/* 추천하기 */
-	public int recommendLike(Map<String, Object> map) throws Exception {
-		return (int) update("recommend.recommendLike", map);
+	public void recommendLike(Map<String, Object> map) throws Exception {
+		System.out.println(map.get("RC_NUM"));
+		update("recommend.recommendLike", map);       
 	}
 	
 	/* 여행 일정 검색 */

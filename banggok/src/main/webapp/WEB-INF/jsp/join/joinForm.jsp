@@ -235,68 +235,60 @@ $(document).ready(function(){
 <div class="row contact-rooo no-margin" align="center">
         <div class="container">
             <div >
-                <div style="padding:20px" class="col-sm-7">
+                <div style="padding:20px" class="col-sm-11">
                 <form id="joinForm" name="joinForm" method="POST" action="/bang/joinSuccess.tr"> 
-                    <h2 >회원가입</h2> <br>
                     <div class="row cont-row">
                         <div  class="col-sm-3"><label>아이디 </label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_ID" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
-                        <div class="col-sm-3"><span id="idCheck"></span></div>
+                        <div class="col-sm-4"><input type="text" id="MEM_ID" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
+                        <div class="col-sm-4" align="left"><span id="idCheck"></span></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>비밀번호 </label></div>
-                        <div class="col-sm-6"><input type="password" id="MEM_PW" name="MEM_PW" placeholder="비밀번호" class="form-control input-sm"  ></div>
+                        <div class="col-sm-4"><input type="password" id="MEM_PW" name="MEM_PW" placeholder="비밀번호" class="form-control input-sm"  ></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>비밀번호 확인</label></div>
-                        <div class="col-sm-6"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인"class="form-control input-sm"></div>
-                        <div class="col-sm-6"><span id="pw-check-warn"></span></div>
+                        <div class="col-sm-4"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인"class="form-control input-sm"></div>
+                        <div align="left"  class="col-sm-4"><span id="pw-check-warn"></span></div>
                     </div>
-                    <div style="margin-top: 0px;" class="row">
-						<div style="padding-top: 10px;" class="col-sm-3">
-							<label></label>
-						</div>
-						<div>
-							<span id="pw-check-warn"></span>
-						</div>
-					</div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>이름</label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="이름" class="form-control input-sm"  ></div>
+                        <div class="col-sm-4"><input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="이름" class="form-control input-sm"  ></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>닉네임</label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_NICKNAME" name="MEM_NICKNAME" placeholder="닉네임" class="form-control input-sm"  ></div>
+                        <div class="col-sm-4"><input type="text" id="MEM_NICKNAME" name="MEM_NICKNAME" placeholder="닉네임" class="form-control input-sm"  ></div>
                     </div>
                     <div class="form-group email-form">
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>이메일 인증</label></div>
                         <div class="col-sm-4"><input type="text" id="MEM_EMAIL" name="MEM_EMAIL" placeholder="이메일" class="form-control input-sm" oninput="checkEmail()" ></div>                      
-                        <button type="button" id="mail-Send-Btn" class="btn btn-default filter-button" onclick="sendMail()">번호전송</button>
-                        <div  class="col-sm-3"><span id="mailSend"></span></div>                       
+                        <button type="button" id="mail-Send-Btn" class="btn btn-default filter-button" onclick="sendMail()">전송</button>
+                        <div align="left"  class="col-sm-4"><span id="mailSend"></span></div>                       
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>인증 번호</label></div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <input id="MEM_EMAIL2" name="MEM_EMAIL2" placeholder="인증번호 입력" class="form-control input-sm" disabled="disabled" maxlength="6" oninput="checkMail()"></div>
-                        <div  class="col-sm-3"><span id="mailCheck"></span></div>
+                        <div align="left" class="col-sm-4"><span id="mailCheck"></span></div>
+                        <span id="mail-check-warn"></span></div>
                      </div>
-						<span id="mail-check-warn"></span>
-				     </div>
 				   	                      
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>휴대폰 번호</label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_PHONE"name="MEM_PHONE" placeholder="연락처 " class="form-control input-sm" maxlength="11" ></div>
-                    </div>
+                        <div class="col-sm-4"><input type="text" id="MEM_PHONE"name="MEM_PHONE" placeholder="연락처 " class="form-control input-sm" maxlength="11" ></div>
+                    </div>                
                     
-                    
-					<div align="center">						
+					<div align="center" class="row cont-row">
+					<div class="col-sm-3"></div>	
+					   <div class="col-sm-4">					
 						<button type="button" id="btnCancel" class="btn btnbtn-default filter-button" onclick="location.href='/bang/loginForm.tr'">취소</button>
 						&nbsp;&nbsp;
 						<button type="reset" class="btn btn-default filter-button">다시 입력</button>
 						&nbsp;&nbsp;
 						<button type="button" class="btn btn-default filter-button" value="회원가입" onClick="checks(this.form)">회원가입</button>
-					</div> 
+					   </div> 
+					</div>
 			        </form>                   
                 </div>
             </div>
