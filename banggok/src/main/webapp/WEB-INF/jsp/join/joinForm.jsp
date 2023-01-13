@@ -10,62 +10,74 @@
 /* 아이디 중복 체크 */	
 function checkId() { 
 	
-	  var inputed = $('#MEM_ID').val();
-	  console.log(inputed);
-	  	  
-	  $.ajax({
-		    data : {id:inputed} ,
-		    url : "/bang/confirmId.tr",
-		    type : "POST",
-		    dataType : "text",
-		    success : function(data){
-		    	var result = JSON.parse(data);
-		    	
-		    	if(result > 0) {
-		    		$('#idCheck').text("이미 사용중인 아이디입니다.");
-		    		$('#idCheck').css("color","red");		    				    		
-		    		
-		    	} else if (result == 0) {
-		    		$('#idCheck').text("사용가능한 아이디입니다.");
-		    		$('#idCheck').css("color", "green");		    	
-		    	}
-		    }
-		  });
-	  }; 
+	var inputed = $('#MEM_ID').val();
+	console.log(inputed);
+	
+	if(inputed != ""){
+		$.ajax({
+			    data : {id:inputed} ,
+			    url : "/bang/confirmId.tr",
+			    type : "POST",
+			    dataType : "text",
+			    success : function(data){
+			    	var result = JSON.parse(data);
+			    	if(result > 0) {
+			    		
+			    		$('#idCheck').text("이미 사용중인 아이디입니다.");
+			    		$('#idCheck').css("color","red");		    				    		
+			    		
+			    	} else if (result == 0) {
+			    		$('#idCheck').text("사용가능한 아이디입니다.");
+			    		$('#idCheck').css("color", "green");		    	
+			    	}
+			    }
+		});
+	}else{
+		$('#idCheck').text("");
+	}
+}; 
   
-  /* 이메일 중복 체크 */
-  function checkEmail() { 
+/* 이메일 중복 체크 */
+function checkEmail() { 
 	  
 	  var inputEmail = $('#MEM_EMAIL').val();
 	  console.log(inputEmail);
-	  	  
-	  $.ajax({
+	
+	if (inputEmail == ""){
+		$('#mailSend').text("");
+	}else if(validEmailCheck(inputEmail)==false) {
+		$('#mailSend').text("이메일형식이 올바르지 않습니다.");
+		$('#mailSend').css("color","red");	
+		$('#MEM_EMAIL').focus();
+		return false;
+	}else {
+		$.ajax({
 		    data : {email:inputEmail} ,
 		    url : "/bang/confirmEmail.tr",
 		    type : "POST",
 		    dataType : "text",
 		    success : function(data){
-		    	var result = JSON.parse(data);
+		    	result = JSON.parse(data);
 		    	
 		    	if(result > 0) {
 		    		$('#mailSend').text("이미 사용중인 이메일입니다.");
 		    		$('#mailSend').css("color","red");	
 		    		return false;
-		    		
 		    	} else if (result == 0) {
 		    		$('#mailSend').text("사용가능한 이메일입니다.");
 		    		$('#mailSend').css("color", "green");		    	
 		    	}
 		    }
-		  });
-	  }; 
-</script>  
-<script  type="text/javascript">
+		});
+	}
+};
+		 
+
 /* 이메일 주소 형식 확인 */
-function validEmailCheck(memEmail) {
-	var memEmail = document.getElementById("MEM_EMAIL");
+function validEmailCheck() {
+	var inputEmail = document.getElementById("MEM_EMAIL");
 	var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	return (memEmail.value.match(pattern)!=null)
+	return (inputEmail.value.match(pattern)!=null)
 }
 
 function sendMail(memMail) {
@@ -74,15 +86,13 @@ function sendMail(memMail) {
 	const checkInput = $('#MEM_EMAIL2') /* 인증번호 입력하는곳  */
 	
 	if(email.trim() == ""){
-		alert("이메일을 입력해주세요.");
+		$('#mailSend').text("이메일을 입력해주세요.");
+		$('#mailSend').css("color","red");
 		$('#MEM_EMAIL').focus();
 		return false;
-	}else if(validEmailCheck(email)==false) {
-		alert("이메일형식이 올바르지 않습니다.");
-		$('#MEM_EMAIL').focus();
+	}else if(result > 0){
 		return false;
-	} else { 
-		
+	}else{
 	$.ajax({
 		type : 'get',
 		url : '/bang/confirmMail.tr?email='+ email, 
@@ -102,13 +112,13 @@ function checkMail(){
 	const inputCode = $('#MEM_EMAIL2').val();
 	const $resultMsg = $('#mail-check-warn');
 	
- 	  if(inputCode === code) {	
+ 	if(inputCode === code) {	
  		$('#mailCheck').text("인증번호가 일치합니다.");
 		$('#mailCheck').css("color","green");	
 		$('#mail-Send-Btn').attr('disabled',true);
 		$('#MEM_EMAIL').attr('readonly',true);
 		return true;
-	} else {
+	} else{
 		$('#mailCheck').text("인증번호가 불일치합니다.");
 		$('#mailCheck').css("color","red");
 		return false;
@@ -121,13 +131,17 @@ $(document).ready(function(){
 		const memPw = $('#MEM_PW').val();
 		const memPw2 = $(this).val();
 		const $resultMsg = $('#pw-check-warn');
-			
-		if(memPw2 === memPw){
-			$resultMsg.html('비밀번호 일치!');
-			$resultMsg.css('color','green');
+		
+		if(memPw2 != ""){
+			if(memPw2 === memPw){
+				$resultMsg.html('비밀번호 일치!');
+				$resultMsg.css('color','green');
+			}else{
+				$resultMsg.html('비밀번호가 불일치!');
+				$resultMsg.css('color','red');
+			}
 		}else{
-			$resultMsg.html('비밀번호가 불일치!');
-			$resultMsg.css('color','red');
+			$resultMsg.html('');
 		}
 	});
 });
@@ -221,68 +235,60 @@ $(document).ready(function(){
 <div class="row contact-rooo no-margin" align="center">
         <div class="container">
             <div >
-                <div style="padding:20px" class="col-sm-7">
+                <div style="padding:20px" class="col-sm-11">
                 <form id="joinForm" name="joinForm" method="POST" action="/bang/joinSuccess.tr"> 
-                    <h2 >회원가입</h2> <br>
                     <div class="row cont-row">
                         <div  class="col-sm-3"><label>아이디 </label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_ID" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
-                        <div class="col-sm-3"><span id="idCheck"></span></div>
+                        <div class="col-sm-4"><input type="text" id="MEM_ID" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
+                        <div class="col-sm-4" align="left"><span id="idCheck"></span></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>비밀번호 </label></div>
-                        <div class="col-sm-6"><input type="password" id="MEM_PW" name="MEM_PW" placeholder="비밀번호" class="form-control input-sm"  ></div>
+                        <div class="col-sm-4"><input type="password" id="MEM_PW" name="MEM_PW" placeholder="비밀번호" class="form-control input-sm"  ></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>비밀번호 확인</label></div>
-                        <div class="col-sm-6"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인"class="form-control input-sm"></div>
-                        <div class="col-sm-3"><span id="pw-check-warn"></span></div>
+                        <div class="col-sm-4"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인"class="form-control input-sm"></div>
+                        <div align="left"  class="col-sm-4"><span id="pw-check-warn"></span></div>
                     </div>
-                    <div style="margin-top: 0px;" class="row">
-						<div style="padding-top: 10px;" class="col-sm-3">
-							<label></label>
-						</div>
-						<div>
-							<span id="pw-check-warn"></span>
-						</div>
-					</div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>이름</label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="이름" class="form-control input-sm"  ></div>
+                        <div class="col-sm-4"><input type="text" id="MEM_NAME" name="MEM_NAME" placeholder="이름" class="form-control input-sm"  ></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>닉네임</label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_NICKNAME" name="MEM_NICKNAME" placeholder="닉네임" class="form-control input-sm"  ></div>
+                        <div class="col-sm-4"><input type="text" id="MEM_NICKNAME" name="MEM_NICKNAME" placeholder="닉네임" class="form-control input-sm"  ></div>
                     </div>
                     <div class="form-group email-form">
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>이메일 인증</label></div>
                         <div class="col-sm-4"><input type="text" id="MEM_EMAIL" name="MEM_EMAIL" placeholder="이메일" class="form-control input-sm" oninput="checkEmail()" ></div>                      
-                        <button type="button" id="mail-Send-Btn" class="btn btn-default filter-button" onclick="sendMail()">번호전송</button>
-                        <div  class="col-sm-3"><span id="mailSend"></span></div>                       
+                        <button type="button" id="mail-Send-Btn" class="btn btn-default filter-button" onclick="sendMail()">전송</button>
+                        <div align="left"  class="col-sm-4"><span id="mailSend"></span></div>                       
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>인증 번호</label></div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <input id="MEM_EMAIL2" name="MEM_EMAIL2" placeholder="인증번호 입력" class="form-control input-sm" disabled="disabled" maxlength="6" oninput="checkMail()"></div>
-                        <div  class="col-sm-3"><span id="mailCheck"></span></div>
+                        <div align="left" class="col-sm-4"><span id="mailCheck"></span></div>
+                        <span id="mail-check-warn"></span></div>
                      </div>
-						<span id="mail-check-warn"></span>
-				     </div>
 				   	                      
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>휴대폰 번호</label></div>
-                        <div class="col-sm-6"><input type="text" id="MEM_PHONE"name="MEM_PHONE" placeholder="연락처 " class="form-control input-sm" maxlength="11" ></div>
-                    </div>
+                        <div class="col-sm-4"><input type="text" id="MEM_PHONE"name="MEM_PHONE" placeholder="연락처 " class="form-control input-sm" maxlength="11" ></div>
+                    </div>                
                     
-                    
-					<div align="center">						
+					<div align="center" class="row cont-row">
+					<div class="col-sm-3"></div>	
+					   <div class="col-sm-4">					
 						<button type="button" id="btnCancel" class="btn btnbtn-default filter-button" onclick="location.href='/bang/loginForm.tr'">취소</button>
 						&nbsp;&nbsp;
 						<button type="reset" class="btn btn-default filter-button">다시 입력</button>
 						&nbsp;&nbsp;
 						<button type="button" class="btn btn-default filter-button" value="회원가입" onClick="checks(this.form)">회원가입</button>
-					</div> 
+					   </div> 
+					</div>
 			        </form>                   
                 </div>
             </div>
