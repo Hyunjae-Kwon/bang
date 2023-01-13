@@ -33,6 +33,7 @@ public class TripServiceImpl implements TripService {
 	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 	@Override
 	public Map<String, Object> tripDetail(Map<String, Object> map) throws Exception {
+		tripDAO.updateHitCnt(map);
 		return tripDAO.tripDetail(map);
 	}
 

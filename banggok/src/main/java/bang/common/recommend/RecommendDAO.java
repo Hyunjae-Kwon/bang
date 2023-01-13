@@ -16,46 +16,54 @@ public class RecommendDAO extends AbstractDAO {
 		return (List<Map<String, Object>>) selectList ("recommend.selectRecomDesc", map);
 	}
 	
-	/* 글상세 ----------------------------*/
-	@SuppressWarnings("unchecked")    //BOARD ㅎㅎㄱㅂㅈ
-	public Map<String, Object> recommendDetail(Map<String, Object>map) throws Exception {
-		return (Map<String,Object>) selectOne("recommend.recommendDetail",map);
-	}
-	
-	/* 글목록 */
+	/* 여행지 추천 게시글 리스트 */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> recommendList(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList("recommend.recommendList", map);
 	}  
-	
-	/* 조회수 */
+
+	/* 여행지 추천 게시글 상세보기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> recommendDetail(Map<String, Object>map) throws Exception {
+		return (Map<String,Object>) selectOne("recommend.recommendDetail",map);
+	}
+
+	/* 조회수 증가 */
 	public void updateCnt(Map<String, Object> map) throws Exception{
 		update("recommend.updateCnt", map);
 	}
-	
-	/* 글쓰기 */
+
+	/* 여행지 추천 게시글 작성하기 */
 	public void insertRecommend(Map<String, Object> map) throws Exception{
 		insert("recommend.insertRecommend", map);
 	}
 	
-	/* 글삭제 */
+	/* 여행지 추천 게시글 삭제하기 */
 	public void deleteRecommend(Map<String, Object> map) throws Exception {
 		delete("recommend.deleteRecommend", map);
 	}
 	
-	/* 글수정 */
+	/* 여행지 추천 게시글 수정 폼 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> recommendModifyForm(Map<String, Object> map)throws Exception{
 		return (Map<String, Object>)selectOne("recommend.recommendModifyForm", map); 
 	}
 
+	/* 여행지 추천 게시글 수정하기 */
 	public void recommendModify(Map<String, Object> map)throws Exception{
 		update("recommend.recommendModify", map);
 	}
 	
-	/* 추천 */
-	public int recommendLike(Map<String, Object> map) throws Exception {
-		return (int) update("recommend.recommendLike", map);
+	/* 추천하기 */
+	public void recommendLike(Map<String, Object> map) throws Exception {
+		System.out.println(map.get("RC_NUM"));
+		update("recommend.recommendLike", map);       
+	}
+	
+	/* 여행 일정 검색 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> searchRecommend(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("recommend.searchRecommend", map);
 	}
 
 }

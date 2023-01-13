@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,6 @@ public class TogetherServiceImpl implements TogetherService {
 	/* 동행게시판 리스트 */
 	@Override
 	public List<Map<String, Object>> togetherList(Map<String, Object> map) throws Exception {
-
 		return togetherDAO.togetherList(map);
 	}
 	
@@ -52,5 +52,11 @@ public class TogetherServiceImpl implements TogetherService {
 	@Override
 	public void togetherDelete(Map<String, Object> map) throws Exception {
 		togetherDAO.togetherDelete(map);
+	}
+
+	/* 동행 구하기 검색하기 */
+	@Override
+	public List<Map<String, Object>> searchTogether(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		return togetherDAO.searchTogether(map);
 	}
 }

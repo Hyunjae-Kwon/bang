@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,11 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void insertReview(Map<String, Object> map) throws Exception {
 		reviewDAO.insertReview(map);
-		
+	}
+
+	/* 여행 일정 검색하기 */
+	@Override
+	public List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		return reviewDAO.searchReview(map);
 	}
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
@@ -22,7 +23,6 @@ public class TogetherController {
 	@Resource(name = "togetherService")
 	private TogetherService togetherService;
 
-	
 	/* 동행게시판 리스트 */
 	@RequestMapping(value = "/togetherList.tr")
 	public ModelAndView togetherList(Map<String, Object> commandMap) throws Exception {
@@ -31,7 +31,6 @@ public class TogetherController {
 		List<Map<String, Object>> list = togetherService.togetherList(commandMap);
 		mv.addObject("list", list);
 		
-
 		return mv;
 	}
 	
@@ -96,6 +95,22 @@ public class TogetherController {
 		togetherService.togetherDelete(commandMap.getMap());
 
 		return mv; 
+	}
+	
+	/* 동행 게시판 검색 */
+	@RequestMapping(value="/searchTogether.tr", method=RequestMethod.GET)
+	public ModelAndView searchTogether(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("together/searchTogether");
+		
+		String keyword = request.getParameter("keyword");
+		
+		/* 동행 구하기 검색 */
+		List<Map<String, Object>> together = togetherService.searchTogether(commandMap.getMap(), request);
+				
+		mv.addObject("keyword", keyword);
+		mv.addObject("together", together);
+		
+		return mv;
 	}
 	
 }

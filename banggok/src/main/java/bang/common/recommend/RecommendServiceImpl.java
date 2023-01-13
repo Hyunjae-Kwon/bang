@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -21,46 +22,53 @@ public class RecommendServiceImpl implements RecommendService {
 		return recommendDAO.selectRecomDesc(map);
 	}
 	
-	/* 글목록 */
+	/* 여행지 추천 게시글 리스트 */
 	@Override
 	public List<Map<String, Object>> recommendList(Map<String,Object> map) throws Exception{
 		return recommendDAO.recommendList(map);
 	}  
 	
-	/* 글상세 */
-	@Override		//GOODS ㅎㅎㄱㅂㅈ
+	/* 여행지 추천 게시글 상세보기 */
+	@Override
 	public Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception {
 		recommendDAO.updateCnt(map);
 		Map<String, Object> resultMap = recommendDAO.recommendDetail(map);
 		return resultMap;
 	}
 	
-	/* 글쓰기 */
+	/* 여행지 추천 게시글 작성하기 */
 	@Override 
 	public void insertRecommend(Map<String, Object> map) throws Exception { 
 		recommendDAO.insertRecommend(map);
 	}
 	
-	/* 글삭제 */
+	/* 여행지 추천 게시글 삭제하기 */
 	@Override
 	public void deleteRecommend(Map<String, Object> map) throws Exception {
 		recommendDAO.deleteRecommend(map);
 	}
 	
-	/* 글수정 */
+	/* 여행지 추천 게시글 수정 폼 */
 	@Override
 	public Map<String, Object> recommendModifyForm(Map<String, Object> map) throws Exception{
 		return recommendDAO.recommendModifyForm(map);
 	}
 
+	/* 여행지 추천 게시글 수정하기 */
 	public void recommendModify(Map<String, Object> map) throws Exception{
 		recommendDAO.recommendModify(map);
 	}
 	
-	/* 추천 */
+	/* 추천하기 */
 	@Override
-	public int recommendLike(Map<String, Object> map) throws Exception {
-		return recommendDAO.recommendLike(map);
-		
+	public void recommendLike(Map<String, Object> map) throws Exception {
+		recommendDAO.recommendLike(map);
+	}
+
+	/* 여행지 추천 게시글 검색하기 */
+	@Override
+	public List<Map<String, Object>> searchRecommend(Map<String, Object> map, HttpServletRequest request)
+			throws Exception {
+		return recommendDAO.searchRecommend(map);
 	}
 }
