@@ -12,7 +12,7 @@ public interface RecommendService {
 	List<Map<String,Object>> recommendList(Map<String, Object> map) throws Exception;
 	
 	/* 글 상세보기 */
-	Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception;   //GOODS ㅎㅎㄱㅂㅈ
+	Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception;   
 	
 	/* 글쓰기 */
 	void insertRecommend(Map<String, Object> map) throws Exception;
@@ -26,5 +26,5 @@ public interface RecommendService {
 	void recommendModify(Map<String, Object> map)throws Exception;
 	
 	/* 추천 */
-	int recommendLike(Map<String, Object> map) throws Exception;
+	void recommendLike(Map<String, Object> map) throws Exception;
 }
