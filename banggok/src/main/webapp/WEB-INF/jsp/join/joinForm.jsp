@@ -10,62 +10,74 @@
 /* 아이디 중복 체크 */	
 function checkId() { 
 	
-	  var inputed = $('#MEM_ID').val();
-	  console.log(inputed);
-	  	  
-	  $.ajax({
-		    data : {id:inputed} ,
-		    url : "/bang/confirmId.tr",
-		    type : "POST",
-		    dataType : "text",
-		    success : function(data){
-		    	var result = JSON.parse(data);
-		    	
-		    	if(result > 0) {
-		    		$('#idCheck').text("이미 사용중인 아이디입니다.");
-		    		$('#idCheck').css("color","red");		    				    		
-		    		
-		    	} else if (result == 0) {
-		    		$('#idCheck').text("사용가능한 아이디입니다.");
-		    		$('#idCheck').css("color", "green");		    	
-		    	}
-		    }
-		  });
-	  }; 
+	var inputed = $('#MEM_ID').val();
+	console.log(inputed);
+	
+	if(inputed != ""){
+		$.ajax({
+			    data : {id:inputed} ,
+			    url : "/bang/confirmId.tr",
+			    type : "POST",
+			    dataType : "text",
+			    success : function(data){
+			    	var result = JSON.parse(data);
+			    	if(result > 0) {
+			    		
+			    		$('#idCheck').text("이미 사용중인 아이디입니다.");
+			    		$('#idCheck').css("color","red");		    				    		
+			    		
+			    	} else if (result == 0) {
+			    		$('#idCheck').text("사용가능한 아이디입니다.");
+			    		$('#idCheck').css("color", "green");		    	
+			    	}
+			    }
+		});
+	}else{
+		$('#idCheck').text("");
+	}
+}; 
   
-  /* 이메일 중복 체크 */
-  function checkEmail() { 
+/* 이메일 중복 체크 */
+function checkEmail() { 
 	  
 	  var inputEmail = $('#MEM_EMAIL').val();
 	  console.log(inputEmail);
-	  	  
-	  $.ajax({
+	
+	if (inputEmail == ""){
+		$('#mailSend').text("");
+	}else if(validEmailCheck(inputEmail)==false) {
+		$('#mailSend').text("이메일형식이 올바르지 않습니다.");
+		$('#mailSend').css("color","red");	
+		$('#MEM_EMAIL').focus();
+		return false;
+	}else {
+		$.ajax({
 		    data : {email:inputEmail} ,
 		    url : "/bang/confirmEmail.tr",
 		    type : "POST",
 		    dataType : "text",
 		    success : function(data){
-		    	var result = JSON.parse(data);
+		    	result = JSON.parse(data);
 		    	
 		    	if(result > 0) {
 		    		$('#mailSend').text("이미 사용중인 이메일입니다.");
 		    		$('#mailSend').css("color","red");	
 		    		return false;
-		    		
 		    	} else if (result == 0) {
 		    		$('#mailSend').text("사용가능한 이메일입니다.");
 		    		$('#mailSend').css("color", "green");		    	
 		    	}
 		    }
-		  });
-	  }; 
-</script>  
-<script  type="text/javascript">
+		});
+	}
+};
+		 
+
 /* 이메일 주소 형식 확인 */
-function validEmailCheck(memEmail) {
-	var memEmail = document.getElementById("MEM_EMAIL");
+function validEmailCheck() {
+	var inputEmail = document.getElementById("MEM_EMAIL");
 	var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	return (memEmail.value.match(pattern)!=null)
+	return (inputEmail.value.match(pattern)!=null)
 }
 
 function sendMail(memMail) {
@@ -74,15 +86,13 @@ function sendMail(memMail) {
 	const checkInput = $('#MEM_EMAIL2') /* 인증번호 입력하는곳  */
 	
 	if(email.trim() == ""){
-		alert("이메일을 입력해주세요.");
+		$('#mailSend').text("이메일을 입력해주세요.");
+		$('#mailSend').css("color","red");
 		$('#MEM_EMAIL').focus();
 		return false;
-	}else if(validEmailCheck(email)==false) {
-		alert("이메일형식이 올바르지 않습니다.");
-		$('#MEM_EMAIL').focus();
+	}else if(result > 0){
 		return false;
-	} else { 
-		
+	}else{
 	$.ajax({
 		type : 'get',
 		url : '/bang/confirmMail.tr?email='+ email, 
@@ -102,13 +112,13 @@ function checkMail(){
 	const inputCode = $('#MEM_EMAIL2').val();
 	const $resultMsg = $('#mail-check-warn');
 	
- 	  if(inputCode === code) {	
+ 	if(inputCode === code) {	
  		$('#mailCheck').text("인증번호가 일치합니다.");
 		$('#mailCheck').css("color","green");	
 		$('#mail-Send-Btn').attr('disabled',true);
 		$('#MEM_EMAIL').attr('readonly',true);
 		return true;
-	} else {
+	} else{
 		$('#mailCheck').text("인증번호가 불일치합니다.");
 		$('#mailCheck').css("color","red");
 		return false;
@@ -121,13 +131,17 @@ $(document).ready(function(){
 		const memPw = $('#MEM_PW').val();
 		const memPw2 = $(this).val();
 		const $resultMsg = $('#pw-check-warn');
-			
-		if(memPw2 === memPw){
-			$resultMsg.html('비밀번호 일치!');
-			$resultMsg.css('color','green');
+		
+		if(memPw2 != ""){
+			if(memPw2 === memPw){
+				$resultMsg.html('비밀번호 일치!');
+				$resultMsg.css('color','green');
+			}else{
+				$resultMsg.html('비밀번호가 불일치!');
+				$resultMsg.css('color','red');
+			}
 		}else{
-			$resultMsg.html('비밀번호가 불일치!');
-			$resultMsg.css('color','red');
+			$resultMsg.html('');
 		}
 	});
 });
@@ -236,7 +250,7 @@ $(document).ready(function(){
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>비밀번호 확인</label></div>
                         <div class="col-sm-6"><input type="password" id="MEM_PW2" name="MEM_PW2" placeholder="비밀번호 확인"class="form-control input-sm"></div>
-                        <div class="col-sm-3"><span id="pw-check-warn"></span></div>
+                        <div class="col-sm-6"><span id="pw-check-warn"></span></div>
                     </div>
                     <div style="margin-top: 0px;" class="row">
 						<div style="padding-top: 10px;" class="col-sm-3">
