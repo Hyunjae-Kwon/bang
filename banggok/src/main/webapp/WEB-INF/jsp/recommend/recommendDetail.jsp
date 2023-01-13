@@ -46,9 +46,8 @@
 	<div class="col-sm-8">
        <button class="btn btn-success btn-sm" onClick="location.href='/bang/allRecommendList.tr'">목록</button>
        
-      <c:if test = "${MEM_ID != map.RC_ID }">  <!-- 작성자가 아닐 경우에만 추천버튼 보이게 -->
-       <button class="btn btn-success btn-sm" onclick="recommendLike()">추천</button>
-     <%--   <button class="btn btn-success btn-sm" onclick="fn_recommendLike(${var.index});">추천</button> --%>
+      <c:if test="${MEM_ID != map.RC_ID }">  <!-- 작성자가 아닐 경우에만 추천버튼 보이게 -->
+		<input type = "button" class="btn btn-success btn-sm" onclick="return fn_recommendLike()" value="추천">
       </c:if>
        
       <c:if test="${MEM_ID eq map.RC_ID}">  <!--  작성자일때만 보이게 -->
@@ -71,37 +70,20 @@ function deleteCheck() {
 }
 </script>
 
-<script>
-/* function recommendLike() {
-	var RC_NUM = document.getElementById('RC_NUM').value;
-	if(confirm("추천하시겠습니까?") == true) {
-		location.href="recommendLike.tr?RC_NUM=" + RC_NUM;
-	}
-} */   //하는중
-function recommendLike(){
-	var RC_NUM = document.getElementById('RC_NUM').value;
-	if(confirm("추천하시겠습니까?") == true) {
-		$.ajax({
-			 url : "<c:url value='/bang/recommendLike.tr?RC_NUM=${map.RC_NUM}' />",
-			 type : "post",
-			 dataType : 'json',
-			 contentType : "application/json; charset=UTF-8",
-			 success : function(result){
-				 alert("댓글추천");
-				 check_recommend = false;
-			 },
-			 error : function(){
-				 alert("서버요청실패");
-			 }
-		 })			
-	}else{
-		alert("추천은 한번");
-	}
-}
-location.href="recommendLike.tr?RC_NUM=" + RC_NUM;
-}
-
-if(check_recommend){
+<script type="text/javascript">
+function fn_recommendLike() {
+	  
+	  	var rc_num = "${map.RC_NUM}";
+	  	var comSubmit = new ComSubmit();
+	  	var CONFIRM = confirm("추천하시겠습니까?");
+	  	if(CONFIRM == true) {
+			comSubmit.setUrl("/bang/recommendLike.tr");
+			comSubmit.addParam("RC_NUM", rc_num);
+	      comSubmit.submit();
+	      alert("추천되었습니다.");
+	      
+	      }
+	  }
 </script>
 
 </html>

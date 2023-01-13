@@ -16,5 +16,8 @@
 	<definition name="*/*" extends="main_layout">
 		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
 	</definition>
+	<definition name="*" extends="main_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
 	
 </tiles-definitions>

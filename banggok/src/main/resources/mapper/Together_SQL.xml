@@ -17,8 +17,7 @@
 	</select>
 
 	<!-- [togetherList] 동행게시판 리스트 -->
-	<select id="togetherList" parameterType="hashmap"
-		resultType="hashmap">
+	<select id="togetherList" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[
 	SELECT
 		TG_NUM,
@@ -44,8 +43,7 @@
 	</update>
 	
 	<!-- [togetherDetail] 동행게시판 디테일 -->
-	<select id="togetherDetail" parameterType="hashmap"
-		resultType="hashmap">
+	<select id="togetherDetail" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[
 		SELECT
 			TG_NUM,
@@ -99,4 +97,12 @@
 				WHERE TG_NUM=#{TG_NUM}
 		]]>
 	</delete>
+	
+	<!-- [searchTogether] 여행 일정 검색 -->
+	<select id="searchTogether" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT * FROM TOGETHER
+			WHERE TG_TITLE LIKE '%'||#{keyword}||'%' OR TG_CONTENT LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
 </mapper>

@@ -3,6 +3,8 @@ package bang.common.review;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface ReviewService {
 	
 	/* 메인 페이지 - 최신 여행 후기 3개 */
@@ -19,5 +21,8 @@ public interface ReviewService {
 
 	/* 여행후기 글쓰기 */
 	void insertReview(Map<String, Object> map) throws Exception;
+	
+	/* 여행 후기 검색하기 */
+	List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception;
 	
 }

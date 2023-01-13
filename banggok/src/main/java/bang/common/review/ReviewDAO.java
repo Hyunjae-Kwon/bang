@@ -39,4 +39,10 @@ public class ReviewDAO extends AbstractDAO {
 		insert("review.insertReview", map);
 	}
 	
+	/* 여행 후기 검색 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> searchReview(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("review.searchReview", map);
+	}
+	
 }

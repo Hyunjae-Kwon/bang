@@ -17,6 +17,12 @@
         </div>
     </div>
     <!-- ################# 게시물 Starts Here #######################--->   
+    <div align="right">
+		<form action="/bang/searchTrip.tr" method="GET">
+			<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
+			<input type="text" id="keyword" name="keyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
+		</form>
+	</div>
     <div class="popular-pack  container-fluid">
         <div class="container">
             <div class="row pack-row">

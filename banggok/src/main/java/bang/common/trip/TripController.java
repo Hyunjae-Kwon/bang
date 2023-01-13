@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -80,6 +81,21 @@ public class TripController {
 		/* TR_NUM으로 해당 게시글 삭제하기 */
 		tripService.tripDelete(commandMap.getMap());
 				
+		return mv;
+	}
+	
+	/* 여행 일정 공유 게시판 검색 */
+	@RequestMapping(value="/searchTrip.tr", method=RequestMethod.GET)
+	public ModelAndView searchTrip(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("trip/searchTrip");
+		
+		String keyword = request.getParameter("keyword");
+		
+		List<Map<String, Object>> trip = tripService.searchTrip(commandMap.getMap(), request);
+				
+		mv.addObject("keyword", keyword);
+		mv.addObject("trip", trip);
+		
 		return mv;
 	}
 }
