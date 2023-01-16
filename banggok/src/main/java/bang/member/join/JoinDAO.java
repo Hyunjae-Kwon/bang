@@ -28,5 +28,10 @@ public class JoinDAO extends AbstractDAO {
 	public void insertKakaoMember(Map<String, Object> map) throws Exception {
 		insert("member.insertKakaoMember", map);
 	}
+	
+	/* 네이버 로그인 시 회원 등록 */
+	public void insertNaverMember(Map<String, Object> map) throws Exception {
+		insert("member.insertNaverMember", map);
+	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class TogetherController {
@@ -25,11 +26,12 @@ public class TogetherController {
 
 	/* 동행게시판 리스트 */
 	@RequestMapping(value = "/togetherList.tr")
-	public ModelAndView togetherList(Map<String, Object> commandMap) throws Exception {
+	public ModelAndView togetherList(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("/together/togetherList");
 
-		List<Map<String, Object>> list = togetherService.togetherList(commandMap);
-		mv.addObject("list", list);
+		Map<String, Object> resultMap = togetherService.togetherList(commandMap.getMap());
+		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
+		mv.addObject("list", resultMap.get("result"));
 		
 		return mv;
 	}

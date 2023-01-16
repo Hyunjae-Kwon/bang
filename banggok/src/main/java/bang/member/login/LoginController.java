@@ -69,6 +69,23 @@ public class LoginController {
 			
 		}
 		
+		/* 네이버로 로그인 한 경우 */
+		if(request.getParameter("naverEmail") != null) {	/* 네이버 id가 전달됐다면 */
+			Map<String, Object> naver = loginService.selectNaverMemberId(commandMap.getMap());	/* 네이버 최초 로그인인지 확인 */
+			/* 최초 로그인인 경우 */
+			if(naver == null) {
+				joinService.insertNaverMember(commandMap.getMap());	/* 네이버로 로그인하면서 전달받은 정보로 회원 가입 */
+			}
+			
+			session.setAttribute("MEM_ID", request.getParameter("naverEmail"));	/* 네이버아이디를 회원 아이디로 세션에 저장 */
+			
+			mv.addObject("msg", "네이버 로그인 성공!");
+			mv.addObject("url", "/main.tr");
+			
+			return mv;
+			
+		}
+		
 		if(result == null || result.get("MEM_ID").equals("N")) {
 			mv.addObject("msg","회원을 찾을 수 없습니다.");
 			mv.addObject("url", "/loginForm.tr");
