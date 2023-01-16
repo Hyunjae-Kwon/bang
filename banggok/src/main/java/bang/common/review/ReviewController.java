@@ -149,7 +149,7 @@ public class ReviewController {
 		
 		HttpSession session = request.getSession();
 		String RV_ID = (String) session.getValue("MEM_ID");
-		System.out.println(RV_ID);
+		
 		commandMap.put("MEM_ID", RV_ID);
 	
 		

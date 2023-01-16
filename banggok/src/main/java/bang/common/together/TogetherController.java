@@ -113,4 +113,22 @@ public class TogetherController {
 		return mv;
 	}
 	
+	/* 마이페이지 동행 리스트 */
+	@RequestMapping(value="/myTogetherList.tr")
+	public ModelAndView myTogetherList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("member/myTogetherList");
+		
+		HttpSession session = request.getSession();
+		String TG_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("MEM_ID", TG_ID);
+	
+		
+		List<Map<String, Object>> myTogetherList = togetherService.myTogetherList(commandMap.getMap());
+		
+		mv.addObject("myTogetherList", myTogetherList);
+		
+		return mv;
+	}
+	
 }

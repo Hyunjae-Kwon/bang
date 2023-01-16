@@ -59,4 +59,12 @@ public class TogetherServiceImpl implements TogetherService {
 	public List<Map<String, Object>> searchTogether(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return togetherDAO.searchTogether(map);
 	}
+    
+	/* 마이페이지 동행 리스트 */
+	@Override
+	public List<Map<String, Object>> myTogetherList(Map<String, Object> map) throws Exception {
+		return togetherDAO.myTogetherList(map);
+	}
+	
+	
 }

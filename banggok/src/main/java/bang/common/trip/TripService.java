@@ -27,4 +27,7 @@ public interface TripService {
 	/* 여행 일정 검색하기 */
 	List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception;
 
+	/* 마이페이지 여행 일정 리스트 */
+	List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception;
+
 }
