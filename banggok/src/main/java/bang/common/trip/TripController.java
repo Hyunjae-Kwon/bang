@@ -10,8 +10,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
 
 @Controller
@@ -22,6 +24,10 @@ public class TripController {
 	/* 여행 일정 */
 	@Resource(name="tripService")
 	private TripService tripService;
+	
+	/* 댓글 */
+	@Resource(name = "commentService")
+	CommentService commentService;
 
 	/* 여행 일정 공유 게시판 리스트 */
 	@RequestMapping(value="/tripList.tr", method=RequestMethod.GET)
@@ -37,13 +43,18 @@ public class TripController {
 	}
 	
 	/* 여행 일정 공유 게시글 상세보기 */
+	@ResponseBody
 	@RequestMapping(value="/tripDetail.tr")
 	public ModelAndView tripDetail(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("trip/tripDetail");
 		
 		/* TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 		Map<String, Object> trip = tripService.tripDetail(commandMap.getMap());
+		
+		/* 댓글 정보 불러오기 */
+		List<Map<String, Object>> comment = commentService.selectTripComment(commandMap.getMap());
 				
+		mv.addObject("comment", comment);
 		mv.addObject("trip", trip);
 		
 		return mv;
