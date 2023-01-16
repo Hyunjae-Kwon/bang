@@ -142,4 +142,22 @@ public class ReviewController {
 		return mv;
 	}
 	
+	/* 마이페이지 여행 후기 리스트 */
+	@RequestMapping(value="/myReviewList.tr")
+	public ModelAndView myReviewList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("member/myReviewList");
+		
+		HttpSession session = request.getSession();
+		String RV_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("MEM_ID", RV_ID);
+	
+		
+		List<Map<String, Object>> myReviewList = reviewService.myReviewList(commandMap.getMap());
+		
+		mv.addObject("myReviewList", myReviewList);
+		
+		return mv;
+	}
+	
 }
