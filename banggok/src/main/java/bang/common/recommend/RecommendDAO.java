@@ -16,8 +16,8 @@ public class RecommendDAO extends AbstractDAO {
 		return (List<Map<String, Object>>) selectList ("recommend.selectRecomDesc", map);
 	}
 	
-	/* 글상세 ----------------------------*/
-	@SuppressWarnings("unchecked")    //BOARD ㅎㅎㄱㅂㅈ
+	/* 글상세 */
+	@SuppressWarnings("unchecked")    
 	public Map<String, Object> recommendDetail(Map<String, Object>map) throws Exception {
 		return (Map<String,Object>) selectOne("recommend.recommendDetail",map);
 	}
@@ -59,4 +59,20 @@ public class RecommendDAO extends AbstractDAO {
 		update("recommend.recommendLike", map);       
 		}
 
+	/* 댓글목록 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>>rcCommentList(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList("recommend.rcCommentList", map);
+	}
+	
+	/* 댓글입력 */
+	public void rcCommentWrite(Map<String, Object> map) throws Exception{
+		insert("recommend.rcCommentWrite",map);
+	}
+	
+	/* 댓글삭제 */
+	public void rcCommentDelete(Map<String, Object> map) throws Exception {
+		delete("recommend.rcCommentDelete", map);	
+	}
+	
 }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,13 +35,17 @@ public class RecommendController {
 
 		return mv;
 	}   
-		
+	
 	/* 글상세 */
-	@RequestMapping(value = "/recommendDetail.tr")    //흐한개발자
+	@RequestMapping(value = "/recommendDetail.tr")    
 	public ModelAndView recommendDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("recommend/recommendDetail");
 		Map<String,Object> map = recommendService.recommendDetail(commandMap.getMap());
+		/* 댓글 */
+		List<Map<String, Object>> rcComment = recommendService.rcCommentList(commandMap.getMap());
+		
 		mv.addObject("map", map);
+		mv.addObject("rcComment", rcComment);
 		
 		return mv;
 	}
@@ -103,4 +108,27 @@ public class RecommendController {
 		mv.addObject("RC_NUM", commandMap.get("RC_NUM"));
 		return mv;
 	}
+	
+	/* 댓글입력 */
+	@RequestMapping(value="/rcCommentWrite.tr")
+	public String rcCommentWrite(CommandMap commandMap, Model model) throws Exception {	
+
+		model.addAttribute("msg", "댓글 작성이 완료되었습니다.");
+		model.addAttribute("url", "/recommendDetail.tr?RC_NUM="+commandMap.get("BC_NUM"));
+		recommendService.rcCommentWrite(commandMap.getMap());		
+	         
+		return "recommend/rcCommentWrite";
+	}
+	
+	/* 댓글삭제 */
+	@RequestMapping(value="/rcCommentDelete.tr")
+	public String rcCommentDelete(CommandMap commandMap, Model model) throws Exception {
+	
+		model.addAttribute("msg", "댓글 삭제가 완료되었습니다.");
+		model.addAttribute("url", "/recommendDetail.tr?RC_NUM="+commandMap.get("RC_NUM"));
+		recommendService.rcCommentDelete(commandMap.getMap());				
+		
+		return "recommend/rcCommentDelete";
+	}
+	
 }
