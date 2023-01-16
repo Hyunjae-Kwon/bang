@@ -108,4 +108,13 @@
 			WHERE TG_TITLE LIKE '%'||#{keyword}||'%' OR TG_CONTENT LIKE '%'||#{keyword}||'%'
 		]]>
 	</select>
+	
+	<!--  [myTogetherList] 마이페이지 동행 리스트 -->
+	<select id="myTogetherList" parameterType="hashmap" resultType="hashmap">
+	    <![CDATA[
+			SELECT * 
+				FROM TOGETHER
+				WHERE TG_ID = #{MEM_ID}
+		]]>
+	</select>
 </mapper>

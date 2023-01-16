@@ -73,4 +73,12 @@
 			WHERE RV_TITLE LIKE '%'||#{keyword}||'%' OR RV_CONTENT LIKE '%'||#{keyword}||'%'
 		]]>
 	</select>
+	
+	<!-- [myReviewList] 마이페이지 여행 후기 게시판 리스트 -->
+	<select id="myReviewList" parameterType="hashmap" resultType="hashmap">
+	 <![CDATA[
+		SELECT * FROM REVIEW
+		WHERE RV_ID = #{MEM_ID}
+	   ]]>
+	</select> 
 </mapper>

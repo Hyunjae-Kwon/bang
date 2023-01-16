@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +49,9 @@
     <body>
     <form id="ftm" name="frm" action="/bang/tripDelete.tr">
     	<input type="hidden" id="TR_NUM" name="TR_NUM" value="${trip.TR_NUM}">
+    	<c:if test="${MEM_ID != null}">
+    		<input type="hidden" id="BC_ID" name="BC_ID" value="${MEM_ID}">
+    	</c:if>
     </form>
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
@@ -58,7 +62,7 @@
             </div>
         </div>
     </div>
-    <!-- ################# 게시물 상세 내용 Starts Here #######################--->  
+    <!-- ################# 게시물 상세 내용 Starts Here ####################### -->  
     <div class="row contact-rooo no-margin">
         <div class="container">
             <div class="row">
@@ -116,8 +120,112 @@
             </div>
         </div>
     </div>
+    <div>
+    	<h2>댓글</h2>
+    </div>
+    <!-- ################# 댓글 내용 Starts Here ####################### -->
+    <div id="commentList">
+    	<c:choose>
+			<c:when test="${fn:length(comment) > 0}">
+				<c:forEach var="list" items="${comment}">
+		    		<div>
+		    			<div>
+		    				<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
+		    				<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
+		    			</div>
+		    			<div>
+		    				<div>
+		    					<span>
+		    						${list.BC_ID}
+		    					</span>
+		    					<span>
+		    						${list.BC_COMMENT}
+		    					</span>
+		    					<span class="pric">
+			                        <fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd"/> 
+			                    </span>
+		    				</div>
+		    			</div>
+		    			<c:if test="${MEM_ID != null}">
+		    				<div>
+			    				<input type="button" value="답글 달기">
+			    			</div>
+		    			</c:if>
+		    			<c:if test="${MEM_ID eq list.BC_ID}">
+		    				<div id="deleteList">
+		    					<input type="button" onClick="comDelete(${list.BC_BCID})" value="삭제 하기">
+		    				</div>
+		    			</c:if>
+		    		</div>
+		    	</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<tr>
+					<td colspan="5">조회된 결과가 없습니다.</td>
+				</tr>
+			</c:otherwise>
+		</c:choose>
+    </div>
+    <div>
+    	<input type="text" id="comment" placeholder="댓글 입력">
+    	<input type="button" id="comWrite" value="작성하기">
+    </div>
 	<form id="commonForm" name="commonForm"></form>
     </body>
+    <!-- 댓글 내용 작성 후 작성하기 눌렀을 때 동작하는 댓글 입력 함수 -->
+    <script>
+    $(document).ready(function(){
+    	/* 댓글 작성하기 */
+    	$("#comWrite").click(function(){
+    		
+    		let bcNum = $("#TR_NUM").val();
+    		let bcId = $("#BC_ID").val();
+    		let content = $("#comment").val();
+    		content = content.trim();
+    		
+    		if(content == ""){
+    			alert("내용을 입력하세요.");
+    		} else {
+    			$("#comment").val("");
+    			
+    			$.ajax({
+    				url : "/bang/tripComWrite.tr",
+    				type : "GET",
+    				data : {
+    					BC_NUM : bcNum,
+    					BC_ID : bcId,
+    					BC_COMMENT : content
+    				},
+    				success : function(){
+    					console.log("댓글 작성 성공");
+    					location.reload();
+    				},
+    				error : function(){
+    					alert("에러");
+    				}
+    			});
+    		};
+    	});
+    });
+    </script>
+    <script>
+	    /* 댓글 삭제하기 */
+		function comDelete(num){
+			console.log("aa");
+			$.ajax({
+				url: "/bang/comDelete.tr",
+				type: "POST",
+				data: {BC_BCID: num},
+				success: function(){
+					console.log("댓글 삭제 성공");
+					location.reload();
+				},
+				error: function(){
+					alert("에러");
+				}
+			});
+		};
+    </script>
     <script>
 	    function fn_tripDelete(){
 			var comSubmit = new ComSubmit();
