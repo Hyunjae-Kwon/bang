@@ -54,4 +54,12 @@ public class TripServiceImpl implements TripService {
 	public List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return tripDAO.searchTrip(map);
 	}
+	
+	/* 마이페이지 여행 일정 리스트 */
+	@Override
+	public List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception {		
+		return tripDAO.myTripList(map);
+	}
+	
+	
 }

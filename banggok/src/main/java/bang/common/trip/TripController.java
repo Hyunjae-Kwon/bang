@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -98,4 +99,22 @@ public class TripController {
 		
 		return mv;
 	}
+	
+	/* 마이페이지 여행 일정 리스트 */
+	@RequestMapping(value="/myTripList.tr")
+	public ModelAndView myTripList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("member/myTripList");
+		
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("MEM_ID", TR_ID);
+	
+		
+		List<Map<String, Object>> myTripList = tripService.myTripList(commandMap.getMap());
+		
+		mv.addObject("myTripList", myTripList);
+		
+		return mv;
+     }
 }
