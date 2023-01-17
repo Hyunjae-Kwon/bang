@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -163,7 +162,7 @@ public class ReviewController {
 	/* 여행후기 글쓰기 폼 */
 	@RequestMapping(value="/reviewWriteForm.tr")
 	public ModelAndView reviewWriteForm(CommandMap commandMap , HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("review/reviewWriteForm2");
+		ModelAndView mv = new ModelAndView("review/reviewWriteForm");
 
 		return mv;
 	}
