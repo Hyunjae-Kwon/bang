@@ -5,13 +5,16 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
 
 @Controller
@@ -22,6 +25,10 @@ public class TripController {
 	/* 여행 일정 */
 	@Resource(name="tripService")
 	private TripService tripService;
+	
+	/* 댓글 */
+	@Resource(name = "commentService")
+	CommentService commentService;
 
 	/* 여행 일정 공유 게시판 리스트 */
 	@RequestMapping(value="/tripList.tr", method=RequestMethod.GET)
@@ -37,13 +44,18 @@ public class TripController {
 	}
 	
 	/* 여행 일정 공유 게시글 상세보기 */
+	@ResponseBody
 	@RequestMapping(value="/tripDetail.tr")
 	public ModelAndView tripDetail(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("trip/tripDetail");
 		
 		/* TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 		Map<String, Object> trip = tripService.tripDetail(commandMap.getMap());
+		
+		/* 댓글 정보 불러오기 */
+		List<Map<String, Object>> comment = commentService.selectTripComment(commandMap.getMap());
 				
+		mv.addObject("comment", comment);
 		mv.addObject("trip", trip);
 		
 		return mv;
@@ -95,6 +107,32 @@ public class TripController {
 				
 		mv.addObject("keyword", keyword);
 		mv.addObject("trip", trip);
+		
+		return mv;
+	}
+	
+	/* 마이페이지 여행 일정 리스트 */
+	@RequestMapping(value="/myTripList.tr")
+	public ModelAndView myTripList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("member/myTripList");
+		
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("MEM_ID", TR_ID);
+	
+		
+		List<Map<String, Object>> myTripList = tripService.myTripList(commandMap.getMap());
+		
+		mv.addObject("myTripList", myTripList);
+		
+		return mv;
+     }
+	
+	/* 여행 일정 만들기 폼 */
+	@RequestMapping(value="/tripWriteForm.tr")
+	public ModelAndView tripWriteForm(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("trip/tripWriteForm");
 		
 		return mv;
 	}

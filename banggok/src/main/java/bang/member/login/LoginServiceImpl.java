@@ -46,4 +46,10 @@ public class LoginServiceImpl implements LoginService {
 	public Map<String, Object> selectKakaoMemberId(Map<String, Object> map) throws Exception {
 		return loginDAO.selectKakaoMemberId(map);
 	}
+	
+	/* 네이버 로그인 데이터 검사 */
+	@Override
+	public Map<String, Object> selectNaverMemberId(Map<String, Object> map) throws Exception {
+		return loginDAO.selectNaverMemberId(map);
+	}
 }

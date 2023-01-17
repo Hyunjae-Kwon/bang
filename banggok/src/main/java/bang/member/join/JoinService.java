@@ -15,5 +15,8 @@ public interface JoinService {
 	
 	/* 카카오 로그인 시 회원 등록 */
 	void insertKakaoMember(Map<String, Object> map) throws Exception;
+	
+	/* 네이버 로그인 시 회원 등록 */
+	void insertNaverMember(Map<String, Object> map) throws Exception;
 
 }

@@ -115,6 +115,44 @@
 			SELECT * FROM RECOMMEND
 			WHERE RC_TITLE LIKE '%'||#{keyword}||'%' OR RC_CONTENT LIKE '%'||#{keyword}||'%'
 		]]>
+   </select>
+   
+	<!-- 댓글목록 -->
+	<select id="rcCommentList" parameterType="hashmap" resultType="hashmap">
+      <![CDATA[
+         SELECT 
+          	BC_BCID, 
+          	BC_NUM, 
+          	BC_COMMENT, 
+          	BC_REGDATE, 
+          	BC_ID      
+         FROM BOARDCOMMENT 
+         WHERE BC_NUM = #{RC_NUM} AND BC_TYPE='RC'
+         ORDER BY BC_BCID DESC 
+      ]]>
 	</select>
+	
+	<!--  여행지 댓글 작성 -->
+	<insert id="rcCommentWrite" parameterType="hashmap">
+		INSERT 
+		INTO BOARDCOMMENT
+		VALUES (	
+			BC_BCID_SEQ.NEXTVAL,
+			#{RC_NUM},
+			#{MEM_ID},
+			SYSDATE,
+			#{BC_COMMENT},
+			'RC'
+		)
+	</insert>
+	
+	<!-- 댓글삭제 -->
+	<delete id="rcCommentDelete" parameterType="hashmap">
+   	<![CDATA[
+     	DELETE 
+			FROM BOARDCOMMENT
+			WHERE BC_BCID=#{BC_BCID}
+   	]]>
+	</delete>
 
 </mapper>

@@ -33,4 +33,15 @@ public interface RecommendService {
 	
 	/* 여행지 추천 게시글 검색하기 */
 	List<Map<String, Object>> searchRecommend(Map<String, Object> map, HttpServletRequest request) throws Exception;
+
+	/* 댓글리스트 */
+	public List<Map<String, Object>> rcCommentList(Map<String, Object> map) throws Exception;
+	
+	/* 댓글쓰기 */
+	public void rcCommentWrite(Map<String, Object> map)throws Exception;
+	
+	/* 댓글삭제 */
+	public void rcCommentDelete(Map<String, Object> map) throws Exception;
+
+	
 }

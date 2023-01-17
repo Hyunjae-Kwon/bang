@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,7 +12,7 @@
 
 <body>
 	<!--  ************************* Page Title Starts Here ************************** -->
-	<div class="page-nav no-margin row">
+	<div class="page-nav no-margin row"> 
 		<div class="container">
 			<div class="row">
 				<h2>동행게시판</h2>
@@ -61,18 +62,30 @@
 					</c:choose>
 				</tbody>
 			</table>
+	
 		</div>
 		<div>
 			<form action="/bang/searchTogether.tr" method="GET">
 				<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
 				<input type="text" id="keyword" name="keyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
 			</form>
+			
 		</div>
+			
 		 <div align="center"> 
 			<input type="button" value="글쓰기" class="btn btn-outline-success" style="height:55px;" onClick="return fn_openWriteForm()">
 		</div>
+	
+		<c:if test="${not empty paginationInfo}">
+		<ui:pagination paginationInfo = "${paginationInfo}" type="text" jsFunction="fn_search"/>
+	</c:if>
+	<input type="hidden" id="currentPageNo" name="currentPageNo"/>
+	
 	</div>
+	
+	
 		<%@ include file="/WEB-INF/include/include-body.jspf" %>
+	
 	<script type="text/javascript">
 
 		function fn_openWriteForm() {
@@ -87,14 +100,22 @@
 			comSubmit.addParam("TG_NUM", obj.parent().find("#TG_NUM").val());
 			comSubmit.submit();
 		}
+		
+		function fn_search(pageNo){
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/togetherList.tr' />");
+			comSubmit.addParam("currentPageNo", pageNo);
+			comSubmit.submit();
+		}
 	</script>
 
+	<script src="resources/js/common.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="resources/js/jquery-3.2.1.min.js"></script>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script
 		src="resources/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
-	<script src="resources/js/common.js" charset="utf-8"></script>
+	
 	<script src="resources/js/popper.min.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/plugins/slider/js/owl.carousel.min.js"></script>

@@ -48,7 +48,7 @@
 		'N'
 	)
 ]]>	
-</insert>
+</insert>	
 
 <!-- [selectMemberId] 아이디중복검사, 로그인, 회원정보수정폼, 회원상세 -->
 <select id="selectMemberId" parameterType="hashmap" resultType="hashmap">	
@@ -89,6 +89,39 @@
 	SELECT *
 	FROM MEMBER
 	WHERE MEM_ID = #{kakaoEmail}
+]]>	
+</select>
+
+<!-- [insertNaverMember] 네이버 로그인 성공 -->
+<insert id="insertNaverMember" parameterType="hashmap">	
+<![CDATA[	
+	INSERT INTO MEMBER (
+		MEM_ID,
+		MEM_NAME,
+		MEM_NICKNAME,
+		MEM_REGDATE,
+		MEM_EMAIL,
+		MEM_TYPE,
+		MEM_BLOCK
+	)
+	VALUES (
+		#{naverEmail},
+		#{naverName},
+		#{naverNickname},
+		SYSDATE,
+		#{naverEmail},						
+		0,
+		'N'
+	)
+]]>	
+</insert>	
+	
+<!-- [selectNaverMemberId] 네이버 로그인 데이터 검사 -->
+<select id="selectNaverMemberId" parameterType="hashmap" resultType="hashmap">	
+<![CDATA[
+	SELECT *
+	FROM MEMBER
+	WHERE MEM_ID = #{naverEmail}
 ]]>	
 </select>
 

@@ -18,8 +18,8 @@ public class TogetherDAO extends AbstractDAO {
 
 	/* 동행게시판 리스트 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> togetherList(Map<String, Object> map) throws Exception{
-		return (List<Map<String, Object>>)selectList("together.togetherList", map);
+	public Map<String, Object> togetherList(Map<String, Object> map) throws Exception{
+		return (Map<String, Object>)selectPagingList("together.togetherList", map);
 	}
 	
 	/* 동행게시판 디테일 */
@@ -52,5 +52,11 @@ public class TogetherDAO extends AbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> searchTogether(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("together.searchTogether", map);
+	}
+	
+	/* 마이페이지 동행 리스트 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> myTogetherList(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>)selectList("together.myTogetherList", map);
 	}
 }

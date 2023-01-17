@@ -18,17 +18,20 @@
 
 	<!-- [togetherList] 동행게시판 리스트 -->
 	<select id="togetherList" parameterType="hashmap" resultType="hashmap">
+	<include refid="common.pagingPre"/> 
 	<![CDATA[
-	SELECT
-		TG_NUM,
-		TG_TITLE,
-		TG_REGDATE,
-		TG_ID,
-		TG_CNT
-	FROM
-		TOGETHER
-	ORDER BY TG_NUM DESC
+		SELECT
+			ROW_NUMBER() OVER (ORDER BY TG_NUM DESC) RNUM,
+			TG_NUM,
+			TG_TITLE,
+			TG_REGDATE,
+			TG_ID,
+			TG_CNT
+		FROM
+			TOGETHER
+		ORDER BY TG_NUM DESC
 	]]>
+	<include refid="common.pagingPost"/>
 	</select>
 
 	<!-- [updateHitCnt] 조회수카운트 -->
@@ -105,4 +108,14 @@
 			WHERE TG_TITLE LIKE '%'||#{keyword}||'%' OR TG_CONTENT LIKE '%'||#{keyword}||'%'
 		]]>
 	</select>
+	
+		<!--  [myTogetherList] 마이페이지 동행 리스트 -->
+	<select id="myTogetherList" parameterType="hashmap" resultType="hashmap">
+	    <![CDATA[
+			SELECT * 
+				FROM TOGETHER
+				WHERE TG_ID = #{MEM_ID}
+		]]>
+	</select>
+	
 </mapper>
