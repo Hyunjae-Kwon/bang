@@ -105,7 +105,7 @@
 	<select id="searchTogether" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT * FROM TOGETHER
-			WHERE TG_TITLE LIKE '%'||#{keyword}||'%' OR TG_CONTENT LIKE '%'||#{keyword}||'%'
+			WHERE TG_TITLE LIKE '%'||#{searchKeyword}||'%' OR TG_CONTENT LIKE '%'||#{searchKeyword}||'%'
 		]]>
 	</select>
 	

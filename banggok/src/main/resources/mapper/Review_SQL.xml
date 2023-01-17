@@ -70,7 +70,7 @@
 	<select id="searchReview" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT * FROM REVIEW
-			WHERE RV_TITLE LIKE '%'||#{keyword}||'%' OR RV_CONTENT LIKE '%'||#{keyword}||'%'
+			WHERE RV_TITLE LIKE '%'||#{searchKeyword}||'%' OR RV_CONTENT LIKE '%'||#{searchKeyword}||'%'
 		]]>
 	</select>
 	
