@@ -36,7 +36,7 @@ public class FileUtils {
         	if(multipartFile.isEmpty() == false){
         		originalFileName = multipartFile.getOriginalFilename();
         		originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        		/* storedFileName = CommonUtils.getNowTimeToString() + "_" + originalFileName; */ /* CommonUtils.class 없어서 주석처리함 */
+        		storedFileName = CommonUtils.getNowTimeToString() + "_" + originalFileName;
         		
         		file = new File(tempFilePath + storedFileName);
         		multipartFile.transferTo(file);
@@ -61,7 +61,7 @@ public class FileUtils {
 		
 		if(temp.exists()) {
 			while(target.exists()) {
-				/* targetString = CommonUtils.getNowTimeToString() + "-"+filename; */ /* CommonUtils.class 없어서 주석처리함 */
+				targetString = CommonUtils.getNowTimeToString() + "-"+filename;
 				target = new File(realFilePath+category+"\\"+articleid+"\\"+targetString);
 			}
 			temp.renameTo(target);
