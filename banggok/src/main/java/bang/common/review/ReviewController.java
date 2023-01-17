@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -68,7 +68,7 @@ public class ReviewController {
 	/* 여행후기 글쓰기 폼 */
 	@RequestMapping(value="/reviewWriteForm.tr")
 	public ModelAndView reviewWriteForm(CommandMap commandMap , HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("review/reviewWriteForm");
+		ModelAndView mv = new ModelAndView("review/reviewWriteForm2");
 
 		return mv;
 	}
@@ -91,14 +91,12 @@ public class ReviewController {
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request, CommandMap commandMap )  {
 		JsonObject jsonObject = new JsonObject();
-		
-        /*
-		 * String fileRoot = "C:\\summernote_image\\"; // 외부경로로 저장을 희망할때.
-		 */
+       
+		String fileRoot = "/Users/felix/git/bang/banggok/src/main/webapp/resources/images/review/"; // 외부경로로 저장을 희망할때.
 		
 		/* 내부경로로 저장 */
-		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
-		String fileRoot = contextRoot+"/images/fileupload/";
+//		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
+//		String fileRoot = contextRoot+"/images/fileupload/";
 		
 		/* 오리지날 파일명과 파일 확장자를 분리 */
 		String originalFileName = multipartFile.getOriginalFilename();	/* 오리지날 파일명 */
@@ -107,12 +105,14 @@ public class ReviewController {
 		 * (추후 중복 이름 때문에 파일이 덮어 써지거나 저장이 안 되는 걸 방지하기 위해서) */
 		String savedFileName = UUID.randomUUID() + extension;	/* 저장될 파일 명 */
 		
+//		String savedFileName = UUID.randomUUID() + extension;	/* 저장될 파일 명 : 등록되는 순서대로 review_게시글번호_01~.png */
+		
 		File targetFile = new File(fileRoot + savedFileName);	
 		try {
 			InputStream fileStream = multipartFile.getInputStream();	/* inputstream으로 파일을 저장합니다. */
 			FileUtils.copyInputStreamToFile(fileStream, targetFile);	/* 파일 저장 */
 			/* 저장한 이미지를 보여줘야 하므로 json형태로 url : 파일 이름으로 jsonobject에 저장합니다. */
-			jsonObject.addProperty("url", "/resources/images/fileupload/"+savedFileName); /* contextroot + resources + 저장할 내부 폴더명 */
+			jsonObject.addProperty("url", "/Users/felix/git/bang/banggok/src/main/webapp/resources/images/review/"+savedFileName); /* contextroot + resources + 저장할 내부 폴더명 */
 			jsonObject.addProperty("responseCode", "success");
 		
 		} catch (IOException e) {
