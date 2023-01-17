@@ -15,21 +15,40 @@
 		WHERE R BETWEEN 1 AND 3
 	   ]]>
 	</select>
+	
+	<!-- [allReviewCount] 전체 여행후기 개수 -->
+ 	<select id="allReviewCount" resultType="hashmap">
+	<![CDATA[
+		SELECT COUNT(*) COUNT
+		FROM REVIEW
+	]]>
+	</select>
  
- 	<!-- 여행 후기 리스트 -->
-	<!-- [reviewList] 여행후기 게시판 리스트 -->
- 	<select id="reviewList" resultType="hashmap">
-	 <![CDATA[
-		SELECT * FROM REVIEW
-	   ]]>
+ 	<!-- [reviewList] 여행 후기 리스트 -->
+ 	<select id="reviewListPaging" parameterType="hashmap" resultType="hashmap">
+ 	<include refid="common.pagingPre"/>
+ 	<![CDATA[
+ 		SELECT
+ 			ROW_NUMBER() OVER (ORDER BY RV_NUM DESC) RNUM,
+		    RV_NUM,
+		    RV_TITLE,
+		    RV_REGDATE,
+		    RV_ID,
+		    RV_CNT,
+		    RV_LIKE,
+		    RV_CONTENT,
+		    RV_IMAGE
+		FROM 
+			REVIEW
+	]]>
+	<include refid="common.pagingPost"/>
 	</select> 
 	
- 	<!-- 여행 후기 디테일 -->
-	<!-- [reviewDetail] 여행후기 게시판 상세보기 -->
+	<!-- [reviewDetail] 여행후기 상세 -->
 	<select id="reviewDetail" parameterType="hashmap"
 		resultType="hashmap">
      <![CDATA[
-    	SELECT * 
+    	SELECT *
 		FROM REVIEW
 		WHERE RV_NUM = #{RV_NUM}
      ]]>
