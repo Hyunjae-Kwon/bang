@@ -32,15 +32,16 @@
 	                    <div class="col-lg-4 col-md-6 col-sm-6">
 	                       <div class="blog-col">
 	                       		<a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM}">
-	                            <img src="resources/images/review/${review.RV_IMAGE}.jpg" alt="" ></a>
+	                            <%-- <img src="resources/images/review/${review.RV_IMAGE}.jpg" alt="" ></a> --%>
+	                            <img src="resources/images/slider/slid_3.jpg" alt="" ></a>
 	                            <span>${review.RV_REGDATE }</span>
-	                            <h4><a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM}">${review.RV_TITLE}</h4>
+	                            <h4><a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM}">${review.RV_TITLE}</a></h4>
 	                            <p>${review.RV_CONTENT}</p>
 	                       </div>
 	                    </div>
 					</c:forEach>
             	</div>
 	        </div>
-	    </div>  
+	    </div>
     </body>
 </html>
