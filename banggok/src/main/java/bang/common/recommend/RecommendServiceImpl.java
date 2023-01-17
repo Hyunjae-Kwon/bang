@@ -26,10 +26,10 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public List<Map<String, Object>> recommendList(Map<String,Object> map) throws Exception{
 		return recommendDAO.recommendList(map);
-	}  
-	
+	}  	
+
 	/* 여행지 추천 게시글 상세보기 */
-	@Override
+	@Override		
 	public Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception {
 		recommendDAO.updateCnt(map);
 		Map<String, Object> resultMap = recommendDAO.recommendDetail(map);
@@ -71,4 +71,31 @@ public class RecommendServiceImpl implements RecommendService {
 			throws Exception {
 		return recommendDAO.searchRecommend(map);
 	}
+	
+	/* 댓글목록 */
+	@Override
+	public List<Map<String, Object>> rcCommentList(Map<String, Object> map) throws Exception {
+		
+		map.put("BC_BCID", map.get("BC_BCID"));
+		
+		return recommendDAO.rcCommentList(map);
+	}
+	
+	/* 댓글입력 */
+	@Override
+	public void rcCommentWrite(Map<String, Object> map) throws Exception {
+		
+		map.put("BC_NUM", map.get("BC_NUM"));
+		map.put("BC_ID", map.get("BC_ID"));
+		map.put("BC_COMMENT", map.get("BC_COMMENT"));
+		
+		recommendDAO.rcCommentWrite(map);
+	}
+	
+	/* 댓글삭제 */
+	@Override
+	public void rcCommentDelete(Map<String, Object> map) throws Exception {
+		recommendDAO.rcCommentDelete(map);
+	}
+
 }
