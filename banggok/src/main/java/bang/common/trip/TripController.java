@@ -128,4 +128,12 @@ public class TripController {
 		
 		return mv;
      }
+	
+	/* 여행 일정 만들기 폼 */
+	@RequestMapping(value="/tripWriteForm.tr")
+	public ModelAndView tripWriteForm(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("trip/tripWriteForm");
+		
+		return mv;
+	}
 }
