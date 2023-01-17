@@ -69,7 +69,7 @@
 	<select id="searchTrip" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT * FROM TRIP
-			WHERE TR_TITLE LIKE '%'||#{keyword}||'%' OR TR_CONTENT LIKE '%'||#{keyword}||'%' OR TR_SUBCONTENT LIKE '%'||#{keyword}||'%'
+			WHERE TR_TITLE LIKE '%'||#{searchKeyword}||'%' OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
 		]]>
 	</select>
 		

@@ -69,7 +69,7 @@ public class MainController {
 	public ModelAndView searchAll(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("searchAll");
 		
-		String keyword = request.getParameter("keyword");
+		String keyword = request.getParameter("searchKeyword");
 		
 		/* 여행 일정 검색 */
 		List<Map<String, Object>> trip = tripService.searchTrip(commandMap.getMap(), request);
