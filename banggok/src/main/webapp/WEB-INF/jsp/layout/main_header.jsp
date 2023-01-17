@@ -77,7 +77,7 @@
 								<li style="line-height: 1.5; padding: 0px;">
 									<form action="/bang/searchAll.tr" method="GET">
 										<li class="search-box">
-											<input type="text" class="search-txt" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+											<input type="text" class="search-txt" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
 											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px;"></i></button>
 										</li>
 									</form>
@@ -98,7 +98,7 @@
 								<li style="line-height: 1.5; padding: 0px;">
 									<form action="/bang/searchAll.tr" method="GET">
 										<li class="search-box">
-											<input type="text" class="search-txt" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+											<input type="text" class="search-txt" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
 											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px;"></i></button>
 										</li>
 									</form>
