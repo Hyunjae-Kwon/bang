@@ -10,8 +10,11 @@ public interface ReviewService {
 	/* 메인 페이지 - 최신 여행 후기 3개 */
 	List<Map<String, Object>> selectReviewDesc(Map<String, Object> map) throws Exception;
 
+	/* 전체 여행후기 개수 */
+    int allReviewCount() throws Exception;
+	
 	/* 여행후기 리스트 */
-	List<Map<String, Object>> reviewList(Map<String, Object> map) throws Exception;
+	List<Map<String, Object>> reviewListPaging(Map<String, Object> map) throws Exception;
 
 	/* 여행후기 상세 */
 	List<Map<String, Object>> reviewDetail(Map<String, Object> map) throws Exception;

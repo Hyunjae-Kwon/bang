@@ -43,5 +43,71 @@
             	</div>
 	        </div>
 	    </div>
+
+		<section id="review-List" class="review-List">
+		    <div class="container">
+	        	<div class="blog-row row review-List-container"></div>
+
+    		</div>
+		</section>
+	    
+	    <!--*************** 여행 후기 script ***************-->
+	    <script>
+	    $(document).ready(function(){ 
+			GetList(1);
+		});
+	    
+	    /* 페이지 처음 로딩시 p1므로 초기값 1로 지정 */
+	    let currentPage = 1;
+	    /* 현재 페이지 로딩 여부 저장 변수 */
+	    let isLoading = false;
+	    /* 웹브라우저 창을 스크롤 할 때 마다 호출 */
+	    $(window).on("scroll", function(){
+	    	/* 위로 스크롤된 길이 */
+	    	let scrollTop = $(window).scrollTop();
+	    	/* 웹브라우저 창의 높이 */
+	    	let windowHeight = $(window).height();
+	    	/* 리스트 전체 높이 */
+	    	let documentHeight = $(document).height();
+	    	/* 끝까지 스크롤 여부 확인 */
+	    	let isBottom = scrollTop+windowHeight + 10 >= documentHeight;
+	    	
+	    	if(isBottom){
+	    		/* 마지막 페이지일 경우 */
+	    		if(currentPage == ${totalPageCount} || isLoading){
+	    			if(currentPage == ${totalPageCount}){
+	    				alert('마지막 페이지 입니다.');
+	    			}
+	    			return;
+	    		}
+	    		/* 로딩 중 */
+	    		isLoading = true;
+	    		
+	    		/* 요청할 페이지 번호 1 증가 */
+	    		currentPage++;
+	    		/* 추가 페이지를 서버에 ajax 요청 */
+	    		console.log("inscroll" + currentPage);
+	    		
+	    		GetList(currentPage);
+	    	};
+	    });
+	    
+	    const GetList = function(currentPage){
+			console.log("inGetList"+currentPage);
+			
+			/* 무한 스크롤 */
+			$.ajax({
+				url:"/bang/reviewListScroll.tr",
+				method:"GET",
+				data: {pageNum:currentPage},
+				success:function(data){
+					$(".review-List-container").append(data);
+					/* 로딩중이 아니라고 표시 */
+					isLoading = false;
+					console.log("ajax");
+				}
+			});
+	    }
+	    </script>
     </body>
 </html>
