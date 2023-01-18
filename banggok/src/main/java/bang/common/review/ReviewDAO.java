@@ -45,16 +45,31 @@ public class ReviewDAO extends AbstractDAO {
 		insert("review.insertReview", map);
 	}
 	
+	/* 여행후기 수정 폼 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> reviewModifyForm(Map<String, Object> map)throws Exception{
+		return (Map<String, Object>)selectOne("review.reviewModifyForm", map); 
+	}
+
+	/* 여행후기 수정 */
+	public void reviewModify(Map<String, Object> map)throws Exception{
+		update("review.reviewModify", map);
+	}
+	
+	/* 여행후기 삭제 */
+	public void reviewDel(Map<String, Object> map) throws Exception {
+		delete("review.reviewDel", map);
+	}
+
+	/* 마이페이지 여행후기 리스트 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> myReviewList(Map<String, Object> map) {
+		return (List<Map<String, Object>>) selectList("review.myReviewList", map);
+	}
+
 	/* 여행 후기 검색 */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> searchReview(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("review.searchReview", map);
 	}
-	
-	/* 마이페이지 여행후기 리스트 */
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> myReviewList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>)selectList("review.myReviewList", map);
-	}
-	
 }
