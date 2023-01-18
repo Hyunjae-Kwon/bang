@@ -65,7 +65,7 @@
         <div class="container">
             <div class="row">
             	<form style="max-width: 100%;" id="tripWrite" name="tripWrite" enctype="multipart/form-data" action="<c:url value='/tripWrite.tr'/>" method="post">
-                	<div class="row" style="flex-wrap: nowrap;">
+                	<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
                 		<h2>여행 일정</h2><br>
 	                    <!-- <div class="row cont-row">
 	                    </div> -->

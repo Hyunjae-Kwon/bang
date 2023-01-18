@@ -101,11 +101,11 @@ public class TripController {
 	public ModelAndView searchTrip(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("trip/searchTrip");
 		
-		String keyword = request.getParameter("keyword");
+		String searchKeyword = request.getParameter("searchKeyword");
 		
 		List<Map<String, Object>> trip = tripService.searchTrip(commandMap.getMap(), request);
 				
-		mv.addObject("keyword", keyword);
+		mv.addObject("searchKeyword", searchKeyword);
 		mv.addObject("trip", trip);
 		
 		return mv;

@@ -13,7 +13,7 @@
         <div class="container">
             <div class="row">
                 <h2>동행 구하기 검색 결과</h2>
-                <p>동행 구하기 게시판에서 <b>'${keyword}'</b> 로 검색한 결과입니다.</p>
+                <p>동행 구하기 게시판에서 <b>'${searchKeyword}'</b> 로 검색한 결과입니다.</p>
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@
     <div>
 		<form action="/bang/searchTogether.tr" method="GET">
 			<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
-			<input type="text" id="keyword" name="keyword" value="${keyword}" style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
+			<input type="text" id="searchKeyword" name="searchKeyword" value="${searchKeyword}" style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
 		</form>
 	</div>  
     <div class="review container-fluid">
