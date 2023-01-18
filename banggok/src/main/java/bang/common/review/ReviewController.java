@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.JsonObject;
 
 import bang.common.common.CommandMap;
+import bang.common.common.ScrollPaging;
 import bang.common.common.ScrollPagingTO;
 
 /* Controller 객체임을 선언 */
@@ -40,80 +41,40 @@ public class ReviewController {
 	@RequestMapping(value = "/reviewList.tr")	/* reviewList.tr url을 요청 */
 	public ModelAndView reviewList(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("review/reviewList");	/* 화면에 보여줄 reviewList.jsp파일을 의미함 */
-		/* 한 페이지에 표시할 게시글 개수 */
-		final int PAGE_ROW_COUNT = 9;
 		
-		/* 첫 페이지 초기값 1 */
-		int pageNum = 1;
-		
-		/* 페이지 번호 파라미터로 전달 */
-		String strPageNum = request.getParameter("pageNum");
-		
-		if (strPageNum != null) {
-	        pageNum = Integer.parseInt(strPageNum);
+		int totalPageCount=0;
+	    
+		String strTotalPageCount = request.getParameter("totalPageCount");
+	    
+	    if (strTotalPageCount != null) {
+	    	totalPageCount = Integer.parseInt(strTotalPageCount);
 	    }
-		
-		/* 페이지 시작 RowNum, 1부터 시작 */
-	    int startRowNum = 1 + (pageNum - 1) * PAGE_ROW_COUNT;
 	    
-		/* 페이지 끝 RowNum */
-	    int endRowNum = pageNum * PAGE_ROW_COUNT;
-
-	    int rowCount = PAGE_ROW_COUNT;
-		
-	    ScrollPagingTO spto = new ScrollPagingTO();
-	    spto.setStartRowNum(startRowNum);
-	    spto.setEndRowNum(endRowNum);
-	    spto.setRowCount(rowCount);
-	    
-	    /* 전체 여행후기 개수 */
-	    int totalRow = reviewService.allReviewCount();
-	    
-		/* 전체 페이지 개수 */
-	    int totalPageCount = (int) Math.ceil(totalRow / (double) PAGE_ROW_COUNT);
-	    System.out.println(pageNum);
-	    System.out.println(startRowNum);
-	    System.out.println(endRowNum);
-	    /* 여행후기 리스트 */
-	    
-	    commandMap.put("START", startRowNum);
-	    commandMap.put("END", endRowNum);
-	    
-	    List<Map<String,Object>> reviewList = reviewService.reviewListPaging(commandMap.getMap());
-		
-	    mv.addObject("pageNum", pageNum);
-	    mv.addObject("totalRow", totalRow);
 	    mv.addObject("totalPageCount", totalPageCount);
-	    mv.addObject("reviewList", reviewList);
-		
+	    
 		return mv;
 	}
 	
 	/* 여행 후기 리스트(스크롤시 추가) */
 	@RequestMapping(value = "/reviewListScroll.tr")	/* reviewList.tr url을 요청 */
+	@ResponseBody
 	public ModelAndView reviewListScroll(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("scroll/reviewListScroll");	/* 화면에 보여줄 reviewList.jsp파일을 의미함 */
 		/* 한 페이지에 표시할 게시글 개수 */
-		final int PAGE_ROW_COUNT = 9;
-		
+		int rowCount = 9;
 		/* 첫 페이지 초기값 1 */
 		int pageNum = 1;
-		
-		/* 페이지 번호 파라미터로 전달 */
+		/* 페이지 번호 입력 */
 		String strPageNum = request.getParameter("pageNum");
 		
 		if (strPageNum != null) {
 	        pageNum = Integer.parseInt(strPageNum);
 	    }
-		
-		/* 페이지 시작 RowNum, 1부터 시작 */
-	    int startRowNum = 1 + (pageNum - 1) * PAGE_ROW_COUNT;
+		/* 페이지 시작 게시물 번호 */
+	    int startRowNum = 1 + (pageNum - 1) * rowCount;
+	    /* 페이지 끝 게시물 번호 */
+	    int endRowNum = pageNum * rowCount;
 	    
-		/* 페이지 끝 RowNum */
-	    int endRowNum = pageNum * PAGE_ROW_COUNT;
-
-	    int rowCount = PAGE_ROW_COUNT;
-		
 	    ScrollPagingTO spto = new ScrollPagingTO();
 	    spto.setStartRowNum(startRowNum);
 	    spto.setEndRowNum(endRowNum);
@@ -123,15 +84,15 @@ public class ReviewController {
 	    int totalRow = reviewService.allReviewCount();
 	    
 		/* 전체 페이지 개수 */
-	    int totalPageCount = (int) Math.ceil(totalRow / (double) PAGE_ROW_COUNT);
+	    int totalPageCount = (int) Math.ceil(totalRow / (double) rowCount);
 	    System.out.println(pageNum);
 	    System.out.println(startRowNum);
 	    System.out.println(endRowNum);
-	    /* 여행후기 리스트 */
 	    
 	    commandMap.put("START", startRowNum);
 	    commandMap.put("END", endRowNum);
 	    
+	    /* 여행후기 리스트 */
 	    List<Map<String,Object>> reviewList = reviewService.reviewListPaging(commandMap.getMap());
 		
 	    mv.addObject("pageNum", pageNum);

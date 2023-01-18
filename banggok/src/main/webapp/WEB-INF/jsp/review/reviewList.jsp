@@ -56,9 +56,6 @@
 	    	if(isBottom){
 	    		/* 마지막 페이지일 경우 */
 	    		if(currentPage == ${totalPageCount} || isLoading){
-	    			if(currentPage == ${totalPageCount}){
-	    				alert('마지막 페이지 입니다.');
-	    			}
 	    			return;
 	    		}
 	    		/* 로딩 중 */
@@ -80,7 +77,7 @@
 			$.ajax({
 				url:"/bang/reviewListScroll.tr",
 				method:"GET",
-				data: {pageNum:currentPage},
+				data: {pageNum:currentPage, totalPageCount:${totalPageCount}},
 				success:function(data){
 					$(".review-List-container").append(data);
 					/* 로딩중이 아니라고 표시 */
