@@ -113,7 +113,7 @@
 	<select id="searchRecommend" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT * FROM RECOMMEND
-			WHERE RC_TITLE LIKE '%'||#{keyword}||'%' OR RC_CONTENT LIKE '%'||#{keyword}||'%'
+			WHERE RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
 		]]>
    </select>
    

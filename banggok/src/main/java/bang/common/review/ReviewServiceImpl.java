@@ -23,10 +23,17 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDAO.selectReviewDesc(map);
 	}
 	
+	/* 전체 여행후기 개수 */
+	@Override
+	public int allReviewCount() throws Exception {
+		Map<String,Object> mapCount = reviewDAO.allReviewCount();
+		return Integer.parseInt(String.valueOf(mapCount.get("COUNT")));
+	}	
+	
 	/* 여행후기 리스트 */
 	@Override
-	public List<Map<String, Object>> reviewList(Map<String, Object> map) throws Exception {
-		return reviewDAO.reviewList(map);
+	public List<Map<String, Object>> reviewListPaging(Map<String, Object> map) throws Exception {
+		return reviewDAO.reviewListPaging(map);
 	}
 
 	/* 여행후기 상세 */
