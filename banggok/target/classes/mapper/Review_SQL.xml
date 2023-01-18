@@ -3,7 +3,7 @@
 
 <mapper namespace="review">
 
-	<!-- [selectReviewDesc] 메인 페이지 - 최신 여행 후기 3개 (작성일 기준) -->
+ 	<!-- [selectReviewDesc] 메인 페이지 - 최신 여행 후기 3개 (작성일 기준) -->
 	<select id="selectReviewDesc" resultType="hashmap">
 	 <![CDATA[
 		SELECT RV_NUM, RV_TITLE, RV_REGDATE, RV_ID, RV_CNT, RV_LIKE, RV_CONTENT, RV_IMAGE, R
@@ -20,7 +20,8 @@
 	<!-- [reviewList] 여행후기 게시판 리스트 -->
  	<select id="reviewList" resultType="hashmap">
 	 <![CDATA[
-		SELECT * FROM REVIEW
+			SELECT *
+				FROM REVIEW
 	   ]]>
 	</select> 
 	
@@ -29,41 +30,55 @@
 	<select id="reviewDetail" parameterType="hashmap"
 		resultType="hashmap">
      <![CDATA[
-    	SELECT * 
-		FROM REVIEW
-		WHERE RV_NUM = #{RV_NUM}
+     		SELECT * 
+				FROM REVIEW
+				WHERE RV_NUM = #{RV_NUM}
      ]]>
 	</select>
 	
 	<!-- [reviewCommentList] 여행후기 게시판 댓글 목록 -->
 	<select id="reviewCommentList" parameterType="hashmap" resultType="hashmap">
       <![CDATA[
-         SELECT 
-          	BC_BCID, 
-          	BC_NUM, 
-          	BC_COMMENT, 
-          	BC_REGDATE, 
-          	BC_ID      
-         FROM BOARDCOMMENT 
-         WHERE BC_NUM = #{RV_NUM} 
-         ORDER BY BC_BCID DESC
+          SELECT
+            BC_BCID,
+            BC_NUM,
+            BC_COMMENT,
+            BC_REGDATE,
+            BC_ID      
+         FROM 
+            BOARDCOMMENT
+            WHERE 
+              BC_NUM = #{RV_NUM}
+            ORDER BY BC_BCID DESC
       ]]>
-	</select>
+   </select>
    
    	<!-- [insertReview] 여행후기 게시판 글 작성 -->
 	<insert id="insertReview" parameterType="hashmap">
-	  <![CDATA[
-		 INSERT INTO REVIEW VALUES(
-		  	RV_NUM_SEQ.NEXTVAL, 
-		  	#{RV_TITLE}, 
-		  	SYSDATE, 
-		  	#{RV_ID}, 
-		  	0, 
-		  	0, 
-		  	#{RV_CONTENT}, 
-		  	#{RV_IMAGE}
-		 )
-	  ]]>
+	<![CDATA[
+			INSERT 
+				INTO REVIEW
+				(
+				RV_NUM,
+				RV_TITLE,
+				RV_CONTENT,
+				RV_REGDATE,
+				RV_ID,
+				RV_CNT,
+				RV_LIKE,
+				RV_IMAGE
+				)
+				VALUES(
+					RV_NUM_SEQ.NEXTVAL, 
+					#{RV_TITLE}, 
+					#{RV_CONTENT}, 
+					SYSDATE, 
+					#{RV_ID}, 
+					0, 
+					0, 
+					#{RV_IMAGE}
+					)
+	]]>
 	</insert>
    
 	<!-- [searchReview] 여행 후기 검색 -->
@@ -81,4 +96,54 @@
 		WHERE RV_ID = #{MEM_ID}
 	   ]]>
 	</select> 
+
+   	<!-- [reviewModifyForm] 여행후기 수정 폼 -->
+	<select id="reviewModifyForm" parameterType="hashmap"
+		resultType="hashmap">
+      <![CDATA[
+         SELECT
+            RV_NUM,
+            RV_TITLE,
+            RV_CONTENT,
+            RV_REGDATE
+         FROM
+            REVIEW
+         WHERE
+            RV_NUM = #{RV_NUM}
+      ]]>
+	</select>
+	
+	<!-- [reviewModify] 여행후기 수정 -->
+	<update id="reviewModify" parameterType="hashmap">
+      <![CDATA[
+         UPDATE
+            REVIEW
+         SET
+            RV_TITLE = #{RV_TITLE},
+            RV_CONTENT = #{RV_CONTENT},
+            RV_REGDATE = sysdate
+         WHERE
+            RV_NUM = #{RV_NUM}                 
+      ]]>
+	</update>
+	
+	<!-- [reviewDel] 여행후기 삭제 -->
+	<delete id="reviewDel" parameterType="hashmap">
+	<![CDATA[
+		DELETE 
+			FROM REVIEW
+			WHERE RV_NUM = #{RV_NUM}
+	]]>
+	</delete>
+	
+	<!-- [myReviewList] 마이페이지 여행후기 -->
+	<select id="myReviewList" parameterType="hashmap"
+		resultType="hashmap">
+		<![CDATA[
+				SELECT * 
+				FROM REVIEW 
+				WHERE RV_ID=#{MEM_ID}
+		]]>
+	</select>
+	
 </mapper>
