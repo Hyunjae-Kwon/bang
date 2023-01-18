@@ -25,24 +25,6 @@
 				<input type="text" id="keyword" name="keyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
 			</form>
 		</div>
-	    <div class="container-fluid blog">
-	        <div class="container">
-                <div class="blog-row row">
-					<c:forEach var="review" items="${reviewList}" varStatus="status">
-	                    <div class="col-lg-4 col-md-6 col-sm-6">
-	                       <div class="blog-col">
-	                       		<a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM}">
-	                            <%-- <img src="resources/images/review/${review.RV_IMAGE}.jpg" alt="" ></a> --%>
-	                            <img src="resources/images/slider/slid_3.jpg" alt="" ></a>
-	                            <span>${review.RV_REGDATE }</span>
-	                            <h4><a href="/bang/reviewDetail.tr?RV_NUM=${review.RV_NUM}">${review.RV_TITLE}</a></h4>
-	                            <p>${review.RV_CONTENT}</p>
-	                       </div>
-	                    </div>
-					</c:forEach>
-            	</div>
-	        </div>
-	    </div>
 
 		<section id="review-List" class="review-List">
 		    <div class="container">

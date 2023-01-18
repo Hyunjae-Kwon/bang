@@ -163,7 +163,7 @@ public class ReviewController {
 	/* 여행후기 글쓰기 폼 */
 	@RequestMapping(value="/reviewWriteForm.tr")
 	public ModelAndView reviewWriteForm(CommandMap commandMap , HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("review/reviewWriteForm2");
+		ModelAndView mv = new ModelAndView("review/reviewWriteForm");
 
 		return mv;
 	}
