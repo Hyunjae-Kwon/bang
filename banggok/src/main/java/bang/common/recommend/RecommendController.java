@@ -116,11 +116,11 @@ public class RecommendController {
 	public ModelAndView searchRecommend(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("recommend/searchRecommend");
 		
-		String keyword = request.getParameter("keyword");
+		String searchKeyword = request.getParameter("searchKeyword");
 		
 		List<Map<String, Object>> recom = recommendService.searchRecommend(commandMap.getMap(), request);
 				
-		mv.addObject("keyword", keyword);
+		mv.addObject("searchKeyword", searchKeyword);
 		mv.addObject("recom", recom);
 		
 		return mv;

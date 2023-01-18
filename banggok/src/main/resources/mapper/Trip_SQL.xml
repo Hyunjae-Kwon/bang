@@ -72,7 +72,7 @@
 			WHERE TR_TITLE LIKE '%'||#{searchKeyword}||'%' OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
 		]]>
 	</select>
-	
+		
 	<!--  [myTripList] 마이페이지 여행 일정 리스트 -->
 	<select id="myTripList" parameterType="hashmap" resultType="hashmap">
 	    <![CDATA[
