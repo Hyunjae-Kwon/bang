@@ -136,14 +136,4 @@
 	]]>
 	</delete>
 	
-	<!-- [myReviewList] 마이페이지 여행후기 -->
-	<select id="myReviewList" parameterType="hashmap"
-		resultType="hashmap">
-		<![CDATA[
-				SELECT * 
-				FROM REVIEW 
-				WHERE RV_ID=#{MEM_ID}
-		]]>
-	</select>
-	
 </mapper>
