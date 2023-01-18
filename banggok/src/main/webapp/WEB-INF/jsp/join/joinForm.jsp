@@ -220,6 +220,8 @@ $(document).ready(function(){
 		});
 	}
 </script>  
+</head>
+<body>
 <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">

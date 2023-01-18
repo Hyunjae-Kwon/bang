@@ -104,12 +104,12 @@ public class TogetherController {
 	public ModelAndView searchTogether(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("together/searchTogether");
 		
-		String keyword = request.getParameter("keyword");
+		String searchKeyword = request.getParameter("searchKeyword");
 		
 		/* 동행 구하기 검색 */
 		List<Map<String, Object>> together = togetherService.searchTogether(commandMap.getMap(), request);
 				
-		mv.addObject("keyword", keyword);
+		mv.addObject("searchKeyword", searchKeyword);
 		mv.addObject("together", together);
 		
 		return mv;

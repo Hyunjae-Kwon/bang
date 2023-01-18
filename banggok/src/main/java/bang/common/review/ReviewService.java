@@ -31,4 +31,13 @@ public interface ReviewService {
 	/* 마이페이지 여행후기 리스트 */
 	List<Map<String, Object>> myReviewList(Map<String, Object> map) throws Exception;
 	
+	/* 여행후기 수정 폼 */
+	Map<String, Object> reviewModifyForm(Map<String, Object> map) throws Exception;
+	 
+	/* 여행후기 수정 */
+	void reviewModify(Map<String, Object> map) throws Exception;
+	
+	/* 여행후기 삭제 */
+	void reviewDel(Map<String, Object> map) throws Exception;
+
 }
