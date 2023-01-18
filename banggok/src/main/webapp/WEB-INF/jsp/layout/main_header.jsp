@@ -93,6 +93,9 @@
 									<a style="color: #bfbfbf;" href="/bang/myPage.tr">마이페이지</a> 
 								</li>
 								<li>
+									<a style="color: #bfbfbf;" href="/bang/chatBox.tr">메시지함</a> 
+								</li>
+								<li>
 									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 
 								</li>
 								<li style="line-height: 1.5; padding: 0px;">
