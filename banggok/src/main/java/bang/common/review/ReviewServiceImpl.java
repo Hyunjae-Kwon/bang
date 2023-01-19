@@ -22,17 +22,17 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<Map<String, Object>> selectReviewDesc(Map<String, Object> map) throws Exception {
 		return reviewDAO.selectReviewDesc(map);
 	}
-	
-	/* 전체 여행후기 개수 */
+		
+	/* 여행 후기 수(전체&검색) */
 	@Override
-	public int allReviewCount() throws Exception {
-		Map<String,Object> mapCount = reviewDAO.allReviewCount();
+	public int reviewCount(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		Map<String,Object> mapCount = reviewDAO.reviewCount(map);
 		return Integer.parseInt(String.valueOf(mapCount.get("COUNT")));
 	}	
 	
-	/* 여행후기 리스트 */
+	/* 여행 후기 리스트(전체&검색) */
 	@Override
-	public List<Map<String, Object>> reviewListPaging(Map<String, Object> map) throws Exception {
+	public List<Map<String, Object>> reviewListPaging(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return reviewDAO.reviewListPaging(map);
 	}
 
@@ -80,10 +80,9 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDAO.myReviewList(map);
 	}
 	
-	/* 여행 일정 검색하기 */
+	/* 여행 후기 검색 */
 	@Override
 	public List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return reviewDAO.searchReview(map);
 	}
-
 }

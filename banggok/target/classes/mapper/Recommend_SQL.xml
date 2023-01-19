@@ -18,12 +18,47 @@
 	   ]]>
 	</select>
 	
-	<!-- [recommendList] 여행지 추천 게시글 리스트 -->
-	<select id="recommendList" resultType="hashmap" parameterType="hashmap">
-	 <![CDATA[
-			SELECT * FROM RECOMMEND
-	   ]]>
+	<!-- [recommendCount] 여행지 추천 게시글 수(전체&검색) -->
+ 	<select id="recommendCount" resultType="hashmap">
+		SELECT COUNT(*) COUNT
+		FROM RECOMMEND
+		<trim prefix="WHERE" prefixOverrides="OR">
+			<if test="searchKeyword != NULL">
+				RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</trim>
 	</select>
+	
+	<!-- [recommendListPaging] 여행지 추천 게시글 리스트(전체&검색) -->
+	<select id="recommendListPaging" resultType="hashmap" parameterType="hashmap">
+	<include refid="common.pagingPre"/>
+		SELECT
+			ROW_NUMBER() OVER (ORDER BY RC_NUM DESC) RNUM,
+		    RC_NUM,
+		    RC_TITLE,
+		    RC_REGDATE,
+		    RC_ID,
+		    RC_CNT,
+		    RC_LIKE,
+		    RC_CONTENT,
+		    RC_IMAGE 
+		FROM
+			RECOMMEND
+	    <trim prefix="WHERE" prefixOverrides="OR">
+			<if test="searchKeyword != NULL">
+				RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</trim>
+	<include refid="common.pagingPost"/>
+	</select>
+	
+	<!-- [searchRecommend] 여행지 추천 검색(메인에서 검색) -->
+	<select id="searchRecommend" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT * FROM RECOMMEND
+			WHERE RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
+		]]>
+   </select>
 	
 	<!-- [recommendDetail] 여행지 추천 게시글 상세보기 -->
 	<select id="recommendDetail" parameterType="hashmap" resultType="hashmap">
@@ -109,14 +144,6 @@
 	]]>
 	</update>
 	
-	<!-- [searchRecommend] 여행지 추천 검색 -->
-	<select id="searchRecommend" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-			SELECT * FROM RECOMMEND
-			WHERE RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
-		]]>
-   </select>
-   
 	<!-- 댓글목록 -->
 	<select id="rcCommentList" parameterType="hashmap" resultType="hashmap">
       <![CDATA[
