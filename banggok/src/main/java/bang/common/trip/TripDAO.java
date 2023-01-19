@@ -59,4 +59,9 @@ public class TripDAO extends AbstractDAO {
 	public List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>)selectList("trip.myTripList", map);
 	}
+	
+	/* 여행 일정 만들기 */
+	public void tripWrite(Map<String, Object> map) throws Exception {
+		insert ("trip.tripWrite", map);
+	}
 }

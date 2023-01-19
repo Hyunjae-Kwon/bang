@@ -124,5 +124,13 @@
 				WHERE TR_ID = #{MEM_ID}
 		]]>
 	</select>
+	
+	<!-- [tripWrite] 여행 일정 만들기 -->
+	<insert id="tripWrite" parameterType="hashmap">
+		<![CDATA[
+			INSERT INTO TRIP (TR_NUM, TR_ID, TR_TITLE, TR_MAP_LAT, TR_MAP_LNG, TR_CONTENT, TR_SHARE)
+			VALUES (TR_NUM_SEQ.NEXTVAL, #{TR_ID}, #{TR_TITLE}, #{TR_MAP_LAT}, #{TR_MAP_LNG}, #{TR_CONTENT}, 'N')
+		]]>
+	</insert>
 
 </mapper>

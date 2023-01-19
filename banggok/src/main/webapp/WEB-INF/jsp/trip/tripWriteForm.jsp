@@ -48,6 +48,52 @@
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+#placesList2 {margin-left: 5px; margin-right: 5px;}
+#placesList2 li {list-style: none; font-size:14px;}
+#placesList2 .item {position:relative;border-bottom:1px solid #eaeaea;overflow: hidden;cursor: pointer;min-height: 65px;}
+#placesList2 .item span {display: block;margin-top:4px;}
+#placesList2 .item h5, #placesList2 .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList2 .item .info{padding:10px 0 10px 55px;}
+#placesList2 .info .head {font-size: 18px;}
+#placesList2 .info .gray {color:#8a8a8a;}
+#placesList2 .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList2 .info .tel {color:#009900;}
+#placesList2 .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#placesList2 .item .marker_1 {background-position: 0 -10px;}
+#placesList2 .item .marker_2 {background-position: 0 -56px;}
+#placesList2 .item .marker_3 {background-position: 0 -102px}
+#placesList2 .item .marker_4 {background-position: 0 -148px;}
+#placesList2 .item .marker_5 {background-position: 0 -194px;}
+#placesList2 .item .marker_6 {background-position: 0 -240px;}
+#placesList2 .item .marker_7 {background-position: 0 -286px;}
+#placesList2 .item .marker_8 {background-position: 0 -332px;}
+#placesList2 .item .marker_9 {background-position: 0 -378px;}
+#placesList2 .item .marker_10 {background-position: 0 -423px;}
+#placesList2 .item .marker_11 {background-position: 0 -470px;}
+#placesList2 .item .marker_12 {background-position: 0 -516px;}
+#placesList2 .item .marker_13 {background-position: 0 -562px;}
+#placesList2 .item .marker_14 {background-position: 0 -608px;}
+#placesList2 .item .marker_15 {background-position: 0 -654px;}
+
+#addPlaceData{
+  border: 1px solid #14863d;
+  border-radius: 5px;
+  text-align: center;
+  color: #14863d;
+  cursor: pointer;
+}
+
+#addPlaceData:hover{
+  background-color: green;
+  color: #fff;
+}
+
+#addPlaceData:focus{
+  box-shadow: 0 0 0 2px black;
+  background-color: green;
+  color: #fff;
+}
 </style>
 </head>
     <body>
@@ -55,8 +101,8 @@
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
-            	<p>여행 일정 만들기</p>
-                <h2>원하시는 일정을 선택해주세요.</h2>
+            	<h2>여행 일정 만들기</h2>
+            	<p>원하시는 일정을 선택해주세요.</p>
             </div>
         </div>
     </div>
@@ -64,12 +110,23 @@
     <div class="row contact-rooo no-margin">
         <div class="container">
             <div class="row">
-            	<form style="max-width: 100%;" id="tripWrite" name="tripWrite" enctype="multipart/form-data" action="<c:url value='/tripWrite.tr'/>" method="post">
+            	<form style="max-width: 100%; margin-left: 20px;" enctype="multipart/form-data" method="post">
+            		<div>
+            			<h4>여행 일정 이름</h4>
+            			<input type="text" id="TR_TITLE" name="TR_TITLE">
+            			<input type="hidden" id="TR_ID" name="TR_ID" value="${MEM_ID}">
+            		</div>
                 	<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
-                		<h2>여행 일정</h2><br>
-	                    <!-- <div class="row cont-row">
-	                    </div> -->
-	                    <h2 style="margin-left: 80px;">일정 추가 장소</h2><br>
+                		<div style="border-left: solid #eaeaea; height: 450px;">
+                			<h5 style="margin-left: 20px; margin-right: 25px;">여행 일정</h5>
+                			<p style="margin-left: 20px; margin-right: 25px;">여행 기간 : </p><br>
+                			<h3 style="margin-left: 20px; margin-right: 25px;">DAY 01</h3>
+                		</div>
+	                    <div id="addListItem" style="border-left: solid #eaeaea; height: 450px; overflow-y: auto; width: 280px;">
+	                    	<h5 style="margin-left: 20px;">일정 추가 장소</h5>
+	                    	<p style="margin-left: 20px;">방문하실 곳을 추가해주세요.</p><br>
+	                    </div>
+	                    <div style="border-left: solid #eaeaea; height: 450px;"></div>
 	                    <!-- <div class="row cont-row">
                     	</div> -->
                 	</div>
@@ -78,7 +135,7 @@
                     <div style="margin:20px" class="serv">
                     	<!-- 카카오 지도 드로잉 기능 -->
                     	<div class="map_wrap">
-						    <div id="map" style="width:800px;height:100%;position:relative;overflow:hidden;"></div>
+						    <div id="map" style="width:700px;height:100%;position:relative;overflow:hidden;"></div>
 						    <div id="menu_wrap" class="bg_white">
 						        <div class="option">
 						            <div>
@@ -86,6 +143,9 @@
 						                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
 						                    <button type="submit">검색하기</button> 
 						                </form>
+						            </div>
+						            <div>
+						            	<input type="button" id="addPlaceData" value="방문 장소 추가하기" onclick="addPlaceData()">
 						            </div>
 						        </div>
 						        <hr>
@@ -97,15 +157,15 @@
                 </div>
             </div>
             <div>
-            	<h2>여행 일정 메모</h2>
+            	<h3>여행 일정 메모</h3>
             	<!-- 글 작성 폼 -->
-    			<textarea id="summernote" class="TR_SUBCONTENT" name="TR_SUBCONTENT"></textarea>
+    			<textarea id="summernote" class="TR_CONTENT" name="TR_CONTENT">${TR_CONTENT}</textarea>
             </div>
             <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
             <div style="margin-top:10px;">
                 <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
                 <div class="col-sm-8" style="max-width: 100%;">
-                 <button class="btn btn-success btn-sm" onclick="return insertReview()" type="submit">작성</button>
+                 <input type="button" class="btn btn-success btn-sm" value="작성하기" onclick="tripWrite()">
                  <button class="btn btn-success btn-sm" onClick="location.href='/bang/main.tr'">취소하기</button>
                 </div>
             </div>
@@ -115,13 +175,13 @@
     </body>
     <!-- 글 작성 자바스크립트 -->
 	<script>
- 	function insertReview(){
-		var TR_TITLE = document.getElementById("TR_TITLE").value;
-		var TR_CONTENT = document.getElementById("TR_CONTENT").value;
-		var TR_SUBCONTENT = document.getElementById("TR_SUBCONTENT").value;
-		var TR_ID = document.getElementById("TR_ID").value;
-		var TR_MAP_LAT;
-		var TR_MAP_LNG;
+ 	function tripWrite(){
+ 		var id = document.getElementById("TR_ID").value;
+		var title = document.getElementById("TR_TITLE").value;
+		var lat = document.getElementById("TR_MAP_LAT").value;
+		var lng = document.getElementById("TR_MAP_LNG").value;
+		var content = document.getElementById("summernote").value;
+		console.log(content);
 
 			if (!$("#TR_TITLE").val()) {
 				alert("제목을 입력하세요.");
@@ -134,18 +194,19 @@
 				$(".TR_CONTENT").focus();
 				return false;
 			}
-			
-			if (!$(".TR_SUBCONTENT").val()) {
-				alert("상세 일정을 입력하세요.");
-				$(".TR_SUBCONTENT").focus();
-				return false;
-			}
 
-			alert("게시글이 정상적으로 등록 되었습니다.");
-			$("tripWrite").submit();
+			$.ajax({
+ 				type: "POST",
+ 				url: "<c:url value='tripWrite.tr'/>",
+ 				data: {TR_ID: id, TR_TITLE: title, TR_MAP_LAT: lat, TR_MAP_LNG: lng, TR_CONTENT: content},
+ 				/* async: false, */
+ 				success: function(data){
+ 					alert("게시글이 정상적으로 등록 되었습니다.");
+ 					location.href="/bang/myTripList.tr";
+ 				}	
+ 	        });
 		} 
 	</script>
-	
     <!-- 카카오 지도 API, services와 clusterer, drawing 라이브러리 불러오기 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fa3a582f3278c83fd4f3031cc4f96d&libraries=services,clusterer,drawing"></script>
 	<!-- 카카오 지도 Drawing Library에서 데이터 얻기 스크립트 -->
@@ -233,7 +294,7 @@
 		        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
 		            marker = addMarker(placePosition, i), 
 		            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-	
+		            
 		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 		        // LatLngBounds 객체에 좌표를 추가합니다
 		        bounds.extend(placePosition);
@@ -257,8 +318,17 @@
 		            itemEl.onmouseout =  function () {
 		                infowindow.close();
 		            };
+		            
+		            /* 장소 목록 클릭하면 함수 실행 : 방문 장소 추가하기 버튼 사용으로 임시 주석 처리
+		            itemEl.onclick = function(){
+		            	/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
+		            	/* addPlaceMarker(); */
+		            	/* 클릭한 장소 데이터 전송 
+		            	addPlaceData();
+		            } */
+		            
 		        })(marker, places[i].place_name);
-	
+		        
 		        fragment.appendChild(itemEl);
 		    }
 	
@@ -276,40 +346,72 @@
 		    var el = document.createElement('li'),
 		    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
 		                '<div class="info">' +
-		                '   <h5>' + places.place_name + '</h5>';
+		                '   <h5 id="place' + (index+1) + '">' + places.place_name + '</h5>';
 	
 		    if (places.road_address_name) {
-		        itemStr += '    <span>' + places.road_address_name + '</span>' +
-		                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
+		        itemStr += '    <span id="roadAddress' + (index+1) + '">' + places.road_address_name + '</span>' +
+		                    '   <span id="address' + (index+1) + '" class="jibun gray">' +  places.address_name  + '</span>';
 		    } else {
-		        itemStr += '    <span>' +  places.address_name  + '</span>'; 
+		        itemStr += '    <span id="address' + (index+1) + '">' +  places.address_name  + '</span>'; 
 		    }
 		                 
-		      itemStr += '  <span class="tel">' + places.phone  + '</span>' + 
-              			 '	<span style="float: right;"><button onClick="addPlaceMarker()">장소 추가</button></span>' + 
+		      itemStr += '  <span class="tel" id="phone' + (index+1) + '">' + places.phone  + '</span>' + 
+              			 '	<span style="float: right;"></span>' + 
 		                '</div>';           
 	
 		    el.innerHTML = itemStr;
 		    el.className = 'item';
-	
+		    
 		    return el;
 		}
 		
-		// 클릭한 장소 마커 추가
-		function addPlaceMarker(){
+		/* 클릭한 장소 데이터 전송 */
+		function addPlaceData(){
+			const buttons = document.querySelectorAll("#placesList > .item");
+			console.log(buttons);
+			buttons.forEach(el => {
+				el.onclick = (e) => {
+					/* const nodes = [...e.target.parentElement.children]; */
+					const elementItem = e.target.parentElement;
+					console.log(e.target);
+					console.log(nodes);
+					console.log(elementItem);
+					
+					addListItem(elementItem);
+					addPlaceMarker();
+				}
+			});
+		}
+		
+		/* 마커 추가 후 일정 추가 장소에 해당 정보 추가 */
+		function addListItem(elementItem) {
+			
 			var markerPosition = infowindow.getPosition();
 			
 			var markerLat = markerPosition.getLat();
 			var markerLng = markerPosition.getLng();
 			
-			var stringLat = markerLat.toString();
-			var stringLng = markerLng.toString();
+			var lat = markerLat.toString();
+			var lng = markerLng.toString();
 			
-			alert(markerPosition);
-			alert(markerLat);
-			alert(markerLng);
-			alert(stringLat);
-			alert(stringLng);
+			var itemElHTML = elementItem.innerHTML;
+			var place = document.getElementById("addListItem");
+			var item = '<ul id="placesList2">' + 
+						'<li class="item">' + itemElHTML + '</li>' + 
+						'<input type="hidden" id="TR_MAP_LAT" name="TR_MAP_LAT" value="' + lat + '">' +
+						'<input type="hidden" id="TR_MAP_LNG" name="TR_MAP_LNG" value="' + lng + '">' +
+						'</ul>';
+			place.innerHTML += item;
+			
+			return place;
+		}
+		
+		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
+		function addPlaceMarker(){
+			var markerPosition = infowindow.getPosition();
+			
+			var markerLat = markerPosition.getLat();
+			var markerLng = markerPosition.getLng();
 			
 			var newMarker = new kakao.maps.LatLng(markerLat, markerLng);
 			var newPoint = new kakao.maps.Marker({
@@ -317,9 +419,8 @@
 			});
 			
 			newPoint.setMap(map);
-			
 		}
-	
+		
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(position, idx, title) {
 		    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
@@ -396,6 +497,7 @@
 		    }
 		}
 	</script>
+	
 	<!-- summernote 스크립트 -->
     <script>
  	$('#summernote').summernote({
@@ -443,7 +545,7 @@
             }
       }); 
 	
-		/* 파일 업로드를 위한 Ajax */
+		  /* 파일 업로드를 위한 Ajax */
 		  function uploadSummernoteImageFile(file, el) {
 				data = new FormData();
 				data.append("file", file);
