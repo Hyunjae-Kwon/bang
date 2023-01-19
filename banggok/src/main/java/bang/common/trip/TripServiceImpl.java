@@ -60,6 +60,10 @@ public class TripServiceImpl implements TripService {
 	public List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception {		
 		return tripDAO.myTripList(map);
 	}
-	
-	
+
+	/* 여행 일정 만들기 */
+	@Override
+	public void tripWrite(Map<String, Object> map) throws Exception {
+		tripDAO.tripWrite(map);
+	}
 }

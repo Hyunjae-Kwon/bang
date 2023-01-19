@@ -136,4 +136,18 @@ public class TripController {
 		
 		return mv;
 	}
+	
+	/* 여행 일정 만들기 */
+	@RequestMapping(value="/tripWrite.tr", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView tripWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/myTripList.tr");
+
+		tripService.tripWrite(commandMap.getMap());
+
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		session.setAttribute("TR_ID", TR_ID);
+		return mv;
+	}
 }
