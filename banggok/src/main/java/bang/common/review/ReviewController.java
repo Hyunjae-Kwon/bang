@@ -73,7 +73,7 @@ public class ReviewController {
 	@RequestMapping(value = "/reviewListScroll.tr", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView reviewListScroll(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("scroll/reviewListScroll");	/* 화면에 보여줄 reviewList.jsp파일을 의미함 */
+		ModelAndView mv = new ModelAndView("scroll/reviewListScroll");
 		/* 검색시, 키워드 받아옴 */
 		String searchKeyword = request.getParameter("searchKeyword");
 		mv.addObject("searchKeyword", searchKeyword);
