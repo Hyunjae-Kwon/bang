@@ -32,5 +32,11 @@ public interface TripService {
 	
 	/* 여행 일정 만들기 */
 	void tripWrite(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 저장 */
+	void addPlaceList(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 삭제 */
+	void deletePlaceList(Map<String, Object> map) throws Exception;
 
 }
