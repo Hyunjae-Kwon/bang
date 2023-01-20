@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- 원본 -->
 <!-- 서머노트를 위해 추가해야할 부분 -->
 <script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
 <script src="${pageContext.request.contextPath}/resources/summernote/summernote-ko-KR.js"></script>
@@ -185,6 +186,18 @@
 		var title = document.getElementById("TR_TITLE").value;
 		var content = document.getElementById("summernote").value;
 		
+		var place, address, phone, lat, lng;
+		var size = $(".item").length;
+		for(var i = 1; i < size; i ++){
+			place = document.getElementById("place"+i).innerText;
+		}
+		var place = document.getElementById("place1").innerText;
+		var address = document.getElementById("address1").innerText;
+		var phone = document.getElementById("phone1").innerText;
+		
+		var lat = document.getElementById("lat1").value;
+		var lng = document.getElementById("lng1").value;
+
 			if (!$("#TR_TITLE").val()) {
 				alert("제목을 입력하세요.");
 				$("#TR_TITLE").focus();
@@ -200,7 +213,7 @@
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='tripWrite.tr'/>",
- 				data: {TR_ID: id, TR_TITLE: title, TR_CONTENT: content},
+ 				data: {TR_ID: id, TR_TITLE: title, TR_MAP_LAT: lat, TR_MAP_LNG: lng, TR_CONTENT: content},
  				/* async: false, */
  				success: function(data){
  					alert("게시글이 정상적으로 등록 되었습니다.");
@@ -321,6 +334,14 @@
 		                infowindow.close();
 		            };
 		            
+		            /* 장소 목록 클릭하면 함수 실행 : 방문 장소 추가하기 버튼 사용으로 임시 주석 처리
+		            itemEl.onclick = function(){
+		            	/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
+		            	/* addPlaceMarker(); */
+		            	/* 클릭한 장소 데이터 전송 
+		            	addPlaceData();
+		            } */
+		            
 		        })(marker, places[i].place_name);
 		        
 		        fragment.appendChild(itemEl);
@@ -337,18 +358,30 @@
 		// 검색결과 항목을 Element로 반환하는 함수입니다
 		function getListItem(index, places) {
 			
+			var markerPosition = infowindow.getPosition();
+			
+			var markerLat = markerPosition.getLat();
+			var markerLng = markerPosition.getLng();
+			
+			var lat = markerLat.toString();
+			var lng = markerLng.toString();
+	
 		    var el = document.createElement('li'),
 		    itemStr = /* '<span class="markerbg marker_' + (index+1) + '"></span>' + */
 		                '<div class="info">' +
-		                '   <h5 id="place">' + places.place_name + '</h5>';
+		                '   <h5 id="place' + (index+1) + '">' + places.place_name + '</h5>';
 	
 		    if (places.road_address_name) {
-		        itemStr += '    <span id="roadAddress">' + places.road_address_name + '</span>' +
-		                    '   <span id="address" class="jibun gray">' +  places.address_name  + '</span>';
+		        itemStr += '    <span id="roadAddress' + (index+1) + '">' + places.road_address_name + '</span>' +
+		                    '   <span id="address' + (index+1) + '" class="jibun gray">' +  places.address_name  + '</span>';
 		    } else {
-		        itemStr += '    <span id="address">' +  places.address_name  + '</span>'; 
+		        itemStr += '    <span id="address' + (index+1) + '">' +  places.address_name  + '</span>'; 
 		    }
-		      itemStr += '  <span class="tel" id="phone">' + places.phone  + '</span>' + 
+		                 
+		      itemStr += '  <span class="tel" id="phone' + (index+1) + '">' + places.phone  + '</span>' + 
+					    '<input type="hidden" id="lat' + (index+1) + '" value="' + lat + '">' +
+						'<input type="hidden" id="lng' + (index+1) + '" value="' + lng + '">' +
+              			 '	<span style="float: right;"></span>' + 
 		                '</div>';           
 	
 		    el.innerHTML = itemStr;
@@ -375,47 +408,15 @@
 		
 		/* 마커 추가 후 일정 추가 장소에 해당 정보 추가 */
 		function addListItem(elementItem) {
- 	        
- 	        /* 위도 경도 구하기 */
-			var markerPosition = infowindow.getPosition();
 			
-			var markerLat = markerPosition.getLat();
-			var markerLng = markerPosition.getLng();
-			
-			var lat = markerLat.toString();
-			var lng = markerLng.toString();
-			
-			/* 클릭한 장소 데이터 */
+			var itemElHTML = elementItem.innerHTML;
 			var itemElText = elementItem.innerText;
-			
-			/* 엔터를 기준으로 스플릿 */
-			var str = itemElText.split('\n').filter((elem) => {
-				return elem !== undefined && elem !== null && elem !== ''
-			});
-			
+			alert(itemElText);
 			var place = document.getElementById("addListItem");
 			var item = '<ul id="placesList2">' + 
-						'<li class="item">' + 
-						'<h5 id="place">' + str[0] + '</h5>' + 
-						'<span id="roadAddress">' + str[1] + '</span>' + 
-						'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
-						'<span class="tel" id="phone">' + str[3] + '<input type="button" id="del" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
-						'<span style="display: none;" id="lat">' + lat + '</span>' + 
-						'<span style="display: none;" id="lng">' + lng + '</span>' + 
-						'</li>' + 
+						'<li class="item">' + itemElHTML + '</li>' + 
 						'</ul>';
 			place.innerHTML += item;
-			
-			var id = document.getElementById("TR_ID").value;
-			
-			/* 추가한 장소 DB에 저장 */
-			$.ajax({
- 				type: "POST",
- 				url: "<c:url value='addPlaceList.tr'/>",
- 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_PHONE: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
- 				success: function(data){
- 				}	
- 	        });
 			
 			return place;
 		}
@@ -434,30 +435,6 @@
 			
 			newPoint.setMap(map);
 		}
-		
-		/* 추가한 장소 삭제하기 */
-		function deletePlace(lat, lng){
-			const buttons = document.querySelectorAll("#del");
-			var id = document.getElementById("TR_ID").value;
-			console.log(lat, lng);
-			buttons.forEach(el => {
-				el.onclick = function(){
-					const third = el.parentNode;
-					const second = third.parentNode;
-					const first = second.parentNode;
-					first.remove();
-					
-					/* 추가한 장소 DB에 저장 */
-					$.ajax({
-		 				type: "POST",
-		 				url: "<c:url value='deletePlaceList.tr'/>",
-		 				data: {TP_MAP_LAT: lat,TP_MAP_LNG: lng, TP_ID: id},
-		 				success: function(data){
-		 				}	
-		 	        });
-				}
-			});
-		};
 		
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(position, idx, title) {

@@ -150,4 +150,30 @@ public class TripController {
 		session.setAttribute("TR_ID", TR_ID);
 		return mv;
 	}
+	
+	/* 추가 장소 저장 */
+	@RequestMapping(value="/addPlaceList.tr", method = RequestMethod.POST)
+	public ModelAndView addPlaceList(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		tripService.addPlaceList(commandMap.getMap());
+
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		session.setAttribute("TR_ID", TR_ID);
+		return mv;
+	}
+	
+	/* 추가 장소 삭제 */
+	@RequestMapping(value="/deletePlaceList.tr", method = RequestMethod.POST)
+	public ModelAndView deletePlaceList(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		tripService.deletePlaceList(commandMap.getMap());
+
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		session.setAttribute("TR_ID", TR_ID);
+		return mv;
+	}
 }

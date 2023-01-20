@@ -59,4 +59,14 @@ public class TripDAO extends AbstractDAO {
 	public void tripWrite(Map<String, Object> map) throws Exception {
 		insert ("trip.tripWrite", map);
 	}
+	
+	/* 추가 장소 저장 */
+	public void addPlaceList(Map<String, Object> map) throws Exception {
+		insert ("trip.addPlaceList", map);
+	}
+	
+	/* 추가 장소 삭제 */
+	public void deletePlaceList(Map<String, Object> map) throws Exception {
+		delete ("trip.deletePlaceList", map);
+	}
 }
