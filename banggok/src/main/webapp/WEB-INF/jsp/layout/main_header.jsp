@@ -138,7 +138,7 @@
 	                        </li>
 	
 	                        <li class="nav-item">
-	                            <a class="nav-link" href="/bang/allRecommendList.tr">여행지 추천</a>
+	                            <a class="nav-link" href="/bang/recommendList.tr">여행지 추천</a>
 	                        </li>
 	                        <!-- 메뉴 버튼 추가를 위해서 우선 주석처리함 -->
 	                        <!-- <li class="nav-item">

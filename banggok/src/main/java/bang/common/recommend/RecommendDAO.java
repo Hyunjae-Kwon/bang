@@ -3,6 +3,8 @@ package bang.common.recommend;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Repository;
 
 import bang.common.common.AbstractDAO;
@@ -16,13 +18,24 @@ public class RecommendDAO extends AbstractDAO {
 		return (List<Map<String, Object>>) selectList ("recommend.selectRecomDesc", map);
 	}
 	
-
-	/* 여행지 추천 게시글 리스트 */
+	/* 여행지 추천 게시글 수(전체&검색) */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> recommendList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList("recommend.recommendList", map);
-	}  
-
+	public Map<String, Object> recommendCount(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("recommend.recommendCount", map);
+	}
+	
+	/* 여행지 추천 게시글 리스트(전체&검색) */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> recommendListPaging(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>)selectList("recommend.recommendListPaging", map);
+	}
+	
+	/* 여행지 추천 검색(메인에서 검색) */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> searchRecommend(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("recommend.searchRecommend", map);
+	}
+	
 	/* 여행지 추천 게시글 상세보기 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> recommendDetail(Map<String, Object>map) throws Exception {
@@ -61,12 +74,6 @@ public class RecommendDAO extends AbstractDAO {
 		update("recommend.recommendLike", map);       
 	}
 	
-	/* 여행 일정 검색 */
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> searchRecommend(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList ("recommend.searchRecommend", map);
-	}
-
 	/* 댓글목록 */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>>rcCommentList(Map<String, Object> map) throws Exception {
