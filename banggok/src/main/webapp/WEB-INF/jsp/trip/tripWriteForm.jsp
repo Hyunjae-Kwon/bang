@@ -144,9 +144,10 @@
 						                    <button type="submit">검색하기</button> 
 						                </form>
 						            </div>
-						            <div>
+						            <!-- 방문 장소 추가하기 버튼 -->
+						            <!-- <div>
 						            	<input type="button" id="addPlaceData" value="방문 장소 추가하기" onclick="addPlaceData()">
-						            </div>
+						            </div> -->
 						        </div>
 						        <hr>
 						        <ul id="placesList"></ul>
@@ -215,6 +216,9 @@
 	<script>
 		// 검색 결과 마커를 담을 배열입니다
 		var markers = [];
+		
+		/* 추가한 장소 마커를 담을 배열입니다. */
+		var addMarkers = [];
 		
 		// 장소 추가 버튼 클릭 시 마커를 담을 배열입니다
 		var addPlaceMarkers = [];
@@ -338,7 +342,7 @@
 		function getListItem(index, places) {
 			
 		    var el = document.createElement('li'),
-		    itemStr = /* '<span class="markerbg marker_' + (index+1) + '"></span>' + */
+		    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
 		                '<div class="info">' +
 		                '   <h5 id="place">' + places.place_name + '</h5>';
 	
@@ -348,7 +352,7 @@
 		    } else {
 		        itemStr += '    <span id="address">' +  places.address_name  + '</span>'; 
 		    }
-		      itemStr += '  <span class="tel" id="phone">' + places.phone  + '</span>' + 
+		      itemStr += '  <span class="tel" id="phone">' + places.phone  + '<button style="float: right;" id="addPlaceData" onClick="addPlaceData()">장소 추가</button></span>' + 
 		                '</div>';           
 	
 		    el.innerHTML = itemStr;
@@ -357,24 +361,32 @@
 		    return el;
 		}
 		
-		/* 클릭한 장소 데이터 전송 */
+		/* 클릭한 장소 데이터 전송 (아래 오류 해결 중) */
 		function addPlaceData(){
-			const buttons = document.querySelectorAll("#placesList > .item");
 			
-			buttons.forEach(el => {
-				el.onclick = (e) => {
-					/* const nodes = [...e.target.parentElement.children]; */
-					/* console.log(nodes); */
-					const elementItem = e.target.parentElement;
-					
-					addListItem(elementItem);
-					addPlaceMarker();
-				}
-			});
+			const addButton = event.currentTarget;
+			const addButtonP = addButton.parentNode;
+			const elementItem = addButtonP.parentNode;
+			
+			addListItem(elementItem);
+			
+			/* 위도 경도 구하기 */
+			var markerPosition = infowindow.getPosition();
+			
+			var markerLat = markerPosition.getLat();
+			var markerLng = markerPosition.getLng();
+			
+			var lat = markerLat.toString();
+			var lng = markerLng.toString();
+			
+			// 마커를 생성하고 지도에 표시합니다
+	        var placePosition = new kakao.maps.LatLng(lat, lng),
+	            marker = addPlaceMarker(placePosition);
 		}
 		
-		/* 마커 추가 후 일정 추가 장소에 해당 정보 추가 */
+		/* 일정 추가 장소에 해당 정보 추가 */
 		function addListItem(elementItem) {
+			console.log(elementItem);
  	        
  	        /* 위도 경도 구하기 */
 			var markerPosition = infowindow.getPosition();
@@ -394,16 +406,37 @@
 			});
 			
 			var place = document.getElementById("addListItem");
-			var item = '<ul id="placesList2">' + 
+			
+			var cnt = $(".placesLists").length;
+			var item = '';
+			if(cnt == 0){
+				item += '<ul id="placesList2" class="placesLists">' + 
 						'<li class="item">' + 
+						'<span id="num">' + 1 + '</span>' +
 						'<h5 id="place">' + str[0] + '</h5>' + 
 						'<span id="roadAddress">' + str[1] + '</span>' + 
 						'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
-						'<span class="tel" id="phone">' + str[3] + '<input type="button" id="del" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
+						'<span class="tel" id="tel">' + str[3] + '<input type="button" id="del" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
 						'<span style="display: none;" id="lat">' + lat + '</span>' + 
 						'<span style="display: none;" id="lng">' + lng + '</span>' + 
 						'</li>' + 
 						'</ul>';
+			} else {
+				for(var i = cnt + 1; i < cnt + 2; i ++){
+					item += '<ul id="placesList2" class="placesLists">' + 
+							'<li class="item">' + 
+							'<span id="num">' + i + '</span>' +
+							'<h5 id="place">' + str[0] + '</h5>' + 
+							'<span id="roadAddress">' + str[1] + '</span>' + 
+							'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
+							'<span class="tel" id="tel">' + str[3] + '<input type="button" id="del" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
+							'<span style="display: none;" id="lat">' + lat + '</span>' + 
+							'<span style="display: none;" id="lng">' + lng + '</span>' + 
+							'</li>' + 
+							'</ul>';
+				}
+			}
+				
 			place.innerHTML += item;
 			
 			var id = document.getElementById("TR_ID").value;
@@ -412,7 +445,7 @@
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='addPlaceList.tr'/>",
- 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_PHONE: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
+ 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_TEL: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
  				success: function(data){
  				}	
  	        });
@@ -432,36 +465,45 @@
 				position: newMarker
 			});
 			
+			addMarkers.push(newPoint);
 			newPoint.setMap(map);
+			
+			return newPoint;
 		}
 		
 		/* 추가한 장소 삭제하기 */
 		function deletePlace(lat, lng){
-			const buttons = document.querySelectorAll("#del");
+			
 			var id = document.getElementById("TR_ID").value;
-			console.log(lat, lng);
-			buttons.forEach(el => {
-				el.onclick = function(){
-					const third = el.parentNode;
-					const second = third.parentNode;
-					const first = second.parentNode;
-					first.remove();
-					
-					/* 추가한 장소 DB에 저장 */
-					$.ajax({
-		 				type: "POST",
-		 				url: "<c:url value='deletePlaceList.tr'/>",
-		 				data: {TP_MAP_LAT: lat,TP_MAP_LNG: lng, TP_ID: id},
-		 				success: function(data){
-		 				}	
-		 	        });
-				}
+			
+			const delButton = event.currentTarget;
+			const third = delButton.parentNode;
+			const second = third.parentNode;
+			const first = second.parentNode;
+			first.remove();
+			
+			/* 추가한 장소 DB에서 삭제 */
+			$.ajax({
+ 				type: "POST",
+ 				url: "<c:url value='deletePlaceList.tr'/>",
+ 				data: {TP_MAP_LAT: lat,TP_MAP_LNG: lng, TP_ID: id},
+ 				success: function(data){
+ 					
+ 				}
 			});
 		};
 		
+		/* 지도 위에 추가된 마커를 모두 제거합니다. */ 
+		function removeAddMarkers() {
+		    for ( var i = 0; i < addMarkers.length; i++ ) {
+		        addMarkers[i].setMap(null);
+		    }   
+		    addMarkers = [];
+		}
+		
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(position, idx, title) {
-		    var imageSrc = '', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+		    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
 		        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
 		        imgOptions =  {
 		            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
