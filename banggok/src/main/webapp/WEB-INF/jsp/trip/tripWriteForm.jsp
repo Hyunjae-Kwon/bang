@@ -421,7 +421,7 @@
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='addPlaceList.tr'/>",
- 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_TEL: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
+ 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_PHONE: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
  				success: function(data){
  				}	
  	        });
@@ -430,7 +430,7 @@
 		}
 		
 		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
-		function addPlaceMarker(addListItem){
+		function addPlaceMarker(elementItem){
 			var markerPosition = infowindow.getPosition();			
 			
 			var markerLat = markerPosition.getLat();
@@ -446,11 +446,11 @@
 				position: newMarker,
 				image: markerImage
 			});
-			var title = document.getElementById('TP_PLACE');
+			/* var title = document.getElementById('TP_PLACE'); */
 			
 			var content = '<div class="customoverlay">' +
 		    '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
-		    '    <span class="title">'+ title +'</span>' +
+		    '    <span class="title">'+ data.TP_PLACE +'</span>' +
 		    '  </a>' +
 		    '</div>';
 			var customOverlay = new kakao.maps.CustomOverlay({
