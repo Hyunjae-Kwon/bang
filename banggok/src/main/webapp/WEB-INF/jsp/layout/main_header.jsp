@@ -123,7 +123,7 @@
                     <div id="menu" class="col-lg-9 col-md-12 d-none d-lg-block nav-col">
 	                    <ul class="navbad">
 	                        <li class="nav-item active">
-	                            <a class="nav-link" href="/bang/tripWriteForm.tr">여행 일정 만들기
+	                            <a class="nav-link" style="cursor:pointer;" onclick="loginCheck()">여행 일정 만들기
 	                            </a>
 	                        </li>
 	                        <li class="nav-item">
@@ -148,6 +148,17 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+        
+        <script>
+        function loginCheck(){
+	    	if (!$("#MEM_ID").val()) {
+		    	alert("로그인을 해주세요.");
+		    		   
+		    	return false;
+		    }
+	    	location.href="/bang/tripWriteForm.tr";
+        }
+	   </script>
     </header>
 </body>
