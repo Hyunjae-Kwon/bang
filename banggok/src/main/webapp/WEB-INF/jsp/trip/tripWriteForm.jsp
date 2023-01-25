@@ -94,6 +94,12 @@
   background-color: green;
   color: #fff;
 }
+.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+	
 </style>
 </head>
     <body>
@@ -412,7 +418,7 @@
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='addPlaceList.tr'/>",
- 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_PHONE: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
+ 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_TEL: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
  				success: function(data){
  				}	
  	        });
@@ -421,17 +427,35 @@
 		}
 		
 		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
-		function addPlaceMarker(){
-			var markerPosition = infowindow.getPosition();
+		function addPlaceMarker(addListItem){
+			var markerPosition = infowindow.getPosition();			
 			
 			var markerLat = markerPosition.getLat();
 			var markerLng = markerPosition.getLng();
 			
 			var newMarker = new kakao.maps.LatLng(markerLat, markerLng);
-			var newPoint = new kakao.maps.Marker({
-				position: newMarker
-			});
 			
+			var imageSrc = 'resources/images/marker.png',
+			    imageSize = new kakao.maps.Size(40, 40);
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+			
+			var newPoint = new kakao.maps.Marker({
+				position: newMarker,
+				image: markerImage
+			});
+			var title = document.getElementById('TP_PLACE');
+			
+			var content = '<div class="customoverlay">' +
+		    '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
+		    '    <span class="title">'+ title +'</span>' +
+		    '  </a>' +
+		    '</div>';
+			var customOverlay = new kakao.maps.CustomOverlay({
+			    map: map,
+			    position: newMarker,
+			    content: content,
+			    yAnchor: 0.3
+			});
 			newPoint.setMap(map);
 		}
 		

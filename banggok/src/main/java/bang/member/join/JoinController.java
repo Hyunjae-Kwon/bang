@@ -34,7 +34,7 @@ public class JoinController {
 	/* id 중복 체크 */
 	@RequestMapping(value = "/confirmId.tr", method = RequestMethod.POST)
 	@ResponseBody
-	public String confirmId(@RequestParam String id) throws Exception {
+	public String confirmId(String id) throws Exception {
 
 		log.info("id =" + id);
 
@@ -47,7 +47,7 @@ public class JoinController {
 	/* Email 중복 체크 */
 	@RequestMapping(value = "/confirmEmail.tr", method = RequestMethod.POST)
 	@ResponseBody
-	public String confirmEmail(@RequestParam String email) throws Exception {
+	public String confirmEmail(String email) throws Exception {
 
 		log.info("email =" + email);
 
