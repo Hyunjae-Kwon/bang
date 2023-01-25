@@ -202,7 +202,7 @@
  				type: "POST",
  				url: "<c:url value='tripWrite.tr'/>",
  				data: {TR_ID: id, TR_TITLE: title, TR_CONTENT: content},
- 				/* async: false, */
+ 				async: false,
  				success: function(data){
  					alert("게시글이 정상적으로 등록 되었습니다.");
  					location.href="/bang/myTripList.tr";
