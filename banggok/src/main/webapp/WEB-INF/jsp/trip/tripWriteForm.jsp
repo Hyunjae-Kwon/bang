@@ -186,12 +186,6 @@
 		var title = document.getElementById("TR_TITLE").value;
 		var content = document.getElementById("summernote").value;
 		
-			if (!$("#TR_ID").val()) {
-				alert("로그인을 해주세요.");
-				$("#TR_ID").focus();
-				return false;
-			}	
-
 			if (!$("#TR_TITLE").val()) {
 				alert("제목을 입력하세요.");
 				$("#TR_TITLE").focus();
