@@ -445,7 +445,7 @@
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='addPlaceList.tr'/>",
- 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_TEL: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
+ 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_PHONE: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
  				success: function(data){
  				}	
  	        });
