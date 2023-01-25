@@ -22,12 +22,25 @@ public class RecommendServiceImpl implements RecommendService {
 		return recommendDAO.selectRecomDesc(map);
 	}
 	
-	/* 여행지 추천 게시글 리스트 */
+	/* 여행지 추천 게시글 수(전체&검색) */
 	@Override
-	public List<Map<String, Object>> recommendList(Map<String,Object> map) throws Exception{
-		return recommendDAO.recommendList(map);
-	}  	
-
+	public int recommendCount(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		Map<String,Object> mapCount = recommendDAO.recommendCount(map);
+		return Integer.parseInt(String.valueOf(mapCount.get("COUNT")));
+	}	
+	
+	/* 여행지 추천 게시글 리스트(전체&검색) */
+	@Override
+	public List<Map<String, Object>> recommendListPaging(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		return recommendDAO.recommendListPaging(map);
+	}
+	
+	/* 여행지 추천 검색(메인에서 검색) */
+	@Override
+	public List<Map<String, Object>> searchRecommend(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		return recommendDAO.searchRecommend(map);
+	}
+	
 	/* 여행지 추천 게시글 상세보기 */
 	@Override		
 	public Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception {
@@ -65,13 +78,6 @@ public class RecommendServiceImpl implements RecommendService {
 		recommendDAO.recommendLike(map);
 	}
 
-	/* 여행지 추천 게시글 검색하기 */
-	@Override
-	public List<Map<String, Object>> searchRecommend(Map<String, Object> map, HttpServletRequest request)
-			throws Exception {
-		return recommendDAO.searchRecommend(map);
-	}
-	
 	/* 댓글목록 */
 	@Override
 	public List<Map<String, Object>> rcCommentList(Map<String, Object> map) throws Exception {

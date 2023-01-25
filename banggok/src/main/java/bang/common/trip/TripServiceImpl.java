@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import bang.common.common.CommandMap;
-
 @Service("tripService")
 public class TripServiceImpl implements TripService {
 	Logger log = Logger.getLogger(this.getClass());
@@ -23,12 +21,20 @@ public class TripServiceImpl implements TripService {
 	public List<Map<String, Object>> selectHotTrip(Map<String, Object> map) throws Exception {
 		return tripDAO.selectHotTrip(map);
 	}
-
-	/* 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 */
+	
+	/* 여행 일정 공유글 수(전체&검색) */
 	@Override
-	public List<Map<String, Object>> tripList(Map<String, Object> map) throws Exception {
-		return tripDAO.tripList(map);
+	public int tripCount(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		Map<String,Object> mapCount = tripDAO.tripCount(map);
+		return Integer.parseInt(String.valueOf(mapCount.get("COUNT")));
+	}	
+	
+	/* 여행 일정 공유글 리스트(전체&검색) - 공유된 여행 일정 전체 가져오기 */
+	@Override
+	public List<Map<String, Object>> tripListPaging(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		return tripDAO.tripListPaging(map);
 	}
+	
 
 	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 	@Override
@@ -60,6 +66,22 @@ public class TripServiceImpl implements TripService {
 	public List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception {		
 		return tripDAO.myTripList(map);
 	}
-	
-	
+
+	/* 여행 일정 만들기 */
+	@Override
+	public void tripWrite(Map<String, Object> map) throws Exception {
+		tripDAO.tripWrite(map);
+	}
+
+	/* 추가 장소 저장 */
+	@Override
+	public void addPlaceList(Map<String, Object> map) throws Exception {
+		tripDAO.addPlaceList(map);
+	}
+
+	/* 추가 장소 삭제 */
+	@Override
+	public void deletePlaceList(Map<String, Object> map) throws Exception {
+		tripDAO.deletePlaceList(map);
+	}
 }

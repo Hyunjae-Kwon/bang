@@ -15,11 +15,16 @@ public class TripDAO extends AbstractDAO {
 	public List<Map<String, Object>> selectHotTrip(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("trip.selectHotTrip", map);
 	}
-	
-	/* 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 */
+	/* 여행 일정 공유글 수(전체&검색) */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> tripList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList ("trip.tripList", map);
+	public Map<String, Object> tripCount(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("trip.tripCount", map);
+	}
+	
+	/* 여행 일정 공유글 리스트(전체&검색) - 공유된 여행 일정 전체 가져오기 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> tripListPaging(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>)selectList("trip.tripListPaging", map);
 	}
 	
 	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 */
@@ -53,5 +58,20 @@ public class TripDAO extends AbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>)selectList("trip.myTripList", map);
+	}
+	
+	/* 여행 일정 만들기 */
+	public void tripWrite(Map<String, Object> map) throws Exception {
+		insert ("trip.tripWrite", map);
+	}
+	
+	/* 추가 장소 저장 */
+	public void addPlaceList(Map<String, Object> map) throws Exception {
+		insert ("trip.addPlaceList", map);
+	}
+	
+	/* 추가 장소 삭제 */
+	public void deletePlaceList(Map<String, Object> map) throws Exception {
+		delete ("trip.deletePlaceList", map);
 	}
 }

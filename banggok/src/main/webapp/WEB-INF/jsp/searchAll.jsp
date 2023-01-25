@@ -60,9 +60,10 @@
 		                </c:forEach>
 					</c:when>
 					<c:otherwise>
-						<tr>
-							<td colspan="5">조회된 결과가 없습니다.</td>
-						</tr>
+						<div class="col-lg-4 col-md-6 col-sm-6"></div>
+						<div class="col-lg-4 col-md-6 col-sm-6">
+				        	<p align="center"><b>조회된 결과가 없습니다.</b></p>
+				        </div>
 					</c:otherwise>
 				</c:choose>
             </div>
@@ -101,9 +102,10 @@
 		                </c:forEach>
 					</c:when>
 					<c:otherwise>
-						<tr>
-							<td colspan="5">조회된 결과가 없습니다.</td>
-						</tr>
+						<div class="col-lg-4 col-md-6 col-sm-6"></div>
+						<div class="col-lg-4 col-md-6 col-sm-6">
+				        	<p align="center"><b>조회된 결과가 없습니다.</b></p>
+				        </div>
 					</c:otherwise>
 				</c:choose>
             </div>
@@ -144,9 +146,10 @@
 		                </c:forEach>
 					</c:when>
 					<c:otherwise>
-						<tr>
-							<td colspan="5">조회된 결과가 없습니다.</td>
-						</tr>
+						<div class="col-lg-4 col-md-6 col-sm-6"></div>
+						<div class="col-lg-4 col-md-6 col-sm-6">
+				        	<p align="center"><b>조회된 결과가 없습니다.</b></p>
+				        </div>
 					</c:otherwise>
 				</c:choose>
             </div>
@@ -186,9 +189,10 @@
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-						<tr>
-							<td colspan="5">조회된 결과가 없습니다.</td>
-						</tr>
+						<div class="col-lg-4 col-md-6 col-sm-6"></div>
+						<div class="col-lg-4 col-md-6 col-sm-6">
+				        	<p align="center"><b>조회된 결과가 없습니다.</b></p>
+				        </div>
 					</c:otherwise>
 				</c:choose>
             </div>

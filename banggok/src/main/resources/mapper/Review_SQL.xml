@@ -3,7 +3,7 @@
 
 <mapper namespace="review">
 
- 	<!-- [selectReviewDesc] 메인 페이지 - 최신 여행 후기 3개 (작성일 기준) -->
+	<!-- [selectReviewDesc] 메인 페이지 - 최신 여행 후기 3개 (작성일 기준) -->
 	<select id="selectReviewDesc" resultType="hashmap">
 	 <![CDATA[
 		SELECT RV_NUM, RV_TITLE, RV_REGDATE, RV_ID, RV_CNT, RV_LIKE, RV_CONTENT, RV_IMAGE, R
@@ -16,36 +16,43 @@
 	   ]]>
 	</select>
 	
-	<!-- [allReviewCount] 전체 여행후기 개수 -->
- 	<select id="allReviewCount" resultType="hashmap">
-	<![CDATA[
-		SELECT COUNT(*) COUNT
-		FROM REVIEW
-	]]>
+	<!-- [reviewCount] 여행 후기 수(전체&검색) -->
+ 	<select id="reviewCount" resultType="hashmap">
+	SELECT COUNT(*) COUNT
+	FROM REVIEW
+	<trim prefix="WHERE" prefixOverrides="OR">
+		<if test="searchKeyword != NULL">
+			RV_TITLE LIKE '%'||#{searchKeyword}||'%' OR RV_CONTENT LIKE '%'||#{searchKeyword}||'%'
+		</if>
+	</trim>
 	</select>
  
- 	<!-- [reviewList] 여행 후기 게시판 리스트 -->
+ 	<!-- [reviewListPaging] 여행 후기 리스트(전체&검색) -->
  	<select id="reviewListPaging" parameterType="hashmap" resultType="hashmap">
-	 	<include refid="common.pagingPre"/>
-	 	<![CDATA[
-	 		SELECT
-	 			ROW_NUMBER() OVER (ORDER BY RV_NUM DESC) RNUM,
-			    RV_NUM,
-			    RV_TITLE,
-			    RV_REGDATE,
-			    RV_ID,
-			    RV_CNT,
-			    RV_LIKE,
-			    RV_CONTENT,
-			    RV_IMAGE
-			FROM 
-				REVIEW
-		]]>
-		<include refid="common.pagingPost"/>
+ 	<include refid="common.pagingPre"/>
+ 	SELECT
+ 		ROW_NUMBER() OVER (ORDER BY RV_NUM DESC) RNUM,
+	    RV_NUM,
+	    RV_TITLE,
+	    RV_REGDATE,
+	    RV_ID,
+	    RV_CNT,
+	    RV_LIKE,
+	    RV_CONTENT,
+	    RV_IMAGE
+	FROM 
+		REVIEW
+	<trim prefix="WHERE" prefixOverrides="OR">
+		<if test="searchKeyword != NULL">
+			RV_TITLE LIKE '%'||#{searchKeyword}||'%' OR RV_CONTENT LIKE '%'||#{searchKeyword}||'%'
+		</if>
+	</trim>
+	<include refid="common.pagingPost"/>
 	</select> 
 	
 	<!-- [reviewDetail] 여행후기 상세 -->
-	<select id="reviewDetail" parameterType="hashmap" resultType="hashmap">
+	<select id="reviewDetail" parameterType="hashmap"
+		resultType="hashmap">
      <![CDATA[
     	SELECT *
 		FROM REVIEW
@@ -55,55 +62,53 @@
 	
 	<!-- [reviewCommentList] 여행후기 게시판 댓글 목록 -->
 	<select id="reviewCommentList" parameterType="hashmap" resultType="hashmap">
-      <![CDATA[
-          SELECT
-            BC_BCID,
-            BC_NUM,
-            BC_COMMENT,
-            BC_REGDATE,
-            BC_ID      
-         FROM 
-            BOARDCOMMENT
-            WHERE 
-              BC_NUM = #{RV_NUM}
-            ORDER BY BC_BCID DESC
-      ]]>
-    </select>
+    <![CDATA[
+         SELECT 
+          	BC_BCID, 
+          	BC_NUM, 
+          	BC_COMMENT, 
+          	BC_REGDATE, 
+          	BC_ID      
+         FROM BOARDCOMMENT 
+         WHERE BC_NUM = #{RV_NUM} 
+         ORDER BY BC_BCID DESC
+    ]]>
+	</select>
    
    	<!-- [insertReview] 여행후기 게시판 글 작성 -->
 	<insert id="insertReview" parameterType="hashmap">
 	<![CDATA[
-			INSERT 
-				INTO REVIEW
-				(
-				RV_NUM,
-				RV_TITLE,
-				RV_CONTENT,
-				RV_REGDATE,
-				RV_ID,
-				RV_CNT,
-				RV_LIKE,
-				RV_IMAGE
-				)
-				VALUES(
-					RV_NUM_SEQ.NEXTVAL, 
-					#{RV_TITLE}, 
-					#{RV_CONTENT}, 
-					SYSDATE, 
-					#{RV_ID}, 
-					0, 
-					0, 
-					#{RV_IMAGE}
-					)
+		INSERT INTO REVIEW VALUES(
+			RV_NUM_SEQ.NEXTVAL, 
+		  	#{RV_TITLE}, 
+		  	SYSDATE, 
+		  	#{RV_ID}, 
+		  	0, 
+		  	0, 
+		  	#{RV_CONTENT}, 
+		  	#{RV_IMAGE}
+		)
 	]]>
 	</insert>
-   
-	<!-- [searchReview] 여행 후기 검색 -->
+    
+	<!-- [searchReview] 여행 후기 검색 --><!-- 메인검색에서 사용 -->
 	<select id="searchReview" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-			SELECT * FROM REVIEW
-			WHERE RV_TITLE LIKE '%'||#{searchKeyword}||'%' OR RV_CONTENT LIKE '%'||#{searchKeyword}||'%'
-		]]>
+	<![CDATA[
+	SELECT 
+		ROW_NUMBER() OVER (ORDER BY RV_NUM DESC) RNUM,
+	    RV_NUM,
+	    RV_TITLE,
+	    RV_REGDATE,
+	    RV_ID,
+	    RV_CNT,
+	    RV_LIKE,
+	    RV_CONTENT,
+	    RV_IMAGE
+	FROM 
+		REVIEW
+	WHERE
+		RV_TITLE LIKE '%'||#{searchKeyword}||'%' OR RV_CONTENT LIKE '%'||#{searchKeyword}||'%'
+	]]>
 	</select>
 	
 	<!-- [myReviewList] 마이페이지 여행 후기 게시판 리스트 -->
@@ -113,44 +118,4 @@
 		WHERE RV_ID = #{MEM_ID}
 	   ]]>
 	</select> 
-
-   	<!-- [reviewModifyForm] 여행후기 수정 폼 -->
-	<select id="reviewModifyForm" parameterType="hashmap"
-		resultType="hashmap">
-      <![CDATA[
-         SELECT
-            RV_NUM,
-            RV_TITLE,
-            RV_CONTENT,
-            RV_REGDATE
-         FROM
-            REVIEW
-         WHERE
-            RV_NUM = #{RV_NUM}
-      ]]>
-	</select>
-	
-	<!-- [reviewModify] 여행후기 수정 -->
-	<update id="reviewModify" parameterType="hashmap">
-      <![CDATA[
-         UPDATE
-            REVIEW
-         SET
-            RV_TITLE = #{RV_TITLE},
-            RV_CONTENT = #{RV_CONTENT},
-            RV_REGDATE = sysdate
-         WHERE
-            RV_NUM = #{RV_NUM}                 
-      ]]>
-	</update>
-	
-	<!-- [reviewDel] 여행후기 삭제 -->
-	<delete id="reviewDel" parameterType="hashmap">
-	<![CDATA[
-		DELETE 
-			FROM REVIEW
-			WHERE RV_NUM = #{RV_NUM}
-	]]>
-	</delete>
-	
 </mapper>

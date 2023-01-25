@@ -1,78 +1,105 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 </head>
-    <body>
-    <!--  ************************* Page Title Starts Here ************************** -->
-    <div class="page-nav no-margin row">
-        <div class="container">
-            <div class="row">
-                <h2>여행 일정 공유</h2>
-                <p>회원들이 공유하는 추천 일정 공유 게시판입니다.</p>
-            </div>
-        </div>
-    </div>
-    <!-- ################# 게시물 Starts Here #######################--->   
+<body>
+	<!--  ************************* Page Title Starts Here ************************** -->
+    <c:choose>
+		<c:when test="${searchKeyword==null}">
+		    <div class="page-nav no-margin row">
+		        <div class="container">
+		            <div class="row">
+		                <h2>여행 일정 공유</h2>
+		                <p>회원들이 공유하는 추천 일정 공유 게시판입니다.</p>
+		            </div>
+		        </div>
+		    </div>
+    	</c:when>
+		<c:otherwise>
+			<div class="page-nav no-margin row">
+		        <div class="container">
+		            <div class="row">
+		                <h2>여행 일정 검색 결과</h2>
+		                <p>여행 일정 공유 게시판에서 <b>'${searchKeyword}'</b> 로 검색한 결과입니다.</p>
+		            </div>
+		        </div>
+		    </div>  
+		</c:otherwise>
+	</c:choose>
+	
+	<!--  ************************* 여행 일정 공유 Starts Here ************************** -->
+    <!-- 검색어 입력란 -->
     <div align="right">
-		<form action="/bang/searchTrip.tr" method="GET">
+		<form action="/bang/tripList.tr" method="GET">
 			<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
 			<input type="text" id="searchKeyword" name="searchKeyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
 		</form>
 	</div>
-    <div class="popular-pack  container-fluid">
-        <div class="container">
-            <div class="row pack-row">
-            	<c:forEach var="list" items="${trip}">
-	                <div class="col-lg-4 col-md-6 col-sm-6" style="padding-bottom: 15px;">
-	                    <div class="pack-col">
-	                    	<a href="/bang/tripDetail.tr?TR_NUM=${list.TR_NUM}">
-	                    		<img src="resources/images/packages/p1.jpg" alt="">
-	                    		<!-- 여행 일정 작성 시 이미지 번호를 사용하여 이미지 호출, 지금은 일정 생성이 안되니 우선 주석 -->
-	                    		<%-- <img src="resources/images/trip/trip_main_${list.TR_NUM}.png" alt=""> --%>
-	                    	</a>
-	                        
-	                        <div class="revire row no-margin">
-	                        	<!-- 별점 사용 여부에 따라 삭제 예정 우선 주석 처리 -->
-	                            <!-- <ul class="rat">
-	                                <li><i class="fa fa-star"></i></li>
-	                                <li><i class="fa fa-star"></i></li>
-	                                <li><i class="fa fa-star"></i></li>
-	                                <li><i class="fa fa-star"></i></li>
-	                                <li><i class="fa fa-star"></i></li>
-	                            </ul> -->
-	                            <span>조회수 | ${list.TR_CNT}&nbsp;</span>
-	                            <span>추천수 | ${list.TR_LIKE}</span>
-	                            <span class="pric">
-	                                <fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd"/> 
-	                            </span>
-	                            <span class="pric">|</span>
-	                            <span class="pric">
-	                                ${list.TR_ID}
-	                            </span>
-	                        </div>
-	                        <div class="detail row no-margin">
-	                            <h4>${list.TR_TITLE}</h4>
-	                            <p>${list.TR_CONTENT}</p>
-	                        </div>
-	                        <!-- 여행 일정에 버튼으로 추가할만한게 있으면 넣으면 좋을듯, 우선 주석 처리 -->
-	                        <!-- <div class="options row no-margin">
-	                            <ul>
-	                                <li><i class="fas fa-car"></i></li>
-	                                <li><i class="fab fa-fly"></i></li>
-	                                <li><i class="fas fa-cocktail"></i></li>
-	                                <li><i class="fas fa-umbrella-beach"></i></li>
-	                                <li><i class="far fa-bell"></i></li>
-	                            </ul>
-	                        </div> -->
-	                    </div>
-	                </div>
-                </c:forEach>
-            </div>
-        </div>
-    </div>
-    </body>
+	
+	<!-- 후기 리스트 출력란 -->
+	<section id="trip-List" class="trip-List">
+	    <div class="container">
+	       	<div class="blog-row row trip-List-container"></div>
+	  	</div>
+	</section>
+	
+	<!--  ************************* 여행 일정 공유 script ************************** -->
+    <script>
+    $(document).ready(function(){ 
+		GetList(1);
+	});
+    
+    /* 페이지 처음 로딩시 p1므로 초기값 1로 지정 */
+    let currentPage = 1;
+    /* 현재 페이지 로딩 여부 저장 변수 */
+    let isLoading = false;
+    /* 웹브라우저 창을 스크롤 할 때 마다 호출 */
+    $(window).on("scroll", function(){
+    	/* 위로 스크롤된 길이 */
+    	let scrollTop = $(window).scrollTop();
+    	/* 웹브라우저 창의 높이 */
+    	let windowHeight = $(window).height();
+    	/* 리스트 전체 높이 */
+    	let documentHeight = $(document).height();
+    	/* 끝까지 스크롤 여부 확인 */
+    	let isBottom = scrollTop+windowHeight + 10 >= documentHeight;
+    	
+    	if(isBottom){
+    		/* 마지막 페이지일 경우 */
+    		if(currentPage >= ${totalPageCount} || isLoading){
+    			return;
+    		}
+    		/* 로딩 중 */
+    		isLoading = true;
+    		
+    		/* 요청할 페이지 번호 1 증가 */
+    		currentPage++;
+    		
+    		/* 추가 페이지를 서버에 ajax 요청 */
+    		console.log("inscroll" + currentPage);
+    		
+    		GetList(currentPage);
+    	};
+    });
+    
+    const GetList = function(currentPage){
+		console.log("inGetList"+currentPage);
+		/* 무한 스크롤 */
+		$.ajax({
+			url:"/bang/tripListScroll.tr",
+			method:"GET",
+			data:"pageNum="+currentPage+"&searchKeyword=${searchKeyword}",
+			success:function(data){
+				$(".trip-List-container").append(data);
+				/* 로딩중이 아니라고 표시 */
+				isLoading = false;
+				console.log("ajax");
+			}
+		});
+    }
+    </script>
+</body>
 </html>
