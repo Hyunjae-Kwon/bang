@@ -34,6 +34,12 @@ public interface TripService {
 	/* 여행 일정 만들기 */
 	void tripWrite(Map<String, Object> map) throws Exception;
 	
+	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
+	void tripplaceUpdate(Map<String, Object> map) throws Exception;
+	
+	/* 여행 일정 번호 업데이트를 위한 최대 번호 구하기 */
+	int maxTRNUM() throws Exception;
+	
 	/* 추가 장소 저장 */
 	void addPlaceList(Map<String, Object> map) throws Exception;
 	

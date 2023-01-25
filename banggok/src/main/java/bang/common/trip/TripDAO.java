@@ -65,6 +65,17 @@ public class TripDAO extends AbstractDAO {
 		insert ("trip.tripWrite", map);
 	}
 	
+	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
+	public void tripplaceUpdate(Map<String, Object> map) throws Exception {
+		update ("trip.tripplaceUpdate", map);
+	}
+	
+	/* 여행 일정 번호 업데이트를 위한 최대 번호 구하기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> maxTRNUM() throws Exception {
+		return (Map<String, Object>) selectOne("trip.maxTRNUM");
+	}
+	
 	/* 추가 장소 저장 */
 	public void addPlaceList(Map<String, Object> map) throws Exception {
 		insert ("trip.addPlaceList", map);

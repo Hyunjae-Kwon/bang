@@ -148,6 +148,25 @@
 		]]>
 	</insert>
 	
+	<!-- [tripplaceUpdate] 여행 장소 테이블의 여행 일정 번호 업데이트 -->
+	<insert id="tripplaceUpdate" parameterType="hashmap">
+		<![CDATA[
+			UPDATE TRIPPLACE
+			SET TP_TRNUM = #{TP_TRNUM}
+			WHERE TP_ID = #{TR_ID} AND TP_TRNUM IS NULL
+		]]>
+	</insert>
+	
+	<!-- [maxTRNUM] 여행 일정 번호 최대값 -->
+	<select id="maxTRNUM" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			MAX(TR_NUM) MAX 
+		FROM 
+			TRIP
+	]]>
+	</select>
+	
 	<!-- [addPlaceList] 추가 장소 저장 -->
 	<insert id="addPlaceList" parameterType="hashmap">
 		<![CDATA[

@@ -201,6 +201,12 @@ public class TripController {
 		ModelAndView mv = new ModelAndView("redirect:/myTripList.tr");
 
 		tripService.tripWrite(commandMap.getMap());
+		
+		int maxTRNUM = tripService.maxTRNUM();
+		
+		commandMap.put("TP_TRNUM", maxTRNUM);
+		/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
+		tripService.tripplaceUpdate(commandMap.getMap());
 
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
