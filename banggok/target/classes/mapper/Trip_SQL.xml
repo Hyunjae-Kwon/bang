@@ -17,13 +17,60 @@
 	   ]]>
 	</select>
 	
-	<!-- [tripList] 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 -->
-	<select id="tripList" resultType="hashmap">
-	 <![CDATA[
-			SELECT * FROM TRIP
-			WHERE TR_SHARE = 'Y'
-			ORDER BY TR_REGDATE DESC
-	   ]]>
+	<!-- [tripCount] 여행 일정 공유글 수(전체&검색) -->
+	<select id="tripCount" resultType="hashmap">
+		SELECT 
+			COUNT(*) COUNT
+		FROM(
+			SELECT
+				*
+			FROM
+				TRIP
+			WHERE TR_SHARE = 'Y')
+		<trim prefix="WHERE" prefixOverrides="OR">
+			<if test="searchKeyword != NULL">
+				TR_TITLE LIKE '%'||#{searchKeyword}||'%' 
+				OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+				OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</trim>
+	</select>
+	
+	<!-- [tripListPaging]여행 일정 공유글 리스트(전체&검색) - 공유된 여행 일정 전체 가져오기 -->
+	<select id="tripListPaging" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/>
+		 	SELECT 
+				ROW_NUMBER() OVER (ORDER BY TR_REGDATE DESC) RNUM,
+				TR_NUM,
+				TR_ID,
+				TR_TITLE,
+				TR_CNT,
+				TR_LIKE,
+				TR_CONTENT,
+				TR_SUBCONTENT,
+				TR_REGDATE
+			FROM(
+				SELECT
+					TR_NUM,
+					TR_ID,
+					TR_TITLE,
+					TR_CNT,
+					TR_LIKE,
+					TR_CONTENT,
+					TR_SUBCONTENT,
+					TR_REGDATE
+				FROM 
+					TRIP
+			    WHERE 
+			    	TR_SHARE = 'Y')
+			<trim prefix="WHERE" prefixOverrides="OR">
+				<if test="searchKeyword != NULL">
+					TR_TITLE LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
+				</if>
+			</trim>
+	 	<include refid="common.pagingPost"/>
 	</select>
 	
 	<!-- [tripDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 -->
@@ -68,8 +115,19 @@
 	<!-- [searchTrip] 여행 일정 검색 -->
 	<select id="searchTrip" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
-			SELECT * FROM TRIP
-			WHERE TR_TITLE LIKE '%'||#{searchKeyword}||'%' OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
+			SELECT
+				* 
+			FROM(
+				SELECT
+					*
+				FROM
+					TRIP
+				WHERE 
+			    	TR_SHARE = 'Y')
+			WHERE
+				TR_TITLE LIKE '%'||#{searchKeyword}||'%' 
+				OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+				OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
 		]]>
 	</select>
 		
@@ -93,8 +151,8 @@
 	<!-- [addPlaceList] 추가 장소 저장 -->
 	<insert id="addPlaceList" parameterType="hashmap">
 		<![CDATA[
-			INSERT INTO TRIPPLACE (TP_NUM, TP_ID, TP_PLACE, TP_ADDRESS, TP_RADDRESS, TP_PHONE, TP_MAP_LAT, TP_MAP_LNG)
-			VALUES (TP_NUM_SEQ.NEXTVAL, #{TP_ID}, #{TP_PLACE}, #{TP_ADDRESS}, #{TP_RADDRESS}, #{TP_PHONE}, #{TP_MAP_LAT}, #{TP_MAP_LNG})
+			INSERT INTO TRIPPLACE (TP_NUM, TP_ID, TP_PLACE, TP_ADDRESS, TP_RADDRESS, TP_PHONE, TP_MAP_LAT, TP_MAP_LNG, TP_DATE)
+			VALUES (TP_NUM_SEQ.NEXTVAL, #{TP_ID}, #{TP_PLACE}, #{TP_ADDRESS}, #{TP_RADDRESS}, #{TP_PHONE}, #{TP_MAP_LAT}, #{TP_MAP_LNG}, 'DAY01')
 		]]>
 	</insert>
 	
@@ -103,7 +161,7 @@
 		<![CDATA[
 			DELETE 
 			FROM TRIPPLACE
-			WHERE TP_MAP_LAT = #{TP_MAP_LAT} AND TP_MAP_LNG = #{TP_MAP_LNG} AND TP_ID = #{TP_ID} AND TP_TR_NUM IS NULL
+			WHERE TP_MAP_LAT = #{TP_MAP_LAT} AND TP_MAP_LNG = #{TP_MAP_LNG} AND TP_ID = #{TP_ID} AND TP_TRNUM IS NULL
 		]]>
 	</delete>
 

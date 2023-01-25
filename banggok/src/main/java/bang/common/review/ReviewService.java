@@ -10,11 +10,11 @@ public interface ReviewService {
 	/* 메인 페이지 - 최신 여행 후기 3개 */
 	List<Map<String, Object>> selectReviewDesc(Map<String, Object> map) throws Exception;
 
-	/* 전체 여행후기 개수 */
-    int allReviewCount() throws Exception;
+	/* 여행 후기 수(전체,검색) */
+    int reviewCount(Map<String, Object> map, HttpServletRequest request) throws Exception;
 	
-	/* 여행후기 리스트 */
-	List<Map<String, Object>> reviewListPaging(Map<String, Object> map) throws Exception;
+	/* 여행 후기 리스트(전체&검색) */
+	List<Map<String, Object>> reviewListPaging(Map<String, Object> map,  HttpServletRequest request) throws Exception;
 
 	/* 여행후기 상세 */
 	List<Map<String, Object>> reviewDetail(Map<String, Object> map) throws Exception;
@@ -25,7 +25,7 @@ public interface ReviewService {
 	/* 여행후기 글쓰기 */
 	void insertReview(Map<String, Object> map) throws Exception;
 	
-	/* 여행 후기 검색하기 */
+	/* 여행 후기 검색 */
 	List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception;
 	
 	/* 마이페이지 여행후기 리스트 */

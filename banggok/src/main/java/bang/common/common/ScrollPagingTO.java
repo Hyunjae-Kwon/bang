@@ -1,11 +1,11 @@
 package bang.common.common;
 
 public class ScrollPagingTO {
-	/* 시작 게시물 번호 */
+	/* 페이지 시작 게시물 번호 */
 	private int startRowNum;
-	/* 끝 게시물 번호 */
+	/* 페이지 끝 게시물 번호 */
 	private int endRowNum;
-	/* 가져갈 게시물 갯수 */
+	/* 한 페이지에 표시할 게시글 개수 */
 	private int rowCount;
 	
 	public int getRowCount() {

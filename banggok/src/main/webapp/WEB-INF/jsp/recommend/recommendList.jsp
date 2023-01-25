@@ -1,65 +1,108 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 </head>
 <body>
 	<!--  ************************* Page Title Starts Here ************************** -->
-	<div class="page-nav no-margin row">
-		<div class="container">
-			<div class="row">
-				<h2>여행지 추천</h2>
-				<ul>
-					<li><a href="recommendWriteForm.tr"><i class="fas fa-blog"></i>글쓰기</a></li>
-					<li><i class="fas fa-angle-double-right"></i> Gallery</li>
-				</ul>
+	<c:choose>
+		<c:when test="${searchKeyword==null}">
+			<div class="page-nav no-margin row">
+				<div class="container">
+					<div class="row">
+						<h2>여행지 추천</h2>
+						<ul>
+							<li><a href="recommendWriteForm.tr"><i class="fas fa-blog"></i>글쓰기</a></li>
+							<li><i class="fas fa-angle-double-right"></i> Gallery</li>
+						</ul>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-	<!--  ************************* 관광지 추천 Gallery Starts Here ************************** -->
+		</c:when>
+		<c:otherwise>
+			<div class="page-nav no-margin row">
+	        	<div class="container">
+	        	    <div class="row">
+	            	    <h2>여행지 추천 검색 결과</h2>
+	                	<p>여행지 추천 게시판 <b>'${searchKeyword}'</b> 로 검색한 결과입니다.</p>
+	            	</div>
+	        	</div>
+	    	</div>
+		</c:otherwise>
+	</c:choose>
+	
+	<!--  ************************* 여행지 추천 Gallery Starts Here ************************** -->
+	<!-- 검색어 입력란 -->
 	<div>
-		<form action="/bang/searchRecommend.tr" method="GET">
+		<form action="/bang/recommendList.tr" method="GET">
 			<button id="search" class="search-btn" onClick="checks()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
 			<input type="text" id="searchKeyword" name="searchKeyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
 		</form>
 	</div>
-	<section class="ftco-section">
-		<div class="container">
-			<div class="row justify-content-center mb-3 pb-3">
-				<div class="col-md-12 heading-section text-center ftco-animate">
-				</div>
-			</div>
-		</div>
-		<form action="recommendList.tr" method="GET">
-			<div class="container">
-				<div class="row">
-					<div class="container" align="center">
-						<div class="row">
-							<c:forEach var="recommend" items="${recommendList}">
-								<div class="col-md-6 col-lg-3 ftco-animate"
-									style="float: left; width: 33%; padding: 10px;">
-									<div class="recommend">
-										<a href="/bang/recommendDetail.tr?RC_NUM=${recommend.RC_NUM}"
-											class="img-prod"><img class="img-fluid"
-											src="resources/images/gallery/${recommend.RC_IMAGE}"
-											style="height: 250px;"></a>
-										<div class="text py-3 pb-4 px-3 text-center">
-											<h5>
-												<a href="/bang/recommendDetail.tr?RC_NUM=${recommend.RC_NUM}">${recommend.RC_TITLE}</a>
-											</h5>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
+	
+	<!-- 여행지 추천 리스트 출력란 -->
+	<section id="recommend-List" class="recommend-List">
+	    <div class="container">
+	       	<div class="blog-row row recommend-List-container"></div>
+	  	</div>
 	</section>
+	
+	<!--  ************************* 여행지 추천 script ************************** -->
+    <script>
+    $(document).ready(function(){ 
+		GetList(1);
+	});
+    
+    /* 페이지 처음 로딩시 p1므로 초기값 1로 지정 */
+    let currentPage = 1;
+    /* 현재 페이지 로딩 여부 저장 변수 */
+    let isLoading = false;
+    /* 웹브라우저 창을 스크롤 할 때 마다 호출 */
+    $(window).on("scroll", function(){
+    	/* 위로 스크롤된 길이 */
+    	let scrollTop = $(window).scrollTop();
+    	/* 웹브라우저 창의 높이 */
+    	let windowHeight = $(window).height();
+    	/* 리스트 전체 높이 */
+    	let documentHeight = $(document).height();
+    	/* 끝까지 스크롤 여부 확인 */
+    	let isBottom = scrollTop+windowHeight + 10 >= documentHeight;
+    	
+    	if(isBottom){
+    		/* 마지막 페이지일 경우 */
+    		if(currentPage >= ${totalPageCount} || isLoading){
+    			return;
+    		}
+    		/* 로딩 중 */
+    		isLoading = true;
+    		
+    		/* 요청할 페이지 번호 1 증가 */
+    		currentPage++;
+    		
+    		/* 추가 페이지를 서버에 ajax 요청 */
+    		console.log("inscroll" + currentPage);
+    		
+    		GetList(currentPage);
+    	};
+    });
+    
+    const GetList = function(currentPage){
+		console.log("inGetList"+currentPage);
+		/* 무한 스크롤 */
+		$.ajax({
+			url:"/bang/recommendListScroll.tr",
+			method:"GET",
+			data:"pageNum="+currentPage+"&searchKeyword=${searchKeyword}",
+			success:function(data){
+				$(".recommend-List-container").append(data);
+				/* 로딩중이 아니라고 표시 */
+				isLoading = false;
+				console.log("ajax");
+			}
+		});
+    }
+    </script>
 </body>
 </html>

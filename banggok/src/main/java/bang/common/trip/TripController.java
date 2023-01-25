@@ -32,14 +32,86 @@ public class TripController {
 
 	/* 여행 일정 공유 게시판 리스트 */
 	@RequestMapping(value="/tripList.tr", method=RequestMethod.GET)
-	public ModelAndView tripList(Map<String, Object> map) throws Exception {
+	public ModelAndView tripList(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("trip/tripList");
 		
-		/* 공유된 여행 일정 전체 가져오기 */
-		List<Map<String, Object>> trip = tripService.tripList(map);
-				
-		mv.addObject("trip", trip);
+		/* 검색시, 키워드 받아옴 */
+		String searchKeyword = request.getParameter("searchKeyword");
+		mv.addObject("searchKeyword", searchKeyword);
 		
+		/* 한 페이지에 표시할 게시글 개수 */
+		int rowCount = 9;
+		/* 첫 페이지 초기값 1 */
+		int pageNum = 1;
+		/* 페이지 수(전체&검색) */
+		int totalPageCount;
+		
+		/* 스크롤시 증가하는 페이지 번호 받아옴 */
+		String strPageNum = request.getParameter("pageNum");
+		if (strPageNum != null) {
+	        pageNum = Integer.parseInt(strPageNum);
+	    }
+		mv.addObject("pageNum", pageNum);
+		
+		/* 여행 일정 공유글 수(전체&검색) */
+	    int totalRow = tripService.tripCount(commandMap.getMap(), request);
+	    mv.addObject("totalRow", totalRow);
+	    
+		/* 여행 일정 공유글 페이지 수(전체&검색) */
+	    totalPageCount = (int) Math.ceil(totalRow / (double) rowCount);
+	    mv.addObject("totalPageCount", totalPageCount);
+	    
+	    return mv;
+	}
+
+	/* 여행 일정 공유 게시판 검색 */
+	@RequestMapping(value="/tripListScroll.tr", method=RequestMethod.GET)
+	public ModelAndView tripListScroll(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("scroll/tripListScroll");
+		/* 검색시, 키워드 받아옴 */
+		String searchKeyword = request.getParameter("searchKeyword");
+		mv.addObject("searchKeyword", searchKeyword);
+		
+		/* 한 페이지에 표시할 게시글 개수 */
+		int rowCount = 9;
+		/* 첫 페이지 초기값 1 */
+		int pageNum = 1;
+		/* 페이지 수(전체&검색) */
+		int totalPageCount;
+		
+		/* 스크롤시 증가하는 페이지 번호 받아옴 */
+		String strPageNum = request.getParameter("pageNum");
+		if (strPageNum != null) {
+	        pageNum = Integer.parseInt(strPageNum);
+	    }
+		mv.addObject("pageNum", pageNum);
+		/* 페이지 게시물 시작번호 */
+	    int startRowNum = 1 + (pageNum - 1) * rowCount;
+	    /* 페이지 게시물 끝번호 */
+	    int endRowNum = pageNum * rowCount;
+	    
+		/* 여행 일정 공유글 수(전체&검색) */
+	    int totalRow = tripService.tripCount(commandMap.getMap(), request);
+	    mv.addObject("totalRow", totalRow);
+	    
+		/* 여행 일정 공유글 페이지 수(전체&검색) */
+	    totalPageCount = (int) Math.ceil(totalRow / (double) rowCount);
+	    mv.addObject("totalPageCount", totalPageCount);
+	    
+	    /* 여행 일정 공유글 리스트(전체&검색) */
+	    commandMap.put("START", startRowNum);
+	    commandMap.put("END", endRowNum);
+	    List<Map<String,Object>> trip = tripService.tripListPaging(commandMap.getMap(), request);
+	    mv.addObject("trip", trip);
+	    
+		/* 확인 */
+	    System.out.println("searchKeyword="+searchKeyword);
+	    System.out.println("totalRow="+totalRow);
+	    System.out.println("totalPageCount="+totalPageCount);
+	    System.out.println("pageNum="+pageNum);
+	    System.out.println("startRowNum="+startRowNum);
+	    System.out.println("endRowNum="+endRowNum);
+				
 		return mv;
 	}
 	
@@ -93,21 +165,6 @@ public class TripController {
 		/* TR_NUM으로 해당 게시글 삭제하기 */
 		tripService.tripDelete(commandMap.getMap());
 				
-		return mv;
-	}
-	
-	/* 여행 일정 공유 게시판 검색 */
-	@RequestMapping(value="/searchTrip.tr", method=RequestMethod.GET)
-	public ModelAndView searchTrip(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("trip/searchTrip");
-		
-		String searchKeyword = request.getParameter("searchKeyword");
-		
-		List<Map<String, Object>> trip = tripService.searchTrip(commandMap.getMap(), request);
-				
-		mv.addObject("searchKeyword", searchKeyword);
-		mv.addObject("trip", trip);
-		
 		return mv;
 	}
 	
