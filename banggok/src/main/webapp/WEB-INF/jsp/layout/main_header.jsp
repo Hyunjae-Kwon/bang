@@ -159,6 +159,6 @@
 		    }
 	    	location.href="/bang/tripWriteForm.tr";
         }
-	   </script>
+	    </script>
     </header>
 </body>
