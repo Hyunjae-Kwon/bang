@@ -96,10 +96,10 @@
 	<update id="tripModify" parameterType="hashmap">
         <![CDATA[
 			UPDATE TRIP 
-			SET TR_TITLE=#{TR_TITLE}, 
-				TR_CONTENT=#{TR_CONTENT},
-				TR_SUBCONTENT=#{TR_SUBCONTENT}
-			WHERE TR_NUM=#{TR_NUM}
+			SET TR_TITLE = #{TR_TITLE}, 
+				TR_CONTENT = #{TR_CONTENT},
+				TR_SUBCONTENT = #{TR_SUBCONTENT}
+			WHERE TR_NUM = #{TR_NUM}
 	   ]]>
 	</update>
 	
@@ -108,7 +108,7 @@
 		<![CDATA[
 			DELETE 
 			FROM TRIP
-			WHERE TR_NUM=#{TR_NUM}
+			WHERE TR_NUM = #{TR_NUM}
 		]]>
 	</delete>
 	
@@ -143,9 +143,26 @@
 	<!-- [tripWrite] 여행 일정 만들기 -->
 	<insert id="tripWrite" parameterType="hashmap">
 		<![CDATA[
-			INSERT INTO TRIP (TR_NUM, TR_ID, TR_TITLE, TR_MAP_LAT, TR_MAP_LNG, TR_CONTENT, TR_SHARE)
-			VALUES (TR_NUM_SEQ.NEXTVAL, #{TR_ID}, #{TR_TITLE}, #{TR_MAP_LAT}, #{TR_MAP_LNG}, #{TR_CONTENT}, 'N')
+			INSERT INTO TRIP (TR_NUM, TR_ID, TR_TITLE, TR_CONTENT, TR_SHARE)
+			VALUES (TR_NUM_SEQ.NEXTVAL, #{TR_ID}, #{TR_TITLE}, #{TR_CONTENT}, 'N')
 		]]>
 	</insert>
+	
+	<!-- [addPlaceList] 추가 장소 저장 -->
+	<insert id="addPlaceList" parameterType="hashmap">
+		<![CDATA[
+			INSERT INTO TRIPPLACE (TP_NUM, TP_ID, TP_PLACE, TP_ADDRESS, TP_RADDRESS, TP_PHONE, TP_MAP_LAT, TP_MAP_LNG)
+			VALUES (TP_NUM_SEQ.NEXTVAL, #{TP_ID}, #{TP_PLACE}, #{TP_ADDRESS}, #{TP_RADDRESS}, #{TP_PHONE}, #{TP_MAP_LAT}, #{TP_MAP_LNG})
+		]]>
+	</insert>
+	
+	<!-- [deletePlaceList] 추가 장소 삭제 -->
+	<delete id="deletePlaceList" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+			FROM TRIPPLACE
+			WHERE TP_MAP_LAT = #{TP_MAP_LAT} AND TP_MAP_LNG = #{TP_MAP_LNG} AND TP_ID = #{TP_ID} AND TP_TR_NUM IS NULL
+		]]>
+	</delete>
 
 </mapper>

@@ -72,4 +72,16 @@ public class TripServiceImpl implements TripService {
 	public void tripWrite(Map<String, Object> map) throws Exception {
 		tripDAO.tripWrite(map);
 	}
+
+	/* 추가 장소 저장 */
+	@Override
+	public void addPlaceList(Map<String, Object> map) throws Exception {
+		tripDAO.addPlaceList(map);
+	}
+
+	/* 추가 장소 삭제 */
+	@Override
+	public void deletePlaceList(Map<String, Object> map) throws Exception {
+		tripDAO.deletePlaceList(map);
+	}
 }
