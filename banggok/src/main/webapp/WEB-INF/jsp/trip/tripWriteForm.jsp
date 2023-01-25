@@ -220,9 +220,15 @@
 		/* 추가한 장소 마커를 담을 배열입니다. */
 		var addMarkers = [];
 		
-		// 장소 추가 버튼 클릭 시 마커를 담을 배열입니다
-		var addPlaceMarkers = [];
-	
+		/* 추가한 장소 마커의 위도를 담을 배열 */
+		var addMarkersLat = [];
+		
+		/* 추가한 장소 마커의 경도를 담을 배열 */
+		var addMarkersLng = [];
+		
+		/* 선을 담는 배열 */
+		var addPolyline = [];
+		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = {
 		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -358,7 +364,7 @@
 		    return el;
 		}
 		
-		/* 클릭한 장소 데이터 전송 (아래 오류 해결 중) */
+		/* 클릭한 장소 데이터 전송 */
 		function addPlaceData(){
 			
 			const addButton = event.currentTarget;
@@ -383,8 +389,6 @@
 		
 		/* 일정 추가 장소에 해당 정보 추가 */
 		function addListItem(elementItem) {
-			console.log(elementItem);
- 	        
  	        /* 위도 경도 구하기 */
 			var markerPosition = infowindow.getPosition();
 			
@@ -413,7 +417,7 @@
 						'<h5 id="place">' + str[0] + '</h5>' + 
 						'<span id="roadAddress">' + str[1] + '</span>' + 
 						'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
-						'<span class="tel" id="tel">' + str[3] + '<input type="button" id="del" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
+						'<span class="tel" id="tel">' + str[3] + '<input type="button" class="1" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
 						'<span style="display: none;" id="lat">' + lat + '</span>' + 
 						'<span style="display: none;" id="lng">' + lng + '</span>' + 
 						'</li>' + 
@@ -426,7 +430,7 @@
 							'<h5 id="place">' + str[0] + '</h5>' + 
 							'<span id="roadAddress">' + str[1] + '</span>' + 
 							'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
-							'<span class="tel" id="tel">' + str[3] + '<input type="button" id="del" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
+							'<span class="tel" id="tel">' + str[3] + '<input type="button" class="' + i + '" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
 							'<span style="display: none;" id="lat">' + lat + '</span>' + 
 							'<span style="display: none;" id="lng">' + lng + '</span>' + 
 							'</li>' + 
@@ -462,8 +466,33 @@
 				position: newMarker
 			});
 			
-			addMarkers.push(newPoint);
-			newPoint.setMap(map);
+			addMarkersLat.push(markerLat);	/* 마커 위도 배열에 추가 */
+			addMarkersLng.push(markerLng);	/* 마커 경도 배열에 추가 */
+			
+			addMarkers.push(newPoint);	/* 마커 배열에 추가 */
+			newPoint.setMap(map);		/* 마커 지도에 표시 */
+			
+			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
+			if(addMarkers.length > 1){
+				var linePath = [];
+				
+				for(let i = 0; i < addMarkers.length; i ++) {
+					var latlng = new kakao.maps.LatLng(addMarkersLat[i], addMarkersLng[i]);
+					linePath.push(latlng);
+				}
+				
+				/* 지도에 표시할 선을 생성 */
+				var polyline = new kakao.maps.Polyline({
+				    path: linePath, // 선을 구성하는 좌표배열 입니다
+				    strokeWeight: 5, // 선의 두께 입니다
+				    strokeColor: '#FFAE00', // 선의 색깔입니다
+				    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+				    strokeStyle: 'solid' // 선의 스타일입니다
+				});
+				
+				addPolyline.push(polyline);	/* 선 배열에 추가 */
+				polyline.setMap(map);		/* 지도에 선을 표시 */
+			}
 			
 			return newPoint;
 		}
@@ -478,6 +507,12 @@
 			const second = third.parentNode;
 			const first = second.parentNode;
 			first.remove();
+
+			/* 지도에 표시되고 있는 선 전부 제거 */
+			removePolyline();
+			
+			const num = delButton.className;
+			removeAddMarker(num);
 			
 			/* 추가한 장소 DB에서 삭제 */
 			$.ajax({
@@ -490,13 +525,47 @@
 			});
 		};
 		
-		/* 지도 위에 추가된 마커를 모두 제거합니다. */ 
-		function removeAddMarkers() {
+		/* 지도 위에 추가된 마커 중 삭제된 목록의 마커 제거 */
+		function removeAddMarker(num) {
+			addMarkers[num-1].setMap(null);
+			addMarkers.splice(num-1);
+			addMarkersLat.splice(num-1);
+			addMarkersLng.splice(num-1);
+			addPolyline.splice(num-1);
+			
+			console.log(addPolyline);
+			
+			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
+			if(addMarkers.length > 1){
+				var linePath = [];
+				
+				for(let i = 0; i < addMarkers.length; i ++) {
+					var latlng = new kakao.maps.LatLng(addMarkersLat[i], addMarkersLng[i]);
+					linePath.push(latlng);
+				}
+				
+				/* 지도에 표시할 선을 생성 */
+				var polyline = new kakao.maps.Polyline({
+				    path: linePath, // 선을 구성하는 좌표배열 입니다
+				    strokeWeight: 5, // 선의 두께 입니다
+				    strokeColor: '#FFAE00', // 선의 색깔입니다
+				    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+				    strokeStyle: 'solid' // 선의 스타일입니다
+				});
+				
+				addPolyline.push(polyline);	/* 선 배열에 추가 */
+				polyline.setMap(map);		/* 지도에 선을 표시 */
+				console.log(addPolyline);
+			}
+		}
+		
+		/* 지도 위에 추가된 마커를 모두 제거합니다. 추후 추가된 목록 전체 제거를 만들면 사용 */ 
+		/* function removeAddMarkers() {
 		    for ( var i = 0; i < addMarkers.length; i++ ) {
 		        addMarkers[i].setMap(null);
 		    }   
 		    addMarkers = [];
-		}
+		} */
 		
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(position, idx, title) {
@@ -525,6 +594,13 @@
 		        markers[i].setMap(null);
 		    }   
 		    markers = [];
+		}
+		
+		/* 지도에 표시되고 있는 선 전부 제거 */
+		function removePolyline() {
+			for ( var i = 0; i < addPolyline.length; i++ ) {
+				addPolyline[i].setMap(null);
+		    }   
 		}
 	
 		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
