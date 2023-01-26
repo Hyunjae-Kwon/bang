@@ -1,5 +1,6 @@
 package bang.common.trip;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,13 +35,18 @@ public class TripServiceImpl implements TripService {
 	public List<Map<String, Object>> tripListPaging(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return tripDAO.tripListPaging(map);
 	}
-	
 
 	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 	@Override
 	public Map<String, Object> tripDetail(Map<String, Object> map) throws Exception {
 		tripDAO.updateHitCnt(map);
 		return tripDAO.tripDetail(map);
+	}
+	
+	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
+	@Override
+	public List<Map<String, Object>> tripplaceDetail(Map<String, Object> map) throws Exception {
+		return tripDAO.tripplaceDetail(map);
 	}
 
 	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
@@ -71,6 +77,28 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void tripWrite(Map<String, Object> map) throws Exception {
 		tripDAO.tripWrite(map);
+	}
+	
+	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
+	@Override
+	public void tripplaceUpdate(Map<String, Object> map) throws Exception {
+		tripDAO.tripplaceUpdate(map);
+	}
+	
+	/* 여행 일정 번호 업데이트를 위한 최대 번호 구하기 */
+	@Override
+	public int maxTRNUM() throws Exception {
+		Map<String, Object> maxMap = new HashMap<String, Object>();
+		maxMap = tripDAO.maxTRNUM();
+		
+		int maxTR;
+		if(maxMap == null) {
+			maxTR = 0;
+		} else {
+			maxTR = Integer.parseInt(String.valueOf(maxMap.get("MAX")));
+		}
+				
+		return maxTR;
 	}
 
 	/* 추가 장소 저장 */

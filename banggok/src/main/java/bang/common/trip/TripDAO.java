@@ -33,6 +33,11 @@ public class TripDAO extends AbstractDAO {
 		return (Map<String, Object>) selectOne ("trip.tripDetail", map);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> tripplaceDetail(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("trip.tripplaceDetail", map);
+	}
+	
 	/* 조회수 증가 */
 	public void updateHitCnt(Map<String, Object> map) throws Exception{
 		update("trip.updateHitCnt", map);
@@ -63,6 +68,17 @@ public class TripDAO extends AbstractDAO {
 	/* 여행 일정 만들기 */
 	public void tripWrite(Map<String, Object> map) throws Exception {
 		insert ("trip.tripWrite", map);
+	}
+	
+	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
+	public void tripplaceUpdate(Map<String, Object> map) throws Exception {
+		update ("trip.tripplaceUpdate", map);
+	}
+	
+	/* 여행 일정 번호 업데이트를 위한 최대 번호 구하기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> maxTRNUM() throws Exception {
+		return (Map<String, Object>) selectOne("trip.maxTRNUM");
 	}
 	
 	/* 추가 장소 저장 */

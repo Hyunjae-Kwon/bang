@@ -92,6 +92,14 @@
 	]]>
 	</update>
 	
+	<!-- [tripplaceDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 -->
+	<select id="tripplaceDetail" parameterType="hashmap" resultType="hashmap">
+	 <![CDATA[
+			SELECT * FROM TRIPPLACE
+			WHERE TP_TRNUM = #{TR_NUM}
+	   ]]>
+	</select>
+	
 	<!-- [tripModify] 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 -->
 	<update id="tripModify" parameterType="hashmap">
         <![CDATA[
@@ -147,6 +155,25 @@
 			VALUES (TR_NUM_SEQ.NEXTVAL, #{TR_ID}, #{TR_TITLE}, #{TR_CONTENT}, 'N')
 		]]>
 	</insert>
+	
+	<!-- [tripplaceUpdate] 여행 장소 테이블의 여행 일정 번호 업데이트 -->
+	<insert id="tripplaceUpdate" parameterType="hashmap">
+		<![CDATA[
+			UPDATE TRIPPLACE
+			SET TP_TRNUM = #{TP_TRNUM}
+			WHERE TP_ID = #{TR_ID} AND TP_TRNUM IS NULL
+		]]>
+	</insert>
+	
+	<!-- [maxTRNUM] 여행 일정 번호 최대값 -->
+	<select id="maxTRNUM" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			MAX(TR_NUM) MAX 
+		FROM 
+			TRIP
+	]]>
+	</select>
 	
 	<!-- [addPlaceList] 추가 장소 저장 -->
 	<insert id="addPlaceList" parameterType="hashmap">
