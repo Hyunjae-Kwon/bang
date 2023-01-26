@@ -48,7 +48,6 @@
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
-
 #placesList2 {margin-left: 5px; margin-right: 5px;}
 #placesList2 li {list-style: none; font-size:14px;}
 #placesList2 .item {position:relative;border-bottom:1px solid #eaeaea;overflow: hidden;cursor: pointer;min-height: 65px;}
@@ -75,7 +74,6 @@
 #placesList2 .item .marker_13 {background-position: 0 -562px;}
 #placesList2 .item .marker_14 {background-position: 0 -608px;}
 #placesList2 .item .marker_15 {background-position: 0 -654px;}
-
 #addPlaceData{
   border: 1px solid #14863d;
   border-radius: 5px;
@@ -83,17 +81,21 @@
   color: #14863d;
   cursor: pointer;
 }
-
 #addPlaceData:hover{
   background-color: green;
   color: #fff;
 }
-
 #addPlaceData:focus{
   box-shadow: 0 0 0 2px black;
   background-color: green;
   color: #fff;
 }
+.customoverlay {position:relative;bottom:73px;border-radius:4px;border: 2px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay .item {display:block;float:left; text-decoration:none;padding:8px 8px;color:#000;text-align:center;border-radius:3px;font-size:11px;font-weight:bold;background: #FA8072;}
+.customoverlay .title {display:block;text-align:center;background:#fff;padding:8px 15px;font-size:11px;font-weight:bold;border-radius:3px;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+	
 </style>
 </head>
     <body>
@@ -191,13 +193,11 @@
 				$("#TR_TITLE").focus();
 				return false;
 			}
-
 			if (!$(".TR_CONTENT").val()) {
 				alert("일정 내용을 입력하세요.");
 				$(".TR_CONTENT").focus();
 				return false;
 			}
-
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='tripWrite.tr'/>",
@@ -225,6 +225,12 @@
 		
 		/* 추가한 장소 마커의 경도를 담을 배열 */
 		var addMarkersLng = [];
+		
+		/* 커스텀 오버레이 순서 */
+		var count= 1;
+		
+		/* 커스텀 오버레이 배열 */
+		var customOverlays = [];
 		
 		/* 선을 담는 배열 */
 		var addPolyline = [];
@@ -359,8 +365,7 @@
 		                '</div>';           
 	
 		    el.innerHTML = itemStr;
-		    el.className = 'item';
-		    
+		    el.className = 'item';		    
 		    return el;
 		}
 		
@@ -371,6 +376,7 @@
 			const addButtonP = addButton.parentNode;
 			const elementItem = addButtonP.parentNode;
 			
+			addCustom(elementItem);
 			addListItem(elementItem);
 			
 			/* 위도 경도 구하기 */
@@ -454,6 +460,40 @@
 			return place;
 		}
 		
+		/* 커스텀 오버레이 */
+		function addCustom(elementItem){
+			
+			var markerPosition = infowindow.getPosition();
+			
+			var customMarkerLat = markerPosition.getLat();
+			var customMarkerLng = markerPosition.getLng();
+			
+			var customPosition = new kakao.maps.LatLng(customMarkerLat, customMarkerLng); /* 커스텀 오버레이 위치 */
+			
+			/* 클릭한 장소 데이터 */
+			var itemElText = elementItem.innerText;
+			
+			/* 엔터를 기준으로 스플릿 */
+			var str = itemElText.split('\n').filter((elem) => {
+				return elem !== undefined && elem !== null && elem !== ''
+			});
+									
+			var content = '<div class="customoverlay">' +
+		    '  <span class="item">' + count + '</span>' +
+		    '  <span class="title">' + str[0] + '</span>' +		    
+		    '</div>';
+		    
+			var customOverlay = new kakao.maps.CustomOverlay({
+			    map: map,
+			    position: customPosition,
+			    content: content,
+			    yAnchor: 0.05
+			});
+			count = count+1;  /* 커스텀 오버레이 순서 */ 
+			
+			customOverlays.push(customOverlay);
+		}
+		
 		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
 		function addPlaceMarker(){
 			var markerPosition = infowindow.getPosition();
@@ -462,16 +502,21 @@
 			var markerLng = markerPosition.getLng();
 			
 			var newMarker = new kakao.maps.LatLng(markerLat, markerLng);
+			var imageSrc = 'resources/images/marker.png',
+			    imageSize = new kakao.maps.Size(30, 30);
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+		
 			var newPoint = new kakao.maps.Marker({
-				position: newMarker
+				position: newMarker,
+				image: markerImage
 			});
-			
+								
 			addMarkersLat.push(markerLat);	/* 마커 위도 배열에 추가 */
 			addMarkersLng.push(markerLng);	/* 마커 경도 배열에 추가 */
 			
 			addMarkers.push(newPoint);	/* 마커 배열에 추가 */
-			newPoint.setMap(map);		/* 마커 지도에 표시 */
-			
+			newPoint.setMap(map);		/* 마커 지도에 표시 */		
+															
 			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
 			if(addMarkers.length > 1){
 				var linePath = [];
@@ -507,9 +552,11 @@
 			const second = third.parentNode;
 			const first = second.parentNode;
 			first.remove();
-
 			/* 지도에 표시되고 있는 선 전부 제거 */
 			removePolyline();
+			
+			/* 커스텀 오버레이 조정 */
+			count = count -1;
 			
 			const num = delButton.className;
 			removeAddMarker(num);
@@ -532,6 +579,8 @@
 			addMarkersLat.splice(num-1);
 			addMarkersLng.splice(num-1);
 			addPolyline.splice(num-1);
+			customOverlays[num-1].setMap(null);
+			customOverlays.splice(num-1);
 			
 			console.log(addPolyline);
 			

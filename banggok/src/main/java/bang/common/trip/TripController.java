@@ -124,11 +124,15 @@ public class TripController {
 		/* TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 		Map<String, Object> trip = tripService.tripDetail(commandMap.getMap());
 		
+		/* TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
+		List<Map<String, Object>> tripplace = tripService.tripplaceDetail(commandMap.getMap());
+		
 		/* 댓글 정보 불러오기 */
 		List<Map<String, Object>> comment = commentService.selectTripComment(commandMap.getMap());
 				
 		mv.addObject("comment", comment);
 		mv.addObject("trip", trip);
+		mv.addObject("tripplace", tripplace);
 		
 		return mv;
 	}

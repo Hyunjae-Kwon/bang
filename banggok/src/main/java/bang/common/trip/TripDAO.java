@@ -33,6 +33,11 @@ public class TripDAO extends AbstractDAO {
 		return (Map<String, Object>) selectOne ("trip.tripDetail", map);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> tripplaceDetail(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("trip.tripplaceDetail", map);
+	}
+	
 	/* 조회수 증가 */
 	public void updateHitCnt(Map<String, Object> map) throws Exception{
 		update("trip.updateHitCnt", map);
