@@ -192,5 +192,14 @@
 			WHERE TP_MAP_LAT = #{TP_MAP_LAT} AND TP_MAP_LNG = #{TP_MAP_LNG} AND TP_ID = #{TP_ID} AND TP_TRNUM IS NULL
 		]]>
 	</delete>
+	
+	<!-- [tripLike] 추천하기 -->
+	<update id="tripLike" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIP 
+		SET TR_LIKE = TR_LIKE + 1 WHERE TR_NUM = #{TR_NUM}
+	]]>
+	</update>
 
 </mapper>

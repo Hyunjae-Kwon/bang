@@ -161,18 +161,9 @@
             </div>
         </div>
     </div>
-    <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
-    <div style="margin-top:10px;">
-        <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
-        <div class="col-sm-8" style="max-width: 100%;">
-        	<button class="btn btn-success btn-sm" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${trip.TR_NUM}'">수정하기</button>
-        	<button class="btn btn-success btn-sm" onClick="return fn_tripDelete()">삭제하기</button>
-            <button class="btn btn-success btn-sm" onClick="location.href='/bang/tripList.tr'">목록으로 돌아가기</button>
-        </div>
-    </div>
-    <div>
-    	<h2>댓글</h2>
-    </div>
+   
+    <div style="max-width: 100%; margin-left: 40px;">
+    	<h4>댓글</h4>
     <!-- ################# 댓글 내용 Starts Here ####################### -->
     <div id="commentList">
     	<c:choose>
@@ -186,26 +177,23 @@
 		    			<div>
 		    				<div>
 		    					<span>
-		    						${list.BC_ID}
+		    						${list.BC_ID}|
+		    						<span class="pric">
+			                        	<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd"/> 
+			                   		</span>
 		    					</span>
-		    					<span>
+		    					<p>
 		    						${list.BC_COMMENT}
-		    					</span>
-		    					<span class="pric">
-			                        <fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd"/> 
-			                    </span>
 		    				</div>
 		    			</div>
-		    			<c:if test="${MEM_ID != null}">
-		    				<div>
-			    				<input type="button" value="답글 달기">
-			    			</div>
+		    			<div style="font-size:8pt; color:gray; padding-right:10px; " >
+		    			<c:if test="${MEM_ID != null}">	    				
+			    				<input type="button" value="답글 달기">			    			
 		    			</c:if>
 		    			<c:if test="${MEM_ID eq list.BC_ID}">
-		    				<div id="deleteList">
-		    					<input type="button" onClick="comDelete(${list.BC_BCID})" value="삭제 하기">
-		    				</div>
+		    					<input type="button"  onClick="comDelete(${list.BC_BCID})" value="삭제 하기">
 		    			</c:if>
+		    			</div>
 		    		</div>
 		    	</c:forEach>
 			</c:when>
@@ -216,11 +204,29 @@
 			</c:otherwise>
 		</c:choose>
     </div>
-    <div>
-    	<input type="text" id="comment" placeholder="댓글 입력">
-    	<input type="button" id="comWrite" value="작성하기">
+    <div style="display:inline-block; width:88%;">
+    	<textarea name="comment" id="comment" width="88%" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
+    </div>
+    <div style="display:inline-block; float:right; width:10%;">
+    	<input type="button" id="comWrite" class="btn btn-primary py-2 px-2" value="작성하기" >
     </div>
 	<form id="commonForm" name="commonForm"></form>
+	
+	 <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
+    <div style="margin-top:10px;" align="center">
+        <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
+        <div class="col-sm-8" style="max-width: 100%;">
+         <c:if test="${MEM_ID eq trip.TR_ID}">  <!--  작성자일때만 보이게 -->
+        	<button class="btn btn-success btn-sm" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${trip.TR_NUM}'">수정하기</button>
+        	<button class="btn btn-success btn-sm" onClick="return fn_tripDelete()">삭제하기</button>
+        </c:if>
+        <c:if test="${MEM_ID != trip.TR_ID }">  <!-- 작성자가 아닐 경우에만 추천버튼 보이게 -->
+			<input type = "button" class="btn btn-success btn-sm" onclick="return fn_recommendLike()" value="추천하기">
+      	</c:if>
+            <button class="btn btn-success btn-sm" onClick="location.href='/bang/tripList.tr'">목록보기</button>
+        </div>
+    </div>
+    </div>
     </body>
     <!-- 댓글 내용 작성 후 작성하기 눌렀을 때 동작하는 댓글 입력 함수 -->
     <script>
@@ -292,6 +298,22 @@
 			}
 		}
     </script>
+    <script type="text/javascript">
+function fn_recommendLike() {
+	  
+	  	var tr_num = "${trip.TR_NUM}";
+	  	var comSubmit = new ComSubmit();
+	  	var CONFIRM = confirm("추천하시겠습니까?");
+	  	if(CONFIRM == true) {
+			comSubmit.setUrl("/bang/tripLike.tr");
+			comSubmit.addParam("TR_NUM", tr_num);
+	      comSubmit.submit();
+	      alert("추천되었습니다.");
+	      
+	      }
+	  }
+	  </script>
+    
     <!-- 카카오 지도 API, services와 clusterer, drawing 라이브러리 불러오기 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fa3a582f3278c83fd4f3031cc4f96d&libraries=services,clusterer,drawing"></script>
 	<!-- 카카오 지도 Drawing Library에서 데이터 얻기 스크립트 -->
@@ -350,6 +372,18 @@
 	        });
 	    })(marker, infowindow);
 	}
+	
+	// 지도에 표시할 선을 생성합니다
+	var polyline = new kakao.maps.Polyline({
+	    path: points, // 선을 구성하는 좌표배열 입니다
+	    strokeWeight: 5, // 선의 두께 입니다
+	    strokeColor: '#FFAE00', // 선의 색깔입니다
+	    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+	    strokeStyle: 'solid' // 선의 스타일입니다
+	});
+
+	// 지도에 선을 표시합니다 
+	polyline.setMap(map);  
 	
 	// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 	var bounds = new kakao.maps.LatLngBounds();    
