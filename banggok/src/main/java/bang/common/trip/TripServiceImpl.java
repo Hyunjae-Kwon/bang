@@ -112,4 +112,10 @@ public class TripServiceImpl implements TripService {
 	public void deletePlaceList(Map<String, Object> map) throws Exception {
 		tripDAO.deletePlaceList(map);
 	}
+	
+	/* 추천하기 */
+	@Override
+	public void tripLike(Map<String, Object> map) throws Exception {
+		tripDAO.tripLike(map);
+	}
 }

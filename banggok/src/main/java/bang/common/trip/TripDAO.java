@@ -90,4 +90,10 @@ public class TripDAO extends AbstractDAO {
 	public void deletePlaceList(Map<String, Object> map) throws Exception {
 		delete ("trip.deletePlaceList", map);
 	}
+	
+	/* 추천하기 */
+	public void tripLike(Map<String, Object> map) throws Exception {
+		System.out.println(map.get("TR_NUM"));
+		update("trip.tripLike", map);       
+	}
 }

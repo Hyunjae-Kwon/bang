@@ -243,4 +243,15 @@ public class TripController {
 		session.setAttribute("TR_ID", TR_ID);
 		return mv;
 	}
+	
+	/* 추천하기 */
+	@RequestMapping(value="/tripLike.tr",  method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView tripLike(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/tripDetail.tr");	
+		tripService.tripLike(commandMap.getMap());
+		
+		mv.addObject("TR_NUM", commandMap.get("TR_NUM"));
+		
+		return mv;
+	}
 }
