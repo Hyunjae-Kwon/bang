@@ -235,6 +235,16 @@
 		/* 선을 담는 배열 */
 		var addPolyline = [];
 		
+		/* 범위 정보를 담을 배열 */
+		var points = [];
+		
+		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+		var bounds = new kakao.maps.LatLngBounds();
+		
+		/* points 배열에 아무것도 없을 때 기본 위치를 지정하는 배열 */
+		var center = [];
+		center.push(new kakao.maps.LatLng(37.566826, 126.9786567));
+		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = {
 		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -495,7 +505,8 @@
 		}
 		
 		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
-		function addPlaceMarker(){
+		function addPlaceMarker(placePosition){
+			console.log("추가");
 			var markerPosition = infowindow.getPosition();
 			
 			var markerLat = markerPosition.getLat();
@@ -510,12 +521,20 @@
 				position: newMarker,
 				image: markerImage
 			});
+			
+			if(points.length < 1){
+				bounds = new kakao.maps.LatLngBounds();
+			}
+			
+			console.log(points);
+			points.push(placePosition);		/* 지도 범위 조절, 위도 경도 배열에 마커 위치 추가 */
+			console.log(points);
 								
 			addMarkersLat.push(markerLat);	/* 마커 위도 배열에 추가 */
 			addMarkersLng.push(markerLng);	/* 마커 경도 배열에 추가 */
 			
 			addMarkers.push(newPoint);	/* 마커 배열에 추가 */
-			newPoint.setMap(map);		/* 마커 지도에 표시 */		
+			newPoint.setMap(map);		/* 마커 지도에 표시 */	
 															
 			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
 			if(addMarkers.length > 1){
@@ -538,6 +557,13 @@
 				addPolyline.push(polyline);	/* 선 배열에 추가 */
 				polyline.setMap(map);		/* 지도에 선을 표시 */
 			}
+			
+			for (var i = 0; i < points.length; i++) {
+			    // LatLngBounds 객체에 좌표를 추가합니다
+			    bounds.extend(points[i]);
+			}
+			
+			setBounds();
 			
 			return newPoint;
 		}
@@ -575,14 +601,29 @@
 		/* 지도 위에 추가된 마커 중 삭제된 목록의 마커 제거 */
 		function removeAddMarker(num) {
 			addMarkers[num-1].setMap(null);
-			addMarkers.splice(num-1);
-			addMarkersLat.splice(num-1);
-			addMarkersLng.splice(num-1);
-			addPolyline.splice(num-1);
+			addMarkers.splice(num-1, 1);
+			addMarkersLat.splice(num-1, 1);
+			addMarkersLng.splice(num-1, 1);
+			addPolyline.splice(num-1, 1);
 			customOverlays[num-1].setMap(null);
-			customOverlays.splice(num-1);
+			customOverlays.splice(num-1, 1);
 			
-			console.log(addPolyline);
+			points.splice(num-1, 1);
+			
+			/* bounds 초기화 */
+			bounds = new kakao.maps.LatLngBounds();
+			
+			if(points.length > 0){
+				for (var i = 0; i < points.length; i++) {
+				    // LatLngBounds 객체에 좌표를 추가합니다
+				    bounds.extend(points[i]);
+				    console.log(points[i]);
+				}
+			} else {
+				bounds.extend(center[0]);
+			}
+			
+			setBounds();
 			
 			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
 			if(addMarkers.length > 1){
@@ -604,7 +645,6 @@
 				
 				addPolyline.push(polyline);	/* 선 배열에 추가 */
 				polyline.setMap(map);		/* 지도에 선을 표시 */
-				console.log(addPolyline);
 			}
 		}
 		
@@ -697,6 +737,12 @@
 		    while (el.hasChildNodes()) {
 		        el.removeChild (el.lastChild);
 		    }
+		}
+
+		function setBounds() {
+		    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+		    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+		    map.setBounds(bounds);
 		}
 	</script>
 	
