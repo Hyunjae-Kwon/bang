@@ -4,10 +4,6 @@
 <html lang="en">
 
 <head>
-
-	<link rel="stylesheet" href="resources/chat/css/bootstrap.css">
-	<link rel="stylesheet" href="resources/chat/css/custom.css">
-	<script src="resources/chat/js/bootstrap.js"></script>
 </head>
 
     <body>
@@ -22,7 +18,7 @@
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
-                <h2>메시지함</h2>
+                <h2>채팅방</h2>
             </div>
         </div>
     </div>
@@ -37,24 +33,22 @@
         
         <br/>
 
-
-	<div class="container">
-		<table class="table" style="margin: 0 auto;">
-			<thead>
-				<tr>
-					<th><h4>주고받은 메시지 목록</h4></th>
-				</tr>
-			</thead>
-			<div style="overflow-y: auto; width: 100%; max-height: 450px;">
-				<table class="table table-bordered table-hover" style="text-align: center; border: 1px solid #dddddd; margin: 0 auto;">
-					<tbody id="boxTable">
-					
-					</tbody>
-				</table>
-			</div>
-		</table>
-	</div>
-          
+<script>
+function chatWinOpen(){
+	var id = document.getElementById("chatId");
+	if (id.value == "") {
+		alert("대화명을 입력 후 채팅창을 열어주세요.");
+		id.focus();
+		return;
+	}
+	window.open("chatWindow.tr?chatId=" + id.value, "",
+				"width=320, height=400");
+	id.value = "";
+}
+</script>
+ <h2>웹소켓 채팅 - 대화명 적용해서 채팅창 띄워주기</h2>
+ 대화명 : <input type="text" id="chatId" />
+ <button onclick="chatWinOpen();">채팅 참여</button>
 
             
         </div>
@@ -69,8 +63,6 @@
 
   <!--  ************************* Footer Start Here ************************** -->
        
-    
-   
-    </body>
+
 
 </html>
