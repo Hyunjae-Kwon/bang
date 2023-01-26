@@ -490,6 +490,7 @@
 			    yAnchor: 0.05
 			});
 			count = count+1;  /* 커스텀 오버레이 순서 */ 
+			
 			customOverlays.push(customOverlay);
 		}
 		
@@ -553,7 +554,10 @@
 			first.remove();
 			/* 지도에 표시되고 있는 선 전부 제거 */
 			removePolyline();
+			
+			/* 커스텀 오버레이 조정 */
 			count = count -1;
+			
 			const num = delButton.className;
 			removeAddMarker(num);
 			
