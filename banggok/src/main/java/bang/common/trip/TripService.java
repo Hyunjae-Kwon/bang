@@ -48,5 +48,8 @@ public interface TripService {
 	
 	/* 추가 장소 삭제 */
 	void deletePlaceList(Map<String, Object> map) throws Exception;
+	
+	/* 추천하기 */
+	void tripLike(Map<String, Object> map) throws Exception;
 
 }
