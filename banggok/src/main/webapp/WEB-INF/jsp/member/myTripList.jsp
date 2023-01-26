@@ -58,7 +58,8 @@
 						<c:when test="${fn:length(myTripList) > 0}">
 							<c:forEach items="${myTripList}" var="list" varStatus="status">
 								<tr>
-									<td align="center">${list.TR_NUM }</td>
+									<td align="center">${list.TR_NUM }
+									<input type="hidden" id="TR_NUM" name="TR_NUM" value="${list.TR_NUM }"></td>
 									<td><a href="tripDetail.tr?TR_NUM=${list.TR_NUM}">${list.TR_TITLE}</a>
 									</td>
 
@@ -66,8 +67,8 @@
 									<td align="center">${list.TR_CNT }</td>
 									<td align="center" ${list.TR_REGDATE }><fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd" /></td>
 									<td align="center">
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripModify.tr'">수정</button> 
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripDel.tr'">삭제</button>									  
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${list.TR_NUM}'">수정</button> 
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="deleteTrip()">삭제</button>									  
 									</td>
 								</tr>
 							</c:forEach>
@@ -91,13 +92,12 @@
 		</div>				 
 	</div>
 	<script type="text/javascript">
-
-		function fn_openBoardDetail(obj) {
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/tripDetail.tr' />");
-			comSubmit.addParam("TR_NUM", obj.parent().find("#TR_NUM").val());
-			comSubmit.submit();
+	function deleteTrip() {
+		var TR_NUM = document.getElementById("TR_NUM").value;
+		if (confirm("삭제하시겠습니까?") == true) {
+			location.href = "tripDelete.tr?TR_NUM=" + TR_NUM;		
 		}
+	}
 	</script>
 
   <!--  ************************* Footer Start Here ************************** -->

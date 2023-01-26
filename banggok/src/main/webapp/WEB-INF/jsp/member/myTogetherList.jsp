@@ -58,7 +58,8 @@
 						<c:when test="${fn:length(myTogetherList) > 0}">
 							<c:forEach items="${myTogetherList}" var="list" varStatus="status">
 								<tr>
-									<td align="center">${list.TG_NUM }</td>
+									<td align="center">${list.TG_NUM }
+									<input type="hidden" id="TG_NUM" name="TG_NUM" value="${list.TG_NUM }"></td>
 									<td><a href="togetherDetail.tr?TG_NUM=${list.TG_NUM}">${list.TG_TITLE}</a>
 									</td>
 
@@ -66,8 +67,8 @@
 									<td align="center">${list.TG_CNT }</td>
 									<td align="center" ${list.TG_REGDATE }><fmt:formatDate value="${list.TG_REGDATE}" pattern="yyyy-MM-dd" /></td>
 									<td align="center">
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/togetherModify.tr'">수정</button> 
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/togetherDel.tr'">삭제</button>									  
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/togetherModifyForm.tr?TG_NUM=${list.TG_NUM}'">수정</button> 
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="return deleteTogether()">삭제</button>									  
 									</td>
 								</tr>
 							</c:forEach>
@@ -92,12 +93,12 @@
 	</div>
 	<script type="text/javascript">
 
-		function fn_openBoardDetail(obj) {
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/togertherDetail.tr' />");
-			comSubmit.addParam("TG_NUM", obj.parent().find("#TG_NUM").val());
-			comSubmit.submit();
+	function deleteTogether() {
+		var TG_NUM = document.getElementById("TG_NUM").value;
+		if (confirm("삭제하시겠습니까?") == true) {
+			location.href = "togetherDelete.tr?TG_NUM=" + TG_NUM;		
 		}
+	}
 	</script>
 
   <!--  ************************* Footer Start Here ************************** -->
