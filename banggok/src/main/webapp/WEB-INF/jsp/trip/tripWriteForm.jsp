@@ -523,7 +523,6 @@
 			});
 			
 			if(points.length < 1){
-				alert("points is empty");
 				bounds = new kakao.maps.LatLngBounds();
 			}
 			
