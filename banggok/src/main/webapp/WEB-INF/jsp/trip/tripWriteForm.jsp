@@ -90,10 +90,10 @@
   background-color: green;
   color: #fff;
 }
-.customoverlay {position:relative;bottom:73px;border-radius:4px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay {position:relative;bottom:73px;border-radius:4px;border: 2px solid #ccc;border-bottom:2px solid #ddd;float:left;}
 .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:28px;padding:8px 12px;font-size:12px;font-weight:bold;}
+.customoverlay .item {display:block;float:left; text-decoration:none;padding:8px 8px;color:#000;text-align:center;border-radius:3px;font-size:11px;font-weight:bold;background: #FA8072;}
+.customoverlay .title {display:block;text-align:center;background:#fff;padding:8px 15px;font-size:11px;font-weight:bold;border-radius:3px;}
 .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 	
 </style>
@@ -226,8 +226,11 @@
 		/* 추가한 장소 마커의 경도를 담을 배열 */
 		var addMarkersLng = [];
 		
-		/* 커스텀 마커 순서 */
+		/* 커스텀 오버레이 순서 */
 		var count= 1;
+		
+		/* 커스텀 오버레이 배열 */
+		var customOverlays = [];
 		
 		/* 선을 담는 배열 */
 		var addPolyline = [];
@@ -462,10 +465,10 @@
 			
 			var markerPosition = infowindow.getPosition();
 			
-			var markerLat = markerPosition.getLat();
-			var markerLng = markerPosition.getLng();
+			var customMarkerLat = markerPosition.getLat();
+			var customMarkerLng = markerPosition.getLng();
 			
-			var newMarker = new kakao.maps.LatLng(markerLat, markerLng);
+			var customPosition = new kakao.maps.LatLng(customMarkerLat, customMarkerLng); /* 커스텀 오버레이 위치 */
 			
 			/* 클릭한 장소 데이터 */
 			var itemElText = elementItem.innerText;
@@ -476,17 +479,18 @@
 			});
 									
 			var content = '<div class="customoverlay">' +
-		    '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
-		    '    <span class="title">' + count + '.' + str[0] + '</span>' +
-		    '  </a>' +
+		    '  <span class="item">' + count + '</span>' +
+		    '  <span class="title">' + str[0] + '</span>' +		    
 		    '</div>';
+		    
 			var customOverlay = new kakao.maps.CustomOverlay({
 			    map: map,
-			    position: newMarker,
+			    position: customPosition,
 			    content: content,
-			    yAnchor: 0.2
+			    yAnchor: 0.05
 			});
-			
+			count = count+1;  /* 커스텀 오버레이 순서 */ 
+			customOverlays.push(customOverlay);
 		}
 		
 		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
@@ -505,18 +509,13 @@
 				position: newMarker,
 				image: markerImage
 			});
-						
-			
+								
 			addMarkersLat.push(markerLat);	/* 마커 위도 배열에 추가 */
 			addMarkersLng.push(markerLng);	/* 마커 경도 배열에 추가 */
 			
 			addMarkers.push(newPoint);	/* 마커 배열에 추가 */
 			newPoint.setMap(map);		/* 마커 지도에 표시 */		
-			
-			count = count+1;  /* 커스텀 마커 순서 */ 
-			
-			addCustom(); /* 커스텀 오버레이 */
-			
+															
 			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
 			if(addMarkers.length > 1){
 				var linePath = [];
@@ -576,6 +575,8 @@
 			addMarkersLat.splice(num-1);
 			addMarkersLng.splice(num-1);
 			addPolyline.splice(num-1);
+			customOverlays[num-1].setMap(null);
+			customOverlays.splice(num-1);
 			
 			console.log(addPolyline);
 			
