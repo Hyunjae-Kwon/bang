@@ -96,4 +96,9 @@ public class TripDAO extends AbstractDAO {
 		System.out.println(map.get("TR_NUM"));
 		update("trip.tripLike", map);       
 	}
+	
+	/* 여행 일정 공유하기 */
+	public void tripShare(Map<String, Object> map) throws Exception {
+		update("trip.tripShare", map);
+	}
 }

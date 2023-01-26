@@ -219,6 +219,7 @@
          <c:if test="${MEM_ID eq trip.TR_ID}">  <!--  작성자일때만 보이게 -->
         	<button class="btn btn-success btn-sm" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${trip.TR_NUM}'">수정하기</button>
         	<button class="btn btn-success btn-sm" onClick="return fn_tripDelete()">삭제하기</button>
+        	<button class="btn btn-success btn-sm" onClick="location.href='/bang/tripShare.tr?TR_NUM=${trip.TR_NUM}'">공유하기</button>
         </c:if>
         <c:if test="${MEM_ID != trip.TR_ID }">  <!-- 작성자가 아닐 경우에만 추천버튼 보이게 -->
 			<input type = "button" class="btn btn-success btn-sm" onclick="return fn_recommendLike()" value="추천하기">
