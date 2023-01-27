@@ -10,12 +10,6 @@
 </head>
 <link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>"/>
 <body>
-<!-- ################# Header Starts Here#######################--->
-
-
- 
-
-    
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -29,10 +23,9 @@
         </div>
     </div>
     
-    
      <!--*************** Blog Starts Here ***************-->
       <br><br>
-<div class="board-list">
+	<div class="board-list">
 		<div class="container">		 
 			<table class="board-table">
 				<colgroup>
@@ -40,7 +33,9 @@
 					<col width="*" />
 					<col width="20%" />
 					<col width="15%" />
+					<col width="*" />
 					<col width="20%" />
+					<col width="*" />
 					<col width="15%" />
 				</colgroup>
 				<thead>
@@ -49,7 +44,9 @@
 						<th scope="col">제목</th>
 						<th scope="col">작성자</th>
 						<th scope="col">조회수</th>
+						<th scope="col">추천수</th>
 						<th scope="col">작성일</th>
+						<th scope="col">공유 여부</th>
 						<th scope="col">수정 / 삭제</th>
 					</tr>
 				</thead>
@@ -62,13 +59,17 @@
 									<input type="hidden" id="TR_NUM" name="TR_NUM" value="${list.TR_NUM }"></td>
 									<td><a href="tripDetail.tr?TR_NUM=${list.TR_NUM}">${list.TR_TITLE}</a>
 									</td>
-
 									<td align="center">${list.TR_ID }
 									<td align="center">${list.TR_CNT }</td>
+									<td align="center">${list.TR_LIKE }</td>
 									<td align="center" ${list.TR_REGDATE }><fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd" /></td>
+									<td align="center">									  
+										<c:if test="${list.TR_SHARE eq 'Y' }">공유중</c:if>
+										<c:if test="${list.TR_SHARE eq 'N' }"><button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripShare.tr?TR_NUM=${list.TR_NUM}'">공유하기</button></c:if>
+									</td>
 									<td align="center">
 									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${list.TR_NUM}'">수정</button> 
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="deleteTrip()">삭제</button>									  
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="deleteTrip()">삭제</button>								  
 									</td>
 								</tr>
 							</c:forEach>

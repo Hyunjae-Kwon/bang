@@ -254,4 +254,15 @@ public class TripController {
 		
 		return mv;
 	}
+	
+	/* 여행 일정 공유하기 */
+	@RequestMapping(value="/tripShare.tr")
+	public ModelAndView tripShare(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/tripList.tr");
+		
+		/* 폼을 통해 입력받은 데이터로 수정하기 */
+		tripService.tripShare(commandMap.getMap());
+				
+		return mv;
+	}
 }

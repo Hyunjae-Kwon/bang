@@ -201,5 +201,13 @@
 		SET TR_LIKE = TR_LIKE + 1 WHERE TR_NUM = #{TR_NUM}
 	]]>
 	</update>
+	
+	<!-- [tripShare] 여행 일정 공유하기 -->
+	<update id="tripShare" parameterType="hashmap">
+	<![CDATA[
+		UPDATE TRIP 
+		SET TR_SHARE = 'Y' WHERE TR_NUM = #{TR_NUM}
+	]]>
+	</update>
 
 </mapper>

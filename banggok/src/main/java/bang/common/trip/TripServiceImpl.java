@@ -118,4 +118,10 @@ public class TripServiceImpl implements TripService {
 	public void tripLike(Map<String, Object> map) throws Exception {
 		tripDAO.tripLike(map);
 	}
+
+	/* 여행 일정 공유하기 */
+	@Override
+	public void tripShare(Map<String, Object> map) throws Exception {
+		tripDAO.tripShare(map);
+	}
 }
