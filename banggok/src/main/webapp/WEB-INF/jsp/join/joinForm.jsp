@@ -20,7 +20,7 @@ function checkId() {
 			    type : "POST",
 			    dataType : "text",
 			    success : function(data){
-			    	var result = JSON.parse(data);
+			    	var result = data;
 			    	if(result > 0) {
 			    		
 			    		$('#idCheck').text("이미 사용중인 아이디입니다.");
@@ -57,7 +57,7 @@ function checkEmail() {
 		    type : "POST",
 		    dataType : "text",
 		    success : function(data){
-		    	result = JSON.parse(data);
+		    	result = data;
 		    	
 		    	if(result > 0) {
 		    		$('#mailSend').text("이미 사용중인 이메일입니다.");

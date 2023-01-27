@@ -44,6 +44,52 @@
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+#placesList2 {margin-left: 5px; margin-right: 5px;}
+#placesList2 li {list-style: none; font-size:14px;}
+#placesList2 .item {position:relative;border-bottom:1px solid #eaeaea;overflow: hidden;cursor: pointer;min-height: 65px; padding-bottom: 10px;}
+#placesList2 .item span {display: block;margin-top:4px;}
+#placesList2 .item h5, #placesList2 .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList2 .item .info{padding:10px 0 10px 55px;}
+#placesList2 .info .head {font-size: 18px;}
+#placesList2 .info .gray {color:#8a8a8a;}
+#placesList2 .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList2 .info .tel {color:#009900;}
+#placesList2 .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#placesList2 .item .marker_1 {background-position: 0 -10px;}
+#placesList2 .item .marker_2 {background-position: 0 -56px;}
+#placesList2 .item .marker_3 {background-position: 0 -102px}
+#placesList2 .item .marker_4 {background-position: 0 -148px;}
+#placesList2 .item .marker_5 {background-position: 0 -194px;}
+#placesList2 .item .marker_6 {background-position: 0 -240px;}
+#placesList2 .item .marker_7 {background-position: 0 -286px;}
+#placesList2 .item .marker_8 {background-position: 0 -332px;}
+#placesList2 .item .marker_9 {background-position: 0 -378px;}
+#placesList2 .item .marker_10 {background-position: 0 -423px;}
+#placesList2 .item .marker_11 {background-position: 0 -470px;}
+#placesList2 .item .marker_12 {background-position: 0 -516px;}
+#placesList2 .item .marker_13 {background-position: 0 -562px;}
+#placesList2 .item .marker_14 {background-position: 0 -608px;}
+#placesList2 .item .marker_15 {background-position: 0 -654px;}
+
+#addPlaceData{
+  border: 1px solid #14863d;
+  border-radius: 5px;
+  text-align: center;
+  color: #14863d;
+  cursor: pointer;
+}
+
+#addPlaceData:hover{
+  background-color: green;
+  color: #fff;
+}
+
+#addPlaceData:focus{
+  box-shadow: 0 0 0 2px black;
+  background-color: green;
+  color: #fff;
+}
 </style>
 </head>
     <body>
@@ -65,64 +111,59 @@
     <!-- ################# 게시물 상세 내용 Starts Here ####################### -->  
     <div class="row contact-rooo no-margin">
         <div class="container">
-            <div class="row">
-                <div style="padding:10px; max-width: 35%;" class="col-sm-7">
-                    <div class="row cont-row">
-                        <div class="col-sm-3"><label>작성일</label><span>:</span></div>
-                        <div class="col-sm-8">${trip.TR_REGDATE}</div>
-                    </div>
-                    <div class="row cont-row">
-                        <div class="col-sm-3"><label>조회수</label><span>:</span></div>
-                        <div class="col-sm-8">${trip.TR_CNT}</div>
-                        <div class="col-sm-3"><label>추천수</label><span>:</span></div>
-                        <div class="col-sm-8">${trip.TR_LIKE}</div>
-                    </div><br>
-                    <h2>여행 일정</h2><br>
-                    <div class="row cont-row">
-                        <div class="col-sm-3"><label>${trip.TR_CONTENT}</label></div>
-                    </div>
-                    <h2>여행 세부 일정</h2><br>
-                    <div class="row cont-row">
-                        <div class="col-sm-3"><label>${trip.TR_SUBCONTENT}</label></div>
-                    </div>
-                    <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
-                    <div style="margin-top:10px;">
-                        <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
-                        <div class="col-sm-8" style="max-width: 100%;">
-                        	<button class="btn btn-success btn-sm" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${trip.TR_NUM}'">수정하기</button>
-                        	<button class="btn btn-success btn-sm" onClick="return fn_tripDelete()">삭제하기</button>
-                            <button class="btn btn-success btn-sm" onClick="location.href='/bang/tripList.tr'">목록으로 돌아가기</button>
-                        </div>
-                    </div>
+        	<div>
+        		<div class="row cont-row">
+                    <div class="col-sm-3"><label>작성일</label><span>:</span></div>
+                    <div class="col-sm-8">${trip.TR_REGDATE}</div>
                 </div>
-                <div class="col-sm-5">
+                <div class="row cont-row">
+                    <div class="col-sm-3"><label>조회수</label><span>:</span></div>
+                    <div class="col-sm-8">${trip.TR_CNT}</div>
+                    <div class="col-sm-3"><label>추천수</label><span>:</span></div>
+                    <div class="col-sm-8">${trip.TR_LIKE}</div>
+                </div>
+        	</div>
+            <div class="row">
+                <div style="max-width: 100%; margin-left: 20px;">
+                	<div class="row" style="margin-top: 15px; flex-wrap: nowrap; margin-right: 0px;">
+                		<div style="border-left: solid #eaeaea; height: 515px;">
+                			<h5 style="margin-left: 20px; margin-right: 25px;">여행 일정</h5>
+                			<p style="margin-left: 20px; margin-right: 25px;">여행 기간 : </p><br>
+                			<h3 style="margin-left: 20px; margin-right: 25px;">DAY 01</h3>
+                		</div>
+	                    <div id="addListItem" style="border-left: solid #eaeaea; height: 515px; overflow-y: auto; width: 280px;">
+	                    	<h5 style="margin-left: 20px;">방문 예정 장소</h5><br>
+	                    	<!-- <p style="margin-left: 20px;">방문하실 곳을 추가해주세요.</p><br> -->
+	                    	<c:forEach var="list" items="${tripplace}">
+		                    	<ul id="placesList2" class="placesLists" style="padding-bottom: 15px;">
+		                    		<li class="item">
+		                    			<h5 id="place">${list.TP_PLACE}</h5>
+		                    			<span id="roadAddress">${list.TP_RADDRESS}</span>
+		                    			<span id="address" class="jibun gray">${list.TP_ADDRESS}</span>
+		                    			<span class="tel" id="tel">${list.TP_PHONE}</span>
+		                    			<span style="display: none;" id="lat">${list.TP_MAP_LAT}</span>
+		                    			<span style="display: none;" id="lng">${list.TP_MAP_LNG}</span>
+		                    		</li>
+		                    	</ul>
+	                    	</c:forEach>
+	                    </div>
+	                    <div style="border-left: solid #eaeaea; height: 515px;"></div>
+                	</div>
+                </div>
+                <div class="col-sm-5" style="padding-left: 0px;">
                     <div style="margin:20px" class="serv">
                     	<!-- 카카오 지도 드로잉 기능 -->
                     	<div class="map_wrap">
 						    <div id="map" style="width:800px;height:100%;position:relative;overflow:hidden;"></div>
-						
-						    <div id="menu_wrap" class="bg_white">
-						        <div class="option">
-						            <div>
-						                <form onsubmit="searchPlaces(); return false;">
-						                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
-						                    <button type="submit">검색하기</button> 
-						                </form>
-						            </div>
-						        </div>
-						        <hr>
-						        <ul id="placesList"></ul>
-						        <div id="pagination"></div>
-						    </div>
 						</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div>
-    	<h2>댓글</h2>
-    </div>
+   
+    <div style="max-width: 100%; margin-left: 40px;">
+    	<h4>댓글</h4>
     <!-- ################# 댓글 내용 Starts Here ####################### -->
     <div id="commentList">
     	<c:choose>
@@ -136,26 +177,23 @@
 		    			<div>
 		    				<div>
 		    					<span>
-		    						${list.BC_ID}
+		    						${list.BC_ID}|
+		    						<span class="pric">
+			                        	<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd"/> 
+			                   		</span>
 		    					</span>
-		    					<span>
+		    					<p>
 		    						${list.BC_COMMENT}
-		    					</span>
-		    					<span class="pric">
-			                        <fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd"/> 
-			                    </span>
 		    				</div>
 		    			</div>
-		    			<c:if test="${MEM_ID != null}">
-		    				<div>
-			    				<input type="button" value="답글 달기">
-			    			</div>
+		    			<div style="font-size:8pt; color:gray; padding-right:10px; " >
+		    			<c:if test="${MEM_ID != null}">	    				
+			    				<input type="button" value="답글 달기">			    			
 		    			</c:if>
 		    			<c:if test="${MEM_ID eq list.BC_ID}">
-		    				<div id="deleteList">
-		    					<input type="button" onClick="comDelete(${list.BC_BCID})" value="삭제 하기">
-		    				</div>
+		    					<input type="button"  onClick="comDelete(${list.BC_BCID})" value="삭제 하기">
 		    			</c:if>
+		    			</div>
 		    		</div>
 		    	</c:forEach>
 			</c:when>
@@ -166,15 +204,37 @@
 			</c:otherwise>
 		</c:choose>
     </div>
-    <div>
-    	<input type="text" id="comment" placeholder="댓글 입력">
-    	<input type="button" id="comWrite" value="작성하기">
+    <div style="display:inline-block; width:88%;">
+    	<textarea name="comment" id="comment" width="88%" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
+    </div>
+    <div style="display:inline-block; float:right; width:10%;">
+    	<input type="button" id="comWrite" class="btn btn-primary py-2 px-2" value="작성하기" >
     </div>
 	<form id="commonForm" name="commonForm"></form>
+	
+	 <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
+    <div style="margin-top:10px;" align="center">
+        <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
+        <div class="col-sm-8" style="max-width: 100%;">
+         <c:if test="${MEM_ID eq trip.TR_ID}">  <!--  작성자일때만 보이게 -->
+        	<button class="btn btn-success btn-sm" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${trip.TR_NUM}'">수정하기</button>
+        	<button class="btn btn-success btn-sm" onClick="return fn_tripDelete()">삭제하기</button>
+        	<button class="btn btn-success btn-sm" onClick="location.href='/bang/tripShare.tr?TR_NUM=${trip.TR_NUM}'">공유하기</button>
+        </c:if>
+        <c:if test="${MEM_ID != trip.TR_ID }">  <!-- 작성자가 아닐 경우에만 추천버튼 보이게 -->
+			<input type = "button" class="btn btn-success btn-sm" onclick="return fn_recommendLike()" value="추천하기">
+      	</c:if>
+            <button class="btn btn-success btn-sm" onClick="location.href='/bang/tripList.tr'">목록보기</button>
+        </div>
+    </div>
+    </div>
     </body>
     <!-- 댓글 내용 작성 후 작성하기 눌렀을 때 동작하는 댓글 입력 함수 -->
     <script>
     $(document).ready(function(){
+    	
+    	setBounds();
+    	
     	/* 댓글 작성하기 */
     	$("#comWrite").click(function(){
     		
@@ -239,254 +299,108 @@
 			}
 		}
     </script>
+    <script type="text/javascript">
+function fn_recommendLike() {
+	  
+	  	var tr_num = "${trip.TR_NUM}";
+	  	var comSubmit = new ComSubmit();
+	  	var CONFIRM = confirm("추천하시겠습니까?");
+	  	if(CONFIRM == true) {
+			comSubmit.setUrl("/bang/tripLike.tr");
+			comSubmit.addParam("TR_NUM", tr_num);
+	      comSubmit.submit();
+	      alert("추천되었습니다.");
+	      
+	      }
+	  }
+	  </script>
+    
     <!-- 카카오 지도 API, services와 clusterer, drawing 라이브러리 불러오기 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fa3a582f3278c83fd4f3031cc4f96d&libraries=services,clusterer,drawing"></script>
 	<!-- 카카오 지도 Drawing Library에서 데이터 얻기 스크립트 -->
 	<script>
-		// 검색 결과 마커를 담을 배열입니다
-		var markers = [];
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };
+	
+	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+	/* 방문 예정 장소들의 이름이 포함된 노드를 담을 배열 */
+	var placeNode = [];
+	
+	placeNode = document.querySelectorAll("#place");
+	
+	/* 방문 예정 장소들의 위도와 경도가 포함된 노드를 담을 배열 */
+	var latNode = [];
+	var lngNode = [];
+	
+	latNode = document.querySelectorAll("#lat");
+	lngNode = document.querySelectorAll("#lng");
+	
+	/* 지도 범위 재설정을 위해 위도 경도 정보를 저장할 배열 */
+	var points = [];
+	
+	for(let i = 0; i < placeNode.length; i ++){
+		const latItem = latNode.item(i);
+		const lngItem = lngNode.item(i);
+		const placeItem = placeNode.item(i);
 		
-		// 장소 추가 버튼 클릭 시 마커를 담을 배열입니다
-		var addPlaceMarkers = [];
+		points.push(new kakao.maps.LatLng(latItem.innerText, lngItem.innerText)); 
+		// 마커를 생성합니다
+	    var marker = new kakao.maps.Marker({
+	        map: map, // 마커를 표시할 지도
+	        position: points[i] // 마커의 위치
+	    });
 	
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		    mapOption = {
-		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨
-		    };  
+	    // 마커에 표시할 인포윈도우를 생성합니다 
+	    var infowindow = new kakao.maps.InfoWindow({
+	        content: placeItem.innerText // 인포윈도우에 표시할 내용
+	    });
 	
-		// 지도를 생성합니다    
-		var map = new kakao.maps.Map(mapContainer, mapOption); 
+	    // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+	    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+	    (function(marker, infowindow) {
+	        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+	        kakao.maps.event.addListener(marker, 'mouseover', function() {
+	            infowindow.open(map, marker);
+	        });
 	
-		// 장소 검색 객체를 생성합니다
-		var ps = new kakao.maps.services.Places();  
+	        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+	        kakao.maps.event.addListener(marker, 'mouseout', function() {
+	            infowindow.close();
+	        });
+	    })(marker, infowindow);
+	}
 	
-		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+	// 지도에 표시할 선을 생성합니다
+	var polyline = new kakao.maps.Polyline({
+	    path: points, // 선을 구성하는 좌표배열 입니다
+	    strokeWeight: 5, // 선의 두께 입니다
+	    strokeColor: '#FFAE00', // 선의 색깔입니다
+	    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+	    strokeStyle: 'solid' // 선의 스타일입니다
+	});
+
+	// 지도에 선을 표시합니다 
+	polyline.setMap(map);  
 	
-		// 키워드로 장소를 검색합니다
-		searchPlaces();
-	
-		// 키워드 검색을 요청하는 함수입니다
-		function searchPlaces() {
-	
-		    var keyword = document.getElementById('keyword').value;
-	
-		    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-		        alert('키워드를 입력해주세요!');
-		        return false;
-		    }
-	
-		    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-		    ps.keywordSearch( keyword, placesSearchCB); 
-		}
-	
-		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-		function placesSearchCB(data, status, pagination) {
-		    if (status === kakao.maps.services.Status.OK) {
-	
-		        // 정상적으로 검색이 완료됐으면
-		        // 검색 목록과 마커를 표출합니다
-		        displayPlaces(data);
-	
-		        // 페이지 번호를 표출합니다
-		        displayPagination(pagination);
-	
-		    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-	
-		        alert('검색 결과가 존재하지 않습니다.');
-		        return;
-	
-		    } else if (status === kakao.maps.services.Status.ERROR) {
-	
-		        alert('검색 결과 중 오류가 발생했습니다.');
-		        return;
-	
-		    }
-		}
-	
-		// 검색 결과 목록과 마커를 표출하는 함수입니다
-		function displayPlaces(places) {
-	
-		    var listEl = document.getElementById('placesList'), 
-		    menuEl = document.getElementById('menu_wrap'),
-		    fragment = document.createDocumentFragment(), 
-		    bounds = new kakao.maps.LatLngBounds(), 
-		    listStr = '';
-		    
-		    // 검색 결과 목록에 추가된 항목들을 제거합니다
-		    removeAllChildNods(listEl);
-	
-		    // 지도에 표시되고 있는 마커를 제거합니다
-		    removeMarker();
-		    
-		    for ( var i=0; i<places.length; i++ ) {
-	
-		        // 마커를 생성하고 지도에 표시합니다
-		        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-		            marker = addMarker(placePosition, i), 
-		            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-	
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-		        // LatLngBounds 객체에 좌표를 추가합니다
-		        bounds.extend(placePosition);
-	
-		        // 마커와 검색결과 항목에 mouseover 했을때
-		        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-		        // mouseout 했을 때는 인포윈도우를 닫습니다
-		        (function(marker, title) {
-		            kakao.maps.event.addListener(marker, 'mouseover', function() {
-		                displayInfowindow(marker, title);
-		            });
-	
-		            kakao.maps.event.addListener(marker, 'mouseout', function() {
-		                infowindow.close();
-		            });
-	
-		            itemEl.onmouseover =  function () {
-		                displayInfowindow(marker, title);
-		            };
-	
-		            itemEl.onmouseout =  function () {
-		                infowindow.close();
-		            };
-		        })(marker, places[i].place_name);
-	
-		        fragment.appendChild(itemEl);
-		    }
-	
-		    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-		    listEl.appendChild(fragment);
-		    menuEl.scrollTop = 0;
-	
-		    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-		    map.setBounds(bounds);
-		}
-	
-		// 검색결과 항목을 Element로 반환하는 함수입니다
-		function getListItem(index, places) {
-	
-		    var el = document.createElement('li'),
-		    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-		                '<div class="info">' +
-		                '   <h5>' + places.place_name + '</h5>';
-	
-		    if (places.road_address_name) {
-		        itemStr += '    <span>' + places.road_address_name + '</span>' +
-		                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
-		    } else {
-		        itemStr += '    <span>' +  places.address_name  + '</span>'; 
-		    }
-		                 
-		      itemStr += '  <span class="tel">' + places.phone  + '</span>' + 
-              			 '	<span style="float: right;"><button onClick="addPlaceMarker()">장소 추가</button></span>' + 
-		                '</div>';           
-	
-		    el.innerHTML = itemStr;
-		    el.className = 'item';
-	
-		    return el;
-		}
-		
-		// 클릭한 장소 마커 추가
-		function addPlaceMarker(){
-			var markerPosition = infowindow.getPosition();
-			
-			var markerLat = markerPosition.getLat();
-			var markerLng = markerPosition.getLng();
-			
-			var stringLat = markerLat.toString();
-			var stringLng = markerLng.toString();
-			
-			alert(markerPosition);
-			alert(markerLat);
-			alert(markerLng);
-			alert(stringLat);
-			alert(stringLng);
-			
-			var newMarker = new kakao.maps.LatLng(markerLat, markerLng);
-			var newPoint = new kakao.maps.Marker({
-				position: newMarker
-			});
-			
-			newPoint.setMap(map);
-			
-		}
-	
-		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-		function addMarker(position, idx, title) {
-		    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-		        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-		        imgOptions =  {
-		            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-		            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-		            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-		        },
-		        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-		            marker = new kakao.maps.Marker({
-		            position: position, // 마커의 위치
-		            image: markerImage 
-		        });
-	
-		    marker.setMap(map); // 지도 위에 마커를 표출합니다
-		    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-	
-		    return marker;
-		}
-	
-		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-		function removeMarker() {
-		    for ( var i = 0; i < markers.length; i++ ) {
-		        markers[i].setMap(null);
-		    }   
-		    markers = [];
-		}
-	
-		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-		function displayPagination(pagination) {
-		    var paginationEl = document.getElementById('pagination'),
-		        fragment = document.createDocumentFragment(),
-		        i; 
-	
-		    // 기존에 추가된 페이지번호를 삭제합니다
-		    while (paginationEl.hasChildNodes()) {
-		        paginationEl.removeChild (paginationEl.lastChild);
-		    }
-	
-		    for (i=1; i<=pagination.last; i++) {
-		        var el = document.createElement('a');
-		        el.href = "#";
-		        el.innerHTML = i;
-	
-		        if (i===pagination.current) {
-		            el.className = 'on';
-		        } else {
-		            el.onclick = (function(i) {
-		                return function() {
-		                    pagination.gotoPage(i);
-		                }
-		            })(i);
-		        }
-	
-		        fragment.appendChild(el);
-		    }
-		    paginationEl.appendChild(fragment);
-		}
-	
-		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-		// 인포윈도우에 장소명을 표시합니다
-		function displayInfowindow(marker, title) {
-		    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-	
-		    infowindow.setContent(content);
-		    infowindow.open(map, marker);
-		}
-	
-		 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-		function removeAllChildNods(el) {   
-		    while (el.hasChildNodes()) {
-		        el.removeChild (el.lastChild);
-		    }
-		}
+	// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+	var bounds = new kakao.maps.LatLngBounds();    
+
+	var i;
+	for (i = 0; i < points.length; i++) {
+	    
+	    // LatLngBounds 객체에 좌표를 추가합니다
+	    bounds.extend(points[i]);
+	}
+
+	function setBounds() {
+	    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+	    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+	    map.setBounds(bounds);
+	}
+
 	</script>
 </html>

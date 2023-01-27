@@ -124,11 +124,15 @@ public class TripController {
 		/* TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 		Map<String, Object> trip = tripService.tripDetail(commandMap.getMap());
 		
+		/* TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
+		List<Map<String, Object>> tripplace = tripService.tripplaceDetail(commandMap.getMap());
+		
 		/* 댓글 정보 불러오기 */
 		List<Map<String, Object>> comment = commentService.selectTripComment(commandMap.getMap());
 				
 		mv.addObject("comment", comment);
 		mv.addObject("trip", trip);
+		mv.addObject("tripplace", tripplace);
 		
 		return mv;
 	}
@@ -201,6 +205,12 @@ public class TripController {
 		ModelAndView mv = new ModelAndView("redirect:/myTripList.tr");
 
 		tripService.tripWrite(commandMap.getMap());
+		
+		int maxTRNUM = tripService.maxTRNUM();
+		
+		commandMap.put("TP_TRNUM", maxTRNUM);
+		/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
+		tripService.tripplaceUpdate(commandMap.getMap());
 
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
@@ -231,6 +241,28 @@ public class TripController {
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
 		session.setAttribute("TR_ID", TR_ID);
+		return mv;
+	}
+	
+	/* 추천하기 */
+	@RequestMapping(value="/tripLike.tr",  method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView tripLike(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/tripDetail.tr");	
+		tripService.tripLike(commandMap.getMap());
+		
+		mv.addObject("TR_NUM", commandMap.get("TR_NUM"));
+		
+		return mv;
+	}
+	
+	/* 여행 일정 공유하기 */
+	@RequestMapping(value="/tripShare.tr")
+	public ModelAndView tripShare(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/tripList.tr");
+		
+		/* 폼을 통해 입력받은 데이터로 수정하기 */
+		tripService.tripShare(commandMap.getMap());
+				
 		return mv;
 	}
 }
