@@ -140,11 +140,11 @@ input[type="text"]::placeholder{color:#999}
 			if (content.match("/")){	/* 귓속말 */
 				if (content.match(("/" + chatId))){	/* 나에게 보낸 메시지만 출력 */
 					var temp = content.replace(("/" + chatId), "[귓속말] : ");
-					chatWindow.innerHTML += "<div>" + sender + " : " + content + "</div>";
+					chatWindow.innerHTML += "<div>" + sender + "" + temp + "</div>";
 				}
 			}
 			else {	/* 일반 대화 */
-				chatWindow.innerHTML += "<div class='item mymsg'>" + "<div class='box'>" + "<div class='msg'>" + sender + "" + temp + "<span class='time'>" + currentTime() + "</span>" + "</div>" + "</div>" + "</div>";	
+				chatWindow.innerHTML += "<div class='item mymsg'>" + "<div class='box'>" + "<div class='msg'>" + sender + " : " + content + "<span class='time'>" + currentTime() + "</span>" + "</div>" + "</div>" + "</div>";	
 			}
 		}
 		chatWindow.scrollTop = chatWindow.scrollHeight;
