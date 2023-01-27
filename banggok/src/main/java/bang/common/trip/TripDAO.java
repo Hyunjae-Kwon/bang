@@ -33,6 +33,7 @@ public class TripDAO extends AbstractDAO {
 		return (Map<String, Object>) selectOne ("trip.tripDetail", map);
 	}
 	
+	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> tripplaceDetail(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("trip.tripplaceDetail", map);
