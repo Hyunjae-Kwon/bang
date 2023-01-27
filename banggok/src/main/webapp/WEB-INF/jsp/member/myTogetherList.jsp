@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -82,13 +83,21 @@
 				</tbody>
 			</table>
 			<div>
-			<br>
-			<form action="/bang/searchTogether.tr" method="GET">
-				<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
-				<input type="text" id="keyword" name="keyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
-			</form>
-		  </div>
-		<br><br><br>
+				<br>
+				<form action="/bang/searchTogether.tr" method="GET">
+					<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
+					<input type="text" id="keyword" name="keyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
+				</form>
+			</div>
+	        <!-- 페이지 -->
+		  	<div align="center">	    
+				<c:if test="${not empty paginationInfo}">
+				  <ui:pagination paginationInfo = "${paginationInfo}" type="text" jsFunction="fn_search"/>
+				</c:if>
+				  <input type="hidden" id="currentPageNo" name="currentPageNo"/>	
+				<%@ include file="/WEB-INF/include/include-body.jspf" %>
+			</div>
+		<br><br>
 	  </div>		
 	</div>
 	<script type="text/javascript">
@@ -99,6 +108,13 @@
 			location.href = "togetherDelete.tr?TG_NUM=" + TG_NUM;		
 		}
 	}
+	
+	function fn_search(pageNo){
+		var comSubmit = new ComSubmit();
+		comSubmit.setUrl("<c:url value='/myTogetherList.tr' />");
+		comSubmit.addParam("currentPageNo", pageNo);
+		comSubmit.submit();
+    }
 	</script>
 
   <!--  ************************* Footer Start Here ************************** -->

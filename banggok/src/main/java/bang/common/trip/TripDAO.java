@@ -61,8 +61,8 @@ public class TripDAO extends AbstractDAO {
 	
 	/* 마이페이지 여행 일정 리스트 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>)selectList("trip.myTripList", map);
+	public Map<String, Object> myTripList(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>)selectPagingList("trip.myTripList", map);
 	}
 	
 	/* 여행 일정 만들기 */
