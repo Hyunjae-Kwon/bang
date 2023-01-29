@@ -48,7 +48,6 @@
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
-
 #placesList2 {margin-left: 5px; margin-right: 5px;}
 #placesList2 li {list-style: none; font-size:14px;}
 #placesList2 .item {position:relative;border-bottom:1px solid #eaeaea;overflow: hidden;cursor: pointer;min-height: 65px;}
@@ -75,7 +74,6 @@
 #placesList2 .item .marker_13 {background-position: 0 -562px;}
 #placesList2 .item .marker_14 {background-position: 0 -608px;}
 #placesList2 .item .marker_15 {background-position: 0 -654px;}
-
 #addPlaceData{
   border: 1px solid #14863d;
   border-radius: 5px;
@@ -83,17 +81,21 @@
   color: #14863d;
   cursor: pointer;
 }
-
 #addPlaceData:hover{
   background-color: green;
   color: #fff;
 }
-
 #addPlaceData:focus{
   box-shadow: 0 0 0 2px black;
   background-color: green;
   color: #fff;
 }
+.customoverlay {position:relative;bottom:73px;border-radius:4px;border: 2px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay .item {display:block;float:left; text-decoration:none;padding:8px 8px;color:#000;text-align:center;border-radius:3px;font-size:11px;font-weight:bold;background: #FA8072;}
+.customoverlay .title {display:block;text-align:center;background:#fff;padding:8px 15px;font-size:11px;font-weight:bold;border-radius:3px;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+	
 </style>
 </head>
     <body>
@@ -199,18 +201,16 @@
 				$("#TR_TITLE").focus();
 				return false;
 			}
-
 			if (!$(".TR_CONTENT").val()) {
 				alert("일정 내용을 입력하세요.");
 				$(".TR_CONTENT").focus();
 				return false;
 			}
-
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='tripWrite.tr'/>",
  				data: {TR_ID: id, TR_TITLE: title, TR_CONTENT: content},
- 				/* async: false, */
+ 				async: false,
  				success: function(data){
  					alert("게시글이 정상적으로 등록 되었습니다.");
  					location.href="/bang/myTripList.tr";
@@ -301,9 +301,31 @@
 		/* 추가한 장소 마커를 담을 배열입니다. */
 		var addMarkers = [];
 		
-		// 장소 추가 버튼 클릭 시 마커를 담을 배열입니다
-		var addPlaceMarkers = [];
-	
+		/* 추가한 장소 마커의 위도를 담을 배열 */
+		var addMarkersLat = [];
+		
+		/* 추가한 장소 마커의 경도를 담을 배열 */
+		var addMarkersLng = [];
+		
+		/* 커스텀 오버레이 순서 */
+		var count= 1;
+		
+		/* 커스텀 오버레이 배열 */
+		var customOverlays = [];
+		
+		/* 선을 담는 배열 */
+		var addPolyline = [];
+		
+		/* 범위 정보를 담을 배열 */
+		var points = [];
+		
+		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+		var bounds = new kakao.maps.LatLngBounds();
+		
+		/* points 배열에 아무것도 없을 때 기본 위치를 지정하는 배열 */
+		var center = [];
+		center.push(new kakao.maps.LatLng(37.566826, 126.9786567));
+		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = {
 		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -434,12 +456,11 @@
 		               '</div>';           
 	
 		    el.innerHTML = itemStr;
-		    el.className = 'item';
-		    
+		    el.className = 'item';		    
 		    return el;
 		}
 		
-		/* 클릭한 장소 데이터 전송 (아래 오류 해결 중) */
+		/* 클릭한 장소 데이터 전송 */
 		function addPlaceData(){
 			
 			if(dayIdx == null){
@@ -451,6 +472,7 @@
 			const addButtonP = addButton.parentNode;
 			const elementItem = addButtonP.parentNode;
 			
+			addCustom(elementItem);
 			addListItem(elementItem);
 			
 			/* 위도 경도 구하기 */
@@ -469,9 +491,13 @@
 		
 		/* 일정 추가 장소에 해당 정보 추가 */
 		function addListItem(elementItem) {
+<<<<<<< HEAD
 			console.log(elementItem);
  	        
 			/* 위도 경도 구하기 */
+=======
+ 	        /* 위도 경도 구하기 */
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 			var markerPosition = infowindow.getPosition();
 			
 			var markerLat = markerPosition.getLat();
@@ -488,6 +514,43 @@
 				return elem !== undefined && elem !== null && elem !== ''
 			});
 			
+<<<<<<< HEAD
+=======
+			var place = document.getElementById("addListItem");
+			
+			var cnt = $(".placesLists").length;
+			var item = '';
+			if(cnt == 0){
+				item += '<ul id="placesList2" class="placesLists">' + 
+						'<li class="item">' + 
+						'<span id="num">' + 1 + '</span>' +
+						'<h5 id="place">' + str[0] + '</h5>' + 
+						'<span id="roadAddress">' + str[1] + '</span>' + 
+						'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
+						'<span class="tel" id="tel">' + str[3] + '<input type="button" class="1" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
+						'<span style="display: none;" id="lat">' + lat + '</span>' + 
+						'<span style="display: none;" id="lng">' + lng + '</span>' + 
+						'</li>' + 
+						'</ul>';
+			} else {
+				for(var i = cnt + 1; i < cnt + 2; i ++){
+					item += '<ul id="placesList2" class="placesLists">' + 
+							'<li class="item">' + 
+							'<span id="num">' + i + '</span>' +
+							'<h5 id="place">' + str[0] + '</h5>' + 
+							'<span id="roadAddress">' + str[1] + '</span>' + 
+							'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
+							'<span class="tel" id="tel">' + str[3] + '<input type="button" class="' + i + '" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
+							'<span style="display: none;" id="lat">' + lat + '</span>' + 
+							'<span style="display: none;" id="lng">' + lng + '</span>' + 
+							'</li>' + 
+							'</ul>';
+				}
+			}
+				
+			place.innerHTML += item;
+			
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 			var id = document.getElementById("TR_ID").value;
 			
 			/* 추가한 장소 DB에 저장 */
@@ -502,20 +565,100 @@
  	        });
 		}
 		
+		/* 커스텀 오버레이 */
+		function addCustom(elementItem){
+			
+			var markerPosition = infowindow.getPosition();
+			
+			var customMarkerLat = markerPosition.getLat();
+			var customMarkerLng = markerPosition.getLng();
+			
+			var customPosition = new kakao.maps.LatLng(customMarkerLat, customMarkerLng); /* 커스텀 오버레이 위치 */
+			
+			/* 클릭한 장소 데이터 */
+			var itemElText = elementItem.innerText;
+			
+			/* 엔터를 기준으로 스플릿 */
+			var str = itemElText.split('\n').filter((elem) => {
+				return elem !== undefined && elem !== null && elem !== ''
+			});
+									
+			var content = '<div class="customoverlay">' +
+		    '  <span class="item">' + count + '</span>' +
+		    '  <span class="title">' + str[0] + '</span>' +		    
+		    '</div>';
+		    
+			var customOverlay = new kakao.maps.CustomOverlay({
+			    map: map,
+			    position: customPosition,
+			    content: content,
+			    yAnchor: 0.05
+			});
+			count = count+1;  /* 커스텀 오버레이 순서 */ 
+			
+			customOverlays.push(customOverlay);
+		}
+		
 		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
-		function addPlaceMarker(){
+		function addPlaceMarker(placePosition){
+			console.log("추가");
 			var markerPosition = infowindow.getPosition();
 			
 			var markerLat = markerPosition.getLat();
 			var markerLng = markerPosition.getLng();
 			
 			var newMarker = new kakao.maps.LatLng(markerLat, markerLng);
+			var imageSrc = 'resources/images/marker.png',
+			    imageSize = new kakao.maps.Size(30, 30);
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+		
 			var newPoint = new kakao.maps.Marker({
-				position: newMarker
+				position: newMarker,
+				image: markerImage
 			});
 			
-			addMarkers.push(newPoint);
-			newPoint.setMap(map);
+			if(points.length < 1){
+				bounds = new kakao.maps.LatLngBounds();
+			}
+			
+			console.log(points);
+			points.push(placePosition);		/* 지도 범위 조절, 위도 경도 배열에 마커 위치 추가 */
+			console.log(points);
+								
+			addMarkersLat.push(markerLat);	/* 마커 위도 배열에 추가 */
+			addMarkersLng.push(markerLng);	/* 마커 경도 배열에 추가 */
+			
+			addMarkers.push(newPoint);	/* 마커 배열에 추가 */
+			newPoint.setMap(map);		/* 마커 지도에 표시 */	
+															
+			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
+			if(addMarkers.length > 1){
+				var linePath = [];
+				
+				for(let i = 0; i < addMarkers.length; i ++) {
+					var latlng = new kakao.maps.LatLng(addMarkersLat[i], addMarkersLng[i]);
+					linePath.push(latlng);
+				}
+				
+				/* 지도에 표시할 선을 생성 */
+				var polyline = new kakao.maps.Polyline({
+				    path: linePath, // 선을 구성하는 좌표배열 입니다
+				    strokeWeight: 5, // 선의 두께 입니다
+				    strokeColor: '#FFAE00', // 선의 색깔입니다
+				    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+				    strokeStyle: 'solid' // 선의 스타일입니다
+				});
+				
+				addPolyline.push(polyline);	/* 선 배열에 추가 */
+				polyline.setMap(map);		/* 지도에 선을 표시 */
+			}
+			
+			for (var i = 0; i < points.length; i++) {
+			    // LatLngBounds 객체에 좌표를 추가합니다
+			    bounds.extend(points[i]);
+			}
+			
+			setBounds();
 			
 			return newPoint;
 		}
@@ -524,7 +667,24 @@
 		function deletePlace(tpNum, lat, lng){
 			
 			var id = document.getElementById("TR_ID").value;
+<<<<<<< HEAD
 			var dayNum = dayIdx;
+=======
+			
+			const delButton = event.currentTarget;
+			const third = delButton.parentNode;
+			const second = third.parentNode;
+			const first = second.parentNode;
+			first.remove();
+			/* 지도에 표시되고 있는 선 전부 제거 */
+			removePolyline();
+			
+			/* 커스텀 오버레이 조정 */
+			count = count -1;
+			
+			const num = delButton.className;
+			removeAddMarker(num);
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 			
 			/* 추가한 장소 DB에서 삭제 */
 			$.ajax({
@@ -537,13 +697,63 @@
 			});
 		};
 		
-		/* 지도 위에 추가된 마커를 모두 제거합니다. */ 
-		function removeAddMarkers() {
+		/* 지도 위에 추가된 마커 중 삭제된 목록의 마커 제거 */
+		function removeAddMarker(num) {
+			addMarkers[num-1].setMap(null);
+			addMarkers.splice(num-1, 1);
+			addMarkersLat.splice(num-1, 1);
+			addMarkersLng.splice(num-1, 1);
+			addPolyline.splice(num-1, 1);
+			customOverlays[num-1].setMap(null);
+			customOverlays.splice(num-1, 1);
+			
+			points.splice(num-1, 1);
+			
+			/* bounds 초기화 */
+			bounds = new kakao.maps.LatLngBounds();
+			
+			if(points.length > 0){
+				for (var i = 0; i < points.length; i++) {
+				    // LatLngBounds 객체에 좌표를 추가합니다
+				    bounds.extend(points[i]);
+				    console.log(points[i]);
+				}
+			} else {
+				bounds.extend(center[0]);
+			}
+			
+			setBounds();
+			
+			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
+			if(addMarkers.length > 1){
+				var linePath = [];
+				
+				for(let i = 0; i < addMarkers.length; i ++) {
+					var latlng = new kakao.maps.LatLng(addMarkersLat[i], addMarkersLng[i]);
+					linePath.push(latlng);
+				}
+				
+				/* 지도에 표시할 선을 생성 */
+				var polyline = new kakao.maps.Polyline({
+				    path: linePath, // 선을 구성하는 좌표배열 입니다
+				    strokeWeight: 5, // 선의 두께 입니다
+				    strokeColor: '#FFAE00', // 선의 색깔입니다
+				    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+				    strokeStyle: 'solid' // 선의 스타일입니다
+				});
+				
+				addPolyline.push(polyline);	/* 선 배열에 추가 */
+				polyline.setMap(map);		/* 지도에 선을 표시 */
+			}
+		}
+		
+		/* 지도 위에 추가된 마커를 모두 제거합니다. 추후 추가된 목록 전체 제거를 만들면 사용 */ 
+		/* function removeAddMarkers() {
 		    for ( var i = 0; i < addMarkers.length; i++ ) {
 		        addMarkers[i].setMap(null);
 		    }   
 		    addMarkers = [];
-		}
+		} */
 		
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(position, idx, title) {
@@ -572,6 +782,13 @@
 		        markers[i].setMap(null);
 		    }   
 		    markers = [];
+		}
+		
+		/* 지도에 표시되고 있는 선 전부 제거 */
+		function removePolyline() {
+			for ( var i = 0; i < addPolyline.length; i++ ) {
+				addPolyline[i].setMap(null);
+		    }   
 		}
 	
 		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
@@ -619,6 +836,12 @@
 		    while (el.hasChildNodes()) {
 		        el.removeChild (el.lastChild);
 		    }
+		}
+
+		function setBounds() {
+		    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+		    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+		    map.setBounds(bounds);
 		}
 	</script>
 	

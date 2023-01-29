@@ -108,6 +108,13 @@
             <artifactId>spring-tx</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
+        
+        <!-- websocket 추가 (채팅 기능 구현) -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
          
         <!-- AOP Alliance -->
         <dependency>

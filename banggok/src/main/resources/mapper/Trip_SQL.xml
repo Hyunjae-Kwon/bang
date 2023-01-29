@@ -92,6 +92,14 @@
 	]]>
 	</update>
 	
+	<!-- [tripplaceDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 -->
+	<select id="tripplaceDetail" parameterType="hashmap" resultType="hashmap">
+	 <![CDATA[
+			SELECT * FROM TRIPPLACE
+			WHERE TP_TRNUM = #{TR_NUM}
+	   ]]>
+	</select>
+	
 	<!-- [tripModify] 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 -->
 	<update id="tripModify" parameterType="hashmap">
         <![CDATA[
@@ -157,6 +165,7 @@
 		]]>
 	</insert>
 	
+<<<<<<< HEAD
 	<!-- [writePlaceList] 일정별 추가 장소 리스트(작성시) -->
 	<select id="writePlaceList" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[
@@ -174,12 +183,31 @@
 		WHERE 
 			TP_ID = #{TP_ID} AND TP_DATE = #{TP_DATE} AND TP_TRNUM IS NULL
 		ORDER BY TP_NUM ASC
+=======
+	<!-- [tripplaceUpdate] 여행 장소 테이블의 여행 일정 번호 업데이트 -->
+	<insert id="tripplaceUpdate" parameterType="hashmap">
+		<![CDATA[
+			UPDATE TRIPPLACE
+			SET TP_TRNUM = #{TP_TRNUM}
+			WHERE TP_ID = #{TR_ID} AND TP_TRNUM IS NULL
+		]]>
+	</insert>
+	
+	<!-- [maxTRNUM] 여행 일정 번호 최대값 -->
+	<select id="maxTRNUM" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			MAX(TR_NUM) MAX 
+		FROM 
+			TRIP
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 	]]>
 	</select>
 	
 	<!-- [addPlaceList] 추가 장소 저장 -->
 	<insert id="addPlaceList" parameterType="hashmap">
 		<![CDATA[
+
 			INSERT INTO TRIPPLACE (TP_NUM, TP_ID, TP_PLACE, TP_ADDRESS, TP_RADDRESS, TP_PHONE, TP_MAP_LAT, TP_MAP_LNG, TP_DATE)
 			VALUES (TP_NUM_SEQ.NEXTVAL, #{TP_ID}, #{TP_PLACE}, #{TP_ADDRESS}, #{TP_RADDRESS}, #{TP_PHONE}, #{TP_MAP_LAT}, #{TP_MAP_LNG}, #{TP_DATE})
 		]]>
@@ -193,5 +221,22 @@
 			WHERE TP_NUM = #{TP_NUM} AND TP_MAP_LAT = #{TP_MAP_LAT} AND TP_MAP_LNG = #{TP_MAP_LNG} AND TP_ID = #{TP_ID} AND TP_TRNUM IS NULL
 		]]>
 	</delete>
+	
+	<!-- [tripLike] 추천하기 -->
+	<update id="tripLike" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIP 
+		SET TR_LIKE = TR_LIKE + 1 WHERE TR_NUM = #{TR_NUM}
+	]]>
+	</update>
+	
+	<!-- [tripShare] 여행 일정 공유하기 -->
+	<update id="tripShare" parameterType="hashmap">
+	<![CDATA[
+		UPDATE TRIP 
+		SET TR_SHARE = 'Y' WHERE TR_NUM = #{TR_NUM}
+	]]>
+	</update>
 
 </mapper>

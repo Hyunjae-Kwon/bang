@@ -63,7 +63,7 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- 로그인, 로그아웃, 회원가입, 마이페이지 등 -->
+                    <!-- 로그인, 로그아웃, 회원가입, 마이페이지, 검색 등 -->
                     <div class="col-lg-6 col-md-12">
                         <ul id="login" class="ulright">
                         	<!-- 로그인을 하지 않았을 경우 -->
@@ -91,6 +91,9 @@
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/myPage.tr">마이페이지</a> 
+								</li>
+								<li>
+									<a style="color: #bfbfbf;" href="/bang/chatBox.tr">메시지함</a> 
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 
