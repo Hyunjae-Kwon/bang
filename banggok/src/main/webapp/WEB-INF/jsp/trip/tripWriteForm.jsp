@@ -108,6 +108,7 @@
     </div>
     <!-- ################# 여행 일정 만들기 Starts Here ####################### -->  
     <div class="row contact-rooo no-margin">
+        
         <div class="container">
             <div class="row">
             	<form style="max-width: 100%; margin-left: 20px;" enctype="multipart/form-data" method="post">
@@ -117,19 +118,24 @@
             			<input type="hidden" id="TR_ID" name="TR_ID" value="${MEM_ID}">
             		</div>
                 	<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
+                		
                 		<div style="border-left: solid #eaeaea; height: 450px;">
-                			<h5 style="margin-left: 20px; margin-right: 25px;">여행 일정</h5>
-                			<p style="margin-left: 20px; margin-right: 25px;">여행 기간 : </p><br>
-                			<h3 style="margin-left: 20px; margin-right: 25px;">DAY 01</h3>
+                			<h5 style="margin-left: 30px; margin-right: 20px;">여행 일정</h5>
+                			<input type="button" value="추가" class="btn btn-success btn-sm" onClick="addSch()" style="margin-left: 20px; margin-right: 5px;">
+                			<input type="button" value="삭제" class="btn btn-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
+                			<ul id="schList"></ul>
                 		</div>
-	                    <div id="addListItem" style="border-left: solid #eaeaea; height: 450px; overflow-y: auto; width: 280px;">
-	                    	<h5 style="margin-left: 20px;">일정 추가 장소</h5>
-	                    	<p style="margin-left: 20px;">방문하실 곳을 추가해주세요.</p><br>
-	                    </div>
-	                    <div style="border-left: solid #eaeaea; height: 450px;"></div>
+                		                		
+                		<div id="addListItem" style="border-left: solid #eaeaea; height: 450px; overflow-y: auto; width: 280px;">
+						
+						</div>
+						
+						
+						
+						<div style="border-left: solid #eaeaea; height: 450px;"></div>
 	                    <!-- <div class="row cont-row">
                     	</div> -->
-                	</div>
+                    </div>
 	            </form>
                 <div class="col-sm-5">
                     <div style="margin:20px" class="serv">
@@ -173,6 +179,8 @@
         </div>
     </div>
 	<form id="commonForm" name="commonForm"></form>
+    <!-- <section id="place-List" class="place-List">
+    </section> -->
     </body>
     <script>
     	$(document).ready(function(){
@@ -214,6 +222,79 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fa3a582f3278c83fd4f3031cc4f96d&libraries=services,clusterer,drawing"></script>
 	<!-- 카카오 지도 Drawing Library에서 데이터 얻기 스크립트 -->
 	<script>
+		/* 일정 초기값 : DAY - 1 */ 
+		addSch();
+		
+		/* 일정 추가 버튼 */
+		function addSch(){
+			var dayList = document.getElementById('schList');
+			var a = $(".schList").length;
+			var dayNum = a + 1;
+			var day = '';
+			
+			day = '<ul id="schList" class="schList">' + 
+				  '<li class="day">' +
+				  '<span id="dayNum">' +
+				  '<a style="font-size: 25px; cursor:pointer; margin-left: 30px; margin-right: 10px;" onclick="placeList(' + dayNum + ')">' + 
+				  'DAY - ' + dayNum +
+				  '</span>' +
+				  '</li>' + 
+				  '</ul>';
+			
+			dayList.innerHTML += day;
+		}
+		
+		/* 일정 삭제하기 */
+		function delSch(){
+			
+			/* var id = document.getElementById("TR_ID").value;
+			
+			const delButton = event.currentTarget;
+			const third = delButton.parentNode;
+			const second = third.parentNode;
+			const first = second.parentNode;
+			first.remove(); */
+		
+			/* 일정 DB에서 삭제 */
+			/* $.ajax({
+					type: "POST",
+					url: "<c:url value='deletePlaceList.tr'/>",
+					data: {TP_MAP_LAT: lat,TP_MAP_LNG: lng, TP_ID: id},
+					success: function(data){
+						
+					}
+			}); */
+		};
+		
+		placeList();
+		
+		/* 일정 선택 및 장소리스트 */
+		function placeList(dayNum){
+			var id = document.getElementById("TR_ID").value;
+			var place = document.getElementById("addListItem");
+			var item = '';
+			
+			if(dayNum==null){
+				place.innerHTML = '<h5 style="margin-left: 20px;">일정을 선택해 주세요.</h5>';
+				dayIdx = dayNum;
+				return false;
+			}else{
+				place.innerHTML = '<h5 id="dayNum" style="margin-left: 20px;">DAY - ' + dayNum + '일정 목록</h5>';
+				dayIdx = dayNum;
+			}
+			
+			$.ajax({
+				url:"/bang/writePlaceList.tr",
+				method:"GET",
+				data: "TP_ID=" + id + "&TP_DATE=" + dayNum,
+				success:function(data){
+					place.innerHTML += data;
+				}
+			});
+						
+			place.innerHTML += item;
+		}	
+	
 		// 검색 결과 마커를 담을 배열입니다
 		var markers = [];
 		
@@ -340,8 +421,8 @@
 			
 		    var el = document.createElement('li'),
 		    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-		                '<div class="info">' +
-		                '   <h5 id="place">' + places.place_name + '</h5>';
+		              '<div class="info">' +
+		              '   <h5 id="place">' + places.place_name + '</h5>';
 	
 		    if (places.road_address_name) {
 		        itemStr += '    <span id="roadAddress">' + places.road_address_name + '</span>' +
@@ -349,8 +430,8 @@
 		    } else {
 		        itemStr += '    <span id="address">' +  places.address_name  + '</span>'; 
 		    }
-		      itemStr += '  <span class="tel" id="phone">' + places.phone  + '<button style="float: right;" id="addPlaceData" onClick="addPlaceData()">장소 추가</button></span>' + 
-		                '</div>';           
+		    itemStr += '  <span class="tel" id="phone">' + places.phone  + '<button style="float: right;" id="addPlaceData" onClick="addPlaceData()">장소 추가</button></span>' + 
+		               '</div>';           
 	
 		    el.innerHTML = itemStr;
 		    el.className = 'item';
@@ -360,6 +441,11 @@
 		
 		/* 클릭한 장소 데이터 전송 (아래 오류 해결 중) */
 		function addPlaceData(){
+			
+			if(dayIdx == null){
+				alert('일정을 선택해 주세요.');
+				return false;
+			}
 			
 			const addButton = event.currentTarget;
 			const addButtonP = addButton.parentNode;
@@ -385,7 +471,7 @@
 		function addListItem(elementItem) {
 			console.log(elementItem);
  	        
- 	        /* 위도 경도 구하기 */
+			/* 위도 경도 구하기 */
 			var markerPosition = infowindow.getPosition();
 			
 			var markerLat = markerPosition.getLat();
@@ -402,52 +488,18 @@
 				return elem !== undefined && elem !== null && elem !== ''
 			});
 			
-			var place = document.getElementById("addListItem");
-			
-			var cnt = $(".placesLists").length;
-			var item = '';
-			if(cnt == 0){
-				item += '<ul id="placesList2" class="placesLists">' + 
-						'<li class="item">' + 
-						'<span id="num">' + 1 + '</span>' +
-						'<h5 id="place">' + str[0] + '</h5>' + 
-						'<span id="roadAddress">' + str[1] + '</span>' + 
-						'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
-						'<span class="tel" id="tel">' + str[3] + '<input type="button" id="del" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
-						'<span style="display: none;" id="lat">' + lat + '</span>' + 
-						'<span style="display: none;" id="lng">' + lng + '</span>' + 
-						'</li>' + 
-						'</ul>';
-			} else {
-				for(var i = cnt + 1; i < cnt + 2; i ++){
-					item += '<ul id="placesList2" class="placesLists">' + 
-							'<li class="item">' + 
-							'<span id="num">' + i + '</span>' +
-							'<h5 id="place">' + str[0] + '</h5>' + 
-							'<span id="roadAddress">' + str[1] + '</span>' + 
-							'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
-							'<span class="tel" id="tel">' + str[3] + '<input type="button" id="del" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
-							'<span style="display: none;" id="lat">' + lat + '</span>' + 
-							'<span style="display: none;" id="lng">' + lng + '</span>' + 
-							'</li>' + 
-							'</ul>';
-				}
-			}
-				
-			place.innerHTML += item;
-			
 			var id = document.getElementById("TR_ID").value;
 			
 			/* 추가한 장소 DB에 저장 */
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='addPlaceList.tr'/>",
- 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_PHONE: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id},
+ 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_PHONE: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id, TP_DATE: dayIdx},
  				success: function(data){
- 				}	
+ 					var dayNum = dayIdx;
+ 					placeList(dayNum);
+ 				}
  	        });
-			
-			return place;
 		}
 		
 		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
@@ -469,23 +521,18 @@
 		}
 		
 		/* 추가한 장소 삭제하기 */
-		function deletePlace(lat, lng){
+		function deletePlace(tpNum, lat, lng){
 			
 			var id = document.getElementById("TR_ID").value;
-			
-			const delButton = event.currentTarget;
-			const third = delButton.parentNode;
-			const second = third.parentNode;
-			const first = second.parentNode;
-			first.remove();
+			var dayNum = dayIdx;
 			
 			/* 추가한 장소 DB에서 삭제 */
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='deletePlaceList.tr'/>",
- 				data: {TP_MAP_LAT: lat,TP_MAP_LNG: lng, TP_ID: id},
+ 				data: {TP_NUM:tpNum,TP_MAP_LAT:lat, TP_MAP_LNG:lng, TP_ID:id},
  				success: function(data){
- 					
+ 					placeList(dayNum);
  				}
 			});
 		};

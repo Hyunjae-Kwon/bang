@@ -60,11 +60,22 @@ public class TripDAO extends AbstractDAO {
 		return (List<Map<String, Object>>)selectList("trip.myTripList", map);
 	}
 	
+	/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
+	public void deletePlaceListNull(Map<String, Object> map) throws Exception {
+		delete ("trip.deletePlaceListNull", map);
+	}
+	
 	/* 여행 일정 만들기 */
 	public void tripWrite(Map<String, Object> map) throws Exception {
 		insert ("trip.tripWrite", map);
 	}
 	
+	/* 일정별 추가 장소 리스트(작성시) */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> writePlaceList(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>)selectList("trip.writePlaceList", map);
+	}
+		
 	/* 추가 장소 저장 */
 	public void addPlaceList(Map<String, Object> map) throws Exception {
 		insert ("trip.addPlaceList", map);

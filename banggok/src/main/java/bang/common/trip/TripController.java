@@ -188,9 +188,17 @@ public class TripController {
 	
 	/* 여행 일정 만들기 폼 */
 	@RequestMapping(value="/tripWriteForm.tr")
-	public ModelAndView tripWriteForm(CommandMap commandMap) throws Exception {
+	public ModelAndView tripWriteForm(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("trip/tripWriteForm");
 		
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("TP_ID", TR_ID);
+		
+		/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
+		tripService.deletePlaceListNull(commandMap.getMap());
+
 		return mv;
 	}
 	
@@ -205,6 +213,23 @@ public class TripController {
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
 		session.setAttribute("TR_ID", TR_ID);
+		
+		return mv;
+	}
+	
+	/* 일정별 추가 장소 리스트(작성시) */
+	@RequestMapping(value="/writePlaceList.tr", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView writePlaceList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("scroll/writePlaceList");
+		
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		session.setAttribute("TR_ID", TR_ID);
+		
+		List<Map<String,Object>> writePlaceList = tripService.writePlaceList(commandMap.getMap(), request);
+	    mv.addObject("writePlaceList", writePlaceList);
+	    		
 		return mv;
 	}
 	
@@ -218,6 +243,7 @@ public class TripController {
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
 		session.setAttribute("TR_ID", TR_ID);
+		
 		return mv;
 	}
 	
@@ -231,6 +257,7 @@ public class TripController {
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
 		session.setAttribute("TR_ID", TR_ID);
+		
 		return mv;
 	}
 }

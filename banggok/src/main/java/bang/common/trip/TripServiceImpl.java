@@ -66,12 +66,24 @@ public class TripServiceImpl implements TripService {
 	public List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception {		
 		return tripDAO.myTripList(map);
 	}
+	
+	/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
+	@Override
+	public void deletePlaceListNull(Map<String, Object> map) throws Exception {
+		tripDAO.deletePlaceListNull(map);
+	}
 
 	/* 여행 일정 만들기 */
 	@Override
 	public void tripWrite(Map<String, Object> map) throws Exception {
 		tripDAO.tripWrite(map);
 	}
+	
+	/* 일정별 추가 장소 리스트(작성시) */
+	@Override
+	public List<Map<String, Object>> writePlaceList(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		return tripDAO.writePlaceList(map);
+	}	
 
 	/* 추가 장소 저장 */
 	@Override
