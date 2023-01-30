@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -58,7 +59,8 @@
 						<c:when test="${fn:length(myTogetherList) > 0}">
 							<c:forEach items="${myTogetherList}" var="list" varStatus="status">
 								<tr>
-									<td align="center">${list.TG_NUM }</td>
+									<td align="center">${list.TG_NUM }
+									<input type="hidden" id="TG_NUM" name="TG_NUM" value="${list.TG_NUM }"></td>
 									<td><a href="togetherDetail.tr?TG_NUM=${list.TG_NUM}">${list.TG_TITLE}</a>
 									</td>
 
@@ -66,8 +68,8 @@
 									<td align="center">${list.TG_CNT }</td>
 									<td align="center" ${list.TG_REGDATE }><fmt:formatDate value="${list.TG_REGDATE}" pattern="yyyy-MM-dd" /></td>
 									<td align="center">
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/togetherModify.tr'">수정</button> 
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/togetherDel.tr'">삭제</button>									  
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/togetherModifyForm.tr?TG_NUM=${list.TG_NUM}'">수정</button> 
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="return deleteTogether()">삭제</button>									  
 									</td>
 								</tr>
 							</c:forEach>
@@ -81,23 +83,38 @@
 				</tbody>
 			</table>
 			<div>
-			<br>
-			<form action="/bang/searchTogether.tr" method="GET">
-				<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
-				<input type="text" id="keyword" name="keyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
-			</form>
-		  </div>
-		<br><br><br>
+				<br>
+				<form action="/bang/searchTogether.tr" method="GET">
+					<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
+					<input type="text" id="keyword" name="keyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
+				</form>
+			</div>
+	        <!-- 페이지 -->
+		  	<div align="center">	    
+				<c:if test="${not empty paginationInfo}">
+				  <ui:pagination paginationInfo = "${paginationInfo}" type="text" jsFunction="fn_search"/>
+				</c:if>
+				  <input type="hidden" id="currentPageNo" name="currentPageNo"/>	
+				<%@ include file="/WEB-INF/include/include-body.jspf" %>
+			</div>
+		<br><br>
 	  </div>		
 	</div>
 	<script type="text/javascript">
 
-		function fn_openBoardDetail(obj) {
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/togertherDetail.tr' />");
-			comSubmit.addParam("TG_NUM", obj.parent().find("#TG_NUM").val());
-			comSubmit.submit();
+	function deleteTogether() {
+		var TG_NUM = document.getElementById("TG_NUM").value;
+		if (confirm("삭제하시겠습니까?") == true) {
+			location.href = "togetherDelete.tr?TG_NUM=" + TG_NUM;		
 		}
+	}
+	
+	function fn_search(pageNo){
+		var comSubmit = new ComSubmit();
+		comSubmit.setUrl("<c:url value='/myTogetherList.tr' />");
+		comSubmit.addParam("currentPageNo", pageNo);
+		comSubmit.submit();
+    }
 	</script>
 
   <!--  ************************* Footer Start Here ************************** -->

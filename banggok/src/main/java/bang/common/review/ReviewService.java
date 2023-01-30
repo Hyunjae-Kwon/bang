@@ -15,7 +15,10 @@ public interface ReviewService {
 	
 	/* 여행 후기 리스트(전체&검색) */
 	List<Map<String, Object>> reviewListPaging(Map<String, Object> map,  HttpServletRequest request) throws Exception;
-
+    
+	/* 추천하기 */
+	void reviewLike(Map<String, Object> map) throws Exception;
+	
 	/* 여행후기 상세 */
 	Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception;
 
@@ -27,9 +30,9 @@ public interface ReviewService {
 	
 	/* 여행 후기 검색 */
 	List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception;
-	
-	/* 마이페이지 여행후기 리스트 */
-	List<Map<String, Object>> myReviewList(Map<String, Object> map) throws Exception;
+		
+	/* 마이페이지 여행후기 리스트 리스트 */
+	Map<String,Object> myReviewList(Map<String,Object> map) throws Exception;
 	
 	/* 여행후기 수정 폼 */
 	Map<String, Object> reviewModifyForm(Map<String, Object> map) throws Exception;

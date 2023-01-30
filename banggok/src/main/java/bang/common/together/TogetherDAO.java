@@ -56,7 +56,7 @@ public class TogetherDAO extends AbstractDAO {
 	
 	/* 마이페이지 동행 리스트 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> myTogetherList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>)selectList("together.myTogetherList", map);
+	public Map<String, Object> myTogetherList(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>)selectPagingList("together.myTogetherList", map);
 	}
 }

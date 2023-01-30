@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /* Controller 객체임을 선언 */
 @Controller
@@ -127,12 +128,12 @@ public class ReviewController {
 		ModelAndView mv = new ModelAndView("review/reviewDetail");	/* 화면에 보여줄 reviewList.jsp파일을 의미함 */
 		
 		/* 여행후기 디테일 */
-		Map<String,Object> reviewDetail = reviewService.reviewDetail(commandMap.getMap());
+		Map<String,Object> review = reviewService.reviewDetail(commandMap.getMap());
 		
 		/* 여행후기 댓글 리스트*/
 		List<Map<String, Object>> reviewCommentList = reviewService.reviewCommentList(commandMap.getMap());
 		
-		mv.addObject("reviewDetail", reviewDetail);
+		mv.addObject("review", review);
 		mv.addObject("reviewCommentList", reviewCommentList);
 		
 		return mv;
@@ -170,6 +171,24 @@ public class ReviewController {
 
 		return mv;
 	}
+		
+	/* 마이페이지 여행 후기 리스트 */
+	@RequestMapping(value = "/myReviewList.tr")
+	public ModelAndView myReviewList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("member/myReviewList");
+		
+		HttpSession session = request.getSession();
+		String RV_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("MEM_ID", RV_ID);
+
+		Map<String, Object> resultMap = reviewService.myReviewList(commandMap.getMap());
+		
+		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
+		mv.addObject("myReviewList", resultMap.get("result"));
+		
+		return mv;
+	}
 	
 	/* 여행후기 수정 */
 	@RequestMapping(value="/reviewModify.tr", method = RequestMethod.POST)
@@ -190,21 +209,14 @@ public class ReviewController {
 
 		return mv;      
 	}
-
-	/* 마이페이지 여행 후기 리스트 */
-	@RequestMapping(value="/myReviewList.tr")
-	public ModelAndView myReviewList(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("member/myReviewList");
-		
-		HttpSession session = request.getSession();
-		String RV_ID = (String) session.getValue("MEM_ID");
-		
-		commandMap.put("MEM_ID", RV_ID);
 	
+	/* 추천하기 */
+	@RequestMapping(value="/reviewLike.tr",  method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView recommendLike(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/reviewDetail.tr");	
+		reviewService.reviewLike(commandMap.getMap());
 		
-		List<Map<String, Object>> myReviewList = reviewService.myReviewList(commandMap.getMap());
-		
-		mv.addObject("myReviewList", myReviewList);
+		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
 		
 		return mv;
 	}

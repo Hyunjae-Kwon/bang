@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class TripController {
@@ -181,11 +182,11 @@ public class TripController {
 		String TR_ID = (String) session.getValue("MEM_ID");
 		
 		commandMap.put("MEM_ID", TR_ID);
-	
+			
+		Map<String, Object> resultMap = tripService.myTripList(commandMap.getMap());
 		
-		List<Map<String, Object>> myTripList = tripService.myTripList(commandMap.getMap());
-		
-		mv.addObject("myTripList", myTripList);
+		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
+		mv.addObject("myTripList", resultMap.get("result"));
 		
 		return mv;
      }
