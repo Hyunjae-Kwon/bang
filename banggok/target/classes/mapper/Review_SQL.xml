@@ -51,8 +51,7 @@
 	</select> 
 	
 	<!-- [reviewDetail] 여행후기 상세 -->
-	<select id="reviewDetail" parameterType="hashmap"
-		resultType="hashmap">
+	<select id="reviewDetail" parameterType="hashmap" resultType="hashmap">
      <![CDATA[
     	SELECT *
 		FROM REVIEW
@@ -113,9 +112,44 @@
 	
 	<!-- [myReviewList] 마이페이지 여행 후기 게시판 리스트 -->
 	<select id="myReviewList" parameterType="hashmap" resultType="hashmap">
-	 <![CDATA[
-		SELECT * FROM REVIEW
-		WHERE RV_ID = #{MEM_ID}
-	   ]]>
-	</select> 
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY RV_NUM DESC) RNUM,
+				RV_NUM,
+				RV_TITLE,
+				RV_REGDATE,
+				RV_ID,
+				RV_CNT,
+				RV_LIKE,
+				RV_CONTENT,
+				RV_IMAGE
+			FROM
+				REVIEW
+			WHERE
+			    RV_ID = #{MEM_ID}				
+		]]>
+		<include refid="common.pagingPost"/>
+	</select>
+	
+    <!-- [reviewUpdateCnt] 조회수 증가 -->
+	<update id="reviewUpdateCnt" parameterType="hashmap">
+    <![CDATA[
+		UPDATE REVIEW 
+		      SET
+		         RV_CNT = NVL(RV_CNT, 0) + 1
+		      WHERE
+		         RV_NUM = #{RV_NUM}   
+    ]]>
+	</update>
+
+    <!-- [reviewLike] 추천하기 -->
+	<update id="reviewLike" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			REVIEW 
+		SET RV_LIKE = RV_LIKE + 1 WHERE RV_NUM = #{RV_NUM}
+	]]>
+	</update>
+
 </mapper>
