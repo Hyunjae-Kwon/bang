@@ -62,7 +62,7 @@ public class LoginController {
 			
 			session.setAttribute("MEM_ID", request.getParameter("kakaoEmail"));	/* 카카오 이메일을 회원 아이디로 세션에 저장 */
 			
-			mv.addObject("msg", "카카오 로그인 성공!");
+			mv.addObject("msg", "카카오 로그인 및 간편 회원 가입 성공!");
 			mv.addObject("url", "/main.tr");
 			
 			return mv;

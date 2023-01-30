@@ -148,6 +148,15 @@
 		]]>
 	</select>
 	
+	<!-- [deletePlaceListNull]일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 -->
+	<delete id="deletePlaceListNull" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+			FROM TRIPPLACE
+			WHERE TP_ID = #{TP_ID} AND TP_TRNUM IS NULL
+		]]>
+	</delete>
+	
 	<!-- [tripWrite] 여행 일정 만들기 -->
 	<insert id="tripWrite" parameterType="hashmap">
 		<![CDATA[
@@ -156,6 +165,26 @@
 		]]>
 	</insert>
 	
+	<!-- [writePlaceList] 일정별 추가 장소 리스트(작성시) -->
+	<select id="writePlaceList" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			ROWNUM R,
+			TP_NUM,
+			TP_PLACE,
+			TP_ADDRESS,
+			TP_RADDRESS,
+			TP_PHONE,
+			TP_MAP_LAT,
+			TP_MAP_LNG
+		FROM
+			TRIPPLACE
+		WHERE 
+			TP_ID = #{TP_ID} AND TP_DATE = #{TP_DATE} AND TP_TRNUM IS NULL
+		ORDER BY TP_NUM ASC
+	]]>
+	</select>
+
 	<!-- [tripplaceUpdate] 여행 장소 테이블의 여행 일정 번호 업데이트 -->
 	<insert id="tripplaceUpdate" parameterType="hashmap">
 		<![CDATA[
@@ -180,7 +209,7 @@
 		<![CDATA[
 
 			INSERT INTO TRIPPLACE (TP_NUM, TP_ID, TP_PLACE, TP_ADDRESS, TP_RADDRESS, TP_PHONE, TP_MAP_LAT, TP_MAP_LNG, TP_DATE)
-			VALUES (TP_NUM_SEQ.NEXTVAL, #{TP_ID}, #{TP_PLACE}, #{TP_ADDRESS}, #{TP_RADDRESS}, #{TP_PHONE}, #{TP_MAP_LAT}, #{TP_MAP_LNG}, 'DAY01')
+			VALUES (TP_NUM_SEQ.NEXTVAL, #{TP_ID}, #{TP_PLACE}, #{TP_ADDRESS}, #{TP_RADDRESS}, #{TP_PHONE}, #{TP_MAP_LAT}, #{TP_MAP_LNG}, #{TP_DATE})
 		]]>
 	</insert>
 	
@@ -189,7 +218,7 @@
 		<![CDATA[
 			DELETE 
 			FROM TRIPPLACE
-			WHERE TP_MAP_LAT = #{TP_MAP_LAT} AND TP_MAP_LNG = #{TP_MAP_LNG} AND TP_ID = #{TP_ID} AND TP_TRNUM IS NULL
+			WHERE TP_NUM = #{TP_NUM} AND TP_MAP_LAT = #{TP_MAP_LAT} AND TP_MAP_LNG = #{TP_MAP_LNG} AND TP_ID = #{TP_ID} AND TP_TRNUM IS NULL
 		]]>
 	</delete>
 	
