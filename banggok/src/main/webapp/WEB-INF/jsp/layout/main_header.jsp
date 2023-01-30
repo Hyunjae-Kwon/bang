@@ -63,7 +63,7 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- 로그인, 로그아웃, 회원가입, 마이페이지 등 -->
+                    <!-- 로그인, 로그아웃, 회원가입, 마이페이지, 검색 등 -->
                     <div class="col-lg-6 col-md-12">
                         <ul id="login" class="ulright">
                         	<!-- 로그인을 하지 않았을 경우 -->
@@ -78,7 +78,7 @@
 									<form action="/bang/searchAll.tr" method="GET">
 										<li class="search-box">
 											<input type="text" class="search-txt" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
-											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px;"></i></button>
+											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px; cursor:pointer;"></i></button>
 										</li>
 									</form>
 								</li>
@@ -102,7 +102,7 @@
 									<form action="/bang/searchAll.tr" method="GET">
 										<li class="search-box">
 											<input type="text" class="search-txt" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
-											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px;"></i></button>
+											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px; cursor:pointer;" ></i></button>
 										</li>
 									</form>
 								</li>
@@ -158,10 +158,12 @@
         	if (!$("#MEM_ID").val()){
 		    	alert("로그인을 해주세요.");
 		    		   
-		    	return false;
+		    	location.href="/bang/loginForm.tr";
+		    }else{
+	    		location.href="/bang/tripWriteForm.tr";
 		    }
-	    	location.href="/bang/tripWriteForm.tr";
         }
 	    </script>
+	    
     </header>
 </body>
