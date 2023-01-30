@@ -127,7 +127,7 @@ public class ReviewController {
 		ModelAndView mv = new ModelAndView("review/reviewDetail");	/* 화면에 보여줄 reviewList.jsp파일을 의미함 */
 		
 		/* 여행후기 디테일 */
-		List<Map<String,Object>> reviewDetail = reviewService.reviewDetail(commandMap.getMap());
+		Map<String,Object> reviewDetail = reviewService.reviewDetail(commandMap.getMap());
 		
 		/* 여행후기 댓글 리스트*/
 		List<Map<String, Object>> reviewCommentList = reviewService.reviewCommentList(commandMap.getMap());
@@ -171,24 +171,6 @@ public class ReviewController {
 		return mv;
 	}
 	
-	/* 마이페이지 여행 후기 리스트 */
-	@RequestMapping(value="/myReviewList.tr")
-	public ModelAndView myReviewList(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("member/myReviewList");
-		
-		HttpSession session = request.getSession();
-		String RV_ID = (String) session.getValue("MEM_ID");
-		
-		commandMap.put("MEM_ID", RV_ID);
-	
-		
-		List<Map<String, Object>> myReviewList = reviewService.myReviewList(commandMap.getMap());
-		
-		mv.addObject("myReviewList", myReviewList);
-		
-		return mv;
-	}
-	
 	/* 여행후기 수정 */
 	@RequestMapping(value="/reviewModify.tr", method = RequestMethod.POST)
 	public ModelAndView reviewModify(CommandMap commandMap)throws Exception{
@@ -207,5 +189,23 @@ public class ReviewController {
 		reviewService.reviewDel(commandMap.getMap());
 
 		return mv;      
+	}
+
+	/* 마이페이지 여행 후기 리스트 */
+	@RequestMapping(value="/myReviewList.tr")
+	public ModelAndView myReviewList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("member/myReviewList");
+		
+		HttpSession session = request.getSession();
+		String RV_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("MEM_ID", RV_ID);
+	
+		
+		List<Map<String, Object>> myReviewList = reviewService.myReviewList(commandMap.getMap());
+		
+		mv.addObject("myReviewList", myReviewList);
+		
+		return mv;
 	}
 }

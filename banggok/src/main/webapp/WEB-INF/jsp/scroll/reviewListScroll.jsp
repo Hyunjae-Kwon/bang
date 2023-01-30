@@ -23,7 +23,6 @@
 					                    <span>${list.RV_REGDATE}</span>
 					                    <span style="float: right;">${list.RV_ID}</span>
 					                    <h4>${list.RV_TITLE}</h4>
-					                    <p>${list.RV_CONTENT}</p><br>
 					                    <span style="float: right;">조회수 | ${list.RV_CNT}</span>
 					                    <span style="float: right;">추천수 | ${list.RV_LIKE}&nbsp;&nbsp;</span><br>
 					               </div>

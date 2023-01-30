@@ -30,8 +30,8 @@ public class ReviewDAO extends AbstractDAO {
 
 	/* 여행후기 상세 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> reviewDetail(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>)selectList("review.reviewDetail", map);
+	public Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>)selectOne("review.reviewDetail", map);
 	}
 	
 	/* 여행후기 댓글 리스트 */

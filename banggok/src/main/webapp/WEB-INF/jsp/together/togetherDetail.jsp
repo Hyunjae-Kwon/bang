@@ -9,10 +9,10 @@ pageContext.setAttribute("replaceChar", "\n");
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>"/>
 </head>
 
 <body>
-
 	<!--  ************************* Page Title Starts Here ************************** -->
 	<div class="page-nav no-margin row">
 		<div class="container">
@@ -22,62 +22,61 @@ pageContext.setAttribute("replaceChar", "\n");
 		</div>
 	</div>
 	<!-- ################# 게시물 Starts Here #######################--->
-	<div align="center" class="row contact-rooo no-margin">
-		<div class="container">
-			<table class="text-part col-md-6">
+	<br><br>
+	<div class="board-list">
+		<div class="container">		 
+			<table class="board-table">
 				<colgroup>
 					<col width="10%" />
-					<col width="25%" />
-					<col width="10%" />
-					<col width="25%" />
-					<col width="10%" />
-					<col width="25%" />
+					<col width="20%" />
+					<col width="15%" />
+					<col width="20%" />
+					<col width="*" />
+					<col width="15%" />
 				</colgroup>
+				<thead>
+					<tr align="center">
+						<td scope="col" style="font-weight: bold;">글번호</td>
+						<td scope="col">${map.TG_NUM }</td>
+						<td scope="col" style="font-weight: bold;">조회수</td>
+						<td scope="col">${map.TG_CNT }</td>
+						<td scope="col" style="font-weight: bold;">작성일시</td>
+						<td scope="col">${map.TG_REGDATE}</td>
+					</tr>
+				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">글번호</th>
-						<td>${map.TG_NUM }</td>
-						<th scope="row">조회수</th>
-						<td>${map.TG_CNT }</td>
-						<th scope="row">추천수</th>
-						<td>${map.TG_LIKE }</td>
+						<td align="center" style="font-weight: bold;">제목</td>
+						<td align="center" colspan="3">${map.TG_TITLE}</td>
+						<td align="center" style="font-weight: bold;">작성자</td>
+						<td align="center">${map.TG_ID}</td>
 					</tr>
+				</tbody>
+				<tbody>
 					<tr>
-						<th scope="row">작성자</th>
-						<td colspan="2">${map.TG_ID }</td>
-						<th scope="row">작성시간</th>
-						<td colspan="2">${map.TG_REGDATE}</td>
-					</tr>
-					<tr>
-						<th scope="row">제목</th>
-						<td colspan="5">${map.TG_TITLE }</td>
-					</tr>
-					<tr>
-						<td colspan="6">${fn:replace(map.TG_CONTENT, replaceChar,"<br/>")  }</td>
+						<td align="center" style="font-weight: bold;">내용</td>
+						<td colspan="5" style="height: 300px;">${map.TG_CONTENT}</td>
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		<br>
+		</div>				 
 	</div>
-	<hr>
 	<div align="center">
-		<input type="button" value="수정" class="btn btn-outline-success"
-			style="height: 55px;"
-			onClick="location.href='togetherModifyForm.tr?TG_NUM=${map.TG_NUM}'">
-		<input type="button" value="목록" class="btn btn-outline-success"
-			style="height: 55px;" onClick="return fn_openList()">
+		<input type="button" value="수정" class="btn btn-outline-success" onClick="location.href='togetherModifyForm.tr?TG_NUM=${map.TG_NUM}'">
+		<input type="button" value="목록" class="btn btn-outline-success" onClick="return fn_openList()">
 	</div>
-
-	<%@ include file="/WEB-INF/include/include-body.jspf"%>
-	<script type="text/javascript">
-		function fn_openList() {
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/togetherList.tr' />");
-			comSubmit.submit();
-		}
-	</script>
-
+	<br>
 </body>
+<%@ include file="/WEB-INF/include/include-body.jspf"%>
+	
+<script type="text/javascript">
+	function fn_openList() {
+		var comSubmit = new ComSubmit();
+		comSubmit.setUrl("<c:url value='/togetherList.tr' />");
+		comSubmit.submit();
+	}
+</script>
 <script src="resources/js/jquery-3.2.1.min.js"></script>
 <script src="resources/js/popper.min.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>

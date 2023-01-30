@@ -23,7 +23,6 @@
 					                    	</a>
 				                        </div>
 				                        <h3>${list.RC_TITLE}</h3>
-				                        <p>${list.RC_CONTENT}</p>
 				                        <button class="btn btn-outline-success" onClick="location.href='/bang/recommendDetail.tr?RC_NUM=${list.RC_NUM}'">상세 보기</button>
 				                    </div>
 				                </div>

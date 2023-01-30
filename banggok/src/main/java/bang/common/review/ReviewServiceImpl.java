@@ -38,7 +38,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 	/* 여행후기 상세 */
 	@Override
-	public List<Map<String, Object>> reviewDetail(Map<String, Object> map) throws Exception {
+	public Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception {
 		return reviewDAO.reviewDetail(map);
 	}
 	

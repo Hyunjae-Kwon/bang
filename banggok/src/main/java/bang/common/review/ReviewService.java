@@ -17,7 +17,7 @@ public interface ReviewService {
 	List<Map<String, Object>> reviewListPaging(Map<String, Object> map,  HttpServletRequest request) throws Exception;
 
 	/* 여행후기 상세 */
-	List<Map<String, Object>> reviewDetail(Map<String, Object> map) throws Exception;
+	Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception;
 
 	/* 여행후기 댓글 리스트 */
 	public List<Map<String, Object>> reviewCommentList(Map<String, Object> map) throws Exception;

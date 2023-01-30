@@ -13,7 +13,7 @@ public class ChatController {
 	/* 채팅방 만들기 */
 	@RequestMapping("/chat.tr")
 	public ModelAndView chat() {
-		ModelAndView mv = new ModelAndView("chat/chat");
+		ModelAndView mv = new ModelAndView("member/chat");
 		return mv;
 	}
 	
