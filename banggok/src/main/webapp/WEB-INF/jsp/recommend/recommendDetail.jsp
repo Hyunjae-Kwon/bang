@@ -153,5 +153,6 @@ function fn_commentCheck() {
   alert("댓글이 정상적으로 등록 되었습니다."); 
 	frm.submit();
 }
+
 </script>
 </html>
