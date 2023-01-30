@@ -34,6 +34,9 @@ public interface TripService {
 	/* 마이페이지 여행 일정 리스트 */
 	List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception;
 	
+	/*  */
+	List<Map<String, Object>> placeList(Map<String, Object> map,  HttpServletRequest request) throws Exception;
+	
 	/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
 	void deletePlaceListNull(Map<String, Object> map) throws Exception;
 	

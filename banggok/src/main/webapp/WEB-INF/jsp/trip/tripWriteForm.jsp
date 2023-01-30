@@ -206,7 +206,7 @@
 			$.ajax({
  				type: "POST",
  				url: "<c:url value='tripWrite.tr'/>",
- 				data: {TR_ID: id, TR_TITLE: title, TR_CONTENT: content},
+ 				data: {TR_ID: id, TR_TITLE: title, TR_CONTENT: contentW},
  				async: false,
  				success: function(data){
  					alert("게시글이 정상적으로 등록 되었습니다.");
@@ -245,11 +245,11 @@
 		function delSch(){
 			var id = document.getElementById("TR_ID").value;
 			
-			const delButton = event.currentTarget;
+			/* const delButton = event.currentTarget;
 			const third = delButton.parentNode;
 			const second = third.parentNode;
 			const first = second.parentNode;
-			first.remove();
+			first.remove(); */
 		
 			/* 일정 DB에서 삭제 */
 			/* $.ajax({
@@ -624,20 +624,20 @@
 			var id = document.getElementById("TR_ID").value;
 			var dayNum = dayIdx;
 			
- 			const delButton = event.currentTarget;
+ 			/* const delButton = event.currentTarget;
 			const third = delButton.parentNode;
 			const second = third.parentNode;
 			const first = second.parentNode;
-			first.remove();
+			first.remove(); */
 			
  			/* 지도에 표시되고 있는 선 전부 제거 */
-			removePolyline();
+			/* removePolyline(); */
 			
 			/* 커스텀 오버레이 조정 */
-			count = count - 1;
+			/* count = count - 1; */
 			
-			const num = delButton.className;
-			removeAddMarker(num);
+			/* const num = delButton.className;
+			removeAddMarker(num); */
 			
 			/* 추가한 장소 DB에서 삭제 */
 			$.ajax({

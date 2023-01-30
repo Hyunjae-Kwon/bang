@@ -111,6 +111,28 @@
 	   ]]>
 	</update>
 	
+	<!-- [placeList]  -->
+	<select id="placeList" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			ROWNUM R,
+			TP_NUM,
+			TP_PLACE,
+			TP_ADDRESS,
+			TP_RADDRESS,
+			TP_PHONE,
+			TP_MAP_LAT,
+			TP_MAP_LNG
+		FROM
+			TRIPPLACE
+		WHERE 
+			TP_ID = #{TP_ID} AND TP_TRNUM IS NULL
+		ORDER BY TP_NUM ASC
+	]]>
+	</select>
+	
+	
+	
 	<!-- [tripDelete] TR_NUM으로 여행 일정 삭제하기 -->
 	<delete id="tripDelete" parameterType="hashmap">
 		<![CDATA[
