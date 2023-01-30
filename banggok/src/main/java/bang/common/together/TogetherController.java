@@ -123,12 +123,12 @@ public class TogetherController {
 		HttpSession session = request.getSession();
 		String TG_ID = (String) session.getValue("MEM_ID");
 		
-		commandMap.put("MEM_ID", TG_ID);
-	
+		commandMap.put("MEM_ID", TG_ID);	
 		
-		List<Map<String, Object>> myTogetherList = togetherService.myTogetherList(commandMap.getMap());
+		Map<String, Object> resultMap = togetherService.myTogetherList(commandMap.getMap());
 		
-		mv.addObject("myTogetherList", myTogetherList);
+		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
+		mv.addObject("myTogetherList", resultMap.get("result"));
 		
 		return mv;
 	}

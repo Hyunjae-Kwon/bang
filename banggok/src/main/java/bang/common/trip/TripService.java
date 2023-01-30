@@ -32,7 +32,7 @@ public interface TripService {
 	List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception;
 
 	/* 마이페이지 여행 일정 리스트 */
-	List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception;
+	Map<String, Object> myTripList(Map<String, Object> map) throws Exception;
 	
 	/*  */
 	List<Map<String, Object>> placeList(Map<String, Object> map,  HttpServletRequest request) throws Exception;

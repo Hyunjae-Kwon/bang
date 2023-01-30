@@ -78,7 +78,7 @@ public class TripServiceImpl implements TripService {
 	
 	/* 마이페이지 여행 일정 리스트 */
 	@Override
-	public List<Map<String, Object>> myTripList(Map<String, Object> map) throws Exception {		
+	public Map<String, Object> myTripList(Map<String, Object> map) throws Exception {		
 		return tripDAO.myTripList(map);
 	}
 	

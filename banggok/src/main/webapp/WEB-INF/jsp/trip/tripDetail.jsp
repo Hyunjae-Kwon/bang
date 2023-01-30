@@ -90,6 +90,12 @@
   background-color: green;
   color: #fff;
 }
+.customoverlay {position:relative;bottom:73px;border-radius:4px;border: 2px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay .item {display:block;float:left; text-decoration:none;padding:8px 8px;color:#000;text-align:center;border-radius:3px;font-size:11px;font-weight:bold;background: #FA8072;}
+.customoverlay .title {display:block;text-align:center;background:#fff;padding:8px 15px;font-size:11px;font-weight:bold;border-radius:3px;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+
 </style>
 </head>
     <body>
@@ -137,7 +143,8 @@
 	                    	<c:forEach var="list" items="${tripplace}">
 		                    	<ul id="placesList2" class="placesLists" style="padding-bottom: 15px;">
 		                    		<li class="item">
-		                    			<h5 id="place">${list.TP_PLACE}</h5>
+		                    			<h5 id="place">${list.TP_PLACE}
+		                    			<input type="hidden" id="TP_PLACE" name="TP_PLACE"></h5>
 		                    			<span id="roadAddress">${list.TP_RADDRESS}</span>
 		                    			<span id="address" class="jibun gray">${list.TP_ADDRESS}</span>
 		                    			<span class="tel" id="tel">${list.TP_PHONE}</span>
@@ -341,18 +348,43 @@ function fn_recommendLike() {
 	
 	/* 지도 범위 재설정을 위해 위도 경도 정보를 저장할 배열 */
 	var points = [];
-	
+				
 	for(let i = 0; i < placeNode.length; i ++){
 		const latItem = latNode.item(i);
 		const lngItem = lngNode.item(i);
 		const placeItem = placeNode.item(i);
 		
+		/* 마커 이미지 */
+		var imageSrc = 'resources/images/marker.png',
+	  	    imageSize = new kakao.maps.Size(30, 30);
+		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+				
 		points.push(new kakao.maps.LatLng(latItem.innerText, lngItem.innerText)); 
+		
 		// 마커를 생성합니다
 	    var marker = new kakao.maps.Marker({
 	        map: map, // 마커를 표시할 지도
-	        position: points[i] // 마커의 위치
+	        position: points[i], // 마커의 위치
+	        image: markerImage // 마커 이미지
 	    });
+		
+		/* 오버레이 순서 */
+		var count = i+1;
+		
+		/* 커스텀 오버레이 표시 */
+		var content = '<div class="customoverlay">' +
+	    '  <span class="item">' + count + '</span>' +
+	    '  <span class="title">' + placeItem.innerText + '</span>' +		    
+	    '</div>';
+	    
+		var customOverlay = new kakao.maps.CustomOverlay({
+		    map: map,
+		    position: points[i],
+		    content: content,
+		    yAnchor: 0.05
+		});
+				
+		customOverlay.setMap(map);
 	
 	    // 마커에 표시할 인포윈도우를 생성합니다 
 	    var infowindow = new kakao.maps.InfoWindow({
@@ -374,6 +406,7 @@ function fn_recommendLike() {
 	    })(marker, infowindow);
 	}
 	
+	
 	// 지도에 표시할 선을 생성합니다
 	var polyline = new kakao.maps.Polyline({
 	    path: points, // 선을 구성하는 좌표배열 입니다
@@ -385,6 +418,31 @@ function fn_recommendLike() {
 
 	// 지도에 선을 표시합니다 
 	polyline.setMap(map);  
+	
+	/* 커스텀 오버레이 */
+/* 	function addCustom(){
+		
+		for(let i = 0; i < placeNode.length; i ++){
+			const latItem = latNode.item(i);
+			const lngItem = lngNode.item(i);
+			const placeItem = placeNode.item(i);	
+		
+		points.push(new kakao.maps.LatLng(latItem.innerText, lngItem.innerText)); 	
+			
+		var content = '<div class="customoverlay">' +
+	    '  <span class="item">' + i + '</span>' +
+	    '  <span class="title">' + placeItem + '</span>' +		    
+	    '</div>';
+	    
+		var customOverlay = new kakao.maps.CustomOverlay({
+		    map: map,
+		    position: points[i],
+		    content: content,
+		    yAnchor: 0.05
+		});
+				
+		customOverlay.setMap(map);
+	} */
 	
 	// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 	var bounds = new kakao.maps.LatLngBounds();    

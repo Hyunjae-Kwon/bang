@@ -29,5 +29,5 @@ public interface TogetherService {
 	List<Map<String, Object>> searchTogether(Map<String, Object> map, HttpServletRequest request) throws Exception;
 	
 	/* 마이페이지 동행 리스트 */
-	List<Map<String, Object>> myTogetherList(Map<String, Object> map) throws Exception;
+	Map<String, Object> myTogetherList(Map<String, Object> map) throws Exception;
 }

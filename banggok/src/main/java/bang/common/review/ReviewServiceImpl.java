@@ -35,11 +35,19 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<Map<String, Object>> reviewListPaging(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return reviewDAO.reviewListPaging(map);
 	}
+	
+	/* 추천하기 */
+	@Override
+	public void reviewLike(Map<String, Object> map) throws Exception {
+		reviewDAO.reviewLike(map);
+	}
 
 	/* 여행후기 상세 */
 	@Override
-	public List<Map<String, Object>> reviewDetail(Map<String, Object> map) throws Exception {
-		return reviewDAO.reviewDetail(map);
+	public Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception {
+		reviewDAO.reviewUpdateCnt(map);
+		Map<String, Object> resultMap = reviewDAO.reviewDetail(map);
+		return resultMap;
 	}
 	
 	/* 여행후기 댓글 리스트 */
@@ -73,10 +81,10 @@ public class ReviewServiceImpl implements ReviewService {
 	public void reviewDel(Map<String, Object> map) throws Exception {
 		reviewDAO.reviewDel(map);
 	}
-
+	
 	/* 마이페이지 여행후기 리스트 */
 	@Override
-	public List<Map<String, Object>> myReviewList(Map<String, Object> map) {
+	public Map<String, Object> myReviewList(Map<String, Object> map) throws Exception {
 		return reviewDAO.myReviewList(map);
 	}
 	
