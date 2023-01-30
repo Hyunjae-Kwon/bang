@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="/WEB-INF/include/include-header.jspf"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -10,7 +11,7 @@
 	href="<c:url value='/resources/css/board.css'/>" />
 </head>
 <body>
-	<!--  ************************* Page Title Starts Here ************************** -->
+	<!--  ************************관광지 추천 게시판 글제목/작성자************************** -->
 	<div class="page-nav no-margin row">
 		<div class="container">
 			<div class="row">
@@ -78,58 +79,38 @@
 			<input type="button" value="수정" class="btn btn-outline-success" onClick="location.href='/bang/recommendModifyForm.tr?RC_NUM=${map.RC_NUM}'">
 			<button class="btn btn-outline-success" onClick="return deleteCheck()">삭제</button>
 		</c:if>
-		<input type="button" value="목록" class="btn btn-outline-success" onClick="location.href='/bang/allRecommendList.tr'">
+		<input type="button" value="목록" class="btn btn-outline-success" onClick="location.href='/bang/recommendList.tr'">
 	</div>
 	<hr>
 	<!--  댓글  -->
-	<div class="review container-fluid">
-		<div class="container">
-			<div class="session-title">
-				<h5>댓글</h5>
-			</div>
-			<c:forEach var="comment" items="${rcComment}" varStatus="status">
-				<div class="col-sm-8">
-					<div class="review-col">
-						<div class="review-detail">
-							<h5>${comment.BC_ID }|${comment.BC_REGDATE}</h5>
-							<p>${comment.BC_COMMENT }
-								<input type="hidden" id="BC_BCID" name="BC_BCID" value="${comment.BC_BCID }">
-								<input type="hidden" id="BC_NUM" name="BC_NUM" value="${comment.BC_NUM }">
-							</p>
-							<c:if test="${MEM_ID eq comment.BC_ID}">
-								<p>
-									<a onClick="return deleteComment()" class="reply">삭제</a>
-								</p>
-							</c:if>
-						</div>
-					</div>
+	<div style="max-width: 100%; margin-left: 40px;">
+		<h5>댓글</h5>
+		<c:forEach var="comment" items="${rcComment}" varStatus="status">
+			<div id="commentList">
+				<span class="pric">${comment.BC_ID }|<fmt:formatDate value="${comment.BC_REGDATE}" pattern="yyyy-MM-dd" /></span>
+				<p>${comment.BC_COMMENT }
+					<input type="hidden" id="BC_BCID" name="BC_BCID" value="${comment.BC_BCID }">
+					<input type="hidden" id="BC_NUM" name="BC_NUM" value="${comment.BC_NUM }">
+				</p>
+				<div style="font-size: 8pt; color: gray; padding-right: 10px; margin-bottom: 10px;">
+					<c:if test="${MEM_ID eq comment.BC_ID}">
+						<input type="button" onClick="return deleteComment()" value="삭제하기">
+					</c:if>
 				</div>
-			</c:forEach>
-		</div>
+			</div>
+		</c:forEach>
 	</div>
 	<form action="rcCommentWrite.tr?RC_NUM=${map.RC_NUM}" name="frm" id="frm" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="BC_NUM" id="BC_NUM" value="${map.RC_NUM}">
 		<input type="hidden" id="MEM_ID" name="MEM_ID" value="${MEM_ID}" />
-		<div style="display: inline-block; width: 88%;">
-			<textarea name="BC_COMMENT" id="BC_COMMENT" class="form-control" width="100%" placeholder="댓글을 입력해주세요."></textarea>
+		<div style="display: inline-block; width: 88%; margin-left: 20px;">
+			<textarea name="BC_COMMENT" id="BC_COMMENT" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
 		</div>
 		<div style="display: inline-block; float: right; width: 10%;">
 			<input type="button" value="댓글쓰기" onclick="fn_commentCheck()" class="btn btn-primary py-2 px-2">
 		</div>
 	</form>
 	<!--  댓글 끝 -->
-	<div class="col-sm-8">
-		<button class="btn btn-success btn-sm" onClick="location.href='/bang/allRecommendList.tr'">목록</button>
-		<c:if test="${MEM_ID != map.RC_ID }">
-			<!-- 작성자가 아닐 경우에만 추천버튼 보이게 -->
-			<input type="button" class="btn btn-success btn-sm" onclick="return fn_recommendLike()" value="추천">
-		</c:if>
-		<c:if test="${MEM_ID eq map.RC_ID}">
-			<!--  작성자일때만 보이게 -->
-			<button class="btn btn-success btn-sm" onClick="location.href='/bang/recommendModifyForm.tr?RC_NUM=${map.RC_NUM}'">수정</button>
-			<button class="btn btn-success btn-sm" onClick="return deleteCheck()">삭제</button>
-		</c:if>
-	</div>
 </body>
 <script>
 <!-- 글삭제-->
@@ -160,7 +141,7 @@ function fn_recommendLike() {
 	      alert("추천되었습니다.");
 	      }
 	  }
-	  <!-- 댓글 -->
+<!-- 댓글 -->
 function fn_commentCheck() {
 	var frm = document.getElementById('frm');
 	var BC_NUM = document.getElementById('BC_NUM');

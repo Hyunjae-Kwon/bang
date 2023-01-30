@@ -38,7 +38,7 @@
             <div class="row">
                 <h2>관광지 추천 수정하기</h2>
                 <ul>
-                    <li> <a href="allRecommendList.tr"><i class="fas fa-blog"></i>관리자 관광지 추천</a></li>
+                    <li> <a href="recommendList.tr"><i class="fas fa-blog"></i>관리자 관광지 추천</a></li>
                     <li><i class="fas fa-angle-double-right"></i>추천글</li>
                 </ul>
             </div>
@@ -80,7 +80,7 @@
    <!--  <button id="update" class="btn btn-primary" onclick="updateRecommend()" type="submit">수정</button> -->
 <!--     <input type="button" class="btn btn-primary" onClick="return fn_updateRecommend()" value="글 수정"></a>--> 
 	<button id="frm" class="btn btn-primary" onclick="return recommendModify()" type="submit">수정</button>
-	<button id="close" class="btn btn-primary" onclick="location.href='/bang/allRecommendList.tr'" type="button">취소</button>
+	<button id="close" class="btn btn-primary" onclick="location.href='/bang/recommendList.tr'" type="button">취소</button>
 	</div>
 	
 	</form>
