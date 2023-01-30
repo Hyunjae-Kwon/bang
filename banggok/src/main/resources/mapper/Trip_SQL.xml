@@ -165,7 +165,6 @@
 		]]>
 	</insert>
 	
-<<<<<<< HEAD
 	<!-- [writePlaceList] 일정별 추가 장소 리스트(작성시) -->
 	<select id="writePlaceList" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[
@@ -183,7 +182,9 @@
 		WHERE 
 			TP_ID = #{TP_ID} AND TP_DATE = #{TP_DATE} AND TP_TRNUM IS NULL
 		ORDER BY TP_NUM ASC
-=======
+	]]>
+	</select>
+
 	<!-- [tripplaceUpdate] 여행 장소 테이블의 여행 일정 번호 업데이트 -->
 	<insert id="tripplaceUpdate" parameterType="hashmap">
 		<![CDATA[
@@ -200,7 +201,6 @@
 			MAX(TR_NUM) MAX 
 		FROM 
 			TRIP
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 	]]>
 	</select>
 	

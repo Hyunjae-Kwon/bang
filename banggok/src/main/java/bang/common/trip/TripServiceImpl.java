@@ -85,13 +85,12 @@ public class TripServiceImpl implements TripService {
 		tripDAO.tripWrite(map);
 	}
 	
-<<<<<<< HEAD
 	/* 일정별 추가 장소 리스트(작성시) */
 	@Override
 	public List<Map<String, Object>> writePlaceList(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return tripDAO.writePlaceList(map);
 	}	
-=======
+
 	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
 	@Override
 	public void tripplaceUpdate(Map<String, Object> map) throws Exception {
@@ -113,7 +112,6 @@ public class TripServiceImpl implements TripService {
 				
 		return maxTR;
 	}
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 
 	/* 추가 장소 저장 */
 	@Override

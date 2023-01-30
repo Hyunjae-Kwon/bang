@@ -40,16 +40,14 @@ public interface TripService {
 	/* 여행 일정 만들기 */
 	void tripWrite(Map<String, Object> map) throws Exception;
 	
-<<<<<<< HEAD
 	/* 일정별 추가 장소 리스트(작성시) */
 	List<Map<String, Object>> writePlaceList(Map<String, Object> map,  HttpServletRequest request) throws Exception;
-=======
+
 	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
 	void tripplaceUpdate(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 번호 업데이트를 위한 최대 번호 구하기 */
 	int maxTRNUM() throws Exception;
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 	
 	/* 추가 장소 저장 */
 	void addPlaceList(Map<String, Object> map) throws Exception;

@@ -6,6 +6,7 @@
 <html lang="ko">
 <head>
 </head>
+
 <body>
 	<c:choose>
 		<c:when test="${fn:length(writePlaceList) > 0}">

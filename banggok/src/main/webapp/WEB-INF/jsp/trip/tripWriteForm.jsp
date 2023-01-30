@@ -129,10 +129,7 @@
                 		</div>
                 		                		
                 		<div id="addListItem" style="border-left: solid #eaeaea; height: 450px; overflow-y: auto; width: 280px;">
-						
 						</div>
-						
-						
 						
 						<div style="border-left: solid #eaeaea; height: 450px;"></div>
 	                    <!-- <div class="row cont-row">
@@ -246,14 +243,13 @@
 		
 		/* 일정 삭제하기 */
 		function delSch(){
-			
-			/* var id = document.getElementById("TR_ID").value;
+			var id = document.getElementById("TR_ID").value;
 			
 			const delButton = event.currentTarget;
 			const third = delButton.parentNode;
 			const second = third.parentNode;
 			const first = second.parentNode;
-			first.remove(); */
+			first.remove();
 		
 			/* 일정 DB에서 삭제 */
 			/* $.ajax({
@@ -491,13 +487,9 @@
 		
 		/* 일정 추가 장소에 해당 정보 추가 */
 		function addListItem(elementItem) {
-<<<<<<< HEAD
 			console.log(elementItem);
  	        
 			/* 위도 경도 구하기 */
-=======
- 	        /* 위도 경도 구하기 */
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 			var markerPosition = infowindow.getPosition();
 			
 			var markerLat = markerPosition.getLat();
@@ -513,44 +505,7 @@
 			var str = itemElText.split('\n').filter((elem) => {
 				return elem !== undefined && elem !== null && elem !== ''
 			});
-			
-<<<<<<< HEAD
-=======
-			var place = document.getElementById("addListItem");
-			
-			var cnt = $(".placesLists").length;
-			var item = '';
-			if(cnt == 0){
-				item += '<ul id="placesList2" class="placesLists">' + 
-						'<li class="item">' + 
-						'<span id="num">' + 1 + '</span>' +
-						'<h5 id="place">' + str[0] + '</h5>' + 
-						'<span id="roadAddress">' + str[1] + '</span>' + 
-						'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
-						'<span class="tel" id="tel">' + str[3] + '<input type="button" class="1" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
-						'<span style="display: none;" id="lat">' + lat + '</span>' + 
-						'<span style="display: none;" id="lng">' + lng + '</span>' + 
-						'</li>' + 
-						'</ul>';
-			} else {
-				for(var i = cnt + 1; i < cnt + 2; i ++){
-					item += '<ul id="placesList2" class="placesLists">' + 
-							'<li class="item">' + 
-							'<span id="num">' + i + '</span>' +
-							'<h5 id="place">' + str[0] + '</h5>' + 
-							'<span id="roadAddress">' + str[1] + '</span>' + 
-							'<span id="address" class="jibun gray">' + str[2] + '</span>' + 
-							'<span class="tel" id="tel">' + str[3] + '<input type="button" class="' + i + '" style="float: right;" onclick="deletePlace(' + lat + ', ' + lng + ')" value="장소 삭제"></span>' + 
-							'<span style="display: none;" id="lat">' + lat + '</span>' + 
-							'<span style="display: none;" id="lng">' + lng + '</span>' + 
-							'</li>' + 
-							'</ul>';
-				}
-			}
-				
-			place.innerHTML += item;
-			
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
+
 			var id = document.getElementById("TR_ID").value;
 			
 			/* 추가한 장소 DB에 저장 */
@@ -667,24 +622,22 @@
 		function deletePlace(tpNum, lat, lng){
 			
 			var id = document.getElementById("TR_ID").value;
-<<<<<<< HEAD
 			var dayNum = dayIdx;
-=======
 			
-			const delButton = event.currentTarget;
+ 			const delButton = event.currentTarget;
 			const third = delButton.parentNode;
 			const second = third.parentNode;
 			const first = second.parentNode;
 			first.remove();
-			/* 지도에 표시되고 있는 선 전부 제거 */
+			
+ 			/* 지도에 표시되고 있는 선 전부 제거 */
 			removePolyline();
 			
 			/* 커스텀 오버레이 조정 */
-			count = count -1;
+			count = count - 1;
 			
 			const num = delButton.className;
 			removeAddMarker(num);
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 			
 			/* 추가한 장소 DB에서 삭제 */
 			$.ajax({

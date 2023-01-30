@@ -76,14 +76,12 @@ public class TripDAO extends AbstractDAO {
 		insert ("trip.tripWrite", map);
 	}
 	
-<<<<<<< HEAD
 	/* 일정별 추가 장소 리스트(작성시) */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> writePlaceList(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>)selectList("trip.writePlaceList", map);
 	}
 		
-=======
 	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
 	public void tripplaceUpdate(Map<String, Object> map) throws Exception {
 		update ("trip.tripplaceUpdate", map);
@@ -95,7 +93,6 @@ public class TripDAO extends AbstractDAO {
 		return (Map<String, Object>) selectOne("trip.maxTRNUM");
 	}
 	
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 	/* 추가 장소 저장 */
 	public void addPlaceList(Map<String, Object> map) throws Exception {
 		insert ("trip.addPlaceList", map);
