@@ -66,24 +66,16 @@ pageContext.setAttribute("replaceChar", "\n");
 		<br>
 		</div>				 
 	</div>
-<<<<<<< HEAD
-	<c:if test="${MEM_ID == map.TG_ID}">
-=======
 
 	<c:if test="${MEM_ID == map.TG_ID}">
 
->>>>>>> branch 'CHAEYEONG' of https://github.com/Hyunjae-Kwon/bang.git
 	<div align="center">
 		<input type="button" value="수정" class="btn btn-outline-success" onClick="location.href='togetherModifyForm.tr?TG_NUM=${map.TG_NUM}'">
 		<input type="button" value="삭제" class="btn btn-outline-success" onClick="return deletetogether()"> 
 	</div>
-<<<<<<< HEAD
-	</c:if>
-=======
 
 	</c:if>
 
->>>>>>> branch 'CHAEYEONG' of https://github.com/Hyunjae-Kwon/bang.git
 	<br>
 	<hr />
 	

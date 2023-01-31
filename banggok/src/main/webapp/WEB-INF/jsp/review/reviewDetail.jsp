@@ -9,7 +9,7 @@
 <html lang="ko">
 <head>
 </head>
-<<<<<<< HEAD
+
 
 <body>  
     <!--  ************************* Page Title Starts Here ************************** -->
@@ -113,7 +113,7 @@
 	    $('.black-bg').addClass('show-modal');
 	  });
 	</script>
-=======
+
 <body>
 	<!--  ************************* Page Title Starts Here ************************** -->
 	<div class="page-nav no-margin row">
@@ -215,7 +215,6 @@
 	</form>
 	<!--  댓글 끝 -->
 </body>
->>>>>>> branch 'CHAEYEONG' of https://github.com/Hyunjae-Kwon/bang.git
     <!-- 여행후기 삭제 스크립트 -->
     <script>
 		function reviewDel() {
