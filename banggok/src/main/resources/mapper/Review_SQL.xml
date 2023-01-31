@@ -175,4 +175,27 @@
 	]]>
 	</update>
 
+	<!-- [reviewModify] 글수정 -->
+	<update id="reviewModify" parameterType="hashmap">
+		<![CDATA[
+			UPDATE REVIEW
+			SET
+				RV_TITLE = #{RV_TITLE},
+				RV_CONTENT = #{RV_CONTENT},
+				RV_IMAGE = #{RV_IMAGE}
+			WHERE
+				RV_NUM = #{RV_NUM}	
+		]]>
+	</update>
+	
+		
+	<!-- [reviewDel] 글삭제 -->
+	<delete id="reviewDel" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+				FROM REVIEW
+				WHERE RV_NUM=#{RV_NUM}
+		]]>
+	</delete>
+	
 </mapper>

@@ -166,7 +166,7 @@ public class ReviewController {
 	@RequestMapping(value="/reviewModifyForm.tr") 
 	public ModelAndView reviewModifyForm(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/review/reviewModifyForm");
-		Map<String, Object> map = reviewService.reviewModifyForm(commandMap.getMap());
+		Map<String, Object> map = reviewService.reviewDetail(commandMap.getMap());
 
 		mv.addObject("review", map);
 
@@ -191,13 +191,24 @@ public class ReviewController {
 		return mv;
 	}
 	
-	/* 여행후기 수정 */
+	/* 여행후기 수정폼 */
 	@RequestMapping(value="/reviewModify.tr", method = RequestMethod.POST)
 	public ModelAndView reviewModify(CommandMap commandMap)throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
 		
 		reviewService.reviewModify(commandMap.getMap());
 
+		return mv;
+	}
+	
+	/* 여행후기 글수정 */
+	@RequestMapping(value = "/reviewModify.tr")
+	public ModelAndView togetherModify(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/reviewDetail.tr");
+
+		reviewService.reviewModify(commandMap.getMap());
+
+		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
 		return mv;
 	}
 	

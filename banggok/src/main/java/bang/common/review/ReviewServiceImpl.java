@@ -65,12 +65,6 @@ public class ReviewServiceImpl implements ReviewService {
 		reviewDAO.insertReview(map);
 	}
 	
-	/* 여행후기 수정 폼 */
-	@Override
-	public Map<String, Object> reviewModifyForm(Map<String, Object> map)throws Exception{
-		return reviewDAO.reviewModifyForm(map);
-	}
-
 	/* 여행후기 수정 */
 	public void reviewModify(Map<String, Object> map)throws Exception{
 		reviewDAO.reviewModify(map);
