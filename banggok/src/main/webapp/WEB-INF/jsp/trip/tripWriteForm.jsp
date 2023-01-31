@@ -948,6 +948,7 @@
 					success : function(data) {
 						$(el).summernote('editor.insertImage', data.url);	/* 이미지를 삽입할 수 있도록 해줌 */
 					}
+				
 				});
 			} 
 			
