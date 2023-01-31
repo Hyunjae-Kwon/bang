@@ -42,5 +42,8 @@ public interface ReviewService {
 	
 	/* 여행후기 삭제 */
 	void reviewDel(Map<String, Object> map) throws Exception;
+	
+	/* 관리자 - 여행 후기 게시판 관리 */
+	Map<String,Object> adminReviewList(Map<String,Object> map) throws Exception;
 
 }

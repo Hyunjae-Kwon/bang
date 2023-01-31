@@ -7,7 +7,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 </head>
 <link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>"/>
 <body>
@@ -15,10 +14,10 @@
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
-                <h2>나의 여행 후기</h2>
+                <h2>여행 후기 게시판 관리</h2>
                 <ul>
-                    <li> <a href="myPage.tr"><i class="fas fa-user-alt"></i>마이페이지</a></li>
-                    <li><i class="fas fa-angle-double-right"></i><i class="fas fa-plane"></i> MyReview</li>
+                    <li> <a href="adminPage.tr"><i class="fas fa-user-alt"></i>관리자 페이지</a></li>
+                    <li><i class="fas fa-angle-double-right"></i><i class="fas fa-plane"></i> 여행 후기 게시판</li>
                 </ul>
             </div>
         </div>
@@ -50,21 +49,21 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(myReviewList) > 0}">
-							<c:forEach items="${myReviewList}" var="list" varStatus="status">
-								<tr>
-									<td align="center">${list.RV_NUM }
-									<input type="hidden" id="RV_NUM" name="RV_NUM" value="${list.RV_NUM }"></td>
+						<c:when test="${fn:length(review) > 0}">
+							<c:forEach items="${review}" var="list" varStatus="status">
+								<tr class="items">
+									<td align="center">${list.RV_NUM}
+									<input type="hidden" id="RV_NUM" name="RV_NUM" value="${list.RV_NUM}"></td>
 									<td><a href="reviewDetail.tr?RV_NUM=${list.RV_NUM}">${list.RV_TITLE}</a>
 									</td>
 
-									<td align="center">${list.RV_ID }
-									<td align="center">${list.RV_CNT }</td>
-									<td align="center">${list.RV_LIKE }</td>
-									<td align="center" ${list.RV_REGDATE }><fmt:formatDate value="${list.RV_REGDATE}" pattern="yyyy-MM-dd" /></td>
+									<td align="center">${list.RV_ID}
+									<td align="center">${list.RV_CNT}</td>
+									<td align="center">${list.RV_LIKE}</td>
+									<td align="center" ${list.RV_REGDATE}><fmt:formatDate value="${list.RV_REGDATE}" pattern="yyyy-MM-dd" /></td>
 									<td align="center">
 									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/reviewModify.tr?RV_NUM=${list.RV_NUM}'">수정</button> 
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="return deleteReview()">삭제</button>									  
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" name="delBtn">삭제</button>									  
 									</td>
 								</tr>
 							</c:forEach>
@@ -95,28 +94,25 @@
 			<br><br>	
 		</div>			  		
 	</div>
-	<script type="text/javascript">
+	<script>
+	$(document).on("click","[name=delBtn]", function(){
 		
-		function deleteReview() {
-			var RV_NUM = document.getElementById("RV_NUM").value;
-			if (confirm("삭제하시겠습니까?") == true) {
-				location.href = "reviewDel.tr?RV_NUM=" + RV_NUM;		
-			}
+		var index = $("[name=delBtn]").index(this);
+		var RV_NUM = $(".items").eq(index).find("#RV_NUM").val();
+		
+		if (confirm("삭제하시겠습니까?") == true) {
+			location.href = "reviewDel.tr?RV_NUM=" + RV_NUM;		
 		}
-	
+		
+	});  
+	</script>
+	<script type="text/javascript">
 		function fn_search(pageNo){
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/myReviewList.tr' />");
 			comSubmit.addParam("currentPageNo", pageNo);
 			comSubmit.submit();
 	    }
-		
 	</script>
-
-  <!--  ************************* Footer Start Here ************************** -->
-
-    
-   
     </body>
-
 </html>

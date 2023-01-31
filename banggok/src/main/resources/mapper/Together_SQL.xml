@@ -109,7 +109,7 @@
 		]]>
 	</select>
 	
-		<!--  [myTogetherList] 마이페이지 동행 리스트 -->
+	<!--  [myTogetherList] 마이페이지 동행 리스트 -->
 	<select id="myTogetherList" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/> 
 		<![CDATA[
@@ -126,6 +126,25 @@
 				TOGETHER
 			WHERE
 			    TG_ID = #{MEM_ID}				
+		]]>
+		<include refid="common.pagingPost"/>
+	</select>
+	
+	<!--  [adminTogetherList] 관리자 - 동행 구하기 게시판 관리 -->
+	<select id="adminTogetherList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY TG_NUM DESC) RNUM,
+				TG_NUM,
+				TG_TITLE,
+				TG_REGDATE,
+				TG_ID,
+				TG_CNT,
+				TG_LIKE,
+				TG_CONTENT
+			FROM
+				TOGETHER
 		]]>
 		<include refid="common.pagingPost"/>
 	</select>

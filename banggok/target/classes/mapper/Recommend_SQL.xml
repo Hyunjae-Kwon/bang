@@ -181,5 +181,25 @@
 			WHERE BC_BCID=#{BC_BCID}
    	]]>
 	</delete>
+	
+	<!-- [adminRecommendList] 관리자 - 여행지 추천 게시판 관리 -->
+	<select id="adminRecommendList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY RC_NUM DESC) RNUM,
+				RC_NUM,
+				RC_TITLE,
+				RC_REGDATE,
+				RC_ID,
+				RC_CNT,
+				RC_LIKE,
+				RC_CONTENT,
+				RC_IMAGE
+			FROM
+				RECOMMEND
+		]]>
+		<include refid="common.pagingPost"/>
+	</select>
 
 </mapper>

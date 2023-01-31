@@ -151,5 +151,25 @@
 		SET RV_LIKE = RV_LIKE + 1 WHERE RV_NUM = #{RV_NUM}
 	]]>
 	</update>
+	
+	<!-- [adminReviewList] 관리자 - 여행 후기 게시판 관리 -->
+	<select id="adminReviewList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY RV_NUM DESC) RNUM,
+				RV_NUM,
+				RV_TITLE,
+				RV_REGDATE,
+				RV_ID,
+				RV_CNT,
+				RV_LIKE,
+				RV_CONTENT,
+				RV_IMAGE
+			FROM
+				REVIEW
+		]]>
+		<include refid="common.pagingPost"/>
+	</select>
 
 </mapper>

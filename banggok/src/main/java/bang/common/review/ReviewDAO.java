@@ -83,4 +83,10 @@ public class ReviewDAO extends AbstractDAO {
 	public List<Map<String, Object>> searchReview(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("review.searchReview", map);
 	}
+	
+	/* 관리자 - 여행 후기 게시판 관리 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> adminReviewList(Map<String, Object> map) throws Exception{
+		return (Map<String, Object>)selectPagingList("review.adminReviewList", map);
+	}
 }

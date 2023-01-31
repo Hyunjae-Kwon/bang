@@ -94,4 +94,11 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		return reviewDAO.searchReview(map);
 	}
+	
+	/* 관리자 - 여행 후기 게시판 관리 */
+	@Override
+	public Map<String, Object> adminReviewList(Map<String, Object> map) throws Exception {
+		return reviewDAO.adminReviewList(map);
+	}
+	
 }

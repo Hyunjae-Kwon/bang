@@ -37,9 +37,9 @@ pageContext.setAttribute("replaceChar", "\n");
 				<thead>
 					<tr align="center">
 						<td scope="col" style="font-weight: bold;">글번호</td>
-						<td scope="col">${map.TG_NUM }</td>
+						<td scope="col">${map.TG_NUM}</td>
 						<td scope="col" style="font-weight: bold;">조회수</td>
-						<td scope="col">${map.TG_CNT }</td>
+						<td scope="col">${map.TG_CNT}</td>
 						<td scope="col" style="font-weight: bold;">작성일시</td>
 						<td scope="col">${map.TG_REGDATE}</td>
 					</tr>
@@ -64,9 +64,12 @@ pageContext.setAttribute("replaceChar", "\n");
 	</div>
 	<div align="center">
 		<input type="button" value="수정" class="btn btn-outline-success" onClick="location.href='togetherModifyForm.tr?TG_NUM=${map.TG_NUM}'">
+		<input type="button" value="신고" class="btn btn-outline-success" onClick="return togetherReport()">
 		<input type="button" value="목록" class="btn btn-outline-success" onClick="return fn_openList()">
 	</div>
 	<br>
+	<!-- 신고하기 -->
+	<div class="report"></div>
 </body>
 <%@ include file="/WEB-INF/include/include-body.jspf"%>
 	
@@ -76,6 +79,42 @@ pageContext.setAttribute("replaceChar", "\n");
 		comSubmit.setUrl("<c:url value='/togetherList.tr' />");
 		comSubmit.submit();
 	}
+	
+	function togetherReport(){
+		
+		var report = $(".report");
+		console.log(report);
+		
+		var item = '<form action="reportBoardWrite.tr" name="frm" id="frm" method="post" enctype="multipart/form-data">' + 
+						'<div style="display: inline-block; width: 88%; margin-left: 20px;">' + 
+							'<input type="hidden" name="RP_RID" value="${map.TG_ID}">' +
+							'<input type="hidden" name="RP_BTYPE" value="T">' +
+							'<input type="hidden" name="RP_RNUM" value="${map.TG_NUM}">' +
+							'<input type="hidden" name="RP_TITLE" value="${map.TG_TITLE}">' +
+							'<input type="hidden" name="RP_ID" value="${MEM_ID}">' +
+							'<textarea name="RP_CONTENT" id="RP_CONTENT" class="form-control" placeholder="신고 내용을 입력해주세요."></textarea>' +
+						'</div>' +
+						'<div style="display: inline-block; float: right; width: 10%;">' +
+							'<input type="button" value="신고하기" onclick="reportBoard()" class="btn btn-primary py-2 px-2">' +
+						'</div>' +
+					'</form>';
+		report.append(item);
+		
+		return report;
+	}
+	
+	function reportBoard() {
+		var frm = document.getElementById('frm');
+		var BC_NUM = document.getElementById('BC_NUM');
+		
+		if (!$("#RP_CONTENT").val()) {
+	        alert("내용을 입력하세요.");
+	        $("#RP_CONTENT").focus();
+	        return false;
+	     }
+	  alert("신고 내용이 정상적으로 접수 되었습니다."); 
+		frm.submit();
+	}
 </script>
 <script src="resources/js/jquery-3.2.1.min.js"></script>
 <script src="resources/js/popper.min.js"></script>
@@ -83,5 +122,5 @@ pageContext.setAttribute("replaceChar", "\n");
 <script src="resources/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
 <script src="resources/plugins/slider/js/owl.carousel.min.js"></script>
 <script src="resources/js/script.js"></script>
-<script src="resources/js/common.js"></script>
+<!-- <script src="resources/js/common.js"></script> -->
 </html>

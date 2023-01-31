@@ -10,7 +10,7 @@
 /* 아이디 중복 체크 */	
 function checkId() { 
 	
-	var inputed = $('#MEM_ID').val();
+	var inputed = $('#memId').val();
 	console.log(inputed);
 	
 	if(inputed != ""){
@@ -148,7 +148,7 @@ $(document).ready(function(){
 </script>
 <script>
 	function checks() {
-		var MEM_ID = document.getElementById("MEM_ID");
+		var MEM_ID = document.getElementById("memId");
 		var MEM_PW = document.getElementById("MEM_PW");
 		var MEM_PW2 = document.getElementById("MEM_PW2");
 		var MEM_NAME = document.getElementById("MEM_NAME");
@@ -212,7 +212,7 @@ $(document).ready(function(){
 		    	var result = JSON.parse(data);
 		    	if(result > 0) {
 		    		alert("이미 사용중인 아이디입니다.");
-		    		$('#MEM_ID').val("");
+		    		$('#memId').val("");
 		    	} else if (result == 0) {
 		    		document.joinForm.submit();
 		    	}
@@ -241,7 +241,7 @@ $(document).ready(function(){
                 <form id="joinForm" name="joinForm" method="POST" action="/bang/joinSuccess.tr"> 
                     <div class="row cont-row">
                         <div  class="col-sm-3"><label>아이디 </label></div>
-                        <div class="col-sm-4"><input type="text" id="MEM_ID" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
+                        <div class="col-sm-4"><input type="text" id="memId" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
                         <div class="col-sm-4" align="left"><span id="idCheck"></span></div>
                     </div>
                     <div  class="row cont-row">
