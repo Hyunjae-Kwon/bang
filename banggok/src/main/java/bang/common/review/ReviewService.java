@@ -24,6 +24,12 @@ public interface ReviewService {
 
 	/* 여행후기 댓글 리스트 */
 	public List<Map<String, Object>> reviewCommentList(Map<String, Object> map) throws Exception;
+	
+	/* 댓글쓰기 */
+	public void rvCommentWrite(Map<String, Object> map)throws Exception;
+	
+	/* 댓글삭제 */
+	public void rvCommentDelete(Map<String, Object> map) throws Exception;
 
 	/* 여행후기 글쓰기 */
 	void insertReview(Map<String, Object> map) throws Exception;
@@ -34,13 +40,13 @@ public interface ReviewService {
 	/* 마이페이지 여행후기 리스트 리스트 */
 	Map<String,Object> myReviewList(Map<String,Object> map) throws Exception;
 	
-	/* 여행후기 수정 폼 */
-	Map<String, Object> reviewModifyForm(Map<String, Object> map) throws Exception;
-	 
 	/* 여행후기 수정 */
 	void reviewModify(Map<String, Object> map) throws Exception;
 	
 	/* 여행후기 삭제 */
 	void reviewDel(Map<String, Object> map) throws Exception;
+	
+	/* 관리자 - 여행 후기 게시판 관리 */
+	Map<String,Object> adminReviewList(Map<String,Object> map) throws Exception;
 
 }

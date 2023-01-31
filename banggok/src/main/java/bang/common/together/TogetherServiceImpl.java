@@ -65,6 +65,10 @@ public class TogetherServiceImpl implements TogetherService {
 	public Map<String, Object> myTogetherList(Map<String, Object> map) throws Exception {
 		return togetherDAO.myTogetherList(map);
 	}
-	
-	
+
+	/* 관리자 - 동행 구하기 게시판 관리 */
+	@Override
+	public Map<String, Object> adminTogetherList(Map<String, Object> map) throws Exception {
+		return togetherDAO.adminTogetherList(map);
+	}
 }

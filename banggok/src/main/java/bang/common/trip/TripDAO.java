@@ -15,6 +15,7 @@ public class TripDAO extends AbstractDAO {
 	public List<Map<String, Object>> selectHotTrip(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("trip.selectHotTrip", map);
 	}
+	
 	/* 여행 일정 공유글 수(전체&검색) */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> tripCount(Map<String, Object> map) throws Exception {
@@ -120,5 +121,11 @@ public class TripDAO extends AbstractDAO {
 	/* 여행 일정 공유하기 */
 	public void tripShare(Map<String, Object> map) throws Exception {
 		update("trip.tripShare", map);
+	}
+	
+	/* 관리자 - 여행 일정 공유 게시판 관리 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> adminTripList(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>)selectPagingList("trip.adminTripList", map);
 	}
 }

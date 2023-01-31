@@ -110,11 +110,12 @@
         </dependency>
         
         <!-- websocket 추가 (채팅 기능 구현) -->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-websocket</artifactId>
-		    <version>${org.springframework-version}</version>
-		</dependency>
+	<dependency>
+		<groupId>javax.websocket</groupId>
+		<artifactId>javax.websocket-api</artifactId>
+		<version>1.1</version>
+		<scope>provided</scope>
+	</dependency>
          
         <!-- AOP Alliance -->
         <dependency>
@@ -208,6 +209,14 @@
 		    <groupId>javax.annotation</groupId>
 		    <artifactId>jsr250-api</artifactId>
 		    <version>1.0</version>
+        </dependency>
+		
+		<!-- 웹소켓 모듈 -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.0.1</version>
+		    <scope>provided</scope>
         </dependency>
 			
 		<!-- Logging -->

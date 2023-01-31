@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -165,7 +166,7 @@ public class ReviewController {
 	@RequestMapping(value="/reviewModifyForm.tr") 
 	public ModelAndView reviewModifyForm(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/review/reviewModifyForm");
-		Map<String, Object> map = reviewService.reviewModifyForm(commandMap.getMap());
+		Map<String, Object> map = reviewService.reviewDetail(commandMap.getMap());
 
 		mv.addObject("review", map);
 
@@ -200,6 +201,17 @@ public class ReviewController {
 		return mv;
 	}
 	
+	/* 여행후기 글수정 */
+	@RequestMapping(value = "/reviewModify.tr")
+	public ModelAndView togetherModify(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/reviewDetail.tr");
+
+		reviewService.reviewModify(commandMap.getMap());
+
+		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
+		return mv;
+	}
+	
 	/* 여행후기 삭제 */
 	@RequestMapping(value = "/reviewDel.tr")
 	public ModelAndView reviewDel(CommandMap commandMap) throws Exception {
@@ -219,5 +231,27 @@ public class ReviewController {
 		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
 		
 		return mv;
+	}
+	
+	/* 댓글입력 */
+	@RequestMapping(value="/rvCommentWrite.tr")
+	public String rcCommentWrite(CommandMap commandMap, Model model) throws Exception {	
+
+		model.addAttribute("msg", "댓글 작성이 완료되었습니다.");
+		model.addAttribute("url", "/reviewDetail.tr?RV_NUM="+commandMap.get("BC_NUM"));
+		reviewService.rvCommentWrite(commandMap.getMap());		
+	         
+		return "review/rvCommentWrite";
+	}
+	
+	/* 댓글삭제 */
+	@RequestMapping(value="/rvCommentDelete.tr")
+	public String rvCommentDelete(CommandMap commandMap, Model model) throws Exception {
+	
+		model.addAttribute("msg", "댓글 삭제가 완료되었습니다.");
+		model.addAttribute("url", "/reviewDetail.tr?RV_NUM="+commandMap.get("RV_NUM"));
+		reviewService.rvCommentDelete(commandMap.getMap());				
+		
+		return "review/rvCommentDelete";
 	}
 }

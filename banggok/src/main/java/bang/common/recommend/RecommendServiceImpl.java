@@ -104,4 +104,10 @@ public class RecommendServiceImpl implements RecommendService {
 		recommendDAO.rcCommentDelete(map);
 	}
 
+	/* 관리자 - 여행지 추천 게시판 관리 */
+	@Override
+	public Map<String, Object> adminRecommendList(Map<String, Object> map) throws Exception {
+		return recommendDAO.adminRecommendList(map);
+	}
+
 }

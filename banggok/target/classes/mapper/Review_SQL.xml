@@ -73,6 +73,29 @@
          ORDER BY BC_BCID DESC
     ]]>
 	</select>
+	
+	<!--  리뷰 댓글 작성 -->
+	<insert id="rvCommentWrite" parameterType="hashmap">
+		INSERT 
+		INTO BOARDCOMMENT
+		VALUES (	
+			BC_BCID_SEQ.NEXTVAL,
+			#{RV_NUM},
+			#{MEM_ID},
+			SYSDATE,
+			#{BC_COMMENT},
+			'R'
+		)
+	</insert>
+	
+	<!-- 댓글삭제 -->
+	<delete id="rvCommentDelete" parameterType="hashmap">
+   	<![CDATA[
+     	DELETE 
+			FROM BOARDCOMMENT
+			WHERE BC_BCID=#{BC_BCID}
+   	]]>
+	</delete>
    
    	<!-- [insertReview] 여행후기 게시판 글 작성 -->
 	<insert id="insertReview" parameterType="hashmap">
@@ -151,5 +174,47 @@
 		SET RV_LIKE = RV_LIKE + 1 WHERE RV_NUM = #{RV_NUM}
 	]]>
 	</update>
+	
+	<!-- [reviewModify] 글수정 -->
+	<update id="reviewModify" parameterType="hashmap">
+		<![CDATA[
+			UPDATE REVIEW
+			SET
+				RV_TITLE = #{RV_TITLE},
+				RV_CONTENT = #{RV_CONTENT},
+				RV_IMAGE = #{RV_IMAGE}
+			WHERE
+				RV_NUM = #{RV_NUM}	
+		]]>
+	</update>
+
+	<!-- [reviewDel] 글삭제 -->
+	<delete id="reviewDel" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+				FROM REVIEW
+				WHERE RV_NUM=#{RV_NUM}
+		]]>
+	</delete>
+	
+	<!-- [adminReviewList] 관리자 - 여행 후기 게시판 관리 -->
+	<select id="adminReviewList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY RV_NUM DESC) RNUM,
+				RV_NUM,
+				RV_TITLE,
+				RV_REGDATE,
+				RV_ID,
+				RV_CNT,
+				RV_LIKE,
+				RV_CONTENT,
+				RV_IMAGE
+			FROM
+				REVIEW
+		]]>
+		<include refid="common.pagingPost"/>
+	</select>
 
 </mapper>

@@ -145,4 +145,10 @@ public class TripServiceImpl implements TripService {
 	public void tripShare(Map<String, Object> map) throws Exception {
 		tripDAO.tripShare(map);
 	}
+
+	/* 관리자 - 여행 일정 공유 게시판 관리 */
+	@Override
+	public Map<String, Object> adminTripList(Map<String, Object> map) throws Exception {
+		return tripDAO.adminTripList(map);
+	}
 }

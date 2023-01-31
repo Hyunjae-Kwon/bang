@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="report">
+	
+	<!-- [reportBoardWrite] 게시글 신고 하기 기능 -->
+	<insert id="reportBoardWrite" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO REPORT (RP_NUM, RP_RID, RP_BTYPE, RP_RNUM, RP_TITLE, RP_CONTENT, RP_REGDATE, RP_ID, RP_TYPE, RP_DELETE)
+		VALUES (RP_NUM_SEQ.NEXTVAL, #{RP_RID}, #{RP_BTYPE}, #{RP_RNUM}, #{RP_TITLE}, #{RP_CONTENT}, SYSDATE, #{RP_ID}, 'B', 'N')
+	]]>
+	</insert>
+
+</mapper>

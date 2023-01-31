@@ -85,7 +85,7 @@
 							</c:if>
 					
 							<!-- 로그인을 했을 경우 -->
-							<c:if test="${! empty MEM_ID }">
+							<c:if test="${! empty MEM_ID && MEM_ID != 'admin'}">
 								<li>
 									<span><%= session.getAttribute("MEM_ID") %>님</span>
 								</li>
@@ -93,7 +93,31 @@
 									<a style="color: #bfbfbf;" href="/bang/myPage.tr">마이페이지</a> 
 								</li>
 								<li>
-									<a style="color: #bfbfbf;" href="/bang/chatBox.tr">메시지함</a> 
+									<a style="color: #bfbfbf;" href="/bang/chat.tr">채팅방</a> 
+								</li>
+								<li>
+									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 
+								</li>
+								<li style="line-height: 1.5; padding: 0px;">
+									<form action="/bang/searchAll.tr" method="GET">
+										<li class="search-box">
+											<input type="text" class="search-txt" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px; cursor:pointer;" ></i></button>
+										</li>
+									</form>
+								</li>
+							</c:if>
+							
+							<!-- 관리자 로그인 했을 경우 -->
+							<c:if test="${MEM_ID == 'admin'}">
+								<li>
+									<span>관리자 모드</span>
+								</li>
+								<li>
+									<a style="color: #bfbfbf;" href="/bang/adminPage.tr">관리자 페이지</a> 
+								</li>
+								<li>
+									<a style="color: #bfbfbf;" href="/bang/chat.tr">채팅방</a> 
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 

@@ -136,7 +136,7 @@ public class RecommendController {
 	/* 여행지 추천 게시글 작성하기 */
 	@RequestMapping(value="/recommendWrite.tr", method = RequestMethod.POST)
 	public ModelAndView recommendWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/allRecommendList.tr");
+		ModelAndView mv = new ModelAndView("redirect:/recommendList.tr");
 
 		recommendService.insertRecommend(commandMap.getMap());
 
@@ -149,7 +149,7 @@ public class RecommendController {
 	/* 여행지 추천 게시글 삭제하기 */
 	@RequestMapping(value = "/recommendDelete.tr")
 	public ModelAndView recommendDelete(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/allRecommendList.tr");
+		ModelAndView mv = new ModelAndView("redirect:/recommendList.tr");
 		recommendService.deleteRecommend(commandMap.getMap());
 
 		return mv;      
@@ -169,7 +169,7 @@ public class RecommendController {
 	/* 여행지 추천 게시글 수정하기 */
 	@RequestMapping(value="/recommendModify.tr", method = RequestMethod.POST)
 	public ModelAndView recommendModify(CommandMap commandMap)throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/allRecommendList.tr");
+		ModelAndView mv = new ModelAndView("redirect:/recommendList.tr");
 		recommendService.recommendModify(commandMap.getMap());
 
 		return mv;
@@ -207,5 +207,6 @@ public class RecommendController {
 		
 		return "recommend/rcCommentDelete";
 	}
+	
 	
 }

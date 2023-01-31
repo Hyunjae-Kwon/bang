@@ -88,4 +88,10 @@ public class RecommendDAO extends AbstractDAO {
 		delete("recommend.rcCommentDelete", map);	
 	}
 	
+	/* 관리자 - 여행지 추천 게시판 관리 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> adminRecommendList(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectPagingList ("recommend.adminRecommendList", map); 
+	}
+	
 }

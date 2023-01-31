@@ -144,7 +144,7 @@
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>휴대폰 번호</label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" name="MEM_PHONE" id="MEM_PHONE" placeholder="휴대폰 번호를 입력하세요." class="form-control input-sm"
-                        value="${map.MEM_PHONE}" ></div>
+                        value="${map.MEM_PHONE}" ><input type="hidden" name="MEM_BLOCK" value="N"></div>
                     </div>
                     
                     <div style="margin-top:10px;" class="row">

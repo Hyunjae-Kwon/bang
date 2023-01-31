@@ -27,14 +27,12 @@
 				                            <span class="pric">
 				                                <fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd"/> 
 				                            </span>
-				                            <span class="pric">|</span>
 				                            <span class="pric">
 				                                ${list.TR_ID}
 				                            </span>
 				                        </div>
 				                        <div class="detail row no-margin">
 				                            <h4>${list.TR_TITLE}</h4>
-				                            <p>${list.TR_CONTENT}</p>
 				                        </div>
 				                    </div>
 				                </div>

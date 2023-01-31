@@ -15,7 +15,7 @@
     
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
-        <div class="container">
+        <div class="container" >
             <div class="row">
                 <h2>MyPage</h2>
                 <ul>
@@ -28,6 +28,10 @@
             </div>
         </div>
     </div>
-    
+    <div class="board-list" style="background-color: #eaeaea">
+    	<div>
+    	<br><br><br><br><br><br><br>
+    	</div>
+    </div>
     </body>
 </html>

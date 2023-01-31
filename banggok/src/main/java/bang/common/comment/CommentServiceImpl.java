@@ -21,11 +21,23 @@ public class CommentServiceImpl implements CommentService {
 	public List<Map<String, Object>> selectTripComment(Map<String, Object> map) throws Exception {
 		return commentDAO.selectTripComment(map);
 	}
+	
+	/* 동행 게시판 댓글 불러오기 */
+	@Override
+	public List<Map<String, Object>> selectTgComment(Map<String, Object> map) throws Exception {
+		return commentDAO.selectTgComment(map);
+	}
 
 	/* 여행 일정 공유 게시글 댓글 작성하기 */
 	@Override
 	public void tripComWrite(Map<String, Object> map) throws Exception {
 		commentDAO.tripComWrite(map);
+	}
+	
+	/* 동행 게시글 댓글 작성하기 */
+	@Override
+	public void tgComWrite(Map<String, Object> map) throws Exception {
+		commentDAO.tgComWrite(map);
 	}
 
 	/* 댓글 삭제하기 */
