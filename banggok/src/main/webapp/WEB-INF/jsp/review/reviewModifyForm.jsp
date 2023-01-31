@@ -37,7 +37,7 @@
      <!--*************** 리뷰 수정 Starts Here ***************-->
         
     <!-- 폼 -->
-    <form id="reviewModify" name="reviewModify" enctype="multipart/form-data" action="<c:url value='/reviewModify.tr'/>" method="post">
+    <form id="frm" name="reviewModify" enctype="multipart/form-data" action="<c:url value='/reviewModify.tr'/>" method="post">
 
 	<!-- 제목 입력 부분 -->
     <input type="text" id="RV_TITLE" placeholder="제목을 입력하세요" value="${review.RV_TITLE}" name="RV_TITLE" class="form-control input-sm">
@@ -52,55 +52,68 @@
     
     <!-- summernote 스크립트 -->
     <script>
-	       $('#summernote').summernote({
+	    $('#summernote').summernote({
 	        placeholder: '내용을 입력하세요.',
 	        tabsize: 2,
-	        height: 300
-	      }); 
+	        height: 300,
+	        minHeight: null,			// set minimum height of editor
+			  maxHeight: null,			// set maximum height of editor
+			  focus: true,				// set focus to editable area after initializing summernote
+			  lang: 'ko-KR',			// default: 'en-US'
+			  callbacks: {
+				  onImageUpload: function(files){
+									  sendFile(files[0]);
+								  }
+			  }
+			});
+		
+		function sendFile(file){
+			data = new FormData();
+			data.append("file", file);
+			$.ajax({
+				url:			'/bang/GetTempFileUrl.tr',
+				data:			data,
+				cache:			false,
+				type:			"POST",
+				contentType:	false,
+				processData:	false,
+				success:		function(url){
+					console.log(url);
+									$('#summernote').summernote('insertImage', url);
+								}
+			});
+		}
 	       
-	       /* summernote에 글 추가할 수 있는 함수 */
-	       $("#summernote").summernote('code',  '${review.RV_CONTENT}');
+		/* summernote에 글 추가할 수 있는 함수 */
+		$("#summernote").summernote('code',  '${review.RV_CONTENT}');
     </script>
     
     <!-- 버튼 가운데 정렬 -->
     <div style="text-align: center;">
-    <button id="frm" class="btn btn-primary" onclick="return reviewModify()" type="submit">수정</button>
-	<button id="close" class="btn btn-primary" onclick="location.href='/bang/reviewList.tr'" type="button">취소</button>
+    	<input type="button" class="btn btn-outline-success" onclick="return reviewUpdate()" value="수정">
+		<input type="button" class="btn btn-outline-success" onclick="location.href='/bang/reviewList.tr'" value="취소">
 	</div>
-	
 	</form>
-
-
 	<!-- 글 수정 자바스크립트 -->
 	<script>
-	function reviewModify(){
-
+	function reviewUpdate(){
 		   var comSubmit = new ComSubmit("frm");
 		      comSubmit.setUrl("/bang/reviewModify.tr");
 			var BD_TITLE = document.getElementById("RV_TITLE").value;
-			var BD_CONTENT = document.getElementById("RV_CONTENT").value;
-
+			var BD_CONTENT = document.getElementById("summernote").value;
 				if (!$("#RV_TITLE").val()) {
 					alert("제목을 입력하세요.");
 					$("#RV_TITLE").focus();
 					return false;
 				}
-
-				if (!$("#RV_CONTENT").val()) {
+				if (!$("#summernote").val()) {
 					alert("내용을 입력하세요.");
-					$("#RV_CONTENT").focus();
+					$("#summernote").focus();
 					return false;
 				}
-
 				alert("여행후기가 정상적으로 수정 되었습니다.");
 				comSubmit.submit();
 	}
 	</script>
-
-  <!--  ************************* Footer Start Here ************************** -->
-
-    
-   
     </body>
-
 </html>

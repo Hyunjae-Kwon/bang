@@ -65,12 +65,6 @@ public class ReviewServiceImpl implements ReviewService {
 	public void insertReview(Map<String, Object> map) throws Exception {
 		reviewDAO.insertReview(map);
 	}
-	
-	/* 여행후기 수정 폼 */
-	@Override
-	public Map<String, Object> reviewModifyForm(Map<String, Object> map)throws Exception{
-		return reviewDAO.reviewModifyForm(map);
-	}
 
 	/* 여행후기 수정 */
 	public void reviewModify(Map<String, Object> map)throws Exception{
@@ -101,4 +95,15 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDAO.adminReviewList(map);
 	}
 	
+	/* 댓글작성 */
+	@Override
+	public void rvCommentWrite(Map<String, Object> map) throws Exception {
+		reviewDAO.rvCommentWrite(map);
+	}
+	
+	/* 댓글삭제 */
+	@Override
+	public void rvCommentDelete(Map<String, Object> map) throws Exception {
+		reviewDAO.rvCommentDelete(map);
+	}
 }

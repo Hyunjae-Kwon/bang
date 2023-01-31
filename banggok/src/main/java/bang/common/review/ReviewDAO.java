@@ -55,12 +55,6 @@ public class ReviewDAO extends AbstractDAO {
 	public void insertReview(Map<String, Object> map) {
 		insert("review.insertReview", map);
 	}
-	
-	/* 여행후기 수정 폼 */
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> reviewModifyForm(Map<String, Object> map)throws Exception{
-		return (Map<String, Object>)selectOne("review.reviewModifyForm", map); 
-	}
 
 	/* 여행후기 수정 */
 	public void reviewModify(Map<String, Object> map)throws Exception{
@@ -88,5 +82,15 @@ public class ReviewDAO extends AbstractDAO {
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> adminReviewList(Map<String, Object> map) throws Exception{
 		return (Map<String, Object>)selectPagingList("review.adminReviewList", map);
+	}
+	
+	/* 댓글입력 */
+	public void rvCommentWrite(Map<String, Object> map) throws Exception{
+		insert("review.rvCommentWrite",map);
+	}
+	
+	/* 댓글삭제 */
+	public void rvCommentDelete(Map<String, Object> map) throws Exception {
+		delete("review.rvCommentDelete", map);	
 	}
 }

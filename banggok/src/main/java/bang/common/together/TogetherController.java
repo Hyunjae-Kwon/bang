@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -23,6 +24,10 @@ public class TogetherController {
 
 	@Resource(name = "togetherService")
 	private TogetherService togetherService;
+	
+	/* 댓글 */
+	@Resource(name = "commentService")
+	CommentService commentService;
 
 	/* 동행게시판 리스트 */
 	@RequestMapping(value = "/togetherList.tr")
@@ -42,7 +47,12 @@ public class TogetherController {
 		ModelAndView mv = new ModelAndView("/together/togetherDetail");
 		
 		Map<String,Object> map = togetherService.togetherDetail(commandMap.getMap());
+		
+		/* 댓글 정보 불러오기 */
+		List<Map<String, Object>> comment = commentService.selectTgComment(commandMap.getMap());
+		
 		mv.addObject("map", map);
+		mv.addObject("comment", comment);
 		
 		return mv;
 	}
