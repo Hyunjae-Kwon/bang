@@ -16,8 +16,12 @@ pageContext.setAttribute("replaceChar", "\n");
 	<!--  ************************* Page Title Starts Here ************************** -->
 	<div class="page-nav no-margin row">
 		<div class="container">
-			<div class="row">
-				<h2>동행게시판</h2>
+			<div class="row" >
+				<h2>동행</h2>
+				<ul>
+					<li><a href="togetherList.tr"><i class="fas fa-blog"></i>목록으로</a></li>
+					<li><i class="fas fa-angle-double-right"></i>Together</li>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -62,23 +66,100 @@ pageContext.setAttribute("replaceChar", "\n");
 		<br>
 		</div>				 
 	</div>
+<<<<<<< HEAD
 	<c:if test="${MEM_ID == map.TG_ID}">
+=======
+
+	<c:if test="${MEM_ID == map.TG_ID}">
+
+>>>>>>> branch 'CHAEYEONG' of https://github.com/Hyunjae-Kwon/bang.git
 	<div align="center">
 		<input type="button" value="수정" class="btn btn-outline-success" onClick="location.href='togetherModifyForm.tr?TG_NUM=${map.TG_NUM}'">
-		<input type="button" value="목록" class="btn btn-outline-success" onClick="return fn_openList()">
+		<input type="button" value="삭제" class="btn btn-outline-success" onClick="return deletetogether()"> 
 	</div>
+<<<<<<< HEAD
 	</c:if>
+=======
+
+	</c:if>
+
+>>>>>>> branch 'CHAEYEONG' of https://github.com/Hyunjae-Kwon/bang.git
 	<br>
+	<hr />
+	
+	   <!--  댓글  -->
+	<div style="max-width: 100%; margin-left: 40px;">
+		<h5>댓글</h5>
+		<c:forEach var="comment" items="${comment}" varStatus="status">
+			<div id="commentList">
+				<span class="pric">${comment.BC_ID }|<fmt:formatDate value="${comment.BC_REGDATE}" pattern="yyyy-MM-dd" /></span>
+				<p>${comment.BC_COMMENT }
+					<input type="hidden" id="BC_BCID" name="BC_BCID" value="${comment.BC_BCID }">
+					<input type="hidden" id="BC_NUM" name="BC_NUM" value="${comment.BC_NUM }">
+				</p>
+				<div style="font-size: 8pt; color: gray; padding-right: 10px; margin-bottom: 10px;">
+					<c:if test="${MEM_ID eq comment.BC_ID}">
+						<input type="button" onClick="comDelete(${comment.BC_BCID})" value="삭제하기">
+					</c:if>
+				</div>
+			</div>
+		</c:forEach>
+	</div>
+	<form action="tgCommentWrite.tr?TG_NUM=${map.TG_NUM}" name="frm" id="frm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="BC_NUM" id="BC_NUM" value="${map.TG_NUM}">
+		<input type="hidden" id="MEM_ID" name="MEM_ID" value="${MEM_ID}" />
+		<div style="display: inline-block; width: 88%; margin-left: 20px;">
+			<textarea name="BC_COMMENT" id="BC_COMMENT" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
+		</div>
+		<div style="display: inline-block; float: right; width: 10%;">
+			<input type="button" value="댓글쓰기" onclick="fn_commentCheck()" class="btn btn-primary py-2 px-2">
+		</div>
+	</form>
+	<!--  댓글 끝 -->
 </body>
 <%@ include file="/WEB-INF/include/include-body.jspf"%>
 	
+
 <script type="text/javascript">
-	function fn_openList() {
-		var comSubmit = new ComSubmit();
-		comSubmit.setUrl("<c:url value='/togetherList.tr' />");
-		comSubmit.submit();
+function deletetogether() {
+	var TG_NUM = document.getElementById("TG_NUM").value;
+	if (confirm("삭제하시겠습니까?") == true) {
+		location.href = "togetherDelete.tr?TG_NUM=" + TG_NUM;
 	}
+}
 </script>
+<script>
+ <!-- 댓글 -->
+ function fn_commentCheck() {
+ 	var frm = document.getElementById('frm');
+ 	var BC_NUM = document.getElementById('BC_NUM');
+ 	if (!$("#BC_COMMENT").val()) {
+         alert("내용을 입력하세요.");
+         $("#BC_COMMENT").focus();
+         return false;
+      }
+   alert("댓글이 정상적으로 등록 되었습니다."); 
+ 	frm.submit();
+ }
+    </script>
+    <script>
+	    /* 댓글 삭제하기 */
+		function comDelete(num){
+			console.log("aa");
+			$.ajax({
+				url: "/bang/comDelete.tr",
+				type: "POST",
+				data: {BC_BCID: num},
+				success: function(){
+					console.log("댓글 삭제 성공");
+					location.reload();
+				},
+				error: function(){
+					alert("에러");
+				}
+			});
+		};
+    </script>
 <script src="resources/js/jquery-3.2.1.min.js"></script>
 <script src="resources/js/popper.min.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>

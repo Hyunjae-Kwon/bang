@@ -24,6 +24,12 @@ public interface ReviewService {
 
 	/* 여행후기 댓글 리스트 */
 	public List<Map<String, Object>> reviewCommentList(Map<String, Object> map) throws Exception;
+	
+	/* 댓글쓰기 */
+	public void rvCommentWrite(Map<String, Object> map)throws Exception;
+	
+	/* 댓글삭제 */
+	public void rvCommentDelete(Map<String, Object> map) throws Exception;
 
 	/* 여행후기 글쓰기 */
 	void insertReview(Map<String, Object> map) throws Exception;

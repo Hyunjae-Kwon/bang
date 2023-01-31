@@ -83,4 +83,14 @@ public class ReviewDAO extends AbstractDAO {
 	public List<Map<String, Object>> searchReview(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("review.searchReview", map);
 	}
+	
+	/* 댓글입력 */
+	public void rvCommentWrite(Map<String, Object> map) throws Exception{
+		insert("review.rvCommentWrite",map);
+	}
+	
+	/* 댓글삭제 */
+	public void rvCommentDelete(Map<String, Object> map) throws Exception {
+		delete("review.rvCommentDelete", map);	
+	}
 }
