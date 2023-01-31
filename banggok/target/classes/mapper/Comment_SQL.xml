@@ -12,11 +12,28 @@
 	]]>
 	</select>
 	
+	<!-- [selectTgComment] 동행 게시판 댓글 리스트 -->
+	<select id="selectTgComment" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT * FROM BOARDCOMMENT
+		WHERE BC_NUM = #{TG_NUM} AND BC_TYPE = 'TG'
+		ORDER BY BC_REGDATE DESC
+	]]>
+	</select>
+	
 	<!-- [tripComWrite] 여행 일정 공유 게시판 댓글 작성하기 -->
 	<insert id="tripComWrite" parameterType="hashmap">
 	<![CDATA[
 		INSERT INTO BOARDCOMMENT (BC_BCID, BC_NUM, BC_ID, BC_REGDATE, BC_COMMENT, BC_TYPE)
 		VALUES (BC_BCID_SEQ.NEXTVAL, #{BC_NUM}, #{BC_ID}, SYSDATE, #{BC_COMMENT}, 'T')
+	]]>
+	</insert>
+	
+	<!-- [tgComWrite] 동행 게시판 댓글 작성하기 -->
+	<insert id="tgComWrite" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO BOARDCOMMENT (BC_BCID, BC_NUM, BC_ID, BC_REGDATE, BC_COMMENT, BC_TYPE)
+		VALUES (BC_BCID_SEQ.NEXTVAL, #{TG_NUM}, #{MEM_ID}, SYSDATE, #{BC_COMMENT}, 'TG')
 	]]>
 	</insert>
 	
