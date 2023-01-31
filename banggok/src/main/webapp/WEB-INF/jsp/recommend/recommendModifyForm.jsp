@@ -49,7 +49,7 @@
      <!--*************** Blog Starts Here ***************-->
         
     <!-- 폼 -->
-    <form id="recommendModify" name="recommendModify" enctype="multipart/form-data" action="<c:url value='/recommendModify.tr'/>" method="post">
+    <form id="frm" name="recommendModify" enctype="multipart/form-data" action="<c:url value='/recommendModify.tr'/>" method="post">
         
 	<!-- 제목 입력 부분 -->
     <input type="text" value=${map.RC_TITLE } id="RC_TITLE" name="RC_TITLE" 
@@ -68,8 +68,34 @@
     $('#summernote').summernote({
         placeholder: '내용을 입력하세요.',
         tabsize: 2,
-        height: 300
-      }); 
+        height: 300,
+        minHeight: null,			// set minimum height of editor
+		  maxHeight: null,			// set maximum height of editor
+		  focus: true,				// set focus to editable area after initializing summernote
+		  lang: 'ko-KR',			// default: 'en-US'
+		  callbacks: {
+			  onImageUpload: function(files){
+								  sendFile(files[0]);
+							  }
+		  }
+		});
+	
+	function sendFile(file){
+		data = new FormData();
+		data.append("file", file);
+		$.ajax({
+			url:			'/bang/GetTempFileUrl.tr',
+			data:			data,
+			cache:			false,
+			type:			"POST",
+			contentType:	false,
+			processData:	false,
+			success:		function(url){
+				console.log(url);
+								$('#summernote').summernote('insertImage', url);
+							}
+		});
+	}
        
        /* summernote에 글 추가할 수 있는 함수 */
        $("#summernote").summernote('code',  '${map.RC_CONTENT}');
@@ -79,7 +105,7 @@
     <div style="text-align: center;">
    <!--  <button id="update" class="btn btn-primary" onclick="updateRecommend()" type="submit">수정</button> -->
 <!--     <input type="button" class="btn btn-primary" onClick="return fn_updateRecommend()" value="글 수정"></a>--> 
-	<button id="frm" class="btn btn-primary" onclick="return recommendModify()" type="submit">수정</button>
+	<button id="modify" class="btn btn-primary" onclick="return recommendUpdate()">수정</button>
 	<button id="close" class="btn btn-primary" onclick="location.href='/bang/recommendList.tr'" type="button">취소</button>
 	</div>
 	
@@ -88,12 +114,12 @@
 
 	<!-- 글 수정 자바스크립트 -->
 	<script>
-	function recommendModify(){
+	function recommendUpdate(){
 
 		    var comSubmit = new ComSubmit("frm");
 		      comSubmit.setUrl("/bang/recommendModify.tr");
 			var RC_TITLE = document.getElementById("RC_TITLE").value;
-			var RC_CONTENT = document.getElementById("RC_CONTENT").value;
+			var RC_CONTENT = document.getElementById("summernote").value;
 
 				if (!$("#RC_TITLE").val()) {
 					alert("제목을 입력하세요.");
@@ -101,9 +127,9 @@
 					return false;
 				}
 
-				if (!$("#RC_CONTENT").val()) {
+				if (!$("#summernote").val()) {
 					alert("내용을 입력하세요.");
-					$("#RC_CONTENT").focus();
+					$("#summernote").focus();
 					return false;
 				}
 

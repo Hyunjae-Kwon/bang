@@ -102,7 +102,7 @@
 	</div>
 	<form action="rcCommentWrite.tr?RC_NUM=${map.RC_NUM}" name="frm" id="frm" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="BC_NUM" id="BC_NUM" value="${map.RC_NUM}">
-		<input type="hidden" id="MEM_ID" name="MEM_ID" value="${MEM_ID}" />
+		<input type="hidden" id="BC_BCID" name="MEM_ID" value="${MEM_ID}" />
 		<div style="display: inline-block; width: 88%; margin-left: 20px;">
 			<textarea name="BC_COMMENT" id="BC_COMMENT" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
 		</div>
@@ -123,9 +123,9 @@ function deleteCheck() {
 <!-- 댓글삭제-->
 function deleteComment() {
 	var BC_BCID = document.getElementById('BC_BCID').value;
-	var RC_NUM = document.getElementById('RC_NUM').value;
+	var BC_NUM = document.getElementById('BC_NUM').value;
 	if(confirm("삭제하시겠습니까?") == true) {
-		location.href="rcCommentDelete.tr?BC_BCID=" + BC_BCID +"&RC_NUM="+ RC_NUM;
+		location.href="rcCommentDelete.tr?BC_BCID=" + BC_BCID +"&RC_NUM="+ BC_NUM;
 	}
 }
 </script>
