@@ -190,7 +190,6 @@ public class RecommendController {
 	@RequestMapping(value="/rcCommentWrite.tr")
 	public String rcCommentWrite(CommandMap commandMap, Model model) throws Exception {	
 
-		model.addAttribute("msg", "댓글 작성이 완료되었습니다.");
 		model.addAttribute("url", "/recommendDetail.tr?RC_NUM="+commandMap.get("BC_NUM"));
 		recommendService.rcCommentWrite(commandMap.getMap());		
 	         
@@ -201,7 +200,6 @@ public class RecommendController {
 	@RequestMapping(value="/rcCommentDelete.tr")
 	public String rcCommentDelete(CommandMap commandMap, Model model) throws Exception {
 	
-		model.addAttribute("msg", "댓글 삭제가 완료되었습니다.");
 		model.addAttribute("url", "/recommendDetail.tr?RC_NUM="+commandMap.get("RC_NUM"));
 		recommendService.rcCommentDelete(commandMap.getMap());				
 		

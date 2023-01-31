@@ -123,8 +123,7 @@ function deleteCheck() {
 <!-- 댓글삭제-->
 function deleteComment() {
 	var BC_BCID = document.getElementById('BC_BCID').value;
-	var BC_NUM = document.getElementById('BC_NUM').value;
-	if(confirm("삭제하시겠습니까?") == true) {
+	var BC_NUM = document.getElementById('BC_NUM').value; {
 		location.href="rcCommentDelete.tr?BC_BCID=" + BC_BCID +"&RC_NUM="+ BC_NUM;
 	}
 }
@@ -150,7 +149,6 @@ function fn_commentCheck() {
         $("#BC_COMMENT").focus();
         return false;
      }
-  alert("댓글이 정상적으로 등록 되었습니다."); 
 	frm.submit();
 }
 

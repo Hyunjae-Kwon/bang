@@ -33,7 +33,6 @@ public class CommentController {
 	@RequestMapping(value="/tgCommentWrite.tr")
 	public String tgCommentWrite(CommandMap commandMap, Model model) throws Exception {	
 
-		model.addAttribute("msg", "댓글 작성이 완료되었습니다.");
 		model.addAttribute("url", "/togetherDetail.tr?TG_NUM="+commandMap.get("BC_NUM"));
 		commentService.tgComWrite(commandMap.getMap());		
 	         

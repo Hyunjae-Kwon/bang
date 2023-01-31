@@ -147,15 +147,13 @@
                $("#BC_COMMENT").focus();
                return false;
             }
-         alert("댓글이 정상적으로 등록 되었습니다."); 
        	frm.submit();
        }
        
        <!-- 댓글삭제-->
        function deleteComment() {
        	var BC_BCID = document.getElementById('BC_BCID').value;
-       	var RV_NUM = document.getElementById('RV_NUM').value;
-       	if(confirm("삭제하시겠습니까?") == true) {
+       	var RV_NUM = document.getElementById('RV_NUM').value; {
        		location.href="rvCommentDelete.tr?BC_BCID=" + BC_BCID +"&RV_NUM="+ RV_NUM;
        	}
        }
