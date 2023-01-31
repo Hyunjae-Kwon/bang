@@ -12,7 +12,7 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>"/>
 
 <body>
-	<!--  ************************* Page Title Starts Here ************************** -->
+	<!--  ************************** Page Title Starts Here *************************** -->
    <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
