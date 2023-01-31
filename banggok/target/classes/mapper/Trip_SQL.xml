@@ -253,5 +253,34 @@
 		SET TR_SHARE = 'Y' WHERE TR_NUM = #{TR_NUM}
 	]]>
 	</update>
+	
+	<!-- [adminTripList] 관리자 - 여행 일정 공유 게시판 관리 -->
+	<select id="adminTripList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/>
+		 	<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY TR_NUM DESC) RNUM,
+				TR_NUM,
+				TR_ID,
+				TR_TITLE,
+				TR_CNT,
+				TR_LIKE,
+				TR_CONTENT,
+				TR_SUBCONTENT,
+				TR_REGDATE,
+				TR_SHARE,
+				TR_DATE
+			FROM
+				TRIP				
+			]]>
+			<trim prefix="WHERE" prefixOverrides="OR">
+				<if test="searchKeyword != NULL">
+					TR_TITLE LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
+				</if>
+			</trim>
+	 	<include refid="common.pagingPost"/>
+	</select>
 
 </mapper>

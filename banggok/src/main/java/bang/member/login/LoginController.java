@@ -106,7 +106,7 @@ public class LoginController {
 				/* 관리자 체크*/
 				if (result.get("MEM_ID").equals("admin")) {
 					mv.addObject("msg", "관리자 로그인 성공!");
-					mv.addObject("url", "/adminMain.tr");
+					mv.addObject("url", "/adminPage.tr");
 					
 					return mv;
 				} else {

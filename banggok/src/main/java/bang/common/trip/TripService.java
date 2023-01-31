@@ -60,5 +60,8 @@ public interface TripService {
 	
 	/* 여행 일정 공유하기 */
 	void tripShare(Map<String, Object> map) throws Exception;
+	
+	/* 관리자 - 여행 일정 공유 게시판 관리 */
+	Map<String, Object> adminTripList(Map<String, Object> map) throws Exception;
 
 }

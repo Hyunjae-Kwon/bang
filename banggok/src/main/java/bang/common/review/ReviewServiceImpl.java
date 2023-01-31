@@ -95,6 +95,7 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDAO.searchReview(map);
 	}
 	
+<<<<<<< HEAD
 	/* 댓글작성 */
 	@Override
 	public void rvCommentWrite(Map<String, Object> map) throws Exception {
@@ -106,4 +107,12 @@ public class ReviewServiceImpl implements ReviewService {
 	public void rvCommentDelete(Map<String, Object> map) throws Exception {
 		reviewDAO.rvCommentDelete(map);
 	}
+=======
+	/* 관리자 - 여행 후기 게시판 관리 */
+	@Override
+	public Map<String, Object> adminReviewList(Map<String, Object> map) throws Exception {
+		return reviewDAO.adminReviewList(map);
+	}
+	
+>>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
 }

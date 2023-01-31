@@ -46,5 +46,6 @@ public interface RecommendService {
 	/* 댓글삭제 */
 	public void rcCommentDelete(Map<String, Object> map) throws Exception;
 
-	
+	/* 관리자 - 여행지 추천 게시판 관리 */
+	Map<String,Object> adminRecommendList(Map<String,Object> map) throws Exception;
 }
