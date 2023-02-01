@@ -1,6 +1,8 @@
 package bang.member.mypage;
 
+import java.io.File;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +13,12 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
+import bang.member.join.JoinService;
 
 /* Controller 객체임을 선언 */
 @Controller
@@ -26,6 +31,18 @@ public class MyPageController {
 	@Resource(name = "myPageService")
 	private MyPageService myPageService;
 	
+	/* JoinService에 접근하기 위한 선언 */
+	@Resource(name = "joinService")
+	private JoinService joinService;
+	
+	/* 파일 업로드 중복 방지 */
+    public static String getRandomString(){
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+	
+    /* 파일 업로드 경로 [본인 경로로 변경 필요] */
+    private static final String filePath = "D:\\bangbang\\bang\\banggok\\src\\main\\webapp\\resources\\images\\profile\\";
+    
 	/* 마이페이지 */
 	@RequestMapping(value = "/myPage.tr")	/* myPage.tr url을 요청 */
 	public ModelAndView myPage(HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -60,10 +77,34 @@ public class MyPageController {
 	
 	/* 정보수정 완료 */
 	@RequestMapping(value = "/myInfoModify.tr", method = RequestMethod.POST)
-	public ModelAndView myInfoModifyOk(CommandMap commandMap, HttpServletRequest request) throws Exception {
+	public ModelAndView myInfoModifyOk(@RequestParam("MEM_IMAGE") MultipartFile file, CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/myPage.tr");
 		
+		/* 파일 업로드 */
+		String originalFileName = null;
+	    String originalFileExtension = null;
+	    String storedFileName = null;
+	     
+	    int MEM_IMAGE = (int)file.getSize();
+	     
+	    if(MEM_IMAGE!=0) {
+	         originalFileName = file.getOriginalFilename();
+	         originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+	         storedFileName = getRandomString() + originalFileExtension;
+		}
+		
 		myPageService.updateMember(commandMap.getMap(), request);
+		
+		/* 프로필 이미지 미등록시 profile.png 자동 등록 */
+		if(MEM_IMAGE!=0) {
+			 File f = new File(filePath + storedFileName);
+			 file.transferTo(f);
+		 	 }
+		 	 else {
+		 		storedFileName = "profile.png";
+		 	 }
+			 commandMap.put("MEM_IMAGE", storedFileName);
+			 joinService.updateImg(commandMap.getMap());
 		
 		return mv;
 	}

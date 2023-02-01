@@ -229,4 +229,11 @@
 		]]>
 		<include refid="common.pagingPost"/>
 	</select>
+	
+	<!-- [updateImg] 프로필 업로드 -->
+	<update id="updateImg" parameterType="hashmap"> 
+		update member set
+		 MEM_IMAGE = #{MEM_IMAGE}
+		where MEM_ID = #{MEM_ID}
+ 	</update> 
 </mapper>
