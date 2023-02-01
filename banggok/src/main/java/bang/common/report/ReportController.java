@@ -12,7 +12,7 @@ import bang.common.common.CommandMap;
 @Controller
 public class ReportController {
 	
-Logger log = Logger.getLogger(this.getClass());
+	Logger log = Logger.getLogger(this.getClass());
 
 	/* 관리자 */
 	@Resource(name="reportService")
@@ -21,9 +21,19 @@ Logger log = Logger.getLogger(this.getClass());
 	/* 게시글 신고 하기 */
 	@RequestMapping(value="/reportBoardWrite.tr")
 	public ModelAndView reportBoardWrite(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/togetherList.tr");
+		ModelAndView mv = new ModelAndView("redirect:/");
 		
 		reportService.reportBoardWrite(commandMap.getMap());
+		
+		return mv;
+	}
+	
+	/* 게시글 댓글 신고 하기 */
+	@RequestMapping(value="/reportComWrite.tr")
+	public ModelAndView reportComWrite(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/");
+		
+		reportService.reportComWrite(commandMap.getMap());
 		
 		return mv;
 	}

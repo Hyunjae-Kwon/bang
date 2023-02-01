@@ -58,44 +58,6 @@
 		WHERE RV_NUM = #{RV_NUM}
      ]]>
 	</select>
-	
-	<!-- [reviewCommentList] 여행후기 게시판 댓글 목록 -->
-	<select id="reviewCommentList" parameterType="hashmap" resultType="hashmap">
-    <![CDATA[
-         SELECT 
-          	BC_BCID, 
-          	BC_NUM, 
-          	BC_COMMENT, 
-          	BC_REGDATE, 
-          	BC_ID      
-         FROM BOARDCOMMENT 
-         WHERE BC_NUM = #{RV_NUM} 
-         ORDER BY BC_BCID DESC
-    ]]>
-	</select>
-	
-	<!--  리뷰 댓글 작성 -->
-	<insert id="rvCommentWrite" parameterType="hashmap">
-		INSERT 
-		INTO BOARDCOMMENT
-		VALUES (	
-			BC_BCID_SEQ.NEXTVAL,
-			#{RV_NUM},
-			#{MEM_ID},
-			SYSDATE,
-			#{BC_COMMENT},
-			'R'
-		)
-	</insert>
-	
-	<!-- 댓글삭제 -->
-	<delete id="rvCommentDelete" parameterType="hashmap">
-   	<![CDATA[
-     	DELETE 
-			FROM BOARDCOMMENT
-			WHERE BC_BCID=#{BC_BCID}
-   	]]>
-	</delete>
    
    	<!-- [insertReview] 여행후기 게시판 글 작성 -->
 	<insert id="insertReview" parameterType="hashmap">
@@ -189,7 +151,7 @@
 	</update>
 
 	<!-- [reviewDel] 글삭제 -->
-	<delete id="reviewDel" parameterType="hashmap">
+	<delete id="reviewDelete" parameterType="hashmap">
 		<![CDATA[
 			DELETE 
 				FROM REVIEW

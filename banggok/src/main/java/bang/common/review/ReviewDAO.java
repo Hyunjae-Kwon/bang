@@ -44,12 +44,6 @@ public class ReviewDAO extends AbstractDAO {
 	public Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception {
 		return (Map<String, Object>)selectOne("review.reviewDetail", map);
 	}
-	
-	/* 여행후기 댓글 리스트 */
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>>reviewCommentList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList("review.reviewCommentList", map);
-	}
 
 	/* 여행후기 글쓰기 */
 	public void insertReview(Map<String, Object> map) {
@@ -62,8 +56,8 @@ public class ReviewDAO extends AbstractDAO {
 	}
 	
 	/* 여행후기 삭제 */
-	public void reviewDel(Map<String, Object> map) throws Exception {
-		delete("review.reviewDel", map);
+	public void reviewDelete(Map<String, Object> map) throws Exception {
+		delete("review.reviewDelete", map);
 	}
 	
 	/* 마이페이지 여행후기 리스트 */
@@ -82,15 +76,5 @@ public class ReviewDAO extends AbstractDAO {
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> adminReviewList(Map<String, Object> map) throws Exception{
 		return (Map<String, Object>)selectPagingList("review.adminReviewList", map);
-	}
-	
-	/* 댓글입력 */
-	public void rvCommentWrite(Map<String, Object> map) throws Exception{
-		insert("review.rvCommentWrite",map);
-	}
-	
-	/* 댓글삭제 */
-	public void rvCommentDelete(Map<String, Object> map) throws Exception {
-		delete("review.rvCommentDelete", map);	
 	}
 }
