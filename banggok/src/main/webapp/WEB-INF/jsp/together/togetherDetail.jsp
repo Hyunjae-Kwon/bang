@@ -61,54 +61,63 @@ pageContext.setAttribute("replaceChar", "\n");
 			<br>
 		</div>
 	</div>
-	<!-- ################# 댓글 내용 Starts Here ####################### -->
-	<div style="max-width: 100%; margin-left: 40px;">
-		<h4>댓글</h4>
-		<div id="commentList">
+		<!-- ################# 댓글 내용 Starts Here ####################### -->
+	<div class="board-list">
+		<div class="container">
+			<table class="board-table">
+				<colgroup>
+					<col width="10%" />
+					<col width="50%" />
+					<col width="20%" />
+				</colgroup>
 			<c:choose>
 				<c:when test="${fn:length(comment) > 0}">
 					<c:forEach var="list" items="${comment}">
 						<div class="items">
 							<div>
 								<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
-								<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
+								<%-- <image src="/resources/images/member/${comment.MEM_IMAGE}" alt=""> --%>
 							</div>
-							<div>
-								<div>
-									<span>${list.BC_ID}| 
-										<span class="pric"> <fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" /></span>
-									</span>
-									<p>${list.BC_COMMENT}</p>
-									<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
-									<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID}">
-									<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
-								</div>
-							</div>
-							<div style="font-size: 8pt; color: gray; padding-right: 10px;">
-								<c:if test="${MEM_ID != null}">
-									<input type="button" value="답글 달기">
-									<input type="button" value="신고 하기" name="reportCom">
-								</c:if>
-								<c:if test="${MEM_ID eq list.BC_ID}">
-									<input type="button" onClick="comDelete(${list.BC_BCID})" value="삭제 하기">
-								</c:if>
-							</div>
-							<br>
-							<!-- 댓글 신고하기 입력 칸 -->
+						<tbody>			
+					<tr>
+						<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
+						<td align="center" colspan="3">${list.BC_COMMENT }</td>
+						<td align="center" style="font-weight: bold;">
+						<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
+						</td>
+						<td>
+						<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID }">
+						<input type="hidden" id="BC_NUM" name="BC_NUM" value="${list.BC_NUM }">
+						
+					<c:if test="${MEM_ID eq list.BC_ID}">
+						<input type="button" onClick="comDelete(${list.BC_BCID})" value="X">
+					</c:if>
+					<c:if test="${MEM_ID != null}">
+						<input type="button" value="답글">
+						<input type="button" value="신고" name="reportCom">
+					</c:if>
+						
+						</td>
+					</tr>
+				</tbody>	
+				<!-- 댓글 신고하기 입력 칸 -->
 							<div class="reportCom"></div>
-						</div>
-					</c:forEach>
+				</div>			
+			</c:forEach>
 				</c:when>
 				<c:otherwise>
-					<tr><td colspan="5">조회된 결과가 없습니다.</td></tr>
+					<tr>
+						<td colspan="5">조회된 결과가 없습니다.</td>
+					</tr>
 				</c:otherwise>
-			</c:choose>
+			</c:choose></table>
 		</div>
-		<div style="display: inline-block; width: 88%;">
-			<textarea name="comment" id="comment" width="88%" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
-		</div>
-		<div style="display: inline-block; float: right; width: 10%;">
-			<input type="button" id="comWrite" class="btn btn-primary py-2 px-2" value="작성하기">
+		<br>
+		<div style="display: inline-block; width: 78%; margin-left: 96px;">
+    	<textarea name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
+    </div>
+		 <div style="display: inline-block; float: right; width: 10%; margin-right: 40px;" >
+			<input type="button" value="댓글쓰기"  id="comWrite" class="btn btn-primary py-2 px-2">
 		</div>
 		<!-- 댓글 끝 -->
 		<form id="commonForm" name="commonForm"></form>
