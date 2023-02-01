@@ -84,20 +84,11 @@ public class ReviewDAO extends AbstractDAO {
 		return (List<Map<String, Object>>) selectList ("review.searchReview", map);
 	}
 	
-<<<<<<< HEAD
-	/* 댓글입력 */
-	public void rvCommentWrite(Map<String, Object> map) throws Exception{
-		insert("review.rvCommentWrite",map);
-	}
-	
-	/* 댓글삭제 */
-	public void rvCommentDelete(Map<String, Object> map) throws Exception {
-		delete("review.rvCommentDelete", map);	
-=======
+
 	/* 관리자 - 여행 후기 게시판 관리 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> adminReviewList(Map<String, Object> map) throws Exception{
 		return (Map<String, Object>)selectPagingList("review.adminReviewList", map);
->>>>>>> branch 'hyunjae' of https://github.com/Hyunjae-Kwon/bang.git
+
 	}
 }
