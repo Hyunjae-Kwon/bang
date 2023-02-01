@@ -138,7 +138,7 @@
 	  }
        </script>
        <script>
-       <!-- 댓글 -->
+       <!-- 댓글 작성 -->
        function fn_commentCheck() {
        	var frm = document.getElementById('frm');
        	var BC_NUM = document.getElementById('BC_NUM');
@@ -150,7 +150,7 @@
        	frm.submit();
        }
        
-       <!-- 댓글삭제-->
+       <!-- 댓글 삭제-->
        function deleteComment() {
        	var BC_BCID = document.getElementById('BC_BCID').value;
        	var RV_NUM = document.getElementById('RV_NUM').value; {

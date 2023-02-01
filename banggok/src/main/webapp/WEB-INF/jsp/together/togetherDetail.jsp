@@ -1,5 +1,4 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -9,26 +8,22 @@ pageContext.setAttribute("replaceChar", "\n");
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>"/>
+<link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" />
 </head>
-
 <body>
 	<!--  ************************* Page Title Starts Here ************************** -->
 	<div class="page-nav no-margin row">
 		<div class="container">
-			<div class="row" >
-				<h2>동행</h2>
-				<ul>
-					<li><a href="togetherList.tr"><i class="fas fa-blog"></i>목록으로</a></li>
-					<li><i class="fas fa-angle-double-right"></i>Together</li>
-				</ul>
+			<div class="row">
+				<h2>동행게시판</h2>
 			</div>
 		</div>
 	</div>
 	<!-- ################# 게시물 Starts Here #######################--->
-	<br><br>
+	<br>
+	<br>
 	<div class="board-list">
-		<div class="container">		 
+		<div class="container">
 			<table class="board-table">
 				<colgroup>
 					<col width="10%" />
@@ -63,29 +58,32 @@ pageContext.setAttribute("replaceChar", "\n");
 					</tr>
 				</tbody>
 			</table>
-		<br>
-		</div>				 
+			<br>
+		</div>
 	</div>
-
-	<c:if test="${MEM_ID == map.TG_ID}">
-
 	<div align="center">
+
 		<input type="button" value="수정" class="btn btn-outline-success" onClick="location.href='togetherModifyForm.tr?TG_NUM=${map.TG_NUM}'">
 
 		<input type="button" value="삭제" class="btn btn-outline-success" onClick="return deletetogether()"> 
+
+
+		<c:if test="${MEM_ID == map.TG_ID}">
+			<input type="button" value="수정" class="btn btn-outline-success" onClick="location.href='togetherModifyForm.tr?TG_NUM=${map.TG_NUM}'">
+			<input type="button" value="삭제" class="btn btn-outline-success" onClick="return deletetogether()">
+		</c:if>
 
 		<input type="button" value="신고" class="btn btn-outline-success" onClick="return togetherReport()">
 		<input type="button" value="목록" class="btn btn-outline-success" onClick="return fn_openList()">
 
 	</div>
-
-	</c:if>
-
 	<br>
 
+	<!-- 신고하기 -->
+	<div class="report"></div>
+
 	<hr />
-	
-	   <!--  댓글  -->
+	<!--  댓글  -->
 	<div style="max-width: 100%; margin-left: 40px;">
 		<h5>댓글</h5>
 		<c:forEach var="comment" items="${comment}" varStatus="status">
@@ -114,12 +112,12 @@ pageContext.setAttribute("replaceChar", "\n");
 		</div>
 	</form>
 	<!--  댓글 끝 -->
+
 	<!-- 신고하기 -->
 	<div class="report"></div>
+
 </body>
 <%@ include file="/WEB-INF/include/include-body.jspf"%>
-	
-
 <script type="text/javascript">
 function deletetogether() {
 	var TG_NUM = document.getElementById("TG_NUM").value;
@@ -127,7 +125,41 @@ function deletetogether() {
 		location.href = "togetherDelete.tr?TG_NUM=" + TG_NUM;
 	}
 
-	
+}
+</script>
+<script>
+ <!-- 댓글 -->
+ function fn_commentCheck() {
+ 	var frm = document.getElementById('frm');
+ 	var BC_NUM = document.getElementById('BC_NUM');
+ 	if (!$("#BC_COMMENT").val()) {
+         alert("내용을 입력하세요.");
+         $("#BC_COMMENT").focus();
+         return false;
+      }
+ 	frm.submit();
+ }
+    </script>
+<script>
+<!-- 댓글삭제하기 -->
+		function comDelete(num){
+			console.log("aa");
+			$.ajax({
+				url: "/bang/comDelete.tr",
+				type: "POST",
+				data: {BC_BCID: num},
+				success: function(){
+					console.log("댓글 삭제 성공");
+					location.reload();
+				},
+				error: function(){
+					alert("에러");
+				}
+			});
+		};
+    </script>
+<!-- 신고하기 -->
+<script>
 	function togetherReport(){
 		
 		var report = $(".report");
@@ -164,9 +196,10 @@ function deletetogether() {
 		frm.submit();
 	}
 
+
 </script>
 <script>
- <!-- 댓글 -->
+ <!-- 댓글 작성-->
  function fn_commentCheck() {
  	var frm = document.getElementById('frm');
  	var BC_NUM = document.getElementById('BC_NUM');
@@ -180,7 +213,7 @@ function deletetogether() {
  }
     </script>
     <script>
-	    /* 댓글 삭제하기 */
+	    <!-- 댓글삭제 -->
 		function comDelete(num){
 			console.log("aa");
 			$.ajax({
@@ -196,6 +229,7 @@ function deletetogether() {
 				}
 			});
 		};
+
     </script>
 <script src="resources/js/jquery-3.2.1.min.js"></script>
 <script src="resources/js/popper.min.js"></script>

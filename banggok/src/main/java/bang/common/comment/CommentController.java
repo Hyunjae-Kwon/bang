@@ -29,7 +29,7 @@ public class CommentController {
 		return mv;
 	}
 	
-	/* 동행댓글입력 */
+	/* 동행 댓글 입력 */
 	@RequestMapping(value="/tgCommentWrite.tr")
 	public String tgCommentWrite(CommandMap commandMap, Model model) throws Exception {	
 

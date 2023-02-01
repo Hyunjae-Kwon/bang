@@ -140,7 +140,7 @@ function fn_recommendLike() {
 	      alert("추천되었습니다.");
 	      }
 	  }
-<!-- 댓글 -->
+<!-- 댓글 작성 -->
 function fn_commentCheck() {
 	var frm = document.getElementById('frm');
 	var BC_NUM = document.getElementById('BC_NUM');

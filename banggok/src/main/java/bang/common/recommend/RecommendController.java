@@ -186,7 +186,7 @@ public class RecommendController {
 		return mv;
 	}
 	
-	/* 댓글입력 */
+	/* 댓글 입력 */
 	@RequestMapping(value="/rcCommentWrite.tr")
 	public String rcCommentWrite(CommandMap commandMap, Model model) throws Exception {	
 
@@ -196,7 +196,7 @@ public class RecommendController {
 		return "recommend/rcCommentWrite";
 	}
 	
-	/* 댓글삭제 */
+	/* 댓글 삭제 */
 	@RequestMapping(value="/rcCommentDelete.tr")
 	public String rcCommentDelete(CommandMap commandMap, Model model) throws Exception {
 	
