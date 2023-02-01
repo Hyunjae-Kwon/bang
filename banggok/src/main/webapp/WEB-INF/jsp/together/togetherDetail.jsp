@@ -181,7 +181,7 @@ $(document).ready(function(){
 	});
 });
 </script>
-<!-- 댓글 삭제 스크립 -->
+<!-- 댓글 삭제 스크립트 -->
 <script>
 function comDelete(num){
 	$.ajax({

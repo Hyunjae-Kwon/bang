@@ -26,4 +26,10 @@ public class CommentDAO extends AbstractDAO {
 		return (List<Map<String, Object>>) selectList ("comment.selectCommentList", map);
 	}
 	
+	/* 신고 상세보기 - 댓글 내용 불러오기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> commentDetail(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne ("comment.commentDetail", map);
+	}
+	
 }

@@ -41,4 +41,10 @@ public class CommentServiceImpl implements CommentService {
 		
 		return commentDAO.selectCommentList(map);
 	}
+
+	/* 신고 상세보기 - 댓글 내용 불러오기 */
+	@Override
+	public Map<String, Object> commentDetail(Map<String, Object> map) throws Exception {
+		return commentDAO.commentDetail(map);
+	}
 }

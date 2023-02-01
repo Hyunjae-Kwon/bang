@@ -16,11 +16,10 @@
 	<div class="page-nav no-margin row">
 		<div class="container">
 			<div class="row">
-				<h2>여행 후기</h2>
+				<h2>신고 관리</h2>
 				<ul>
-					<li><a href="/bang/reviewList.tr"><i class="fas fa-blog"></i>목록</a></li>
-					<li><a href="/bang/reviewModifyForm.tr?RV_NUM=${review.RV_NUM}"><i class="fas fa-blog"></i> 수정/삭제</a></li>
-					<li><i class="fas fa-angle-double-right"></i> Review</li>
+					<li> <a href="adminPage.tr"><i class="fas fa-user-alt"></i>관리자 페이지</a></li>
+                    <li><i class="fas fa-angle-double-right"></i><i class="fas fa-map-marked"></i> 신고 내용 상세보기</li>
 				</ul>
 			</div>
 		</div>
@@ -41,110 +40,98 @@
 					<col width="10%" />
 					<col width="10%" />
 				</colgroup>
+				<c:if test="${report.RP_TYPE eq 'B'}">
+					<c:if test="${report.RP_RTYPE eq 'T'}">
+						<thead>
+							<tr align="center">
+								<td scope="col" style="font-weight: bold;">글번호</td>
+								<td scope="col">${board.TR_NUM}</td>
+								<td scope="col" style="font-weight: bold;">게시판 위치</td>
+								<td scope="col">${report.RP_RTYPE}</td>
+								<td scope="col" style="font-weight: bold;">분류</td>
+								<td scope="col">${report.RP_TYPE}</td>
+								<td scope="col" style="font-weight: bold;">신고 날짜</td>
+								<td scope="col">${report.RP_REGDATE}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td align="center" style="font-weight: bold;">제목</td>
+								<td align="center" colspan="5">${board.TR_TITLE}</td>
+								<td align="center" style="font-weight: bold;">작성자</td>
+								<td align="center">${board.TR_ID}</td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td align="center" style="font-weight: bold;">본문 내용</td>
+								<td colspan="7" style="height: 300px;">${board.TR_CONTENT}</td>
+							</tr>
+						</tbody>
+					</c:if>
+					<c:if test="${report.RP_RTYPE eq 'W'}">
+					
+					</c:if>
+					<c:if test="${report.RP_RTYPE eq 'R'}">
+					
+					</c:if>
+				</c:if>
+				<c:if test="${report.RP_TYPE eq 'C'}">
+					<thead>
+						<tr align="center">
+							<td scope="col" style="font-weight: bold;">댓글번호</td>
+							<td scope="col">${board.BC_BCID}</td>
+							<td scope="col" style="font-weight: bold;">게시판 위치</td>
+							<td scope="col">${board.BC_TYPE}</td>
+							<td scope="col" style="font-weight: bold;">분류</td>
+							<td scope="col">${report.RP_TYPE}</td>
+							<td scope="col" style="font-weight: bold;">신고 날짜</td>
+							<td scope="col">${report.RP_REGDATE}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td align="center" style="font-weight: bold;">작성자</td>
+							<td align="center" colspan="7">${board.BC_ID}</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<td align="center" style="font-weight: bold;">댓글 내용</td>
+							<td colspan="7" style="height: 300px;">${board.BC_COMMENT}</td>
+						</tr>
+					</tbody>
+				</c:if>
+			</table>
+			
+			<table class="board-table">
+				<colgroup>
+					<col width="10%" />
+					<col width="10%" />
+					<col width="10%" />
+					<col width="10%" />
+					<col width="10%" />
+					<col width="10%" />
+					<col width="10%" />
+					<col width="10%" />
+				</colgroup>
 				<thead>
 					<tr align="center">
-						<td scope="col" style="font-weight: bold;">글번호</td>
-						<td scope="col">${review.RV_NUM}<input type="hidden" id="RV_NUM" value="${review.RV_NUM}"></td>
-						<td scope="col" style="font-weight: bold;">조회수</td>
-						<td scope="col">${review.RV_CNT}</td>
-						<td scope="col" style="font-weight: bold;">추천수</td>
-						<td scope="col">${review.RV_LIKE}</td>
-						<td scope="col" style="font-weight: bold;">작성일시</td>
-						<td scope="col">${review.RV_REGDATE}</td>
+						<td scope="col" style="font-weight: bold;">신고번호</td>
+						<td scope="col" colspan="5">${report.RP_NUM}</td>
+						<td scope="col" style="font-weight: bold;">신고자</td>
+						<td scope="col">${report.RP_ID}</td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td align="center" style="font-weight: bold;">제목</td>
-						<td align="center" colspan="5">${review.RV_TITLE}</td>
-						<td align="center" style="font-weight: bold;">작성자</td>
-						<td align="center">${review.RV_ID}<input type="hidden" id="MEM_ID" value="${MEM_ID}"></td>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr>
-						<td align="center" style="font-weight: bold;">내용</td>
-						<td colspan="7" style="height: 300px;">${review.RV_CONTENT}</td>
+						<td align="center" style="font-weight: bold;">신고 내용</td>
+						<td colspan="7" style="height: 300px;">${report.RP_CONTENT}</td>
 					</tr>
 				</tbody>
 			</table>
 			<br>
 		</div>
-	</div>
-	<!-- ################# 댓글 내용 Starts Here ####################### -->
-	<div style="max-width: 100%; margin-left: 40px;">
-		<h4>댓글</h4>
-		<div id="commentList">
-			<c:choose>
-				<c:when test="${fn:length(comment) > 0}">
-					<c:forEach var="list" items="${comment}">
-						<div class="items">
-							<div>
-								<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
-								<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
-							</div>
-							<div>
-								<div>
-									<span>${list.BC_ID}|
-										<span class="pric"><fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" /></span>
-									</span>
-									<p>${list.BC_COMMENT}</p>
-									<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
-									<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID}">
-									<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
-								</div>
-							</div>
-							<div style="font-size: 8pt; color: gray; padding-right: 10px;">
-								<c:if test="${MEM_ID != null}">
-									<input type="button" value="답글 달기">
-									<input type="button" value="신고 하기" name="reportCom">
-								</c:if>
-								<c:if test="${MEM_ID eq list.BC_ID}">
-									<input type="button" onClick="comDelete(${list.BC_BCID})" value="삭제 하기">
-								</c:if>
-							</div>
-							<br>
-							<!-- 댓글 신고하기 입력 칸 -->
-							<div class="reportCom"></div>
-						</div>
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<td colspan="5">조회된 결과가 없습니다.</td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
-		</div>
-		<div style="display: inline-block; width: 88%;">
-			<textarea name="comment" id="comment" width="88%" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
-		</div>
-		<div style="display: inline-block; float: right; width: 10%;">
-			<input type="button" id="comWrite" class="btn btn-primary py-2 px-2" value="작성하기">
-		</div>
-		<!-- 댓글 끝 -->
-		<form id="commonForm" name="commonForm"></form>
-
-		<!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
-		<div style="margin-top: 10px;" align="center">
-			<!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
-			<div class="col-sm-8" style="max-width: 100%;">
-				<c:if test="${MEM_ID eq review.RV_ID}">
-					<!--  작성자일때만 보이게 -->
-					<button class="btn btn-outline-success" onClick="location.href='/bang/reviewModifyForm.tr?RV_NUM=${review.RV_NUM}'">수정하기</button>
-					<button class="btn btn-outline-success" onClick="return fn_reviewDelete()">삭제하기</button>
-				</c:if>
-				<c:if test="${MEM_ID != review.RV_ID}">
-					<!-- 작성자가 아닐 경우에만 신고, 추천버튼 보이게 -->
-					<input type="button" value="신고하기" class="btn btn-outline-success" onClick="return reviewReport()">
-					<input type="button" class="btn btn-outline-success" onclick="return fn_reviewLike()" value="추천하기">
-				</c:if>
-				<button class="btn btn-outline-success" onClick="location.href='/bang/reviewList.tr'">목록보기</button>
-			</div>
-		</div>
-		<br>
-		<!-- 게시글 신고하기 -->
-		<div class="report"></div>
 	</div>
 </body>
 

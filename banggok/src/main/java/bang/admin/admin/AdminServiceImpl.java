@@ -26,4 +26,10 @@ public class AdminServiceImpl implements AdminService {
 	public Map<String, Object> adminReportList(Map<String, Object> map) throws Exception {
 		return adminDAO.adminReportList(map);
 	}
+	
+	/* 관리자 - 신고 상세보기 */
+	@Override
+	public Map<String, Object> adminReportDetail(Map<String, Object> map) throws Exception {
+		return adminDAO.adminReportDetail(map);
+	}
 }

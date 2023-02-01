@@ -27,5 +27,13 @@
 		ORDER BY BC_REGDATE DESC
 	]]>
 	</select>
+	
+	<!-- [commentDetail] 신고 상세보기 - 댓글 내용 불러오기 -->
+	<select id="commentDetail" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT * FROM BOARDCOMMENT
+		WHERE BC_BCID = #{BC_BCID}
+	]]>
+	</select>
 
 </mapper>

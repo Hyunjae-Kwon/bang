@@ -14,4 +14,7 @@ public interface CommentService {
 	/* 댓글 리스트 불러오기 */
 	List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception;
 	
+	/* 신고 상세보기 - 댓글 내용 불러오기 */
+	Map<String, Object> commentDetail(Map<String, Object> map) throws Exception;
+	
 }
