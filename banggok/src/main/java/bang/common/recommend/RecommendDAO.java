@@ -72,22 +72,6 @@ public class RecommendDAO extends AbstractDAO {
 		update("recommend.recommendLike", map);       
 	}
 	
-	/* 댓글목록 */
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>>rcCommentList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList("recommend.rcCommentList", map);
-	}
-	
-	/* 댓글입력 */
-	public void rcCommentWrite(Map<String, Object> map) throws Exception{
-		insert("recommend.rcCommentWrite",map);
-	}
-	
-	/* 댓글삭제 */
-	public void rcCommentDelete(Map<String, Object> map) throws Exception {
-		delete("recommend.rcCommentDelete", map);	
-	}
-	
 	/* 관리자 - 여행지 추천 게시판 관리 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> adminRecommendList(Map<String, Object> map) throws Exception {

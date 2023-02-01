@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
 
 @Controller
@@ -25,6 +26,10 @@ public class RecommendController {
 
 	@Resource(name = "recommendService")
 	RecommendService recommendService;
+	
+	/* 댓글 */
+	@Resource(name = "commentService")
+	CommentService commentService;
 	
 	/* 여행지 추천 폼(전체&검색) */
 	@RequestMapping(value = "/recommendList.tr", method=RequestMethod.GET)
@@ -116,11 +121,12 @@ public class RecommendController {
 	public ModelAndView recommendDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("recommend/recommendDetail");
 		Map<String,Object> map = recommendService.recommendDetail(commandMap.getMap());
-		/* 댓글 */
-		List<Map<String, Object>> rcComment = recommendService.rcCommentList(commandMap.getMap());
+		
+		/* 댓글 리스트 불러오기 */
+		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
 		
 		mv.addObject("map", map);
-		mv.addObject("rcComment", rcComment);
+		mv.addObject("comment", comment);
 		
 		return mv;
 	}
@@ -185,28 +191,5 @@ public class RecommendController {
 		
 		return mv;
 	}
-	
-	/* 댓글입력 */
-	@RequestMapping(value="/rcCommentWrite.tr")
-	public String rcCommentWrite(CommandMap commandMap, Model model) throws Exception {	
-
-		model.addAttribute("msg", "댓글 작성이 완료되었습니다.");
-		model.addAttribute("url", "/recommendDetail.tr?RC_NUM="+commandMap.get("BC_NUM"));
-		recommendService.rcCommentWrite(commandMap.getMap());		
-	         
-		return "recommend/rcCommentWrite";
-	}
-	
-	/* 댓글삭제 */
-	@RequestMapping(value="/rcCommentDelete.tr")
-	public String rcCommentDelete(CommandMap commandMap, Model model) throws Exception {
-	
-		model.addAttribute("msg", "댓글 삭제가 완료되었습니다.");
-		model.addAttribute("url", "/recommendDetail.tr?RC_NUM="+commandMap.get("RC_NUM"));
-		recommendService.rcCommentDelete(commandMap.getMap());				
-		
-		return "recommend/rcCommentDelete";
-	}
-	
 	
 }

@@ -50,15 +50,6 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		return resultMap;
 	}
-	
-	/* 여행후기 댓글 리스트 */
-	@Override
-	public List<Map<String, Object>> reviewCommentList(Map<String, Object> map) throws Exception {
-		
-		map.put("BC_BCID", map.get("BC_BCID"));
-		
-		return reviewDAO.reviewCommentList(map);
-	}
 
 	/* 여행후기 글쓰기 */
 	@Override
@@ -73,8 +64,8 @@ public class ReviewServiceImpl implements ReviewService {
 	
 	/* 여행후기 삭제 */
 	@Override
-	public void reviewDel(Map<String, Object> map) throws Exception {
-		reviewDAO.reviewDel(map);
+	public void reviewDelete(Map<String, Object> map) throws Exception {
+		reviewDAO.reviewDelete(map);
 	}
 	
 	/* 마이페이지 여행후기 리스트 */
@@ -93,17 +84,5 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public Map<String, Object> adminReviewList(Map<String, Object> map) throws Exception {
 		return reviewDAO.adminReviewList(map);
-	}
-	
-	/* 댓글작성 */
-	@Override
-	public void rvCommentWrite(Map<String, Object> map) throws Exception {
-		reviewDAO.rvCommentWrite(map);
-	}
-	
-	/* 댓글삭제 */
-	@Override
-	public void rvCommentDelete(Map<String, Object> map) throws Exception {
-		reviewDAO.rvCommentDelete(map);
 	}
 }
