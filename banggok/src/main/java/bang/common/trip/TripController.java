@@ -201,6 +201,9 @@ public class TripController {
 		
 		commandMap.put("TP_ID", TR_ID);
 		
+		List<Map<String,Object>> placeList = tripService.placeList(commandMap.getMap(), request);
+	    mv.addObject("placeList", placeList);
+		
 		/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
 		tripService.deletePlaceListNull(commandMap.getMap());
 
@@ -232,7 +235,7 @@ public class TripController {
 	@RequestMapping(value="/writePlaceList.tr", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView writePlaceList(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("scroll/writePlaceList");
+		ModelAndView mv = new ModelAndView("jsonView");
 		
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
