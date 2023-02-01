@@ -71,6 +71,7 @@
 									<td align="center">									  
 										<c:if test="${list.RP_TYPE eq 'B' }">게시글</c:if>
 										<c:if test="${list.RP_TYPE eq 'C' }">댓글</c:if>
+										<input type="hidden" name="RP_TYPE" id="RP_TYPE" value="${list.RP_TYPE}">
 									</td>
 									<td align="center">									  
 										<c:if test="${list.RP_DELETE eq 'Y' }">삭제 처리 완료</c:if>
@@ -115,26 +116,44 @@
 		var RP_BTYPE = $(".items").eq(index).find("#RP_BTYPE").val();
 		
 		if (RP_BTYPE == 'T') {
-			if (confirm("삭제하시겠습니까?") == true) {
-				location.href = "tripDelete.tr?TR_NUM=" + RP_RNUM;		
+			if(RP_TYPE == 'B'){
+				if (confirm("해당 게시글을 삭제하시겠습니까?") == true) {
+					location.href = "tripDelete.tr?TR_NUM=" + RP_RNUM;		
+				}
+			} else {
+				if (confirm("해당 댓글을 삭제하시겠습니까?") == true) {
+					location.href = "comDelete.tr?BC_BCID=" + RP_RNUM;		
+				}
 			}
 		}
 		
 		if (RP_BTYPE == 'W') {
-			if (confirm("삭제하시겠습니까?") == true) {
-				location.href = "togetherDelete.tr?TG_NUM=" + RP_RNUM;		
+			if(RP_TYPE == 'B'){
+				if (confirm("해당 게시글을 삭제하시겠습니까?") == true) {
+					location.href = "togetherDelete.tr?TR_NUM=" + RP_RNUM;		
+				}
+			} else {
+				if (confirm("해당 댓글을 삭제하시겠습니까?") == true) {
+					location.href = "comDelete.tr?BC_BCID=" + RP_RNUM;		
+				}
 			}
 		}
 		
 		if (RP_BTYPE == 'R') {
-			if (confirm("삭제하시겠습니까?") == true) {
-				location.href = "reviewDelete.tr?RV_NUM=" + RP_RNUM;		
+			if(RP_TYPE == 'B'){
+				if (confirm("해당 게시글을 삭제하시겠습니까?") == true) {
+					location.href = "reviewDelete.tr?TR_NUM=" + RP_RNUM;		
+				}
+			} else {
+				if (confirm("해당 댓글을 삭제하시겠습니까?") == true) {
+					location.href = "comDelete.tr?BC_BCID=" + RP_RNUM;		
+				}
 			}
 		}
 		
 		if (RP_BTYPE == 'RC') {
-			if (confirm("삭제하시겠습니까?") == true) {
-				location.href = "recommendDelete.tr?RC_NUM=" + RP_RNUM;		
+			if (confirm("해당 댓글을 삭제하시겠습니까?") == true) {
+				location.href = "comDelete.tr?BC_BCID=" + RP_RNUM;
 			}
 		}
 	});  

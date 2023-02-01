@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
+import bang.common.report.ReportService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
@@ -30,6 +31,10 @@ public class TripController {
 	/* 댓글 */
 	@Resource(name = "commentService")
 	CommentService commentService;
+	
+	/* 신고 */
+	@Resource(name="reportService")
+	private ReportService reportService;
 
 	/* 여행 일정 공유 게시판 리스트 */
 	@RequestMapping(value="/tripList.tr", method=RequestMethod.GET)
@@ -129,7 +134,7 @@ public class TripController {
 		List<Map<String, Object>> tripplace = tripService.tripplaceDetail(commandMap.getMap());
 		
 		/* 댓글 정보 불러오기 */
-		List<Map<String, Object>> comment = commentService.selectTripComment(commandMap.getMap());
+		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
 				
 		mv.addObject("comment", comment);
 		mv.addObject("trip", trip);
@@ -169,6 +174,9 @@ public class TripController {
 		
 		/* TR_NUM으로 해당 게시글 삭제하기 */
 		tripService.tripDelete(commandMap.getMap());
+		
+		/* 신고 게시글 삭제 처리 */
+		reportService.reportDelBrdUpdate(commandMap.getMap());
 				
 		return mv;
 	}
