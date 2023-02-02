@@ -77,6 +77,11 @@ public class TripDAO extends AbstractDAO {
 		insert ("trip.tripWrite", map);
 	}
 	
+	/* 일정 삭제 */
+	public void deleteSch(Map<String, Object> map) throws Exception {
+		delete ("trip.deleteSch", map);
+	}
+	
 	/* 일정별 추가 장소 리스트(작성시) */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> writePlaceList(Map<String, Object> map) throws Exception {

@@ -180,6 +180,15 @@
 		]]>
 	</insert>
 	
+	<!-- [deleteSch] 일정 삭제 -->
+	<delete id="deleteSch" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+			FROM TRIPPLACE
+			WHERE TP_ID = #{TP_ID} AND TP_DATE = #{TP_DATE} AND TP_TRNUM IS NULL
+		]]>
+	</delete>
+	
 	<!-- [writePlaceList] 일정별 추가 장소 리스트(작성시) -->
 	<select id="writePlaceList" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[
@@ -191,7 +200,8 @@
 			TP_RADDRESS,
 			TP_PHONE,
 			TP_MAP_LAT,
-			TP_MAP_LNG
+			TP_MAP_LNG,
+			TP_DATE
 		FROM
 			TRIPPLACE
 		WHERE 

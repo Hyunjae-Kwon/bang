@@ -236,11 +236,25 @@ public class TripController {
 		return mv;
 	}
 	
+	/* 일정 삭제 */
+	@RequestMapping(value="/deleteSch.tr", method = RequestMethod.POST)
+	public ModelAndView deleteSch(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		tripService.deleteSch(commandMap.getMap());
+
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		session.setAttribute("TR_ID", TR_ID);
+		
+		return mv;
+	}
+	
 	/* 일정별 추가 장소 리스트(작성시) */
 	@RequestMapping(value="/writePlaceList.tr", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView writePlaceList(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("scroll/writePlaceList");
+		ModelAndView mv = new ModelAndView("jsonView");
 		
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
