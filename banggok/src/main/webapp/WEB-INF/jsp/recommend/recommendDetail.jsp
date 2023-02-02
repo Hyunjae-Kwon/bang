@@ -2,12 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ include file="/WEB-INF/include/include-header.jspf"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link type="text/css" rel="stylesheet"
-	href="<c:url value='/resources/css/board.css'/>" />
+<link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" />
 </head>
 <body>
 	<!--  ************************관광지 추천 게시판 글제목/작성자************************** -->
@@ -69,59 +67,66 @@
 		</div>
 	</div>
 	<!-- ################# 댓글 내용 Starts Here ####################### -->
-	<div style="max-width: 100%; margin-left: 40px;">
-		<h4>댓글</h4>
-		<div id="commentList">
-			<c:choose>
-				<c:when test="${fn:length(comment) > 0}">
-					<c:forEach var="list" items="${comment}">
-						<div class="items">
-							<div>
-								<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
-								<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
-							</div>
+	<div class="board-list">
+		<div class="container">
+			<table class="board-table">
+				<colgroup>
+					<col width="10%" />
+					<col width="50%" />
+					<col width="20%" />
+				</colgroup>
+				<c:choose>
+					<c:when test="${fn:length(comment) > 0}">
+						<c:forEach var="list" items="${comment}">
 							<div>
 								<div>
-									<span>${list.BC_ID}|
-										<span class="pric"><fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" /></span>
-									</span>
-									<p>${list.BC_COMMENT}</p>
-									<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
-									<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID}">
-									<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
+									<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
+									<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
 								</div>
+								<tbody class="items">			
+									<tr>
+										<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
+										<td align="center" colspan="3">${list.BC_COMMENT }</td>
+										<td align="center" style="font-weight: bold;">
+										<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
+										</td>
+										<td>
+											<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
+											<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID }">
+											<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
+											<c:if test="${MEM_ID != null}">
+												<input type="button" class="com btn btn-outline-success" value="답글">			
+												<input type="button" class="com del btn btn-outline-success" value="신고" name="reportCom">
+											</c:if>	
+											<c:if test="${MEM_ID eq list.BC_ID}">
+												<input type="button" class="com del btn btn-outline-success" onClick="comDelete(${list.BC_BCID})" value="삭제">
+											</c:if>
+										</td>
+									</tr>
+									<!-- 댓글 신고하기 입력 칸 -->
+									<tr class="reportSpace"></tr>
+								</tbody>
 							</div>
-							<div style="font-size: 8pt; color: gray; padding-right: 10px;">
-								<c:if test="${MEM_ID != null}">
-									<input type="button" value="답글 달기">
-									<input type="button" value="신고 하기" name="reportCom">
-								</c:if>
-								<c:if test="${MEM_ID eq list.BC_ID}">
-									<input type="button" onClick="comDelete(${list.BC_BCID})" value="삭제 하기">
-								</c:if>
-							</div>
-							<br>
-							<!-- 댓글 신고하기 입력 칸 -->
-							<div class="reportCom"></div>
-						</div>
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<td colspan="5">조회된 결과가 없습니다.</td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<tr>
+							<td colspan="5">조회된 결과가 없습니다.</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>
+			</table>
 		</div>
-		<div style="display: inline-block; width: 88%;">
-			<textarea name="comment" id="comment" width="88%" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
+		<br>
+		<div style="display: inline-block; width: 78%; margin-left: 96px;">
+    		<textarea name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
 		</div>
-		<div style="display: inline-block; float: right; width: 10%;">
-			<input type="button" id="comWrite" class="btn btn-primary py-2 px-2" value="작성하기">
+		<div style="display: inline-block; float: right; width: 10%; margin-right: 40px;" >
+			<input type="button" value="댓글쓰기"  id="comWrite" class="btn btn-primary py-2 px-2">
 		</div>
 		<!-- 댓글 끝 -->
 		<form id="commonForm" name="commonForm"></form>
-
+		
 		<!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
 		<div style="margin-top: 10px;" align="center">
 			<!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
@@ -216,23 +221,24 @@ $(document).on("click","[name=reportCom]", function(){
 	var RP_RNUM = $(".items").eq(index).find("#BC_BCID").val();
 	var RP_TITLE = $(".items").eq(index).find("#BC_COMMENT").val();
 	
-	console.log(index, RP_RID, RP_RNUM, RP_TITLE);
+	var reportCom = $(".items").eq(index).find(".reportSpace");
 	
-	var reportCom = $(".items").eq(index).find(".reportCom");
-	
-	var itemCom = '<form action="reportComWrite.tr" name="frm" id="frmCom" method="post" enctype="multipart/form-data">' + 
+	var itemCom = '<td colspan="7" class="reportCom">' + 
+					'<form action="reportComWrite.tr" name="frm" id="frmCom" method="post" enctype="multipart/form-data">' + 
 						'<div style="display: inline-block; width: 88%; margin-left: 20px;">' + 
-						'<input type="hidden" name="RP_RID" value="' + RP_RID + '">' +
-						'<input type="hidden" name="RP_BTYPE" value="RC">' +
-						'<input type="hidden" name="RP_RNUM" value="' + RP_RNUM + '">' +
-						'<input type="hidden" name="RP_TITLE" value="' + RP_TITLE + '">' +
-						'<input type="hidden" name="RP_ID" value="${MEM_ID}">' +
-						'<textarea name="RP_CONTENT" id="RP_CONTENT" class="form-control" placeholder="신고 내용을 입력해주세요."></textarea>' +
-					'</div>' +
-					'<div style="display: inline-block; float: right; width: 10%;">' +
-						'<input type="button" value="신고하기" onclick="reportCom()" class="btn btn-primary py-2 px-2">' +
-					'</div>' +
-				'</form>';
+							'<input type="hidden" name="RP_RID" value="' + RP_RID + '">' +
+							'<input type="hidden" name="RP_BTYPE" value="RC">' +
+							'<input type="hidden" name="RP_RNUM" value="' + RP_RNUM + '">' +	
+							'<input type="hidden" name="RP_TITLE" value="' + RP_TITLE + '">' +
+							'<input type="hidden" name="RP_ID" value="${MEM_ID}">' +
+							'<textarea name="RP_CONTENT" id="RP_CONTENT" class="form-control" placeholder="신고 내용을 입력해주세요."></textarea>' +
+						'</div>' +
+						'<div style="display: inline-block; float: right; width: 10%;">' +
+							'<input type="button" value="신고하기" onclick="reportCom()" class="btn btn-primary py-2 px-2">' +
+						'</div>' +
+					'</form>' +
+				  '</td>';
+				  
 	reportCom.append(itemCom);
 	
 	return reportCom;
