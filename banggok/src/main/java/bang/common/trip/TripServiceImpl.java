@@ -55,15 +55,6 @@ public class TripServiceImpl implements TripService {
 		tripDAO.tripModify(map);
 	}
 	
-	
-	
-	/*  */
-	@Override
-	public List<Map<String, Object>> placeList(Map<String, Object> map, HttpServletRequest request) throws Exception {
-		return tripDAO.placeList(map);
-	}	
-	
-	
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
 	@Override
 	public void tripDelete(Map<String, Object> map) throws Exception {
@@ -92,6 +83,12 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void tripWrite(Map<String, Object> map) throws Exception {
 		tripDAO.tripWrite(map);
+	}
+	
+	/* 일정 삭제 */
+	@Override
+	public void deleteSch(Map<String, Object> map) throws Exception {
+		tripDAO.deleteSch(map);
 	}
 	
 	/* 일정별 추가 장소 리스트(작성시) */

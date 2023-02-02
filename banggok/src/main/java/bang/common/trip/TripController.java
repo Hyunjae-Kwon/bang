@@ -201,9 +201,6 @@ public class TripController {
 		
 		commandMap.put("TP_ID", TR_ID);
 		
-		List<Map<String,Object>> placeList = tripService.placeList(commandMap.getMap(), request);
-	    mv.addObject("placeList", placeList);
-		
 		/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
 		tripService.deletePlaceListNull(commandMap.getMap());
 
@@ -223,6 +220,20 @@ public class TripController {
 		commandMap.put("TP_TRNUM", maxTRNUM);
 		/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
 		tripService.tripplaceUpdate(commandMap.getMap());
+
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		session.setAttribute("TR_ID", TR_ID);
+		
+		return mv;
+	}
+	
+	/* 일정 삭제 */
+	@RequestMapping(value="/deleteSch.tr", method = RequestMethod.POST)
+	public ModelAndView deleteSch(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		tripService.deleteSch(commandMap.getMap());
 
 		HttpSession session = request.getSession();
 		String TR_ID = (String) session.getValue("MEM_ID");
