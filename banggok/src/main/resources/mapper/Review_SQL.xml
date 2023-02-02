@@ -69,11 +69,30 @@
 		  	#{RV_ID}, 
 		  	0, 
 		  	0, 
-		  	#{RV_CONTENT}, 
-		  	#{RV_IMAGE}
+		  	#{RV_CONTENT},
+		  	''
 		)
 	]]>
 	</insert>
+	
+	<!-- [reviewImageUpdate] 여행후기 게시판 글 작성 - 썸네일 이미지 등록 -->
+	<insert id="reviewImageUpdate" parameterType="hashmap">
+	<![CDATA[
+		UPDATE REVIEW
+		SET RV_IMAGE = #{RV_IMAGE}
+		WHERE RV_NUM = #{RV_NUM}
+	]]>
+	</insert>
+	
+	<!-- [maxRVNUM] 여행 후기 번호 최대값 -->
+	<select id="maxRVNUM" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			MAX(RV_NUM) MAX 
+		FROM 
+			REVIEW
+	]]>
+	</select>
     
 	<!-- [searchReview] 여행 후기 검색 --><!-- 메인검색에서 사용 -->
 	<select id="searchReview" parameterType="hashmap" resultType="hashmap">

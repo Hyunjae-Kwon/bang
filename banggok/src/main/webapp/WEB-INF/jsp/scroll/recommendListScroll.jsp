@@ -17,9 +17,7 @@
 				                    <div class="dest-col">
 				                        <div class="dest-img">
 				                        	<a href="/bang/recommendDetail.tr?RC_NUM=${list.RC_NUM}">
-					                    		<img src="resources/images/destination/d2.jpg" alt="">
-					                    		<!-- 여행지 추천 작성 시 이미지 번호를 사용하여 이미지 호출, 지금은 생성이 안되니 우선 주석 -->
-					                    		<%-- <img src="resources/images/recommend/recommend_main_${list.RC_NUM}.png" alt=""> --%>
+				                    			<img src="${list.RC_IMAGE}" alt="썸네일 없음" style="width: 245px; height: 245px; object-fit: contain;">
 					                    	</a>
 				                        </div>
 				                        <h3>${list.RC_TITLE}</h3>

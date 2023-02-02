@@ -16,9 +16,7 @@
 					            <div class="col-lg-4 col-md-6 col-sm-6">
 					               <div class="blog-col">
 					               		<a href="/bang/reviewDetail.tr?RV_NUM=${list.RV_NUM}">
-				                    		<img src="resources/images/destination/d1.jpg" alt="">
-				                    		<!-- 여행 후기 작성 시 이미지 번호를 사용하여 이미지 호출, 지금은 여행 후기가 생성이 안되니 우선 주석 -->
-				                    		<%-- <img src="resources/images/review/${list.RV_IMAGE}" alt=""> --%>
+				                    		<img src="${list.RV_IMAGE}" alt="썸네일 없음" style="width: 245px; height: 245px; object-fit: contain;">
 				                    	</a>
 					                    <span>${list.RV_REGDATE}</span>
 					                    <span style="float: right;">${list.RV_ID}</span>

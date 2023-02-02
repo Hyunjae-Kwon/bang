@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 public interface ReviewService {
 	
 	/* 메인 페이지 - 최신 여행 후기 3개 */
@@ -23,7 +25,7 @@ public interface ReviewService {
 	Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception;
 
 	/* 여행후기 글쓰기 */
-	void insertReview(Map<String, Object> map) throws Exception;
+	void insertReview(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
 	
 	/* 여행 후기 검색 */
 	List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception;
