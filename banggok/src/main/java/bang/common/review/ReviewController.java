@@ -19,7 +19,7 @@ import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
 import bang.common.report.ReportService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
- 
+  
 /* Controller 객체임을 선언 */
 @Controller
 public class ReviewController {
