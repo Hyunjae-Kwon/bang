@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
+import bang.common.report.ReportService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /* Controller 객체임을 선언 */
@@ -27,6 +29,14 @@ public class ReviewController {
 	
 	@Resource(name = "reviewService")
 	private ReviewService reviewService;
+	
+	/* 댓글 */
+	@Resource(name = "commentService")
+	CommentService commentService;
+	
+	/* 신고 */
+	@Resource(name="reportService")
+	private ReportService reportService;
 	
 	/* 여행 후기 폼(전체&검색) */
 	@RequestMapping(value = "/reviewList.tr", method=RequestMethod.GET)
@@ -131,11 +141,11 @@ public class ReviewController {
 		/* 여행후기 디테일 */
 		Map<String,Object> review = reviewService.reviewDetail(commandMap.getMap());
 		
-		/* 여행후기 댓글 리스트*/
-		List<Map<String, Object>> reviewCommentList = reviewService.reviewCommentList(commandMap.getMap());
+		/* 댓글 리스트 불러오기 */
+		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
 		
 		mv.addObject("review", review);
-		mv.addObject("reviewCommentList", reviewCommentList);
+		mv.addObject("comment", comment);
 		
 		return mv;
 	}
@@ -213,11 +223,14 @@ public class ReviewController {
 	}
 	
 	/* 여행후기 삭제 */
-	@RequestMapping(value = "/reviewDel.tr")
-	public ModelAndView reviewDel(CommandMap commandMap) throws Exception {
+	@RequestMapping(value = "/reviewDelete.tr")
+	public ModelAndView reviewDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
 		
-		reviewService.reviewDel(commandMap.getMap());
+		reviewService.reviewDelete(commandMap.getMap());
+		
+		/* 신고 게시글 삭제 처리 */
+		reportService.reportDelBrdUpdate(commandMap.getMap());
 
 		return mv;      
 	}
@@ -231,27 +244,5 @@ public class ReviewController {
 		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
 		
 		return mv;
-	}
-	
-	/* 댓글입력 */
-	@RequestMapping(value="/rvCommentWrite.tr")
-	public String rcCommentWrite(CommandMap commandMap, Model model) throws Exception {	
-
-		model.addAttribute("msg", "댓글 작성이 완료되었습니다.");
-		model.addAttribute("url", "/reviewDetail.tr?RV_NUM="+commandMap.get("BC_NUM"));
-		reviewService.rvCommentWrite(commandMap.getMap());		
-	         
-		return "review/rvCommentWrite";
-	}
-	
-	/* 댓글삭제 */
-	@RequestMapping(value="/rvCommentDelete.tr")
-	public String rvCommentDelete(CommandMap commandMap, Model model) throws Exception {
-	
-		model.addAttribute("msg", "댓글 삭제가 완료되었습니다.");
-		model.addAttribute("url", "/reviewDetail.tr?RV_NUM="+commandMap.get("RV_NUM"));
-		reviewService.rvCommentDelete(commandMap.getMap());				
-		
-		return "review/rvCommentDelete";
 	}
 }

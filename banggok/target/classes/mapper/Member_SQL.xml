@@ -187,7 +187,7 @@
 	]]>
 	</select>
 
-	<!-- [adminMemberList] 관리자 - 여행지 추천 게시판 관리 -->
+	<!-- [adminMemberList] 관리자 - 회원 관리 목록 -->
 	<select id="adminMemberList" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/> 
 		<![CDATA[
@@ -208,25 +208,4 @@
 		<include refid="common.pagingPost"/>
 	</select>
 	
-	<!-- [adminReportList] 관리자 - 신고 관리 목록 -->
-	<select id="adminReportList" parameterType="hashmap" resultType="hashmap">
-		<include refid="common.pagingPre"/> 
-		<![CDATA[
-			SELECT
-				ROW_NUMBER() OVER (ORDER BY RP_NUM DESC) RNUM,
-				RP_NUM,
-				RP_RID,
-				RP_BTYPE,
-				RP_RNUM,
-				RP_TITLE,
-				RP_CONTENT,
-				RP_REGDATE,
-				RP_ID,
-				RP_TYPE,
-				RP_DELETE
-			FROM
-				REPORT
-		]]>
-		<include refid="common.pagingPost"/>
-	</select>
 </mapper>

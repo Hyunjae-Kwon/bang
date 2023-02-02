@@ -111,7 +111,7 @@
 							<!-- 관리자 로그인 했을 경우 -->
 							<c:if test="${MEM_ID == 'admin'}">
 								<li>
-									<span>관리자 모드</span>
+									<span>관리자</span>
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/adminPage.tr">관리자 페이지</a> 

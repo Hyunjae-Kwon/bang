@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
 import bang.common.recommend.RecommendService;
 import bang.common.review.ReviewService;
@@ -47,6 +48,10 @@ Logger log = Logger.getLogger(this.getClass());
 	/* 마이페이지 */
 	@Resource(name="myPageService")
 	private MyPageService myPageService;
+	
+	/* 댓글 */
+	@Resource(name="commentService")
+	private CommentService commentService;
 	
 	/* 관리자 페이지 */
 	@RequestMapping(value="/adminPage.tr")
@@ -162,6 +167,44 @@ Logger log = Logger.getLogger(this.getClass());
 		
 		mv.addObject("paginationInfo", (PaginationInfo)report.get("paginationInfo"));
 		mv.addObject("report", report.get("result"));
+		
+		return mv;
+	}
+	
+	/* 신고 상세보기 */
+	@RequestMapping(value="/adminReportDetail.tr")
+	public ModelAndView adminReportDetail(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("admin/adminReportDetail");
+		
+		String type = (String) commandMap.get("RP_TYPE");
+		String rType = (String) commandMap.get("RP_RTYPE");
+		String boardNum = (String)commandMap.get("RP_RNUM");
+		
+		Map<String, Object> board;
+		
+		if(type.equals("B")) {
+			if(rType.equals("T")) {
+				commandMap.put("TR_NUM", boardNum);
+				board = tripService.tripDetail(commandMap.getMap());
+				mv.addObject("board", board);
+			} else if(rType.equals("W")) {
+				commandMap.put("TG_NUM", boardNum);
+				board = togetherService.togetherDetail(commandMap.getMap());
+				mv.addObject("board", board);
+			} else if(rType.equals("R")) {
+				commandMap.put("RV_NUM", boardNum);
+				board = reviewService.reviewDetail(commandMap.getMap());
+				mv.addObject("board", board);
+			}
+		} else if(type.equals("C")) {
+			commandMap.put("BC_BCID", boardNum);
+			board = commentService.commentDetail(commandMap.getMap());
+			mv.addObject("board", board);
+		}
+		
+		Map<String, Object> report = adminService.adminReportDetail(commandMap.getMap());
+		
+		mv.addObject("report", report);
 		
 		return mv;
 	}

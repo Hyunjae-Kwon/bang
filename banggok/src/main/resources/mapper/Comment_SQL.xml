@@ -2,38 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="comment">
-	
-	<!-- [selectTripComment] 여행 일정 공유 게시판 댓글 리스트 -->
-	<select id="selectTripComment" parameterType="hashmap" resultType="hashmap">
-	<![CDATA[
-		SELECT * FROM BOARDCOMMENT
-		WHERE BC_NUM = #{TR_NUM} AND BC_TYPE = 'T'
-		ORDER BY BC_REGDATE DESC
-	]]>
-	</select>
-	
-	<!-- [selectTgComment] 동행 게시판 댓글 리스트 -->
-	<select id="selectTgComment" parameterType="hashmap" resultType="hashmap">
-	<![CDATA[
-		SELECT * FROM BOARDCOMMENT
-		WHERE BC_NUM = #{TG_NUM} AND BC_TYPE = 'TG'
-		ORDER BY BC_REGDATE DESC
-	]]>
-	</select>
-	
-	<!-- [tripComWrite] 여행 일정 공유 게시판 댓글 작성하기 -->
-	<insert id="tripComWrite" parameterType="hashmap">
+
+	<!-- [comWrite] 댓글 작성하기 -->
+	<insert id="comWrite" parameterType="hashmap">
 	<![CDATA[
 		INSERT INTO BOARDCOMMENT (BC_BCID, BC_NUM, BC_ID, BC_REGDATE, BC_COMMENT, BC_TYPE)
-		VALUES (BC_BCID_SEQ.NEXTVAL, #{BC_NUM}, #{BC_ID}, SYSDATE, #{BC_COMMENT}, 'T')
-	]]>
-	</insert>
-	
-	<!-- [tgComWrite] 동행 게시판 댓글 작성하기 -->
-	<insert id="tgComWrite" parameterType="hashmap">
-	<![CDATA[
-		INSERT INTO BOARDCOMMENT (BC_BCID, BC_NUM, BC_ID, BC_REGDATE, BC_COMMENT, BC_TYPE)
-		VALUES (BC_BCID_SEQ.NEXTVAL, #{TG_NUM}, #{MEM_ID}, SYSDATE, #{BC_COMMENT}, 'TG')
+		VALUES (BC_BCID_SEQ.NEXTVAL, #{BC_NUM}, #{BC_ID}, SYSDATE, #{BC_COMMENT}, #{BC_TYPE})
 	]]>
 	</insert>
 	
@@ -44,5 +18,22 @@
 		WHERE BC_BCID = #{BC_BCID}
 	]]>
 	</delete>
+	
+	<!-- [selectCommentList] 게시판 댓글 리스트 -->
+	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT * FROM BOARDCOMMENT
+		WHERE BC_NUM = #{OBJECT}
+		ORDER BY BC_REGDATE DESC
+	]]>
+	</select>
+	
+	<!-- [commentDetail] 신고 상세보기 - 댓글 내용 불러오기 -->
+	<select id="commentDetail" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT * FROM BOARDCOMMENT
+		WHERE BC_BCID = #{BC_BCID}
+	]]>
+	</select>
 
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
+import bang.common.report.ReportService;
 
 @Controller
 public class CommentController {
@@ -19,35 +20,29 @@ public class CommentController {
 	@Resource(name = "commentService")
 	CommentService commentService;
 	
-	/* 여행 일정 공유 게시글 댓글 작성하기 */
-	@RequestMapping(value="/tripComWrite.tr", method=RequestMethod.GET)
-	public ModelAndView tripComWrite(CommandMap commandMap) throws Exception {
+	@Resource(name="reportService")
+	private ReportService reportService;
+	
+	/* 댓글 작성하기 */
+	@RequestMapping(value="/comWrite.tr", method=RequestMethod.GET)
+	public ModelAndView comWrite(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
 		
-		commentService.tripComWrite(commandMap.getMap());
+		commentService.comWrite(commandMap.getMap());
 		
 		return mv;
 	}
 	
-	/* 동행댓글입력 */
-	@RequestMapping(value="/tgCommentWrite.tr")
-	public String tgCommentWrite(CommandMap commandMap, Model model) throws Exception {	
-
-		model.addAttribute("msg", "댓글 작성이 완료되었습니다.");
-		model.addAttribute("url", "/togetherDetail.tr?TG_NUM="+commandMap.get("BC_NUM"));
-		commentService.tgComWrite(commandMap.getMap());		
-	         
-		return "together/tgCommentWrite";
-	}
-	
 	/* 댓글 삭제하기 */
-	@RequestMapping(value="/comDelete.tr", method=RequestMethod.POST)
+	@RequestMapping(value="/comDelete.tr", method=RequestMethod.GET)
 	public ModelAndView comDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
 		
 		commentService.comDelete(commandMap.getMap());
 		
+		/* 신고 리스트에서 삭제 처리 업데이트 */
+		reportService.reportDelComUpdate(commandMap.getMap());
+		
 		return mv;
 	}
-	
 }

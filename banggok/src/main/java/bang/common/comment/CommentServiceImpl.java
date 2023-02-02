@@ -2,6 +2,7 @@ package bang.common.comment;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,36 +16,35 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Resource(name="commentDAO")
 	private CommentDAO commentDAO;
-
-	/* 여행 일정 공유 게시판 댓글 불러오기 */
+	
+	/* 댓글 작성하기 */
 	@Override
-	public List<Map<String, Object>> selectTripComment(Map<String, Object> map) throws Exception {
-		return commentDAO.selectTripComment(map);
+	public void comWrite(Map<String, Object> map) throws Exception {
+		commentDAO.comWrite(map);
 	}
 	
-	/* 동행 게시판 댓글 불러오기 */
-	@Override
-	public List<Map<String, Object>> selectTgComment(Map<String, Object> map) throws Exception {
-		return commentDAO.selectTgComment(map);
-	}
-
-	/* 여행 일정 공유 게시글 댓글 작성하기 */
-	@Override
-	public void tripComWrite(Map<String, Object> map) throws Exception {
-		commentDAO.tripComWrite(map);
-	}
-	
-	/* 동행 게시글 댓글 작성하기 */
-	@Override
-	public void tgComWrite(Map<String, Object> map) throws Exception {
-		commentDAO.tgComWrite(map);
-	}
-
 	/* 댓글 삭제하기 */
 	@Override
 	public void comDelete(Map<String, Object> map) throws Exception {
 		commentDAO.comDelete(map);
 	}
 	
-	
+	/* 댓글 리스트 불러오기 */
+	@Override
+	public List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception {
+		
+		if(!map.isEmpty()) {
+			for(Object key : map.values()) {
+				map.put("OBJECT", key);
+			}
+		}
+		
+		return commentDAO.selectCommentList(map);
+	}
+
+	/* 신고 상세보기 - 댓글 내용 불러오기 */
+	@Override
+	public Map<String, Object> commentDetail(Map<String, Object> map) throws Exception {
+		return commentDAO.commentDetail(map);
+	}
 }

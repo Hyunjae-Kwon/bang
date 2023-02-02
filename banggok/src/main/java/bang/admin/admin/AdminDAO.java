@@ -18,6 +18,12 @@ public class AdminDAO extends AbstractDAO {
 	/* 관리자 - 신고 관리 목록 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> adminReportList(Map<String, Object> map) throws Exception {
-		return (Map<String, Object>) selectPagingList ("member.adminReportList", map); 
+		return (Map<String, Object>) selectPagingList ("report.adminReportList", map); 
+	}
+	
+	/* 관리자 - 신고 상세보기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> adminReportDetail(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne ("report.adminReportDetail", map); 
 	}
 }

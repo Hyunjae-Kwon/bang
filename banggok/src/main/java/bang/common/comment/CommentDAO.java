@@ -10,30 +10,26 @@ import bang.common.common.AbstractDAO;
 @Repository("commentDAO")
 public class CommentDAO extends AbstractDAO {
 	
-	/* 여행 일정 공유 게시판 댓글 불러오기 */
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> selectTripComment(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList ("comment.selectTripComment", map);
-	}
-	
-	/* 동행 게시판 댓글 불러오기 */
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> selectTgComment(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList ("comment.selectTgComment", map);
-	}
-	
-	/* 여행 일정 공유 게시글 댓글 작성하기 */
-	public void tripComWrite(Map<String, Object> map) throws Exception {
-		insert ("comment.tripComWrite", map);
-	}
-	
-	/* 동행 게시글 댓글 작성하기 */
-	public void tgComWrite(Map<String, Object> map) throws Exception {
-		insert ("comment.tgComWrite", map);
+	/* 댓글 작성하기 */
+	public void comWrite(Map<String, Object> map) throws Exception {
+		insert ("comment.comWrite", map);
 	}
 	
 	/* 댓글 삭제하기 */
 	public void comDelete(Map<String, Object> map) throws Exception {
 		delete ("comment.comDelete", map);
 	}
+	
+	/* 댓글 리스트 불러오기 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("comment.selectCommentList", map);
+	}
+	
+	/* 신고 상세보기 - 댓글 내용 불러오기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> commentDetail(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne ("comment.commentDetail", map);
+	}
+	
 }
