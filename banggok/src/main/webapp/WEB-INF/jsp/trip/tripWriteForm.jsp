@@ -121,15 +121,13 @@
             		</div>
                 	<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
                 		
-                		<div style="border-left: solid #eaeaea; height: 450px;">
+                		<div id="schList" style="border-left: solid #eaeaea; height: 450px;">
                 			<h5 style="margin-left: 30px; margin-right: 20px;">여행 일정</h5>
                 			<input type="button" value="추가" class="btn btn-success btn-sm" onClick="addSch()" style="margin-left: 20px; margin-right: 5px;">
                 			<input type="button" value="삭제" class="btn btn-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
-                			<ul id="schList"></ul>
                 		</div>
                 		                		
-                		<div id="addListItem" style="border-left: solid #eaeaea; height: 450px; overflow-y: auto; width: 280px;">
-						</div>
+                		<div id="addListItem" style="border-left: solid #eaeaea; height: 450px; overflow-y: auto; width: 280px;"></div>
 						
 						<div style="border-left: solid #eaeaea; height: 450px;"></div>
 	                    <!-- <div class="row cont-row">
@@ -245,11 +243,11 @@
 		function delSch(){
 			var id = document.getElementById("TR_ID").value;
 			
-			const delButton = event.currentTarget;
+			/* const delButton = event.currentTarget;
 			const third = delButton.parentNode;
 			const second = third.parentNode;
 			const first = second.parentNode;
-			first.remove();
+			first.remove(); */
 		
 			/* 일정 DB에서 삭제 */
 			/* $.ajax({
@@ -269,6 +267,7 @@
 			var id = document.getElementById("TR_ID").value;
 			var place = document.getElementById("addListItem");
 			var item = '';
+			list = [];
 			
 			if(dayNum==null){
 				place.innerHTML = '<h5 style="margin-left: 20px;">일정을 선택해 주세요.</h5>';
@@ -279,41 +278,51 @@
 				dayIdx = dayNum;
 			}
 			
+			removeAddMarker();
+			
 			$.ajax({
 				url:"/bang/writePlaceList.tr",
 				method:"GET",
+				dataType:"JSON",
 				data: "TP_ID=" + id + "&TP_DATE=" + dayNum,
 				success:function(data){
-					place.innerHTML += data;
+					list = data.writePlaceList;
+					if(list.length>0){
+						for(var i=0; i<list.length; i++){
+							item += '<ul id="placesList2" class="placesLists">' + 
+									'<li class="item">' +
+										'<h5 id=TP_PLACE>' + list[i].R +'. ' + list[i].TP_PLACE + '</h5>' + 
+										'<span id="TP_RADDRESS">' + list[i].TP_RADDRESS + '</span>' + 
+										'<span id="TP_ADDRESS" class="jibun gray">' + list[i].TP_ADDRESS + '</span>' + 
+										'<span class="tel" id="TP_PHONE">' + list[i].TP_PHONE + 
+										'<input type="button" id="del" style="float: right;" onclick="deletePlace(' + list[i].TP_NUM + ',' + list[i].TP_MAP_LAT + ',' + list[i].TP_MAP_LNG + ')" value="장소 삭제"></span>' +					 
+										'<span style="display: none;" id="TP_NUM">' + list.TP_NUM + '</span>' +
+										'<span style="display: none;" id="TP_MAP_LAT">' + list[i].TP_MAP_LAT + '</span>' +
+										'<span style="display: none;" id="TP_MAP_LNG">' + list[i].TP_MAP_LNG + '</span>' +
+										'<span style="display: none;" id="TP_DATE">' + list[i].TP_DATE + '</span>' +
+									'</li>' +
+								'</ul>';
+						}
+					}else{
+						item = '<p style="margin-left: 20px;">방문하실 장소를 추가해주세요.</p><br>';
+					}
+					place.innerHTML += item;
+					addPlaceMarker(list);
 				}
 			});
-						
-			place.innerHTML += item;
-		}	
+		}
 	
-		// 검색 결과 마커를 담을 배열입니다
+		/* 검색 결과 마커를 담을 배열 */
 		var markers = [];
 		
-		/* 추가한 장소 마커를 담을 배열입니다. */
+		/* 추가 장소 마커를 담을 배열 */
 		var addMarkers = [];
 		
-		/* 추가한 장소 마커의 위도를 담을 배열 */
-		var addMarkersLat = [];
-		
-		/* 추가한 장소 마커의 경도를 담을 배열 */
-		var addMarkersLng = [];
-		
-		/* 커스텀 오버레이 순서 */
-		var count= 1;
-		
-		/* 커스텀 오버레이 배열 */
+		/* 추가 장소 커스텀 오버레이를 담을 배열 */
 		var customOverlays = [];
 		
-		/* 선을 담는 배열 */
-		var addPolyline = [];
-		
-		/* 범위 정보를 담을 배열 */
-		var points = [];
+		/* 추가 장소 연결선을 담을 배열 */
+		var polylines = [];
 		
 		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 		var bounds = new kakao.maps.LatLngBounds();
@@ -448,267 +457,18 @@
 		    } else {
 		        itemStr += '    <span id="address">' +  places.address_name  + '</span>'; 
 		    }
-		    itemStr += '  <span class="tel" id="phone">' + places.phone  + '<button style="float: right;" id="addPlaceData" onClick="addPlaceData()">장소 추가</button></span>' + 
-		               '</div>';           
+		    itemStr += '  <span class="tel" id="phone">' + places.phone  + 
+		    		   /* '<button style="float: right;" id="addPlaceData" onClick="addListItem(' + item + ')">장소 추가</button></span>' + */
+		    		   '<button style="float: right;" id="addPlaceData" onClick="addListItem(\'' + 
+		    				   places.place_name + '\',\'' + places.road_address_name + '\',\'' + places.address_name + '\',\'' + places.phone + '\')">장소 추가</button></span>' +
+		    		   '</div>';           
 	
 		    el.innerHTML = itemStr;
 		    el.className = 'item';		    
 		    return el;
 		}
 		
-		/* 클릭한 장소 데이터 전송 */
-		function addPlaceData(){
-			
-			if(dayIdx == null){
-				alert('일정을 선택해 주세요.');
-				return false;
-			}
-			
-			const addButton = event.currentTarget;
-			const addButtonP = addButton.parentNode;
-			const elementItem = addButtonP.parentNode;
-			
-			addCustom(elementItem);
-			addListItem(elementItem);
-			
-			/* 위도 경도 구하기 */
-			var markerPosition = infowindow.getPosition();
-			
-			var markerLat = markerPosition.getLat();
-			var markerLng = markerPosition.getLng();
-			
-			var lat = markerLat.toString();
-			var lng = markerLng.toString();
-			
-			// 마커를 생성하고 지도에 표시합니다
-	        var placePosition = new kakao.maps.LatLng(lat, lng),
-	            marker = addPlaceMarker(placePosition);
-		}
-		
-		/* 일정 추가 장소에 해당 정보 추가 */
-		function addListItem(elementItem) {
-			console.log(elementItem);
- 	        
-			/* 위도 경도 구하기 */
-			var markerPosition = infowindow.getPosition();
-			
-			var markerLat = markerPosition.getLat();
-			var markerLng = markerPosition.getLng();
-			
-			var lat = markerLat.toString();
-			var lng = markerLng.toString();
-			
-			/* 클릭한 장소 데이터 */
-			var itemElText = elementItem.innerText;
-			
-			/* 엔터를 기준으로 스플릿 */
-			var str = itemElText.split('\n').filter((elem) => {
-				return elem !== undefined && elem !== null && elem !== ''
-			});
-
-			var id = document.getElementById("TR_ID").value;
-			
-			/* 추가한 장소 DB에 저장 */
-			$.ajax({
- 				type: "POST",
- 				url: "<c:url value='addPlaceList.tr'/>",
- 				data: {TP_PLACE: str[0], TP_ADDRESS: str[2], TP_RADDRESS: str[1], TP_PHONE: str[3], TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id, TP_DATE: dayIdx},
- 				success: function(data){
- 					var dayNum = dayIdx;
- 					placeList(dayNum);
- 				}
- 	        });
-		}
-		
-		/* 커스텀 오버레이 */
-		function addCustom(elementItem){
-			
-			var markerPosition = infowindow.getPosition();
-			
-			var customMarkerLat = markerPosition.getLat();
-			var customMarkerLng = markerPosition.getLng();
-			
-			var customPosition = new kakao.maps.LatLng(customMarkerLat, customMarkerLng); /* 커스텀 오버레이 위치 */
-			
-			/* 클릭한 장소 데이터 */
-			var itemElText = elementItem.innerText;
-			
-			/* 엔터를 기준으로 스플릿 */
-			var str = itemElText.split('\n').filter((elem) => {
-				return elem !== undefined && elem !== null && elem !== ''
-			});
-									
-			var content = '<div class="customoverlay">' +
-		    '  <span class="item">' + count + '</span>' +
-		    '  <span class="title">' + str[0] + '</span>' +		    
-		    '</div>';
-		    
-			var customOverlay = new kakao.maps.CustomOverlay({
-			    map: map,
-			    position: customPosition,
-			    content: content,
-			    yAnchor: 0.05
-			});
-			count = count+1;  /* 커스텀 오버레이 순서 */ 
-			
-			customOverlays.push(customOverlay);
-		}
-		
-		/* 장소 목록 클릭하면 해당 장소에 마커 추가 */
-		function addPlaceMarker(placePosition){
-			console.log("추가");
-			var markerPosition = infowindow.getPosition();
-			
-			var markerLat = markerPosition.getLat();
-			var markerLng = markerPosition.getLng();
-			
-			var newMarker = new kakao.maps.LatLng(markerLat, markerLng);
-			var imageSrc = 'resources/images/marker.png',
-			    imageSize = new kakao.maps.Size(30, 30);
-			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-		
-			var newPoint = new kakao.maps.Marker({
-				position: newMarker,
-				image: markerImage
-			});
-			
-			if(points.length < 1){
-				bounds = new kakao.maps.LatLngBounds();
-			}
-			
-			console.log(points);
-			points.push(placePosition);		/* 지도 범위 조절, 위도 경도 배열에 마커 위치 추가 */
-			console.log(points);
-								
-			addMarkersLat.push(markerLat);	/* 마커 위도 배열에 추가 */
-			addMarkersLng.push(markerLng);	/* 마커 경도 배열에 추가 */
-			
-			addMarkers.push(newPoint);	/* 마커 배열에 추가 */
-			newPoint.setMap(map);		/* 마커 지도에 표시 */	
-															
-			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
-			if(addMarkers.length > 1){
-				var linePath = [];
-				
-				for(let i = 0; i < addMarkers.length; i ++) {
-					var latlng = new kakao.maps.LatLng(addMarkersLat[i], addMarkersLng[i]);
-					linePath.push(latlng);
-				}
-				
-				/* 지도에 표시할 선을 생성 */
-				var polyline = new kakao.maps.Polyline({
-				    path: linePath, // 선을 구성하는 좌표배열 입니다
-				    strokeWeight: 5, // 선의 두께 입니다
-				    strokeColor: '#FFAE00', // 선의 색깔입니다
-				    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-				    strokeStyle: 'solid' // 선의 스타일입니다
-				});
-				
-				addPolyline.push(polyline);	/* 선 배열에 추가 */
-				polyline.setMap(map);		/* 지도에 선을 표시 */
-			}
-			
-			for (var i = 0; i < points.length; i++) {
-			    // LatLngBounds 객체에 좌표를 추가합니다
-			    bounds.extend(points[i]);
-			}
-			
-			setBounds();
-			
-			return newPoint;
-		}
-		
-		/* 추가한 장소 삭제하기 */
-		function deletePlace(tpNum, lat, lng){
-			
-			var id = document.getElementById("TR_ID").value;
-			var dayNum = dayIdx;
-			
- 			const delButton = event.currentTarget;
-			const third = delButton.parentNode;
-			const second = third.parentNode;
-			const first = second.parentNode;
-			first.remove();
-			
- 			/* 지도에 표시되고 있는 선 전부 제거 */
-			removePolyline();
-			
-			/* 커스텀 오버레이 조정 */
-			count = count - 1;
-			
-			const num = delButton.className;
-			removeAddMarker(num);
-			
-			/* 추가한 장소 DB에서 삭제 */
-			$.ajax({
- 				type: "POST",
- 				url: "<c:url value='deletePlaceList.tr'/>",
- 				data: {TP_NUM:tpNum,TP_MAP_LAT:lat, TP_MAP_LNG:lng, TP_ID:id},
- 				success: function(data){
- 					placeList(dayNum);
- 				}
-			});
-		};
-		
-		/* 지도 위에 추가된 마커 중 삭제된 목록의 마커 제거 */
-		function removeAddMarker(num) {
-			addMarkers[num-1].setMap(null);
-			addMarkers.splice(num-1, 1);
-			addMarkersLat.splice(num-1, 1);
-			addMarkersLng.splice(num-1, 1);
-			addPolyline.splice(num-1, 1);
-			customOverlays[num-1].setMap(null);
-			customOverlays.splice(num-1, 1);
-			
-			points.splice(num-1, 1);
-			
-			/* bounds 초기화 */
-			bounds = new kakao.maps.LatLngBounds();
-			
-			if(points.length > 0){
-				for (var i = 0; i < points.length; i++) {
-				    // LatLngBounds 객체에 좌표를 추가합니다
-				    bounds.extend(points[i]);
-				    console.log(points[i]);
-				}
-			} else {
-				bounds.extend(center[0]);
-			}
-			
-			setBounds();
-			
-			/* addMarkers 배열의 길이가 2이상이면 (마커가 2개 이상 찍혀있다면) 함수 실행 */
-			if(addMarkers.length > 1){
-				var linePath = [];
-				
-				for(let i = 0; i < addMarkers.length; i ++) {
-					var latlng = new kakao.maps.LatLng(addMarkersLat[i], addMarkersLng[i]);
-					linePath.push(latlng);
-				}
-				
-				/* 지도에 표시할 선을 생성 */
-				var polyline = new kakao.maps.Polyline({
-				    path: linePath, // 선을 구성하는 좌표배열 입니다
-				    strokeWeight: 5, // 선의 두께 입니다
-				    strokeColor: '#FFAE00', // 선의 색깔입니다
-				    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-				    strokeStyle: 'solid' // 선의 스타일입니다
-				});
-				
-				addPolyline.push(polyline);	/* 선 배열에 추가 */
-				polyline.setMap(map);		/* 지도에 선을 표시 */
-			}
-		}
-		
-		/* 지도 위에 추가된 마커를 모두 제거합니다. 추후 추가된 목록 전체 제거를 만들면 사용 */ 
-		/* function removeAddMarkers() {
-		    for ( var i = 0; i < addMarkers.length; i++ ) {
-		        addMarkers[i].setMap(null);
-		    }   
-		    addMarkers = [];
-		} */
-		
-		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+		/* 검색 결과 마커 생성 */
 		function addMarker(position, idx, title) {
 		    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
 		        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
@@ -728,8 +488,132 @@
 	
 		    return marker;
 		}
-	
-		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+		
+		/* 일정 추가 장소 DB 추가 */
+		function addListItem(tpPlace, tpAddress, tpRaddress, tpPhone) {
+			if(dayIdx == null){
+				alert('일정을 선택해 주세요.');
+				return false;
+			}
+			
+			/* 위도 경도 구하기 */
+			var markerPosition = infowindow.getPosition();
+			
+			var markerLat = markerPosition.getLat();
+			var markerLng = markerPosition.getLng();
+			
+			var lat = markerLat.toString();
+			var lng = markerLng.toString();
+			
+			var id = document.getElementById("TR_ID").value;
+			
+			/* 추가한 장소 DB에 저장 */
+			$.ajax({
+ 				type: "POST",
+ 				url: "<c:url value='addPlaceList.tr'/>",
+ 				data: {TP_PLACE: tpPlace, TP_ADDRESS: tpAddress, TP_RADDRESS: tpRaddress, TP_PHONE: tpPhone, TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id, TP_DATE: dayIdx},
+ 				success: function(data){
+ 					var dayNum = dayIdx;
+ 					
+ 					placeList(dayNum);
+ 				}
+ 	        });
+		}
+		
+		/* 커스텀 오버레이 */
+		function addPlaceMarker(list){
+			/* 추가한 장소 list를 담을 배열입니다. */
+			var placeNode = [];
+			
+			placeNode = list;
+			
+			var addPoints = [];
+			
+			for(let i = 0; i < placeNode.length; i ++){
+				/* 방문 예정 장소들의 위도와 경도가 포함된 노드를 담을 배열 */
+				var addLat = placeNode[i].TP_MAP_LAT;
+				var addLng = placeNode[i].TP_MAP_LNG;
+				
+				/* 추가 장소 위치 */
+				addPoints[i] = new kakao.maps.LatLng(addLat, addLng);
+				
+				/* 추가 마커 이미지 */
+				var imageSrc = 'resources/images/marker.png',
+			  	    imageSize = new kakao.maps.Size(30, 30),
+				    markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+						addMarker = new kakao.maps.Marker({
+			        	position: addPoints[i], // 마커의 위치
+			        	image: markerImage // 마커 이미지
+			    });
+		    	
+				/* 지도 위에 추가 마커를 표출 */
+				addMarker.setMap(map); 
+				/* 배열에 생성된 추가 마커를 추가 */
+				addMarkers.push(addMarker); 
+				
+			    /* 커스텀오버레이 */
+				var content = '<div class="customoverlay">' +
+			    	'  <span class="item">' + placeNode[i].R + '</span>' +
+			    	'  <span class="title">' + placeNode[i].TP_PLACE; + '</span>' +
+			    	'  <span style="display: none;" id="TP_DATE">' + placeNode[i].TP_DATE + '</span>' +
+			    	'</div>',
+			    		customOverlay = new kakao.maps.CustomOverlay({
+				    	position: addPoints[i],
+				    	content: content,
+				    	yAnchor: 0.05
+				});
+			    	
+			    /* 지도 위에 커스텀오버레이를 표출 */
+				customOverlay.setMap(map); 
+				/* 배열에 생성된 커스텀오버레이를 추가 */
+				customOverlays.push(customOverlay); 
+			}
+						
+			/* 지도에 표시할 선을 생성 */
+			var polyline = new kakao.maps.Polyline({
+			    path: addPoints, // 선을 구성하는 좌표배열 입니다
+			    strokeWeight: 5, // 선의 두께 입니다
+			    strokeColor: '#FFAE00', // 선의 색깔입니다
+			    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+			    strokeStyle: 'solid' // 선의 스타일입니다
+			});
+
+			/* 지도 위 추가 장소 연결선을 표시 */ 
+			polyline.setMap(map);
+			/* 배열에 생성된 연결선 추가 */
+			polylines.push(polyline);
+			console.log(addPoints.length);
+			if(addPoints.length>0){		
+				/* 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체 생성 */
+				bounds = new kakao.maps.LatLngBounds();    
+				console.log(addPoints);			
+				for (var i=0; i< addPoints.length; i++) {
+				    /* LatLngBounds 객체에 추가장소 리스트 좌표 추가 */
+				    bounds.extend(addPoints[i]);
+				}
+				map.setBounds(bounds);
+			}
+		}
+		
+		/* 추가한 장소 삭제하기 */
+		function deletePlace(tpNum, lat, lng){
+			
+			var id = document.getElementById("TR_ID").value;
+			var dayNum = dayIdx;
+			
+			/* 추가한 장소 DB에서 삭제 */
+			$.ajax({
+ 				type: "POST",
+ 				url: "<c:url value='deletePlaceList.tr'/>",
+ 				data: {TP_NUM:tpNum,TP_MAP_LAT:lat, TP_MAP_LNG:lng, TP_ID:id},
+ 				success: function(data){
+ 					
+ 					placeList(dayNum);
+ 				}
+			});
+		};
+		
+		/* 지도 위에 표시되는 검색하기 마커를 모두 제거합니다 */
 		function removeMarker() {
 		    for ( var i = 0; i < markers.length; i++ ) {
 		        markers[i].setMap(null);
@@ -737,20 +621,31 @@
 		    markers = [];
 		}
 		
-		/* 지도에 표시되고 있는 선 전부 제거 */
-		function removePolyline() {
-			for ( var i = 0; i < addPolyline.length; i++ ) {
-				addPolyline[i].setMap(null);
-		    }   
+		/* 지도 위에 추가된 마커 중 삭제된 목록의 마커 제거 */
+		function removeAddMarker() {
+			for(var i=0; i < addMarkers.length; i++){
+				addMarkers[i].setMap(null);
+			}
+			addMarkers = [];
+			
+			for(var i=0; i < customOverlays.length; i++){
+				customOverlays[i].setMap(null);
+			}
+			customOverlays = [];
+			
+			for(var i=0; i < polylines.length; i++){
+				polylines[i].setMap(null);
+			}
+			polylines = [];
 		}
-	
-		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+		
+		/* 검색결과 목록 하단에 페이지 표시 함수 */
 		function displayPagination(pagination) {
 		    var paginationEl = document.getElementById('pagination'),
 		        fragment = document.createDocumentFragment(),
 		        i; 
 	
-		    // 기존에 추가된 페이지번호를 삭제합니다
+		    /* 기존에 추가된 페이지번호 삭제 */
 		    while (paginationEl.hasChildNodes()) {
 		        paginationEl.removeChild (paginationEl.lastChild);
 		    }
@@ -859,6 +754,7 @@
 					success : function(data) {
 						$(el).summernote('editor.insertImage', data.url);	/* 이미지를 삽입할 수 있도록 해줌 */
 					}
+				
 				});
 			} 
 			

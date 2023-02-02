@@ -50,6 +50,14 @@ public class TripDAO extends AbstractDAO {
 		update ("trip.tripModify", map);
 	}
 	
+	/*  */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> placeList(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>)selectList("trip.placeList", map);
+	}
+	
+	
+	
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
 	public void tripDelete(Map<String, Object> map) throws Exception {
 		update ("trip.tripDelete", map);
