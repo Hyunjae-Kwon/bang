@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="report">
+
+	<!-- [adminReportList] 관리자 - 신고 관리 목록 -->
+	<select id="adminReportList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY RP_NUM DESC) RNUM,
+				RP_NUM,
+				RP_RID,
+				RP_RTYPE,
+				RP_RNUM,
+				RP_TITLE,
+				RP_CONTENT,
+				RP_REGDATE,
+				RP_ID,
+				RP_TYPE,
+				RP_DELETE
+			FROM
+				REPORT
+		]]>
+		<include refid="common.pagingPost"/>
+	</select>
+	
+	<!-- [adminReportDetail] 관리자 - 신고 상세보기 -->
+	<select id="adminReportDetail" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT *
+			FROM REPORT
+			WHERE RP_NUM = ${RP_NUM}
+		]]>
+	</select>
+	
+	<!-- [reportBoardWrite] 게시글 신고 하기 기능 -->
+	<insert id="reportBoardWrite" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO REPORT (RP_NUM, RP_RID, RP_RTYPE, RP_RNUM, RP_TITLE, RP_CONTENT, RP_REGDATE, RP_ID, RP_TYPE, RP_DELETE)
+		VALUES (RP_NUM_SEQ.NEXTVAL, #{RP_RID}, #{RP_BTYPE}, #{RP_RNUM}, #{RP_TITLE}, #{RP_CONTENT}, SYSDATE, #{RP_ID}, 'B', 'N')
+	]]>
+	</insert>
+	
+	<!-- [reportComWrite] 게시글 댓글 신고 하기 기능 -->
+	<insert id="reportComWrite" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO REPORT (RP_NUM, RP_RID, RP_RTYPE, RP_RNUM, RP_TITLE, RP_CONTENT, RP_REGDATE, RP_ID, RP_TYPE, RP_DELETE)
+		VALUES (RP_NUM_SEQ.NEXTVAL, #{RP_RID}, #{RP_BTYPE}, #{RP_RNUM}, #{RP_TITLE}, #{RP_CONTENT}, SYSDATE, #{RP_ID}, 'C', 'N')
+	]]>
+	</insert>
+	
+	<!-- [reportDelBrdUpdate] 신고 게시글 삭제 처리 -->
+	<update id="reportDelBrdUpdate" parameterType="hashmap">
+    <![CDATA[
+		UPDATE REPORT 
+		SET RP_DELETE = 'Y'
+		WHERE RP_RNUM = #{RP_RNUM} AND RP_TYPE = 'B'
+    ]]>
+	</update>
+	
+	<!-- [reportDelComUpdate] 신고 댓글 삭제 처리 -->
+	<update id="reportDelComUpdate" parameterType="hashmap">
+    <![CDATA[
+		UPDATE REPORT 
+		SET RP_DELETE = 'Y'
+		WHERE RP_RNUM = #{RP_RNUM} AND RP_TYPE = 'C'
+    ]]>
+	</update>
+
+</mapper>

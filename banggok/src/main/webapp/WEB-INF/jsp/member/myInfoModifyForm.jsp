@@ -108,7 +108,7 @@
     <!-- ************************* 회원 정보 수정 ************************** -->
         <div class="row contact-rooo no-margin">
         <div class="container">
-			<form id="modifyForm" name="modifyForm" method="POST" action="/bang/myInfoModify.tr">
+			<form id="modifyForm" name="modifyForm" method="POST" enctype="multipart/form-data" action="/bang/myInfoModify.tr">
                 <div style="padding:20px" class="col-sm-7">
                     <h2 >회원 정보 수정</h2> <br>
                     <div class="row cont-row">
@@ -144,7 +144,16 @@
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>휴대폰 번호</label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" name="MEM_PHONE" id="MEM_PHONE" placeholder="휴대폰 번호를 입력하세요." class="form-control input-sm"
-                        value="${map.MEM_PHONE}" ></div>
+                        value="${map.MEM_PHONE}" ><input type="hidden" name="MEM_BLOCK" value="N"></div>
+                    </div>
+                    
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>프로필</label><span>:</span></div>
+                        <div class="col-sm-8"><input type="file" name="MEM_IMAGE" id="MEM_IMAGE" class="form-control input-sm" ></div>
+                    </div>
+                    
+                    <div  class="row cont-row">
+                        <div  class="col-sm-8"><img style="border-radius: 50%;" src="resources/images/profile/${map.MEM_IMAGE}" alt="" ></div>
                     </div>
                     
                     <div style="margin-top:10px;" class="row">

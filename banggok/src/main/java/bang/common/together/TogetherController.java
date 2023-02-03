@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
 import bang.member.login.LoginService;
+import bang.common.report.ReportService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
@@ -27,6 +29,14 @@ public class TogetherController {
 	
 	@Resource(name = "loginService")
 	private LoginService loginService;
+
+	/* 댓글 */
+	@Resource(name = "commentService")
+	CommentService commentService;
+	
+	/* 신고 */
+	@Resource(name="reportService")
+	private ReportService reportService;
 
 	/* 동행게시판 리스트 */
 	@RequestMapping(value = "/togetherList.tr")
@@ -51,10 +61,19 @@ public class TogetherController {
 		
 		Map<String,Object> map = togetherService.togetherDetail(commandMap.getMap());
 		
+
 		Map<String,Object> memList = loginService.selectMemberId(commandMap.getMap());
+
+		/* 댓글 리스트 불러오기 */
+		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
+
 		
 		mv.addObject("map", map);
+
 		mv.addObject("memList",memList);
+
+		mv.addObject("comment", comment);
+
 		
 		return mv;
 	}
@@ -106,7 +125,11 @@ public class TogetherController {
 	@RequestMapping(value = "/togetherDelete.tr")
 	public ModelAndView boardDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/togetherList.tr");
+		
 		togetherService.togetherDelete(commandMap.getMap());
+		
+		/* 신고 게시글 삭제 처리 */
+		reportService.reportDelBrdUpdate(commandMap.getMap());
 
 		return mv; 
 	}

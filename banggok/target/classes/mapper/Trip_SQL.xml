@@ -180,6 +180,15 @@
 		]]>
 	</insert>
 	
+	<!-- [deleteSch] 일정 삭제 -->
+	<delete id="deleteSch" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+			FROM TRIPPLACE
+			WHERE TP_ID = #{TP_ID} AND TP_DATE = #{TP_DATE} AND TP_TRNUM IS NULL
+		]]>
+	</delete>
+	
 	<!-- [writePlaceList] 일정별 추가 장소 리스트(작성시) -->
 	<select id="writePlaceList" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[
@@ -191,7 +200,8 @@
 			TP_RADDRESS,
 			TP_PHONE,
 			TP_MAP_LAT,
-			TP_MAP_LNG
+			TP_MAP_LNG,
+			TP_DATE
 		FROM
 			TRIPPLACE
 		WHERE 
@@ -253,5 +263,34 @@
 		SET TR_SHARE = 'Y' WHERE TR_NUM = #{TR_NUM}
 	]]>
 	</update>
+	
+	<!-- [adminTripList] 관리자 - 여행 일정 공유 게시판 관리 -->
+	<select id="adminTripList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/>
+		 	<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY TR_NUM DESC) RNUM,
+				TR_NUM,
+				TR_ID,
+				TR_TITLE,
+				TR_CNT,
+				TR_LIKE,
+				TR_CONTENT,
+				TR_SUBCONTENT,
+				TR_REGDATE,
+				TR_SHARE,
+				TR_DATE
+			FROM
+				TRIP				
+			]]>
+			<trim prefix="WHERE" prefixOverrides="OR">
+				<if test="searchKeyword != NULL">
+					TR_TITLE LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
+				</if>
+			</trim>
+	 	<include refid="common.pagingPost"/>
+	</select>
 
 </mapper>

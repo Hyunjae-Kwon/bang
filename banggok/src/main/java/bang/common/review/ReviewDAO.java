@@ -44,22 +44,21 @@ public class ReviewDAO extends AbstractDAO {
 	public Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception {
 		return (Map<String, Object>)selectOne("review.reviewDetail", map);
 	}
-	
-	/* 여행후기 댓글 리스트 */
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>>reviewCommentList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList("review.reviewCommentList", map);
-	}
 
 	/* 여행후기 글쓰기 */
 	public void insertReview(Map<String, Object> map) {
 		insert("review.insertReview", map);
 	}
 	
-	/* 여행후기 수정 폼 */
+	/* 여행후기 글쓰기 - 썸네일 이미지 등록 */
+	public void reviewImageUpdate(Map<String, Object> map) {
+		update("review.reviewImageUpdate", map);
+	}
+	
+	/* RV_IMAGE 업데이트를 위한 최대 번호 구하기 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> reviewModifyForm(Map<String, Object> map)throws Exception{
-		return (Map<String, Object>)selectOne("review.reviewModifyForm", map); 
+	public Map<String, Object> maxRVNUM() throws Exception {
+		return (Map<String, Object>) selectOne("review.maxRVNUM");
 	}
 
 	/* 여행후기 수정 */
@@ -68,8 +67,8 @@ public class ReviewDAO extends AbstractDAO {
 	}
 	
 	/* 여행후기 삭제 */
-	public void reviewDel(Map<String, Object> map) throws Exception {
-		delete("review.reviewDel", map);
+	public void reviewDelete(Map<String, Object> map) throws Exception {
+		delete("review.reviewDelete", map);
 	}
 	
 	/* 마이페이지 여행후기 리스트 */
@@ -82,5 +81,11 @@ public class ReviewDAO extends AbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> searchReview(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>) selectList ("review.searchReview", map);
+	}
+	
+	/* 관리자 - 여행 후기 게시판 관리 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> adminReviewList(Map<String, Object> map) throws Exception{
+		return (Map<String, Object>)selectPagingList("review.adminReviewList", map);
 	}
 }

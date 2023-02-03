@@ -58,21 +58,6 @@
 		WHERE RV_NUM = #{RV_NUM}
      ]]>
 	</select>
-	
-	<!-- [reviewCommentList] 여행후기 게시판 댓글 목록 -->
-	<select id="reviewCommentList" parameterType="hashmap" resultType="hashmap">
-    <![CDATA[
-         SELECT 
-          	BC_BCID, 
-          	BC_NUM, 
-          	BC_COMMENT, 
-          	BC_REGDATE, 
-          	BC_ID      
-         FROM BOARDCOMMENT 
-         WHERE BC_NUM = #{RV_NUM} 
-         ORDER BY BC_BCID DESC
-    ]]>
-	</select>
    
    	<!-- [insertReview] 여행후기 게시판 글 작성 -->
 	<insert id="insertReview" parameterType="hashmap">
@@ -84,11 +69,30 @@
 		  	#{RV_ID}, 
 		  	0, 
 		  	0, 
-		  	#{RV_CONTENT}, 
-		  	#{RV_IMAGE}
+		  	#{RV_CONTENT},
+		  	''
 		)
 	]]>
 	</insert>
+	
+	<!-- [reviewImageUpdate] 여행후기 게시판 글 작성 - 썸네일 이미지 등록 -->
+	<insert id="reviewImageUpdate" parameterType="hashmap">
+	<![CDATA[
+		UPDATE REVIEW
+		SET RV_IMAGE = #{RV_IMAGE}
+		WHERE RV_NUM = #{RV_NUM}
+	]]>
+	</insert>
+	
+	<!-- [maxRVNUM] 여행 후기 번호 최대값 -->
+	<select id="maxRVNUM" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			MAX(RV_NUM) MAX 
+		FROM 
+			REVIEW
+	]]>
+	</select>
     
 	<!-- [searchReview] 여행 후기 검색 --><!-- 메인검색에서 사용 -->
 	<select id="searchReview" parameterType="hashmap" resultType="hashmap">
@@ -151,5 +155,47 @@
 		SET RV_LIKE = RV_LIKE + 1 WHERE RV_NUM = #{RV_NUM}
 	]]>
 	</update>
+	
+	<!-- [reviewModify] 글수정 -->
+	<update id="reviewModify" parameterType="hashmap">
+		<![CDATA[
+			UPDATE REVIEW
+			SET
+				RV_TITLE = #{RV_TITLE},
+				RV_CONTENT = #{RV_CONTENT},
+				RV_IMAGE = #{RV_IMAGE}
+			WHERE
+				RV_NUM = #{RV_NUM}	
+		]]>
+	</update>
+
+	<!-- [reviewDel] 글삭제 -->
+	<delete id="reviewDelete" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+				FROM REVIEW
+				WHERE RV_NUM=#{RV_NUM}
+		]]>
+	</delete>
+	
+	<!-- [adminReviewList] 관리자 - 여행 후기 게시판 관리 -->
+	<select id="adminReviewList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY RV_NUM DESC) RNUM,
+				RV_NUM,
+				RV_TITLE,
+				RV_REGDATE,
+				RV_ID,
+				RV_CNT,
+				RV_LIKE,
+				RV_CONTENT,
+				RV_IMAGE
+			FROM
+				REVIEW
+		]]>
+		<include refid="common.pagingPost"/>
+	</select>
 
 </mapper>

@@ -140,9 +140,7 @@
 	                    <div class="dest-col">
 	                        <div class="dest-img">
 	                        	<a href="/bang/recommendDetail.tr?RC_NUM=${list.RC_NUM}">
-		                    		<img src="resources/images/destination/d2.jpg" alt="">
-		                    		<!-- 여행지 추천 작성 시 이미지 번호를 사용하여 이미지 호출, 지금은 생성이 안되니 우선 주석 -->
-		                    		<%-- <img src="resources/images/recommend/recommend_main_${list.RC_NUM}.png" alt=""> --%>
+	                    			<img src="${list.RC_IMAGE}" alt="썸네일 없음" style="width: 340px; height: 245px; object-fit: contain;">
 		                    	</a>
 	                        </div>
 	                        <h3>${list.RC_TITLE}</h3>
@@ -197,9 +195,7 @@
 		            <div class="col-lg-4 col-md-6 col-sm-6">
 		               <div class="blog-col">
 		               		<a href="/bang/reviewDetail.tr?RV_NUM=${list.RV_NUM}">
-	                    		<img src="resources/images/destination/d1.jpg" alt="">
-	                    		<!-- 여행 후기 작성 시 이미지 번호를 사용하여 이미지 호출, 지금은 여행 후기가 생성이 안되니 우선 주석 -->
-	                    		<%-- <img src="resources/images/review/${list.RV_IMAGE}" alt=""> --%>
+	                    		<img src="${list.RV_IMAGE}" alt="썸네일 없음" style="width: 360px; height: 260px; object-fit: contain;">
 	                    	</a>
 		                    <span>${list.RV_REGDATE}</span>
 		                    <span style="float: right;">${list.RV_ID}</span>
@@ -213,171 +209,5 @@
             </div>
         </div>
     </div>  
-    
-    <!-- ################# Why Choos US Starts Here #######################--->   
-    <div class="why-choos-us container-fluid">
-       <div class="container">
-          <div class="session-title">
-                <h2>Why Choos Us ?</h2>
-                <p>Sagittis vulputate magna sagittis sagittis erat feugiat nullam cubilia amet dignissim Euismod.</p>
-            </div>
-            <div class="why-ro row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="col-card">
-                        <div class="icon">
-                            <i class="far fa-calendar-plus"></i>
-                        </div>
-                        <div class="detail">
-                            <h4>Easy Booking</h4>
-                            <p>Turpis accumsan. Proin id ligula suspendisse. Aliquet fringilla, aptent eu dignissim.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="col-card">
-                        <div class="icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="detail">
-                            <h4>Value for Money</h4>
-                            <p>Turpis accumsan. Proin id ligula suspendisse. Aliquet fringilla, aptent eu dignissim.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="col-card">
-                        <div class="icon">
-                           <i class="far fa-heart"></i>
-                        </div>
-                        <div class="detail">
-                            <h4>Passionate Travel</h4>
-                            <p>Turpis accumsan. Proin id ligula suspendisse. Aliquet fringilla, aptent eu dignissim.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="col-card">
-                        <div class="icon">
-                           <i class="fas fa-map-marked-alt"></i>
-                        </div>
-                        <div class="detail">
-                            <h4>Awesome Places</h4>
-                            <p>Turpis accumsan. Proin id ligula suspendisse. Aliquet fringilla, aptent eu dignissim.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="col-card">
-                        <div class="icon">
-                            <i class="fas fa-car"></i>
-                        </div>
-                        <div class="detail">
-                            <h4>Diverse Destinations</h4>
-                            <p>Turpis accumsan. Proin id ligula suspendisse. Aliquet fringilla, aptent eu dignissim.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="col-card">
-                        <div class="icon">
-                            <i class="far fa-comments"></i>
-                        </div>
-                        <div class="detail">
-                            <h4>24 x 7 Support</h4>
-                            <p>Turpis accumsan. Proin id ligula suspendisse. Aliquet fringilla, aptent eu dignissim.</p>
-                        </div>
-                    </div>
-                </div>
-                
-            </div> 
-       </div>
-    </div>
-    
-    <!--################### Tour Type Starts Here #######################--->
-       <div id="why" class="our-capablit container-fluid">
-           <div class="layy">
-               <div class="container">
-                  <div class="session-title">
-                    <h2>Tour Type</h2>
-                </div>
-                  <div class="row mt-5">
-                    <div class="col-md-3 col-sm-6">
-                       <div class="cap-det">
-                           <div class="icon">
-                               <i class="fas fa-walking"></i>
-                           </div>
-                           <h6>Walking</h6>
-                       </div>
-                   </div>
-                    <div class="col-md-3 col-sm-6">
-                       <div class="cap-det">
-                           <div class="icon">
-                               <i class="fas fa-car"></i>
-                           </div>
-                           <h6>Safari</h6>
-                       </div>
-                   </div>
-                    <div class="col-md-3 col-sm-6">
-                       <div class="cap-det">
-                           <div class="icon">
-                              <i class="fas fa-fire"></i>
-                           </div>
-                           <h6>Camp Fire</h6>
-                       </div>
-                   </div>
-                   
-                    <div class="col-md-3 col-sm-6">
-                       <div class="cap-det">
-                           <div class="icon">
-                               <i class="fab fa-fly"></i>
-                           </div>
-                           <h6>Air Ride</h6>
-                          
-                       </div>
-                   </div>
-                   
-                    <div class="col-md-3 col-sm-6">
-                       <div class="cap-det">
-                           <div class="icon">
-                               <i class="fas fa-ship"></i>
-                           </div>
-                           <h6>Cruise</h6>
-                          
-                       </div>
-                   </div>
-                   
-                    <div class="col-md-3 col-sm-6">
-                       <div class="cap-det">
-                           <div class="icon">
-                               <i class="fas fa-suitcase-rolling"></i>
-                           </div>
-                           <h6>Hiking</h6>
-                          
-                       </div>
-                   </div>
-                   
-                    <div class="col-md-3 col-sm-6">
-                       <div class="cap-det">
-                           <div class="icon">
-                              <i class="fas fa-hippo"></i>
-                           </div>
-                           <h6>Wild Life</h6>
-                          
-                       </div>
-                   </div>
-                   
-                    <div class="col-md-3 col-sm-6">
-                       <div class="cap-det">
-                           <div class="icon">
-                               <i class="fas fa-baseball-ball"></i>
-                           </div>
-                           <h6>Sports</h6>
-                          
-                       </div>
-                   </div>
-                  </div>
-               </div>
-           </div>
-       </div>
     </body>
 </html>

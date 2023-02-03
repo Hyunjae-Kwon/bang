@@ -40,6 +40,9 @@ public interface TripService {
 	/* 여행 일정 만들기 */
 	void tripWrite(Map<String, Object> map) throws Exception;
 	
+	/* 일정 삭제 */
+	void deleteSch(Map<String, Object> map) throws Exception;
+	
 	/* 일정별 추가 장소 리스트(작성시) */
 	List<Map<String, Object>> writePlaceList(Map<String, Object> map,  HttpServletRequest request) throws Exception;
 
@@ -60,5 +63,8 @@ public interface TripService {
 	
 	/* 여행 일정 공유하기 */
 	void tripShare(Map<String, Object> map) throws Exception;
+	
+	/* 관리자 - 여행 일정 공유 게시판 관리 */
+	Map<String, Object> adminTripList(Map<String, Object> map) throws Exception;
 
 }

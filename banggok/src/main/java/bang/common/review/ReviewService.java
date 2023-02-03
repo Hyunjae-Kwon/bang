@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 public interface ReviewService {
 	
 	/* 메인 페이지 - 최신 여행 후기 3개 */
@@ -22,11 +24,8 @@ public interface ReviewService {
 	/* 여행후기 상세 */
 	Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception;
 
-	/* 여행후기 댓글 리스트 */
-	public List<Map<String, Object>> reviewCommentList(Map<String, Object> map) throws Exception;
-
 	/* 여행후기 글쓰기 */
-	void insertReview(Map<String, Object> map) throws Exception;
+	void insertReview(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
 	
 	/* 여행 후기 검색 */
 	List<Map<String, Object>> searchReview(Map<String, Object> map, HttpServletRequest request) throws Exception;
@@ -34,13 +33,13 @@ public interface ReviewService {
 	/* 마이페이지 여행후기 리스트 리스트 */
 	Map<String,Object> myReviewList(Map<String,Object> map) throws Exception;
 	
-	/* 여행후기 수정 폼 */
-	Map<String, Object> reviewModifyForm(Map<String, Object> map) throws Exception;
-	 
 	/* 여행후기 수정 */
 	void reviewModify(Map<String, Object> map) throws Exception;
 	
 	/* 여행후기 삭제 */
-	void reviewDel(Map<String, Object> map) throws Exception;
+	void reviewDelete(Map<String, Object> map) throws Exception;
+	
+	/* 관리자 - 여행 후기 게시판 관리 */
+	Map<String,Object> adminReviewList(Map<String,Object> map) throws Exception;
 
 }

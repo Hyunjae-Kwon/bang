@@ -1,5 +1,5 @@
 package bang.common.review;
-
+  
 import java.util.List;
 import java.util.Map;
 
@@ -12,11 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
+import bang.common.report.ReportService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-
+  
 /* Controller 객체임을 선언 */
 @Controller
 public class ReviewController {
@@ -26,6 +29,14 @@ public class ReviewController {
 	
 	@Resource(name = "reviewService")
 	private ReviewService reviewService;
+	
+	/* 댓글 */
+	@Resource(name = "commentService")
+	CommentService commentService;
+	
+	/* 신고 */
+	@Resource(name="reportService")
+	private ReportService reportService;
 	
 	/* 여행 후기 폼(전체&검색) */
 	@RequestMapping(value = "/reviewList.tr", method=RequestMethod.GET)
@@ -130,11 +141,11 @@ public class ReviewController {
 		/* 여행후기 디테일 */
 		Map<String,Object> review = reviewService.reviewDetail(commandMap.getMap());
 		
-		/* 여행후기 댓글 리스트*/
-		List<Map<String, Object>> reviewCommentList = reviewService.reviewCommentList(commandMap.getMap());
+		/* 댓글 리스트 불러오기 */
+		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
 		
 		mv.addObject("review", review);
-		mv.addObject("reviewCommentList", reviewCommentList);
+		mv.addObject("comment", comment);
 		
 		return mv;
 	}
@@ -150,10 +161,10 @@ public class ReviewController {
 	/* 여행후기 글쓰기 */
 	@RequestMapping(value="/reviewWrite.tr", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView reviewWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	public ModelAndView reviewWrite(CommandMap commandMap, HttpServletRequest request, MultipartHttpServletRequest fileRequest) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
 
-		reviewService.insertReview(commandMap.getMap());
+		reviewService.insertReview(commandMap.getMap(), fileRequest);
 
 		HttpSession session = request.getSession();
 		String RV_ID = (String) session.getValue("MEM_ID");
@@ -165,7 +176,7 @@ public class ReviewController {
 	@RequestMapping(value="/reviewModifyForm.tr") 
 	public ModelAndView reviewModifyForm(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/review/reviewModifyForm");
-		Map<String, Object> map = reviewService.reviewModifyForm(commandMap.getMap());
+		Map<String, Object> map = reviewService.reviewDetail(commandMap.getMap());
 
 		mv.addObject("review", map);
 
@@ -200,12 +211,26 @@ public class ReviewController {
 		return mv;
 	}
 	
+	/* 여행후기 글수정 */
+	@RequestMapping(value = "/reviewModify.tr")
+	public ModelAndView togetherModify(CommandMap commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/reviewDetail.tr");
+
+		reviewService.reviewModify(commandMap.getMap());
+
+		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
+		return mv;
+	}
+	
 	/* 여행후기 삭제 */
-	@RequestMapping(value = "/reviewDel.tr")
-	public ModelAndView reviewDel(CommandMap commandMap) throws Exception {
+	@RequestMapping(value = "/reviewDelete.tr")
+	public ModelAndView reviewDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
 		
-		reviewService.reviewDel(commandMap.getMap());
+		reviewService.reviewDelete(commandMap.getMap());
+		
+		/* 신고 게시글 삭제 처리 */
+		reportService.reportDelBrdUpdate(commandMap.getMap());
 
 		return mv;      
 	}

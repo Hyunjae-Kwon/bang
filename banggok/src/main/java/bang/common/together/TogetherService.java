@@ -30,4 +30,7 @@ public interface TogetherService {
 	
 	/* 마이페이지 동행 리스트 */
 	Map<String, Object> myTogetherList(Map<String, Object> map) throws Exception;
+	
+	/* 관리자 - 동행 구하기 게시판 관리 */
+	Map<String, Object> adminTogetherList(Map<String, Object> map) throws Exception;
 }

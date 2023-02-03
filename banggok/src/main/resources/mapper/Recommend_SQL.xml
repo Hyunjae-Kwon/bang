@@ -80,7 +80,7 @@
     ]]>
 	</update>
 	
-	<!-- 여행지추천글 쓰기 -->
+	<!-- [insertRecommend] 여행지추천글 쓰기 -->
 	<insert id="insertRecommend" parameterType="hashmap"> 
 	<![CDATA[
 			INSERT
@@ -93,10 +93,29 @@
 				0,
 				0,
 				#{RC_CONTENT},
-				#{RC_IMAGE}
+				''
 				)
 		]]>
 	</insert>
+	
+	<!-- [recommendImageUpdate] 여행지 추천 게시판 글 작성 - 썸네일 이미지 등록 -->
+	<insert id="recommendImageUpdate" parameterType="hashmap">
+	<![CDATA[
+		UPDATE RECOMMEND
+		SET RC_IMAGE = #{RC_IMAGE}
+		WHERE RC_NUM = #{RC_NUM}
+	]]>
+	</insert>
+	
+	<!-- [maxRCNUM] 여행지 추천 번호 최대값 -->
+	<select id="maxRCNUM" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			MAX(RC_NUM) MAX 
+		FROM 
+			RECOMMEND
+	]]>
+	</select>
 	
 	<!-- [deleteRecommend] 여행지 추천 게시글 삭제하기 -->
 	<delete id="deleteRecommend" parameterType="hashmap">
@@ -181,5 +200,25 @@
 			WHERE BC_BCID=#{BC_BCID}
    	]]>
 	</delete>
+	
+	<!-- [adminRecommendList] 관리자 - 여행지 추천 게시판 관리 -->
+	<select id="adminRecommendList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY RC_NUM DESC) RNUM,
+				RC_NUM,
+				RC_TITLE,
+				RC_REGDATE,
+				RC_ID,
+				RC_CNT,
+				RC_LIKE,
+				RC_CONTENT,
+				RC_IMAGE
+			FROM
+				RECOMMEND
+		]]>
+		<include refid="common.pagingPost"/>
+	</select>
 
 </mapper>

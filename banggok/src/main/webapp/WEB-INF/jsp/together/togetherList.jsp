@@ -9,20 +9,26 @@
 <head>
 
 </head>
+<link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>"/>
 
 <body>
 	<!--  ************************* Page Title Starts Here ************************** -->
-	<div class="page-nav no-margin row"> 
-		<div class="container">
-			<div class="row">
-				<h2>동행게시판</h2>
-			</div>
-		</div>
-	</div>
+   <div class="page-nav no-margin row">
+        <div class="container">
+            <div class="row">
+                <h2>동행</h2>
+                <ul>
+                    <li> <a href="togetherWriteForm.tr"><i class="fas fa-blog"></i>글쓰기</a></li>                 
+                    <li><i class="fas fa-angle-double-right"></i>Together</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 	<!-- ################# 게시물 Starts Here #######################--->
-	<div class="popular-pack  container-fluid">
-		<div class="container">
-			<table style="border: 1px solid #ccc" width="100%">
+	<br><br>
+	<div class="board-list">
+		<div class="container" align="center">
+			<table class="board-table">
 				<colgroup>
 					<col width="10%" />
 					<col width="*" />
@@ -62,25 +68,26 @@
 					</c:choose>
 				</tbody>
 			</table>
+			<br>
+	<c:if test="${not empty paginationInfo}">
+		<ui:pagination paginationInfo = "${paginationInfo}" type="text" jsFunction="fn_search"/>
+	</c:if>
+	<input type="hidden" id="currentPageNo" name="currentPageNo"/>
 	
 		</div>
+		
 		<div>
 			<form action="/bang/searchTogether.tr" method="GET">
 				<button class="search-btn" onClick="form.submit()" style="width: 30px; height: 30px; margin-top: 5px;"><i class="fas fa-search" style="margin: 0px;"></i></button>
 				<input type="text" id="searchKeyword" name="searchKeyword" placeholder=" 검색어를 입력하세요." style="height: 30px; float: right; border-radius:30px; margin-right: 3px; margin-top: 5px; padding-left: 6px;">
 			</form>
 			
+			
 		</div>
 			
-		 <div align="center"> 
-			<input type="button" value="글쓰기" class="btn btn-outline-success" style="height:55px;" onClick="return fn_openWriteForm()">
-		</div>
+		<br><br><br>
 	
-		<c:if test="${not empty paginationInfo}">
-		<ui:pagination paginationInfo = "${paginationInfo}" type="text" jsFunction="fn_search"/>
-	</c:if>
-	<input type="hidden" id="currentPageNo" name="currentPageNo"/>
-	
+		
 	</div>
 	
 	

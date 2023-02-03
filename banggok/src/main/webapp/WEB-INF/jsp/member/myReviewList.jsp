@@ -11,12 +11,6 @@
 </head>
 <link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>"/>
 <body>
-<!-- ################# Header Starts Here#######################--->
-
-
- 
-
-    
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -29,11 +23,8 @@
             </div>
         </div>
     </div>
-    
-    
      <!--*************** Blog Starts Here ***************-->
  <br>
- 
 <div class="board-list">
 		<div class="container">
 			<table class="board-table">

@@ -50,6 +50,17 @@ public class RecommendDAO extends AbstractDAO {
 		insert("recommend.insertRecommend", map);
 	}
 	
+	/* 여행지 추천 게시글 작성하기 - 썸네일 이미지 등록 */
+	public void recommendImageUpdate(Map<String, Object> map) {
+		update("recommend.recommendImageUpdate", map);
+	}
+	
+	/* RC_IMAGE 업데이트를 위한 최대 번호 구하기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> maxRCNUM() throws Exception {
+		return (Map<String, Object>) selectOne("recommend.maxRCNUM");
+	}
+	
 	/* 여행지 추천 게시글 삭제하기 */
 	public void deleteRecommend(Map<String, Object> map) throws Exception {
 		delete("recommend.deleteRecommend", map);
@@ -72,20 +83,10 @@ public class RecommendDAO extends AbstractDAO {
 		update("recommend.recommendLike", map);       
 	}
 	
-	/* 댓글목록 */
+	/* 관리자 - 여행지 추천 게시판 관리 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>>rcCommentList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>) selectList("recommend.rcCommentList", map);
-	}
-	
-	/* 댓글입력 */
-	public void rcCommentWrite(Map<String, Object> map) throws Exception{
-		insert("recommend.rcCommentWrite",map);
-	}
-	
-	/* 댓글삭제 */
-	public void rcCommentDelete(Map<String, Object> map) throws Exception {
-		delete("recommend.rcCommentDelete", map);	
+	public Map<String, Object> adminRecommendList(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectPagingList ("recommend.adminRecommendList", map); 
 	}
 	
 }

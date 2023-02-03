@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 public interface RecommendService {
 	
 	/* 메인 페이지 - 추천 여행지 3개 */
@@ -23,7 +25,7 @@ public interface RecommendService {
 	Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception;   
 	
 	/* 여행지 추천 게시글 작성하기 */
-	void insertRecommend(Map<String, Object> map) throws Exception;
+	void insertRecommend(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
 	
 	/* 여행지 추천 게시글 삭제하기 */
 	void deleteRecommend(Map<String, Object> map) throws Exception;
@@ -37,14 +39,6 @@ public interface RecommendService {
 	/* 추천하기 */
 	void recommendLike(Map<String, Object> map) throws Exception;
 	
-	/* 댓글리스트 */
-	public List<Map<String, Object>> rcCommentList(Map<String, Object> map) throws Exception;
-	
-	/* 댓글쓰기 */
-	public void rcCommentWrite(Map<String, Object> map)throws Exception;
-	
-	/* 댓글삭제 */
-	public void rcCommentDelete(Map<String, Object> map) throws Exception;
-
-	
+	/* 관리자 - 여행지 추천 게시판 관리 */
+	Map<String,Object> adminRecommendList(Map<String,Object> map) throws Exception;
 }
