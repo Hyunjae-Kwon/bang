@@ -49,6 +49,17 @@ public class ReviewDAO extends AbstractDAO {
 	public void insertReview(Map<String, Object> map) {
 		insert("review.insertReview", map);
 	}
+	
+	/* 여행후기 글쓰기 - 썸네일 이미지 등록 */
+	public void reviewImageUpdate(Map<String, Object> map) {
+		update("review.reviewImageUpdate", map);
+	}
+	
+	/* RV_IMAGE 업데이트를 위한 최대 번호 구하기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> maxRVNUM() throws Exception {
+		return (Map<String, Object>) selectOne("review.maxRVNUM");
+	}
 
 	/* 여행후기 수정 */
 	public void reviewModify(Map<String, Object> map)throws Exception{

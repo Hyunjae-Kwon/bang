@@ -6,14 +6,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
-  <!-- 서머노트를 위해 추가해야할 부분 -->
-  <script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
-  <script src="${pageContext.request.contextPath}/resources/summernote/summernote-ko-KR.js"></script>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
-
+<!-- 서머노트를 위해 추가해야할 부분 -->
+<script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
+<script src="${pageContext.request.contextPath}/resources/summernote/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
 </head>
-
 <body>
 	<!--  ************************* Page Title Starts Here ************************** -->
 	 <div class="page-nav no-margin row">
@@ -28,28 +25,46 @@
         </div>
     </div>
 	<!-- ################# 게시물 Starts Here #######################--->
-	
-
-	 <!-- 폼 -->
-    <form id="frm" name="frm" action="<c:url value='/togetherWrite.tr'/>" method="post">
-	
-	<!-- 제목 입력 부분 -->
-    <input type="text" placeholder="제목을 입력하세요" id="TG_TITLE" name="TG_TITLE" class="form-control input-sm">
-    
-    <!-- 쿼리문 동작을 위해 hidden으로 숨겨놓음 -->
-    <input type="hidden" id="TG_ID" name="TG_ID" value="${MEM_ID}"/>
-    
-    <!-- 글 작성 폼 -->
-    <textarea id="summernote"  name="TG_CONTENT"></textarea>
-  
-	</form>
-	  <!-- 버튼 가운데 정렬 -->
-     <div style="text-align: center;">
-    <button id="write" class="btn btn-outline-success" onclick="return fn_insertBoard()">작성</button>
-	<button id="close" class="btn btn-outline-success" onclick="return fn_openList()">취소</button>
+	<br>
+	<form id="frm" name="frm" action="<c:url value='/togetherWrite.tr'/>" method="post" encType="multipart/form-data">
+	<div class="board-list">
+		<div class="container" style="margin-left: 170px;">
+			<table class="board-table">
+				<tbody>
+					<tr>
+						<td>
+							<!-- 제목 입력 부분 -->
+				    		<input type="text" placeholder="제목을 입력하세요" id="TG_TITLE" name="TG_TITLE" class="form-control input-sm">
+						</td>
+					</tr>
+					<tr>
+						<td>
+						    <!-- 쿼리문 동작을 위해 hidden으로 숨겨놓음 -->
+						    <input type="hidden" id="TG_ID" name="TG_ID" value="${MEM_ID}"/>
+					    </td>
+					</tr>
+					<tr>
+						<td>
+						    <!-- 글 작성 폼 -->
+						    <textarea id="summernote"  name="TG_CONTENT"></textarea>
+					    </td>
+					</tr>
+					<tr>
+						<td>
+							<!-- 버튼 가운데 정렬 -->
+							<div style="text-align: center;">
+								<br>
+								<button id="write" class="btn btn-outline-success" onclick="return fn_insertBoard()">작성</button>
+								<button id="close" class="btn btn-outline-success" onclick="return fn_openList()">취소</button>
+							</div>
+							<br>
+						</td>
+					</tr>	
+				</tbody>
+			</table>
+		</div>
 	</div>
-	
-
+	</form>
 	<%@ include file="/WEB-INF/include/include-body.jspf"%>
 
 	<script type="text/javascript">
@@ -128,11 +143,7 @@
             	}
             }
       }); 
-	
-		/* 파일 업로드를 위한 Ajax */
-	
     </script>
-
 </body>
 
 </html>

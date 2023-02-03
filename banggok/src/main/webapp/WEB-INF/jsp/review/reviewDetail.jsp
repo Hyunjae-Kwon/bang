@@ -82,35 +82,37 @@
 				<c:choose>
 					<c:when test="${fn:length(comment) > 0}">
 						<c:forEach var="list" items="${comment}">
-							<div>
+							<c:if test="${list.BC_TYPE eq 'R'}">
 								<div>
-									<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
-									<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
+									<div>
+										<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
+										<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
+									</div>
+									<tbody class="items">			
+										<tr>
+											<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
+											<td align="center" colspan="3">${list.BC_COMMENT }</td>
+											<td align="center" style="font-weight: bold;">
+											<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
+											</td>
+											<td>
+												<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
+												<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID }">
+												<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
+												<c:if test="${MEM_ID != null}">
+													<input type="button" class="com btn btn-outline-success" value="답글">			
+													<input type="button" class="com del btn btn-outline-success" value="신고" name="reportCom">
+												</c:if>	
+												<c:if test="${MEM_ID eq list.BC_ID}">
+													<input type="button" class="com del btn btn-outline-success" onClick="comDelete(${list.BC_BCID})" value="삭제">
+												</c:if>
+											</td>
+										</tr>
+										<!-- 댓글 신고하기 입력 칸 -->
+										<tr class="reportSpace"></tr>
+									</tbody>
 								</div>
-								<tbody class="items">			
-									<tr>
-										<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
-										<td align="center" colspan="3">${list.BC_COMMENT }</td>
-										<td align="center" style="font-weight: bold;">
-										<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
-										</td>
-										<td>
-											<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
-											<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID }">
-											<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
-											<c:if test="${MEM_ID != null}">
-												<input type="button" class="com btn btn-outline-success" value="답글">			
-												<input type="button" class="com del btn btn-outline-success" value="신고" name="reportCom">
-											</c:if>	
-											<c:if test="${MEM_ID eq list.BC_ID}">
-												<input type="button" class="com del btn btn-outline-success" onClick="comDelete(${list.BC_BCID})" value="삭제">
-											</c:if>
-										</td>
-									</tr>
-									<!-- 댓글 신고하기 입력 칸 -->
-									<tr class="reportSpace"></tr>
-								</tbody>
-							</div>
+							</c:if>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>

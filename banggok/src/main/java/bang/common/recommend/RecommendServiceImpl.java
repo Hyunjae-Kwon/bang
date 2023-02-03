@@ -1,5 +1,6 @@
 package bang.common.recommend;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import bang.common.common.FileUtils;
 
 @Service("recommendService")
 public class RecommendServiceImpl implements RecommendService {
@@ -15,6 +19,9 @@ public class RecommendServiceImpl implements RecommendService {
 	
 	@Resource(name="recommendDAO")
 	private RecommendDAO recommendDAO;
+	
+	@Resource(name="fileUtils")
+	private FileUtils fileUtils;
 
 	/* 메인 페이지 - 추천 여행지 3개 */
 	@Override
@@ -51,8 +58,25 @@ public class RecommendServiceImpl implements RecommendService {
 	
 	/* 여행지 추천 게시글 작성하기 */
 	@Override 
-	public void insertRecommend(Map<String, Object> map) throws Exception { 
+	public void insertRecommend(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception { 
 		recommendDAO.insertRecommend(map);
+		
+		Map<String, Object> maxMap = new HashMap<String, Object>();
+		maxMap = recommendDAO.maxRCNUM();
+		
+		int maxTR;
+		if(maxMap == null) {
+			maxTR = 0;
+		} else {
+			maxTR = Integer.parseInt(String.valueOf(maxMap.get("MAX")));
+		}
+		
+		Map<String, Object> file = fileUtils.parseInsertFileInfo(map, request);
+		
+		file.put("RC_IMAGE", file.get("IMAGE"));
+		file.put("RC_NUM", maxTR);
+		
+		recommendDAO.recommendImageUpdate(file);
 	}
 	
 	/* 여행지 추천 게시글 삭제하기 */

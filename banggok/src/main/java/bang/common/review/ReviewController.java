@@ -1,5 +1,5 @@
 package bang.common.review;
-
+  
 import java.util.List;
 import java.util.Map;
 
@@ -9,17 +9,17 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
 import bang.common.report.ReportService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-
+  
 /* Controller 객체임을 선언 */
 @Controller
 public class ReviewController {
@@ -161,10 +161,10 @@ public class ReviewController {
 	/* 여행후기 글쓰기 */
 	@RequestMapping(value="/reviewWrite.tr", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView reviewWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	public ModelAndView reviewWrite(CommandMap commandMap, HttpServletRequest request, MultipartHttpServletRequest fileRequest) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
 
-		reviewService.insertReview(commandMap.getMap());
+		reviewService.insertReview(commandMap.getMap(), fileRequest);
 
 		HttpSession session = request.getSession();
 		String RV_ID = (String) session.getValue("MEM_ID");

@@ -238,7 +238,7 @@ $(document).ready(function(){
         <div class="container">
             <div >
                 <div style="padding:20px" class="col-sm-11">
-                <form id="joinForm" name="joinForm" method="POST" action="/bang/joinSuccess.tr"> 
+                <form id="joinForm" name="joinForm" method="POST" enctype="multipart/form-data" action="/bang/joinSuccess.tr"> 
                     <div class="row cont-row">
                         <div  class="col-sm-3"><label>아이디 </label></div>
                         <div class="col-sm-4"><input type="text" id="memId" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
@@ -279,7 +279,12 @@ $(document).ready(function(){
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>휴대폰 번호</label></div>
                         <div class="col-sm-4"><input type="text" id="MEM_PHONE"name="MEM_PHONE" placeholder="연락처 " class="form-control input-sm" maxlength="11" ></div>
-                    </div>                
+                    </div>      
+				   	                      
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>프로필</label></div>
+                        <div class="col-sm-4"><input type="file" id="MEM_IMAGE"name="MEM_IMAGE" class="form-control input-sm" ></div>
+                    </div>             
                     
 					<div align="center" class="row cont-row">
 					<div class="col-sm-3"></div>	

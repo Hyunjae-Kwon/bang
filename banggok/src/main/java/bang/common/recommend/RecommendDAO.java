@@ -50,6 +50,17 @@ public class RecommendDAO extends AbstractDAO {
 		insert("recommend.insertRecommend", map);
 	}
 	
+	/* 여행지 추천 게시글 작성하기 - 썸네일 이미지 등록 */
+	public void recommendImageUpdate(Map<String, Object> map) {
+		update("recommend.recommendImageUpdate", map);
+	}
+	
+	/* RC_IMAGE 업데이트를 위한 최대 번호 구하기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> maxRCNUM() throws Exception {
+		return (Map<String, Object>) selectOne("recommend.maxRCNUM");
+	}
+	
 	/* 여행지 추천 게시글 삭제하기 */
 	public void deleteRecommend(Map<String, Object> map) throws Exception {
 		delete("recommend.deleteRecommend", map);

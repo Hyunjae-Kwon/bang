@@ -1,11 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/include/include-header.jspf" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,9 +17,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
 
 </head>
-
     <body>
-    
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -36,57 +30,96 @@
             </div>
         </div>
     </div>
-    
-     <!--*************** Blog Starts Here ***************-->
-        
-    <!-- 폼 -->
-    <form id="insertRecommend" name="insertRecommend" enctype="multipart/form-data" action="<c:url value='/recommendWrite.tr'/>" method="post">
-                     
-	<!-- 제목 입력 부분 -->
-    <input type="text" placeholder="제목을 입력하세요" id="RC_TITLE" name="RC_TITLE" class="form-control input-sm">
-   <!--  추가 --> 
-    <input type="hidden" id="RC_NUM" name="RC_NUM" value="${RC_NUM}"/> 
-    <input type="hidden" id="RC_ID" name="RC_ID" value="${MEM_ID}"/>
-    <input type="hidden" id="RC_IMAGE" name="RC_IMAGE" value="${RC_IMAGE }" />   
- 
-    <!-- 글 작성 폼 -->
-   <textarea id="summernote" class="RC_CONTENT" name="RC_CONTENT"></textarea>
-    
-    <!-- 버튼 가운데 정렬 -->
-    <div style="text-align: center;">
-    <button id="frm" class="btn btn-primary" onclick="insertRecommend()" type="submit">작성</button>
-	<button id="close" class="btn btn-primary" onclick="location.href='/bang/recommendList.tr'" type="button">취소</button>
+    <!--*************** Blog Starts Here ***************-->
+    <br>
+	<br>
+	<form id="frm" name="frm" action="<c:url value='/recommendWrite.tr'/>" method="post" encType="multipart/form-data">
+	<div class="board-list">
+		<div class="container" style="margin-left: 250px;">
+			<table class="board-table">
+				<tbody>
+					<tr>
+						<td>썸네일 이미지 등록 : <input type="file" id="RC_IMAGE" name="RC_IMAGE" value=""></td>
+					</tr>
+					<!-- 파일 이미지 출력  -->
+					<tr>
+						<td>
+							<b><label style="color:slategray">상품 이미지 미리보기</label></b>
+							<img src="resources/images/banggok_logo.png" width="100" border="0" id="preview-image">
+							<script>
+								// input file에 change 이벤트 부여
+								const inputImage = document.getElementById("RC_IMAGE");
+								inputImage.addEventListener("change", e=> {
+									readImage(e.target)
+								});
+							</script>
+						</td>
+					</tr>
+					<!-- 제목 입력 부분 -->
+					<tr>
+						<td>
+							<input type="text" placeholder="제목을 입력하세요" id="RC_TITLE" name="RC_TITLE" class="form-control input-sm">
+							<!-- 쿼리문 동작을 위해 hidden으로 숨겨놓음 -->
+						    <input type="hidden" id="RC_NUM" name="RC_NUM" value="${RC_NUM}"/> 
+    						<input type="hidden" id="RC_ID" name="RC_ID" value="${MEM_ID}"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							 <!-- 글 작성 폼 -->
+   							 <textarea id="summernote" class="RC_CONTENT" name="RC_CONTENT"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<!-- 버튼 가운데 정렬 -->
+						    <div style="text-align: center;">
+						    <button class="btn btn-primary" onclick="return insertRecommend()">작성</button>
+							<button class="btn btn-primary" onclick="location.href='/bang/recommendList.tr'">취소</button>
+							</div>
+							<br>
+						</td>
+					</tr>					 
+				</tbody>
+			</table>
+		</div>
 	</div>
-	
 	</form>
 
 	<!-- 글 작성 자바스크립트 -->
 	<script>
-	function fn_insertRecommend(){
+ 	function insertRecommend(){
+	    var comSubmit = new ComSubmit("frm");
+	    comSubmit.setUrl("/bang/recommendWrite.tr");
+	    
+		var RC_TITLE = document.getElementById("RC_TITLE").value;
+		var RC_CONTENT = document.getElementById("summernote").value;
+		var RC_IMAGE = document.getElementById("RC_IMAGE").value;
+		
+		if (!RC_TITLE) {
+			alert("제목을 입력하세요.");
+			$("#RV_TITLE").focus();		/* #은 Id */
+			return false;
+		}
 
-		    var comSubmit = new ComSubmit("frm");
-		      comSubmit.setUrl("/bang/recommendWrite.tr");
-			var RC_TITLE = document.getElementById("RC_TITLE").value;
-			var RC_CONTENT = document.getElementByClassName("RC_CONTENT").value;
+		if (!RC_CONTENT) {
+			alert("내용을 입력하세요.");
+			$(".RV_CONTENT").focus();	/* .은 ClassName */
+			return false;
+		}
+		
+		if (!RC_IMAGE) {
+			alert("썸네일 이미지를 등록하세요.");
+			$("#RV_IMAGE").focus();		/* .은 ClassName */
+			return false;
+		}
 
-				if (!$("#RC_TITLE").val()) {
-					alert("제목을 입력하세요.");
-					$("#RC_TITLE").focus();
-					return false;
-				}
-
-				if (!$(".RC_CONTENT").val()) {
-					alert("내용을 입력하세요.");
-					$(".RC_CONTENT").focus();
-					return false;
-				}
-
-				alert("게시글이 정상적으로 등록 되었습니다.");
-				comSubmit.submit();
-
-			}
-		</script>
-<!-- summernote 스크립트 -->
+		alert("게시글이 정상적으로 등록 되었습니다.");
+		comSubmit.submit();
+		} 
+	</script>
+	
+	<!-- summernote 스크립트 -->
 	<script type="text/javascript">
 		var gfv_count = 1;
 	
@@ -167,10 +200,25 @@
 			obj.parent().remove();
 		}
 	</script>
-
-  <!--  ************************* Footer Start Here ************************** -->
-
-    
+	<script>
+	/* 이미지 미리보기 스크립트 */
+	function readImage(input) {
+		// 인풋 태그에 파일이 있는 경우
+		if(input.files && input.files[0]) {
+			
+			// FileReader 인스턴스 생성
+			const reader = new FileReader();
+			
+			// 이미지가 로드가 된 경우
+			reader.onload = e => {
+				const previewImage = document.getElementById("preview-image");
+				previewImage.src = e.target.result;
+			};
+			
+			// reader가 이미지 읽도록 하기
+			reader.readAsDataURL(input.files[0]);
+		}	
+	}
+	</script>
    </body>
-
 </html>

@@ -45,4 +45,10 @@ Logger log = Logger.getLogger(this.getClass());
 	public void insertNaverMember(Map<String, Object> map) throws Exception {
 		joinDAO.insertNaverMember(map);
 	}
+	
+	/* 프로필 업로드 */
+	@Override
+	public void updateImg(Map<String, Object> map) throws Exception {
+		joinDAO.updateImg(map);
+	}
 }

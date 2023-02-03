@@ -9,10 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.comment.CommentService;
@@ -141,10 +141,10 @@ public class RecommendController {
 	
 	/* 여행지 추천 게시글 작성하기 */
 	@RequestMapping(value="/recommendWrite.tr", method = RequestMethod.POST)
-	public ModelAndView recommendWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	public ModelAndView recommendWrite(CommandMap commandMap, HttpServletRequest request, MultipartHttpServletRequest fileRequest) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/recommendList.tr");
 
-		recommendService.insertRecommend(commandMap.getMap());
+		recommendService.insertRecommend(commandMap.getMap(), fileRequest);
 
 		HttpSession session = request.getSession();
 		String RC_ID = (String) session.getValue("MEM_ID");

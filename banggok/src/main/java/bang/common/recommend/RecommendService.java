@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 public interface RecommendService {
 	
 	/* 메인 페이지 - 추천 여행지 3개 */
@@ -23,7 +25,7 @@ public interface RecommendService {
 	Map<String, Object> recommendDetail(Map<String, Object> map) throws Exception;   
 	
 	/* 여행지 추천 게시글 작성하기 */
-	void insertRecommend(Map<String, Object> map) throws Exception;
+	void insertRecommend(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
 	
 	/* 여행지 추천 게시글 삭제하기 */
 	void deleteRecommend(Map<String, Object> map) throws Exception;
