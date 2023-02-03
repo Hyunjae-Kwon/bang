@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CommonController {
 	Logger log = Logger.getLogger(this.getClass());
 	private static final String tempFilePath = "/Users/felix/Pictures/tempImages/";
+	private static final String profileFilePath = "/Users/felix/Pictures/profile/";
 //	private static final String realFilePath = "/Users/felix/Pictures/realImages/";
 
 	/* 이미지 불러오기 */
@@ -25,6 +26,22 @@ public class CommonController {
 		String storedFileName = (String)map.get("filename");
 		
 		byte fileByte[] = FileUtils.readFileToByteArray(new File(tempFilePath+storedFileName));
+		
+		response.setContentType("image/jpeg");
+		response.setContentLength(fileByte.length);
+		response.getOutputStream().write(fileByte);
+		
+		response.getOutputStream().flush();
+		response.getOutputStream().close();
+	}
+	
+	/* 프로필 이미지 불러오기 */
+	@RequestMapping(value="/getProfileFile.tr")
+	public void getProfileFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
+		Map<String,Object> map = commandMap.getMap();
+		String storedFileName = (String)map.get("filename");
+		
+		byte fileByte[] = FileUtils.readFileToByteArray(new File(profileFilePath+storedFileName));
 		
 		response.setContentType("image/jpeg");
 		response.setContentLength(fileByte.length);

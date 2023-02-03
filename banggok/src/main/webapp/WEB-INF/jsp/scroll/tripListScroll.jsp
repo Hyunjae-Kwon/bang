@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,11 +17,8 @@
 				                <div class="col-lg-4 col-md-6 col-sm-6" style="padding-bottom: 15px;">
 				                    <div class="pack-col">
 				                    	<a href="/bang/tripDetail.tr?TR_NUM=${list.TR_NUM}">
-				                    		<img src="resources/images/packages/p1.jpg" alt="">
-				                    		<!-- 여행 일정 작성 시 이미지 번호를 사용하여 이미지 호출, 지금은 일정 생성이 안되니 우선 주석 -->
-				                    		<%-- <img src="resources/images/trip/trip_main_${list.TR_NUM}.png" alt=""> --%>
+				                    		<img src="${list.TR_IMAGE}" alt="썸네일 없음" style="width: 245px; height: 245px; object-fit: contain;">
 				                    	</a>
-				                        
 				                        <div class="revire row no-margin">
 				                            <span>조회수 | ${list.TR_CNT}&nbsp;</span>
 				                            <span>추천수 | ${list.TR_LIKE}</span>

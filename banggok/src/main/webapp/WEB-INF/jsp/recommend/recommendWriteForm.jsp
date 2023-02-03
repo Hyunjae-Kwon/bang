@@ -1,23 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>방방곡곡</title>
-   <!-- header.jspf 를 빼서 아래 스크립트, css 필요 -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
-  <!-- 서머노트를 위해 추가해야할 부분 -->
-  <script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
-  <script src="${pageContext.request.contextPath}/resources/summernote/summernote-ko-KR.js"></script>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
-
+<!-- 서머노트를 위해 추가해야할 부분 -->
+<script src="${pageContext.request.contextPath}/resources/summernote/summernote-lite.js"></script>
+<script src="${pageContext.request.contextPath}/resources/summernote/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/summernote/summernote-lite.css">
 </head>
-    <body>
+<body>
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -31,7 +24,6 @@
         </div>
     </div>
     <!--*************** Blog Starts Here ***************-->
-    <br>
 	<br>
 	<form id="frm" name="frm" action="<c:url value='/recommendWrite.tr'/>" method="post" encType="multipart/form-data">
 	<div class="board-list">
@@ -44,7 +36,7 @@
 					<!-- 파일 이미지 출력  -->
 					<tr>
 						<td>
-							<b><label style="color:slategray">상품 이미지 미리보기</label></b>
+							<label>썸네일 이미지 미리보기 : </label>
 							<img src="resources/images/banggok_logo.png" width="100" border="0" id="preview-image">
 							<script>
 								// input file에 change 이벤트 부여
@@ -74,8 +66,9 @@
 						<td>
 							<!-- 버튼 가운데 정렬 -->
 						    <div style="text-align: center;">
-						    <button class="btn btn-primary" onclick="return insertRecommend()">작성</button>
-							<button class="btn btn-primary" onclick="location.href='/bang/recommendList.tr'">취소</button>
+						    	<br>
+							    <button class="btn btn-outline-success" onclick="return insertRecommend()">작성</button>
+								<button class="btn btn-outline-success" onclick="location.href='/bang/recommendList.tr'">취소</button>
 							</div>
 							<br>
 						</td>
