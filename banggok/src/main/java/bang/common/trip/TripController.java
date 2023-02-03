@@ -188,6 +188,9 @@ public class TripController {
 		/* TR_NUM으로 해당 게시글 삭제하기 */
 		tripService.tripDelete(commandMap.getMap());
 		
+		/* TR_NUM으로 해당 장소정보 삭제하기 */
+		tripService.tripPlaceDelete(commandMap.getMap());
+		
 		/* 신고 게시글 삭제 처리 */
 		reportService.reportDelBrdUpdate(commandMap.getMap());
 				

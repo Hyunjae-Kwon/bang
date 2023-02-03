@@ -61,6 +61,11 @@ public class TripDAO extends AbstractDAO {
 		update ("trip.tripDelete", map);
 	}
 	
+	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 장소정보 삭제하기 */
+	public void tripPlaceDelete(Map<String, Object> map) throws Exception {
+		update ("trip.tripPlaceDelete", map);
+	}
+	
 	/* 여행 일정 검색 */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> searchTrip(Map<String, Object> map) throws Exception {

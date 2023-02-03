@@ -135,12 +135,21 @@
 	   ]]>
 	</update>
 	
-	<!-- [tripDelete] TR_NUM으로 여행 일정 삭제하기 -->
+	<!-- [tripDelete] 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 -->
 	<delete id="tripDelete" parameterType="hashmap">
 		<![CDATA[
 			DELETE 
 			FROM TRIP
 			WHERE TR_NUM = #{TR_NUM}
+		]]>
+	</delete>
+	
+	<!-- [tripPlaceDelete] 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 장소정보 삭제하기 -->
+	<delete id="tripPlaceDelete" parameterType="hashmap">
+		<![CDATA[
+			DELETE 
+			FROM TRIPPLACE
+			WHERE TP_TRNUM = #{TR_NUM}
 		]]>
 	</delete>
 	
@@ -282,10 +291,16 @@
 	
 	<!-- [tripShare] 여행 일정 공유하기 -->
 	<update id="tripShare" parameterType="hashmap">
-	<![CDATA[
-		UPDATE TRIP 
-		SET TR_SHARE = 'Y' WHERE TR_NUM = #{TR_NUM}
-	]]>
+		UPDATE TRIP
+		<trim prefix="SET" suffixOverrides=",">
+			<if test='TR_SHARE == "N"'>
+				TR_SHARE = 'Y'
+			</if>
+			<if test='TR_SHARE == "Y"'>
+				TR_SHARE = 'N'
+			</if>
+		</trim>
+		WHERE TR_NUM = #{TR_NUM}
 	</update>
 	
 	<!-- [adminTripList] 관리자 - 여행 일정 공유 게시판 관리 -->

@@ -31,6 +31,9 @@ public interface TripService {
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
 	void tripDelete(Map<String, Object> map) throws Exception;
 	
+	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 장소정보 삭제하기 */
+	void tripPlaceDelete(Map<String, Object> map) throws Exception;
+	
 	/* 여행 일정 검색하기 */
 	List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception;
 

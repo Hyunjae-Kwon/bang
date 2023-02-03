@@ -67,6 +67,12 @@ public class TripServiceImpl implements TripService {
 		tripDAO.tripDelete(map);
 	}
 	
+	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 장소정보 삭제하기 */
+	@Override
+	public void tripPlaceDelete(Map<String, Object> map) throws Exception {
+		tripDAO.tripPlaceDelete(map);
+	}
+
 	/* 여행 일정 검색 */
 	@Override
 	public List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception {
