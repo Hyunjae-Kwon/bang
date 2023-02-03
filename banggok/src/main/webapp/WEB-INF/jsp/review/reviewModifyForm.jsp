@@ -21,15 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
 </head>
-
     <body>
-    
-<!-- ################# Header Starts Here#######################--->
-
-
- 
-
-    
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -42,10 +34,7 @@
             </div>
         </div>
     </div>
-    
-    
-     <!--*************** Blog Starts Here ***************-->
-        
+     <!--*************** 리뷰 수정 Starts Here ***************-->
         
     <!-- 폼 -->
     <form id="reviewModify" name="reviewModify" enctype="multipart/form-data" action="<c:url value='/reviewModify.tr'/>" method="post">
@@ -55,7 +44,7 @@
     
     <!-- 쿼리문 동작을 위해 hidden으로 숨겨놓음 -->
     <input type="hidden" id="RV_NUM" name="RV_NUM" value="${review.RV_NUM}"/>
-    <input type="hidden" id="RV_ID" name="RV_ID" value="${member.MEM_ID}"/>
+    <%-- <input type="hidden" id="RV_ID" name="RV_ID" value="${member.MEM_ID}"/> --%>
     <input type="hidden" id="RV_IMAGE" name="RV_IMAGE" value="${review.RV_IMAGE}"/>
     
     <!-- 글 작성 폼 -->

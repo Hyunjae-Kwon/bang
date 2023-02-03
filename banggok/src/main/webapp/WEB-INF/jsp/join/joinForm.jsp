@@ -8,7 +8,7 @@
 
  <script type="text/javascript">
 /* 아이디 중복 체크 */	
-function checkId() { 
+function checkId(){ 
 	
 	var inputed = $('#MEM_ID').val();
 	console.log(inputed);

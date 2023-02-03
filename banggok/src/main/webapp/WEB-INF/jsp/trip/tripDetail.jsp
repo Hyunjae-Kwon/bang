@@ -419,30 +419,6 @@ function fn_recommendLike() {
 	// 지도에 선을 표시합니다 
 	polyline.setMap(map);  
 	
-	/* 커스텀 오버레이 */
- 	function addCustom(){
-		
-		for(let i = 0; i < placeNode.length; i ++){
-			const latItem = latNode.item(i);
-			const lngItem = lngNode.item(i);
-			const placeItem = placeNode.item(i);	
-		
-		points.push(new kakao.maps.LatLng(latItem.innerText, lngItem.innerText)); 	
-			
-		var content = '<div class="customoverlay">' +
-	    '  <span class="item">' + i + '</span>' +
-	    '  <span class="title">' + placeItem + '</span>' +		    
-	    '</div>';
-	    
-		var customOverlay = new kakao.maps.CustomOverlay({
-		    map: map,
-		    position: points[i],
-		    content: content,
-		    yAnchor: 0.05
-		});
-				
-		customOverlay.setMap(map);
-	} 
 	
 	// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 	var bounds = new kakao.maps.LatLngBounds();    
