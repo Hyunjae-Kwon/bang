@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -18,7 +17,7 @@
             <div class="row">
                 <h2>동행게시판 글쓰기</h2>
                 <ul>
-                    <li> <a href="togetherList.tr"><i class="fas fa-blog"></i>동행게시판</a></li>
+                    <li><a href="togetherList.tr"><i class="fas fa-blog"></i>동행게시판</a></li>
                     <li><i class="fas fa-angle-double-right"></i>글쓰기</li>
                 </ul>
             </div>

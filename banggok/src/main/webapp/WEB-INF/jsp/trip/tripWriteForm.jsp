@@ -96,6 +96,16 @@
 .customoverlay .title {display:block;text-align:center;background:#fff;padding:8px 15px;font-size:11px;font-weight:bold;border-radius:3px;}
 .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 	
+.searchBtn{
+color: #0078FF;
+border-color: #0078FF;
+}
+
+.searchBtn:hover{
+background-color: #0078FF !important;
+border-color: #0078FF !important; 
+}	
+
 </style>
 </head>
     <body>
@@ -110,21 +120,35 @@
     </div>
     <!-- ################# 여행 일정 만들기 Starts Here ####################### -->  
     <div class="row contact-rooo no-margin">
-        
         <div class="container">
             <div class="row">
-            	<form style="max-width: 100%; margin-left: 20px;" enctype="multipart/form-data" method="post">
+            	<form style="max-width: 100%; margin-left: 20px;" id="frm" name="frm" encType="multipart/form-data" method="post">
+            		<br>
             		<div>
             			<h4>여행 일정 이름</h4>
-            			<input type="text" id="TR_TITLE" name="TR_TITLE">
+            			<input type="text" id="TR_TITLE" name="TR_TITLE" placeholder="제목을 입력하세요" class="form-control input-sm">
             			<input type="hidden" id="TR_ID" name="TR_ID" value="${MEM_ID}">
+            		</div>
+            		<div>
+            			<label>썸네일 등록 : </label>&nbsp;&nbsp;<input type="file" id="TR_IMAGE" name="TR_IMAGE" value="">
+            		</div>
+            		<div>
+            			<label>썸네일 이미지 미리보기 : </label>&nbsp;&nbsp;
+            			<img src="resources/images/banggok_logo.png" border="0" id="preview-image" style="width: 100px; height: 100px; object-fit: contain;">
+						<script>
+							// input file에 change 이벤트 부여
+							const inputImage = document.getElementById("TR_IMAGE");
+							inputImage.addEventListener("change", e=> {
+								readImage(e.target)
+							});
+						</script>
             		</div>
                 	<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
                 		
                 		<div style="border-left: solid #eaeaea; height: 450px;">
                 			<h5 style="margin-left: 30px; margin-right: 20px;">여행 일정</h5>
-                			<input type="button" value="추가" class="btn btn-success btn-sm" onClick="addSch()" style="margin-left: 20px; margin-right: 5px;">
-                			<input type="button" value="삭제" class="btn btn-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
+                			<input type="button" value="추가" class="btn btn-outline-success btn-sm" onClick="addSch()" style="margin-left: 20px; margin-right: 5px;">
+                			<input type="button" value="삭제" class="btn btn-outline-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
                 			<ul id="schList"></ul>
                 		</div>
                 		                		
@@ -137,15 +161,16 @@
 	            </form>
                 <div class="col-sm-5">
                     <div style="margin:20px" class="serv">
+                    	<br><br><br><br><br><br>
                     	<!-- 카카오 지도 드로잉 기능 -->
                     	<div class="map_wrap">
-						    <div id="map" style="width:700px;height:100%;position:relative;overflow:hidden;"></div>
-						    <div id="menu_wrap" class="bg_white">
+						    <div id="map" style="width:700px;height:560px;position:relative;overflow:hidden;"></div>
+						    <div id="menu_wrap" class="bg_white" style="height: 530px;">
 						        <div class="option">
 						            <div>
 						                <form onsubmit="searchPlaces(); return false;">
 						                    <b>키워드</b> : <input type="text" id="keyword" placeholder="키워드 입력!!" size="15">  
-						                    <button type="submit">검색하기</button> 
+						                    <button class="com searchBtn btn btn-outline-success" type="submit" style="line-height: 1.6;">검색하기</button> 
 						                </form>
 						            </div>
 						            <!-- 방문 장소 추가하기 버튼 -->
@@ -161,6 +186,7 @@
                     </div>
                 </div>
             </div>
+            <br>
             <div>
             	<h3>여행 일정 메모</h3>
             	<!-- 글 작성 폼 -->
@@ -169,28 +195,22 @@
             <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
             <div style="margin-top:10px;">
                 <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
-                <div class="col-sm-8" style="max-width: 100%;">
-                 <input type="button" class="btn btn-success btn-sm" value="작성하기" onclick="tripWrite()">
-                 <button class="btn btn-success btn-sm" onClick="location.href='/bang/main.tr'">취소하기</button>
+                <div class="col-sm-8" style="max-width: 100%; text-align: center;">
+                	<input type="button" class="btn btn-outline-success btn-sm" value="작성하기" onclick="tripWrite()">
+                	<input type="button" class="btn btn-outline-success btn-sm" value="취소하기" onclick="location.href='/bang/main.tr'">
                 </div>
+                <br>
             </div>
         </div>
     </div>
 	<form id="commonForm" name="commonForm"></form>
-    <!-- <section id="place-List" class="place-List">
-    </section> -->
-    </body>
-    <script>
-    	$(document).ready(function(){
-    		
-    	});
-    </script>
     <!-- 글 작성 자바스크립트 -->
 	<script>
  	function tripWrite(){
  		var id = document.getElementById("TR_ID").value;
 		var title = document.getElementById("TR_TITLE").value;
 		var content = document.getElementById("summernote").value;
+		var image = document.getElementById("TR_IMAGE").value;
 		
 			if (!$("#TR_TITLE").val()) {
 				alert("제목을 입력하세요.");
@@ -202,16 +222,30 @@
 				$(".TR_CONTENT").focus();
 				return false;
 			}
+			if (!$("#TR_IMAGE").val()) {
+				alert("썸네일 이미지를 등록하세요.");
+				$("#TR_IMAGE").focus();
+				return false;
+			}
+			
+		var form = $("#frm")[0];
+		var formData = new FormData(form);
+		formData.append("TR_CONTENT", content);
+		
 			$.ajax({
- 				type: "POST",
- 				url: "<c:url value='tripWrite.tr'/>",
- 				data: {TR_ID: id, TR_TITLE: title, TR_CONTENT: content},
- 				async: false,
- 				success: function(data){
- 					alert("게시글이 정상적으로 등록 되었습니다.");
- 					location.href="/bang/myTripList.tr";
- 				}	
- 	        });
+				type: "POST",
+				enctype: "multipart/form-data",
+				url: "<c:url value='tripWrite.tr'/>",
+				data: formData,
+				async: false,
+				contentType: false,
+				processData: false,
+				cache: false,
+				success: function(data){
+					alert("게시글이 정상적으로 등록 되었습니다.");
+					location.href="/bang/myTripList.tr";
+				}	
+	        });
 		} 
 	</script>
     <!-- 카카오 지도 API, services와 clusterer, drawing 라이브러리 불러오기 -->
@@ -307,7 +341,9 @@
 						for(var i=0; i<list.length; i++){
 							item += '<ul id="placesList2" class="placesLists">' + 
 									'<li class="item">' +
-										'<h5 id=TP_PLACE>' + list[i].R +'. ' + list[i].TP_PLACE + '</h5>';
+										'<h5 id=TP_PLACE>' + list[i].R +'. ' + list[i].TP_PLACE + 
+											'<i style="cursor: pointer; float: right;" class="fa-regular fa-circle-xmark" onclick="deletePlace(' + list[i].TP_NUM + ',' + list[i].TP_MAP_LAT + ',' + list[i].TP_MAP_LNG + ')"></i>' + 
+										'</h5>';
 							if(list[i].TP_RADDRESS != null){
 								item +=	'<span id="TP_RADDRESS">' + list[i].TP_RADDRESS + '</span>';
 							}
@@ -315,12 +351,9 @@
 								item +=	'<span id="TP_ADDRESS" class="jibun gray">' + list[i].TP_ADDRESS + '</span>'; 
 							}			
 							if(list[i].TP_PHONE != null){
-								item +=	'<span class="tel" id="TP_PHONE">' + list[i].TP_PHONE; 
+								item +=	'<span class="tel" id="TP_PHONE">' + list[i].TP_PHONE; '</span>';
 							}
-							item +=		'<input type="button" id="del" style="float: right;"' +
-										'onclick="deletePlace(' + list[i].TP_NUM + ',' + list[i].TP_MAP_LAT + ',' + list[i].TP_MAP_LNG + ')"' + 
-										'value="장소 삭제"></span>' +					 
-										'<span style="display: none;" id="TP_NUM">' + list.TP_NUM + '</span>' +
+							item +=		'<span style="display: none;" id="TP_NUM">' + list.TP_NUM + '</span>' +
 										'<span style="display: none;" id="TP_MAP_LAT">' + list[i].TP_MAP_LAT + '</span>' +
 										'<span style="display: none;" id="TP_MAP_LNG">' + list[i].TP_MAP_LNG + '</span>' +
 										'<span style="display: none;" id="TP_DATE">' + list[i].TP_DATE + '</span>' +
@@ -783,4 +816,24 @@
 			} 
 			
     </script>
+    <script>
+	/* 이미지 미리보기 스크립트 */
+	function readImage(input) {
+		// 인풋 태그에 파일이 있는 경우
+		if(input.files && input.files[0]) {
+			
+			// FileReader 인스턴스 생성
+			const reader = new FileReader();
+			
+			// 이미지가 로드가 된 경우
+			reader.onload = e => {
+				const previewImage = document.getElementById("preview-image");
+				previewImage.src = e.target.result;
+			};
+			
+			// reader가 이미지 읽도록 하기
+			reader.readAsDataURL(input.files[0]);
+		}	
+	}
+	</script>
 </html>

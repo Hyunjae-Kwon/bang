@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.comment.CommentService;
@@ -218,10 +219,10 @@ public class TripController {
 	/* 여행 일정 만들기 */
 	@RequestMapping(value="/tripWrite.tr", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView tripWrite(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	public ModelAndView tripWrite(CommandMap commandMap, HttpServletRequest request, MultipartHttpServletRequest fileRequest) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/myTripList.tr");
 
-		tripService.tripWrite(commandMap.getMap());
+		tripService.tripWrite(commandMap.getMap(), fileRequest);
 		
 		int maxTRNUM = tripService.maxTRNUM();
 		
