@@ -99,7 +99,7 @@
                 CH_CONTENT
                 )
       VALUES(
-            CH_CHATID_SEQ.NEXTVAL,
+            CH_NUM_SEQ.NEXTVAL,
             #{CH_ROOM},
             #{MEM_ID},
             #{CH_TOID},

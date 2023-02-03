@@ -335,7 +335,7 @@ function comDelete(num){
 	}
     </script>
     
-<script type="text/javascript">	
+<!-- <script type="text/javascript">	
 	// 쪽지 모달 설정
 	const messageModal = document.getElementById('messageModal'); 
 	messageModal.addEventListener('show.bs.modal', event => {
@@ -409,11 +409,10 @@ $(document).ready(function() {
 		
 		fn_confirmMessage(); //confirm창 띄우기
 	  });
-	})()
-	
+	})()	
 	
 }); 
-</script> 
+</script>  -->
  
     
 </html>

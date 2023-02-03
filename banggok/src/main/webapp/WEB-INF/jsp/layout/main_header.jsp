@@ -94,7 +94,6 @@
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/chatList.tr">채팅방</a> 
-									<a style="color: #bfbfbf;" href="/bang/chat.tr">채팅방</a> 
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 
