@@ -19,4 +19,6 @@ public interface JoinService {
 	/* 네이버 로그인 시 회원 등록 */
 	void insertNaverMember(Map<String, Object> map) throws Exception;
 
+	/* 프로필 업로드 */
+	void updateImg(Map<String, Object> map) throws Exception;
 }

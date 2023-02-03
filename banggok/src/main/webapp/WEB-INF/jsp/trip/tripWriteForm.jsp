@@ -121,10 +121,11 @@
             		</div>
                 	<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
                 		
-                		<div id="schList" style="border-left: solid #eaeaea; height: 450px;">
+                		<div style="border-left: solid #eaeaea; height: 450px;">
                 			<h5 style="margin-left: 30px; margin-right: 20px;">여행 일정</h5>
                 			<input type="button" value="추가" class="btn btn-success btn-sm" onClick="addSch()" style="margin-left: 20px; margin-right: 5px;">
                 			<input type="button" value="삭제" class="btn btn-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
+                			<ul id="schList"></ul>
                 		</div>
                 		                		
                 		<div id="addListItem" style="border-left: solid #eaeaea; height: 450px; overflow-y: auto; width: 280px;"></div>
@@ -217,65 +218,80 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fa3a582f3278c83fd4f3031cc4f96d&libraries=services,clusterer,drawing"></script>
 	<!-- 카카오 지도 Drawing Library에서 데이터 얻기 스크립트 -->
 	<script>
-		/* 일정 초기값 : DAY - 1 */ 
-		addSch();
+		/* 일정번호 초기값 */ 
+		var dayNum = 0;
 		
+		var dayIdx;
+		
+		addSch();
+	
 		/* 일정 추가 버튼 */
 		function addSch(){
+			dayNum += 1;
+			
+			schList(dayNum);
+		}
+		
+		/* 일정 삭제 버튼 */
+		function delSch(){
+			if(dayNum>1){
+				
+				var id = document.getElementById("TR_ID").value;
+			
+				/* 해당 일정 DB에서 삭제 */
+				$.ajax({
+					type: "POST",
+					url: "<c:url value='deleteSch.tr'/>",
+					data: {TP_ID: id, TP_DATE: dayNum},
+					success: function(data){
+					}
+				});
+				dayNum -= 1;
+			}
+			schList(dayNum);
+		}
+				
+		function schList(dayNum){
 			var dayList = document.getElementById('schList');
-			var a = $(".schList").length;
-			var dayNum = a + 1;
+			dayList.innerHTML = '';
+			
 			var day = '';
 			
-			day = '<ul id="schList" class="schList">' + 
+			for(var selectNum=1; selectNum<dayNum+1; selectNum++){
+				day += '<ul id="schList" class="schList">' + 
 				  '<li class="day">' +
-				  '<span id="dayNum">' +
-				  '<a style="font-size: 25px; cursor:pointer; margin-left: 30px; margin-right: 10px;" onclick="placeList(' + dayNum + ')">' + 
-				  'DAY - ' + dayNum +
+				  '<span id="selectNum">' +
+				  '<a style="font-size: 25px; cursor:pointer; margin-left: 25px; margin-right: 25px;" onclick="placeList(' + selectNum + ')">' + 
+				  'DAY - ' + selectNum + '</a>' +
 				  '</span>' +
 				  '</li>' + 
 				  '</ul>';
+			}
 			
 			dayList.innerHTML += day;
-		}
-		
-		/* 일정 삭제하기 */
-		function delSch(){
-			var id = document.getElementById("TR_ID").value;
 			
-			/* const delButton = event.currentTarget;
-			const third = delButton.parentNode;
-			const second = third.parentNode;
-			const first = second.parentNode;
-			first.remove(); */
-		
-			/* 일정 DB에서 삭제 */
-			/* $.ajax({
-					type: "POST",
-					url: "<c:url value='deletePlaceList.tr'/>",
-					data: {TP_MAP_LAT: lat,TP_MAP_LNG: lng, TP_ID: id},
-					success: function(data){
-						
-					}
-			}); */
-		};
+			if(dayNum+1 == dayIdx){
+				placeList();
+				removeAddMarker();
+			}
+		}
 		
 		placeList();
 		
 		/* 일정 선택 및 장소리스트 */
-		function placeList(dayNum){
+		function placeList(selectNum){
 			var id = document.getElementById("TR_ID").value;
 			var place = document.getElementById("addListItem");
 			var item = '';
 			list = [];
 			
-			if(dayNum==null){
+			if(selectNum==null){
 				place.innerHTML = '<h5 style="margin-left: 20px;">일정을 선택해 주세요.</h5>';
-				dayIdx = dayNum;
+				dayIdx = selectNum;
 				return false;
 			}else{
-				place.innerHTML = '<h5 id="dayNum" style="margin-left: 20px;">DAY - ' + dayNum + '일정 목록</h5>';
-				dayIdx = dayNum;
+				place.innerHTML = '<h5 id="selectNum" style="margin-left: 20px;">DAY - ' + selectNum + '일정 목록</h5>';
+				dayIdx = selectNum;
 			}
 			
 			removeAddMarker();
@@ -284,18 +300,26 @@
 				url:"/bang/writePlaceList.tr",
 				method:"GET",
 				dataType:"JSON",
-				data: "TP_ID=" + id + "&TP_DATE=" + dayNum,
+				data: "TP_ID=" + id + "&TP_DATE=" + selectNum,
 				success:function(data){
 					list = data.writePlaceList;
 					if(list.length>0){
 						for(var i=0; i<list.length; i++){
 							item += '<ul id="placesList2" class="placesLists">' + 
 									'<li class="item">' +
-										'<h5 id=TP_PLACE>' + list[i].R +'. ' + list[i].TP_PLACE + '</h5>' + 
-										'<span id="TP_RADDRESS">' + list[i].TP_RADDRESS + '</span>' + 
-										'<span id="TP_ADDRESS" class="jibun gray">' + list[i].TP_ADDRESS + '</span>' + 
-										'<span class="tel" id="TP_PHONE">' + list[i].TP_PHONE + 
-										'<input type="button" id="del" style="float: right;" onclick="deletePlace(' + list[i].TP_NUM + ',' + list[i].TP_MAP_LAT + ',' + list[i].TP_MAP_LNG + ')" value="장소 삭제"></span>' +					 
+										'<h5 id=TP_PLACE>' + list[i].R +'. ' + list[i].TP_PLACE + '</h5>';
+							if(list[i].TP_RADDRESS != null){
+								item +=	'<span id="TP_RADDRESS">' + list[i].TP_RADDRESS + '</span>';
+							}
+							if(list[i].TP_ADDRESS != null){
+								item +=	'<span id="TP_ADDRESS" class="jibun gray">' + list[i].TP_ADDRESS + '</span>'; 
+							}			
+							if(list[i].TP_PHONE != null){
+								item +=	'<span class="tel" id="TP_PHONE">' + list[i].TP_PHONE; 
+							}
+							item +=		'<input type="button" id="del" style="float: right;"' +
+										'onclick="deletePlace(' + list[i].TP_NUM + ',' + list[i].TP_MAP_LAT + ',' + list[i].TP_MAP_LNG + ')"' + 
+										'value="장소 삭제"></span>' +					 
 										'<span style="display: none;" id="TP_NUM">' + list.TP_NUM + '</span>' +
 										'<span style="display: none;" id="TP_MAP_LAT">' + list[i].TP_MAP_LAT + '</span>' +
 										'<span style="display: none;" id="TP_MAP_LNG">' + list[i].TP_MAP_LNG + '</span>' +
@@ -513,9 +537,9 @@
  				url: "<c:url value='addPlaceList.tr'/>",
  				data: {TP_PLACE: tpPlace, TP_ADDRESS: tpAddress, TP_RADDRESS: tpRaddress, TP_PHONE: tpPhone, TP_MAP_LAT: lat, TP_MAP_LNG: lng, TP_ID: id, TP_DATE: dayIdx},
  				success: function(data){
- 					var dayNum = dayIdx;
+ 					var selectNum = dayIdx;
  					
- 					placeList(dayNum);
+ 					placeList(selectNum);
  				}
  	        });
 		}
@@ -582,11 +606,11 @@
 			polyline.setMap(map);
 			/* 배열에 생성된 연결선 추가 */
 			polylines.push(polyline);
-			console.log(addPoints.length);
+			
 			if(addPoints.length>0){		
 				/* 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체 생성 */
 				bounds = new kakao.maps.LatLngBounds();    
-				console.log(addPoints);			
+							
 				for (var i=0; i< addPoints.length; i++) {
 				    /* LatLngBounds 객체에 추가장소 리스트 좌표 추가 */
 				    bounds.extend(addPoints[i]);
@@ -599,7 +623,7 @@
 		function deletePlace(tpNum, lat, lng){
 			
 			var id = document.getElementById("TR_ID").value;
-			var dayNum = dayIdx;
+			var selectNum = dayIdx;
 			
 			/* 추가한 장소 DB에서 삭제 */
 			$.ajax({
@@ -608,7 +632,7 @@
  				data: {TP_NUM:tpNum,TP_MAP_LAT:lat, TP_MAP_LNG:lng, TP_ID:id},
  				success: function(data){
  					
- 					placeList(dayNum);
+ 					placeList(selectNum);
  				}
 			});
 		};
