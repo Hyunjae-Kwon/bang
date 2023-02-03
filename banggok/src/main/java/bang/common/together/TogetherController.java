@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.common.CommandMap;
+import bang.member.login.LoginService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
@@ -23,6 +24,9 @@ public class TogetherController {
 
 	@Resource(name = "togetherService")
 	private TogetherService togetherService;
+	
+	@Resource(name = "loginService")
+	private LoginService loginService;
 
 	/* 동행게시판 리스트 */
 	@RequestMapping(value = "/togetherList.tr")
@@ -38,11 +42,19 @@ public class TogetherController {
 	
 	/* 동행게시판 디테일 */
 	@RequestMapping(value="/togetherDetail.tr")
-	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
+	public ModelAndView openBoardDetail(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("/together/togetherDetail");
 		
+		HttpSession session = request.getSession();
+		String MEM_ID = (String) session.getValue("MEM_ID");
+		commandMap.put("MEM_ID", MEM_ID);
+		
 		Map<String,Object> map = togetherService.togetherDetail(commandMap.getMap());
+		
+		Map<String,Object> memList = loginService.selectMemberId(commandMap.getMap());
+		
 		mv.addObject("map", map);
+		mv.addObject("memList",memList);
 		
 		return mv;
 	}
