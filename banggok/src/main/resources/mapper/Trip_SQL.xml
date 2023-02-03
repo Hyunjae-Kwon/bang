@@ -92,12 +92,36 @@
 	]]>
 	</update>
 	
-	<!-- [tripplaceDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 -->
-	<select id="tripplaceDetail" parameterType="hashmap" resultType="hashmap">
-	 <![CDATA[
-			SELECT * FROM TRIPPLACE
-			WHERE TP_TRNUM = #{TR_NUM}
+	<!-- [tripPlaceDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 -->
+	<select id="tripPlaceDetail" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			ROWNUM R,
+			TP_NUM,
+			TP_PLACE,
+			TP_ADDRESS,
+			TP_RADDRESS,
+			TP_PHONE,
+			TP_MAP_LAT,
+			TP_MAP_LNG,
+			TP_DATE
+		FROM
+			TRIPPLACE
+		WHERE TP_TRNUM = #{TP_TRNUM} AND TP_DATE = #{TP_DATE}
+		ORDER BY TP_NUM ASC
 	   ]]>
+	</select>
+	
+	<!-- [tripDayNum] 일정 Day 번호 불러오기 -->
+	<select id="tripDayNum" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT DISTINCT
+		    TP_DATE
+		FROM
+		    TRIPPLACE
+		WHERE
+		    TP_TRNUM = #{TR_NUM}
+	]]>
 	</select>
 	
 	<!-- [tripModify] 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 -->

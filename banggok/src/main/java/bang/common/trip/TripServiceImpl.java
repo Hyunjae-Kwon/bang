@@ -45,10 +45,16 @@ public class TripServiceImpl implements TripService {
 	
 	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
 	@Override
-	public List<Map<String, Object>> tripplaceDetail(Map<String, Object> map) throws Exception {
-		return tripDAO.tripplaceDetail(map);
+	public List<Map<String, Object>> tripPlaceDetail(Map<String, Object> map) throws Exception {
+		return tripDAO.tripPlaceDetail(map);
 	}
-
+	
+	/* 일정 Day 번호 불러오기 */
+	@Override
+	public List<Map<String, Object>> tripDayNum(Map<String, Object> map) throws Exception {
+		return tripDAO.tripDayNum(map);
+	}	
+	
 	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
 	@Override
 	public void tripModify(Map<String, Object> map) throws Exception {
