@@ -61,12 +61,10 @@ public class TogetherController {
 		
 		Map<String,Object> map = togetherService.togetherDetail(commandMap.getMap());
 		
-
 		Map<String,Object> memList = loginService.selectMemberId(commandMap.getMap());
 
 		/* 댓글 리스트 불러오기 */
 		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
-
 		
 		mv.addObject("map", map);
 

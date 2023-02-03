@@ -135,11 +135,11 @@ pageContext.setAttribute("replaceChar", "\n");
 					<!-- 작성자가 아닐 경우에만 신고버튼 보이게 -->
 					<input type="button" value="신고하기" class="del btn btn-outline-success" onClick="return togetherReport()">
 				</c:if>
-				<button class="btn btn-outline-success" onClick="location.href='/bang/togetherList.tr'">목록보기</button>
+				<button class="btn btn-outline-success" onClick="location.href='/bang/togetherList.tr'">목록보기</button>				
 				<c:if test="${MEM_ID != map.TG_ID}">	
-					<button type="button" class="btn btn-outline-success" name="msgModal"
-					 data-bs-toggle="modal" data-bs-target="#messageModal" data-bs-whatever="채팅 보내기">채팅</button>
-				</c:if>					
+				<button type="button" class="btn btn-outline-success" name="msgModal"
+				 data-bs-toggle="modal" data-bs-target="#messageModal" data-bs-whatever="쪽지 보내기">쪽지</button>
+				</c:if>	
 			</div>
 		</div>
 		<br>
@@ -184,7 +184,7 @@ pageContext.setAttribute("replaceChar", "\n");
 		</div> 
 		<!-- /.modal-dialog -->
 	</div>
-	<!-- /.modal -->		
+	<!-- /.modal -->	
 	
 </body>
 <!-- 게시글 삭제 스크립트 -->
@@ -334,8 +334,7 @@ function comDelete(num){
 		frm.submit();
 	}
     </script>
-    
-<!-- <script type="text/javascript">	
+<script type="text/javascript">	
 	// 쪽지 모달 설정
 	const messageModal = document.getElementById('messageModal'); 
 	messageModal.addEventListener('show.bs.modal', event => {
@@ -409,10 +408,10 @@ $(document).ready(function() {
 		
 		fn_confirmMessage(); //confirm창 띄우기
 	  });
-	})()	
+	})()
+	
 	
 }); 
-</script>  -->
- 
-    
+</script>
+   
 </html>
