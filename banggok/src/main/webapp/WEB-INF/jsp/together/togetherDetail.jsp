@@ -136,11 +136,17 @@ pageContext.setAttribute("replaceChar", "\n");
 					<input type="button" value="신고하기" class="del btn btn-outline-success" onClick="return togetherReport()">
 				</c:if>
 				<button class="btn btn-outline-success" onClick="location.href='/bang/togetherList.tr'">목록보기</button>
+				<c:if test="${MEM_ID != map.TG_ID}">
+					<!-- 작성자가 아닐 경우에만 채팅버튼 보이게 -->
+					<input type="button" value="채팅하기" name="chatBtn"class="del btn btn-outline-success" onClick="return sendChat()">
+				</c:if>
 			</div>
 		</div>
 		<br>
 		<!-- 게시글 신고하기 -->
 		<div class="report"></div>
+		<!-- 채팅 보내기 -->
+		<div class="chat"></div>
 	</div>
 </body>
 <!-- 게시글 삭제 스크립트 -->
@@ -289,5 +295,41 @@ function comDelete(num){
 	  alert("신고 내용이 정상적으로 접수 되었습니다."); 
 		frm.submit();
 	}
+    </script>
+    
+    <!-- 채팅 보내기 -->
+    <script>
+    
+    function sendChat(){
+    	
+    	var chat = $(".chat");
+    	
+		var item = '<form action="insertChat.tr" name="frm" id="chatFrm" method="post" enctype="multipart/form-data">' + 
+						'<div style="display: inline-block; width: 88%; margin-left: 20px;">' + 
+							'<input type="hidden" name="CH_FROMID" value="${MEM_ID}">' +
+							'<input type="hidden" name="CH_TOID" value="${map.TG_ID}">' +
+							'<textarea name="CH_CONTENT" id="CH_CONTENT" class="form-control" placeholder="채팅 내용을 입력해주세요."></textarea>' +
+						'</div>' +
+						'<div style="display: inline-block; float: right; width: 10%;">' +
+							'<input type="button" value="전송" onclick="chatBoard()" class="btn btn-primary py-2 px-2">' +
+						'</div>' +
+					'</form>';
+				chat.append(item);
+				
+				return chat;
+				    }
+    
+    function chatBoard(){
+    	var frm = document.getElementById('chatFrm');   	
+    	
+		if (!$("#CH_CONTENT").val()) {
+	        alert("내용을 입력하세요.");
+	        $("#CH_CONTENT").focus();
+	        return false;
+	     }
+		frm.submit();
+	    alert("채팅 전송 완료.");
+	}
+       
     </script>
 </html>
