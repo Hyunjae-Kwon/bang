@@ -86,14 +86,23 @@ public class RecommendServiceImpl implements RecommendService {
 	}
 	
 	/* 여행지 추천 게시글 수정 폼 */
-	@Override
-	public Map<String, Object> recommendModifyForm(Map<String, Object> map) throws Exception{
-		return recommendDAO.recommendModifyForm(map);
-	}
+//	@Override
+//	public Map<String, Object> recommendModifyForm(Map<String, Object> map) throws Exception{
+//		return recommendDAO.recommendModifyForm(map);
+//	}
 
 	/* 여행지 추천 게시글 수정하기 */
-	public void recommendModify(Map<String, Object> map) throws Exception{
+	public void recommendModify(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception{
 		recommendDAO.recommendModify(map);
+		
+		String rcNum = (String) map.get("RC_NUM");
+		
+		Map<String, Object> file = fileUtils.parseInsertFileInfo(map, request);
+		
+		file.put("RC_IMAGE", file.get("IMAGE"));
+		file.put("RC_NUM", rcNum);
+		
+		recommendDAO.recommendImageUpdate(file);
 	}
 	
 	/* 추천하기 */

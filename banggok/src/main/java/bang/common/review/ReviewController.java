@@ -182,46 +182,17 @@ public class ReviewController {
 
 		return mv;
 	}
-		
-	/* 마이페이지 여행 후기 리스트 */
-	@RequestMapping(value = "/myReviewList.tr")
-	public ModelAndView myReviewList(CommandMap commandMap, HttpServletRequest request) throws Exception {
-		ModelAndView mv = new ModelAndView("member/myReviewList");
-		
-		HttpSession session = request.getSession();
-		String RV_ID = (String) session.getValue("MEM_ID");
-		
-		commandMap.put("MEM_ID", RV_ID);
-
-		Map<String, Object> resultMap = reviewService.myReviewList(commandMap.getMap());
-		
-		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
-		mv.addObject("myReviewList", resultMap.get("result"));
-		
-		return mv;
-	}
 	
 	/* 여행후기 수정 */
 	@RequestMapping(value="/reviewModify.tr", method = RequestMethod.POST)
-	public ModelAndView reviewModify(CommandMap commandMap)throws Exception{
+	public ModelAndView reviewModify(CommandMap commandMap, MultipartHttpServletRequest fileRequest)throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/reviewList.tr");
 		
-		reviewService.reviewModify(commandMap.getMap());
+		reviewService.reviewModify(commandMap.getMap(), fileRequest);
 
 		return mv;
 	}
-	
-	/* 여행후기 글수정 */
-	@RequestMapping(value = "/reviewModify.tr")
-	public ModelAndView togetherModify(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/reviewDetail.tr");
-
-		reviewService.reviewModify(commandMap.getMap());
-
-		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
-		return mv;
-	}
-	
+		
 	/* 여행후기 삭제 */
 	@RequestMapping(value = "/reviewDelete.tr")
 	public ModelAndView reviewDelete(CommandMap commandMap) throws Exception {
@@ -242,6 +213,24 @@ public class ReviewController {
 		reviewService.reviewLike(commandMap.getMap());
 		
 		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
+		
+		return mv;
+	}
+	
+	/* 마이페이지 여행 후기 리스트 */
+	@RequestMapping(value = "/myReviewList.tr")
+	public ModelAndView myReviewList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("member/myReviewList");
+		
+		HttpSession session = request.getSession();
+		String RV_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("MEM_ID", RV_ID);
+
+		Map<String, Object> resultMap = reviewService.myReviewList(commandMap.getMap());
+		
+		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
+		mv.addObject("myReviewList", resultMap.get("result"));
 		
 		return mv;
 	}

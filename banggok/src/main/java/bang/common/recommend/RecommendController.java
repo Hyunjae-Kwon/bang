@@ -165,7 +165,7 @@ public class RecommendController {
 	@RequestMapping(value="/recommendModifyForm.tr") 
 	public ModelAndView recommendModifyForm(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("recommend/recommendModifyForm");
-		Map<String, Object> map = recommendService.recommendModifyForm(commandMap.getMap());
+		Map<String, Object> map = recommendService.recommendDetail(commandMap.getMap());
 
 		mv.addObject("map", map);
 
@@ -174,9 +174,9 @@ public class RecommendController {
 
 	/* 여행지 추천 게시글 수정하기 */
 	@RequestMapping(value="/recommendModify.tr", method = RequestMethod.POST)
-	public ModelAndView recommendModify(CommandMap commandMap)throws Exception{
+	public ModelAndView recommendModify(CommandMap commandMap, MultipartHttpServletRequest request)throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/recommendList.tr");
-		recommendService.recommendModify(commandMap.getMap());
+		recommendService.recommendModify(commandMap.getMap(), request);
 
 		return mv;
 	}

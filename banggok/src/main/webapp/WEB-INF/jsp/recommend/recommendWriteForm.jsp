@@ -146,52 +146,7 @@
 									}
 				});
 			}
-			
-			$("#list").on("click", function(e){ //목록으로 버튼
-				e.preventDefault();
-				fn_openBoardList();
-			});
-			
-			$("#write").on("click", function(e){ //작성하기 버튼
-				e.preventDefault();
-				fn_insertBoard();
-			});
-			
-			$("#addFile").on("click", function(e){ //파일 추가 버튼
-				e.preventDefault();
-				fn_addFile();
-			});
-			
-			$("a[name='delete']").on("click", function(e){ //삭제 버튼
-				e.preventDefault();
-				fn_deleteFile($(this));
-			});
 		});
-		
-		function fn_openBoardList(){
-			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/bang/recommend/recommendList.tr' />");
-			comSubmit.submit();
-		}
-		
-		function fn_insertBoard(){
-			var comSubmit = new ComSubmit("frm");
-			comSubmit.setUrl("<c:url value='/bang/recommend/recommendWrite.tr' />");
-			comSubmit.submit();
-		}
-		
-		function fn_addFile(){
-			var str = "<p><input type='file' name='file_"+(gfv_count++)+"'><a href='#this' class='btn' name='delete'>삭제</a></p>";
-			$("#fileDiv").append(str);
-			$("a[name='delete']").on("click", function(e){ //삭제 버튼
-				e.preventDefault();
-				fn_deleteFile($(this));
-			});
-		}
-		
-		function fn_deleteFile(obj){
-			obj.parent().remove();
-		}
 	</script>
 	<script>
 	/* 이미지 미리보기 스크립트 */

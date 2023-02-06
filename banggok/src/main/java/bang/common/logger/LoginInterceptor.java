@@ -27,7 +27,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 					uri.equals("/bang/confirmId.tr") || uri.equals("/bang/tripWriteForm.tr") || uri.equals("/bang/togetherList.tr") ||
 					uri.equals("/bang/tripList.tr") || uri.equals("/bang/reviewList.tr") || uri.equals("/bang/recommendList.tr") ||
 					uri.equals("/bang/tripListScroll.tr") || uri.equals("/bang/reviewListScroll.tr") || uri.equals("/bang/recommendListScroll.tr") ||
-					uri.equals("/bang/GetTempFile.tr")
+					uri.equals("/bang/GetTempFile.tr") || uri.equals("/bang/confirmEmail.tr") || uri.equals("/bang/confirmMail.tr")
 				)) {
 			System.out.println("- 로그인하지 않음 -");
 			return true;
