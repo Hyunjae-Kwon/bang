@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import bang.common.common.FileUtils;
 
 @Service("tripService")
 public class TripServiceImpl implements TripService {
@@ -16,6 +19,9 @@ public class TripServiceImpl implements TripService {
 	
 	@Resource(name="tripDAO")
 	private TripDAO tripDAO;
+	
+	@Resource(name="fileUtils")
+	private FileUtils fileUtils;
 
 	/* 메인 페이지 - 인기 여행 일정 3개 */
 	@Override
@@ -93,8 +99,25 @@ public class TripServiceImpl implements TripService {
 
 	/* 여행 일정 만들기 */
 	@Override
-	public void tripWrite(Map<String, Object> map) throws Exception {
+	public void tripWrite(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception {
 		tripDAO.tripWrite(map);
+		
+		Map<String, Object> maxMap = new HashMap<String, Object>();
+		maxMap = tripDAO.maxTRNUM();
+		
+		int maxTR;
+		if(maxMap == null) {
+			maxTR = 0;
+		} else {
+			maxTR = Integer.parseInt(String.valueOf(maxMap.get("MAX")));
+		}
+		
+		Map<String, Object> file = fileUtils.parseInsertFileInfo(map, request);
+		
+		file.put("TR_IMAGE", file.get("IMAGE"));
+		file.put("TR_NUM", maxTR);
+		
+		tripDAO.tripImageUpdate(file);
 	}
 	
 	/* 일정 삭제 */

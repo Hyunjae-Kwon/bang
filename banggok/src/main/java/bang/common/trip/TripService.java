@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 public interface TripService {
 	
 	/* 메인 페이지 - 인기 여행 일정 3개 */
@@ -44,7 +46,7 @@ public interface TripService {
 	void deletePlaceListNull(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 만들기 */
-	void tripWrite(Map<String, Object> map) throws Exception;
+	void tripWrite(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
 	
 	/* 일정 삭제 */
 	void deleteSch(Map<String, Object> map) throws Exception;

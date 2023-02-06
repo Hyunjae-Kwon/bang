@@ -48,7 +48,8 @@
 				TR_LIKE,
 				TR_CONTENT,
 				TR_SUBCONTENT,
-				TR_REGDATE
+				TR_REGDATE,
+				TR_IMAGE
 			FROM(
 				SELECT
 					TR_NUM,
@@ -58,7 +59,8 @@
 					TR_LIKE,
 					TR_CONTENT,
 					TR_SUBCONTENT,
-					TR_REGDATE
+					TR_REGDATE,
+					TR_IMAGE
 				FROM 
 					TRIP
 			    WHERE 
@@ -212,6 +214,14 @@
 			VALUES (TR_NUM_SEQ.NEXTVAL, #{TR_ID}, #{TR_TITLE}, #{TR_CONTENT}, 'N')
 		]]>
 	</insert>
+	
+	<!-- [tripImageUpdate] 여행 일정 만들기 - 썸네일 이미지 등록 -->
+	<update id="tripImageUpdate" parameterType="hashmap">
+	<![CDATA[
+		UPDATE TRIP 
+		SET TR_IMAGE = #{TR_IMAGE} WHERE TR_NUM = #{TR_NUM}
+	]]>
+	</update>
 	
 	<!-- [deleteSch] 일정 삭제 -->
 	<delete id="deleteSch" parameterType="hashmap">

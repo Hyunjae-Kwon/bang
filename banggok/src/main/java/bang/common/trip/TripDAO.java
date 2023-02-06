@@ -88,6 +88,11 @@ public class TripDAO extends AbstractDAO {
 		insert ("trip.tripWrite", map);
 	}
 	
+	/* 여행 일정 만들기 - 썸네일 이미지 등록 */
+	public void tripImageUpdate(Map<String, Object> map) {
+		update("trip.tripImageUpdate", map);
+	}
+	
 	/* 일정 삭제 */
 	public void deleteSch(Map<String, Object> map) throws Exception {
 		delete ("trip.deleteSch", map);

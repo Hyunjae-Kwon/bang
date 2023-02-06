@@ -13,10 +13,11 @@
 				<div class="container">
 					<div class="row">
 						<h2>여행지 추천</h2>
-						<ul>
+						<p>운영진 추천 여행지입니다.</p>
+						<!-- <ul>
 							<li><a href="recommendWriteForm.tr"><i class="fas fa-blog"></i>글쓰기</a></li>
 							<li><i class="fas fa-angle-double-right"></i> Gallery</li>
-						</ul>
+						</ul> -->
 					</div>
 				</div>
 			</div>
