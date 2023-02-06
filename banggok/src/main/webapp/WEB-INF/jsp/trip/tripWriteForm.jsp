@@ -123,18 +123,33 @@ border-color: #0078FF !important;
     <div class="row contact-rooo no-margin">
         <div class="container">
             <div class="row">
-            	<form style="max-width: 100%; margin-left: 20px;" enctype="multipart/form-data" method="post">
-            		<!-- 여행 일정 이름 -->
+            	<form style="max-width: 100%; margin-left: 20px;" id="frm" name="frm" encType="multipart/form-data" method="post">
+            		<br>
             		<div>
-            			<span style="font-size: 18px; color: #545454;"><b>여행 일정 이름   :   </b></span>
-            			<input type="text" id="TR_TITLE" name="TR_TITLE">
+            			<h4>여행 일정 이름</h4>
+            			<input type="text" id="TR_TITLE" name="TR_TITLE" placeholder="제목을 입력하세요" class="form-control input-sm">
             			<!-- <form>안에 input type="text"가 1개 있을 경우 -->
             			<!-- 입력 후 엔터시 새로고침 작동함, 이를 막기 위해 아래 코드 작성 -->
             			<input type="text" style="display:none;">
             			<input type="hidden" id="TR_ID" name="TR_ID" value="${MEM_ID}">
             		</div>
             		
-                	<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
+            		<div>
+            			<label>썸네일 등록 : </label>&nbsp;&nbsp;<input type="file" id="TR_IMAGE" name="TR_IMAGE" value="">
+            		</div>
+            		<div>
+            			<label>썸네일 이미지 미리보기 : </label>&nbsp;&nbsp;
+            			<img src="resources/images/banggok_logo.png" border="0" id="preview-image" style="width: 100px; height: 100px; object-fit: contain;">
+						<script>
+							// input file에 change 이벤트 부여
+							const inputImage = document.getElementById("TR_IMAGE");
+							inputImage.addEventListener("change", e=> {
+								readImage(e.target)
+							});
+						</script>
+            		</div>
+            		
+            		<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
                 		<!-- 여행 일정 -->
                 		<div style="border-left: solid #eaeaea; height: 450px; overflow-y: auto;">
                 			<h5 style="margin-left: 30px; margin-right: 20px;">여행 일정</h5>
@@ -469,7 +484,7 @@ border-color: #0078FF !important;
 		        /* LatLngBounds 객체에 좌표를 추가 */
 		        bounds.extend(placePosition);
 	
-		        // mouseout 했을 때는 인포윈도우를 닫습니다
+		        /* mouseout 했을 때는 인포윈도우를 닫습니다 */
 		        (function(marker, title) {
 		            kakao.maps.event.addListener(marker, 'mouseover', function() {
 		                displayInfowindow(marker, title);
@@ -730,8 +745,8 @@ border-color: #0078FF !important;
 		    paginationEl.appendChild(fragment);
 		}
 	
-		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-		// 인포윈도우에 장소명을 표시합니다
+		/* 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수 */
+		/* 인포윈도우에 장소명을 표시 */
 		function displayInfowindow(marker, title) {
 		    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
 	
@@ -739,7 +754,7 @@ border-color: #0078FF !important;
 		    infowindow.open(map, marker);
 		}
 	
-		 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+		/* 검색결과 목록의 자식 Element를 제거하는 함수입니다 */
 		function removeAllChildNods(el) {   
 		    while (el.hasChildNodes()) {
 		        el.removeChild (el.lastChild);
@@ -823,19 +838,19 @@ border-color: #0078FF !important;
     <script>
 	/* 이미지 미리보기 스크립트 */
 	function readImage(input) {
-		// 인풋 태그에 파일이 있는 경우
+		/* 인풋 태그에 파일이 있는 경우 */
 		if(input.files && input.files[0]) {
 			
-			// FileReader 인스턴스 생성
+			/* FileReader 인스턴스 생성 */
 			const reader = new FileReader();
 			
-			// 이미지가 로드가 된 경우
+			/* 이미지가 로드가 된 경우 */
 			reader.onload = e => {
 				const previewImage = document.getElementById("preview-image");
 				previewImage.src = e.target.result;
 			};
 			
-			// reader가 이미지 읽도록 하기
+			/* reader가 이미지 읽도록 하기 */
 			reader.readAsDataURL(input.files[0]);
 		}	
 	}
