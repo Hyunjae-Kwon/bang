@@ -19,7 +19,7 @@ import bang.common.together.TogetherService;
 import bang.common.trip.TripService;
 import bang.member.mypage.MyPageService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
- 
+  
 @Controller
 public class AdminController {
 	
