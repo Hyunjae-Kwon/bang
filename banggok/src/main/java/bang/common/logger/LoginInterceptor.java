@@ -37,11 +37,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				System.out.println("uri.substring(1, 6) : " + uri.substring(1, 6));
 				
 				/* 일반 사용자인 경우 관리자 페이지에 접근 불가 */
-				if( (!loginId.equals("ADMIN")) && (
+				if( (!loginId.equals("admin")) && (
 						uri.substring(1, 6).equals("admin") || uri.equals("/bang/adminPage.tr") || uri.equals("/bang/adminTripList.tr") ||
 						uri.equals("/bang/adminReviewList.tr") || uri.equals("/bang/adminTogetherList.tr") || uri.equals("/bang/adminRecommendList.tr") ||
 						uri.equals("/bang/adminReportList.tr") || uri.equals("/bang/adminMemberList.tr") || uri.equals("/bang/adminMemberModifyForm.tr") ||
-						uri.equals("/bang/adminReportDetail.tr")
+						uri.equals("/bang/adminReportDetail.tr") || uri.equals("/bang/recommendWriteForm.tr")
 						)) {
 					System.out.println("- 일반 사용자가 관리자 페이지에 접근 -");
 					response.sendRedirect("main.tr");
