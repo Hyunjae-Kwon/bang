@@ -56,7 +56,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(myTogetherList) > 0}">
+						<c:when test="${fn:length(list) > 0}">
 							<c:forEach items="${myTogetherList}" var="list" varStatus="status">
 								<tr>
 									<td align="center">${list.TG_NUM }

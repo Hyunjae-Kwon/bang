@@ -53,7 +53,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${myTripList != null}">
+						<c:when test="${list != null}">
 							<c:forEach items="${myTripList}" var="list" varStatus="status">
 								<tr>
 									<td align="center">${list.TR_NUM }
