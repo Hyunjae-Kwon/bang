@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
-import bang.member.login.LoginService;
 import bang.common.report.ReportService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -27,9 +26,6 @@ public class TogetherController {
 	@Resource(name = "togetherService")
 	private TogetherService togetherService;
 	
-	@Resource(name = "loginService")
-	private LoginService loginService;
-
 	/* 댓글 */
 	@Resource(name = "commentService")
 	CommentService commentService;
@@ -52,26 +48,16 @@ public class TogetherController {
 	
 	/* 동행게시판 디테일 */
 	@RequestMapping(value="/togetherDetail.tr")
-	public ModelAndView openBoardDetail(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/together/togetherDetail");
-		
-		HttpSession session = request.getSession();
-		String MEM_ID = (String) session.getValue("MEM_ID");
-		commandMap.put("MEM_ID", MEM_ID);
 		
 		Map<String,Object> map = togetherService.togetherDetail(commandMap.getMap());
 		
-		Map<String,Object> memList = loginService.selectMemberId(commandMap.getMap());
-
 		/* 댓글 리스트 불러오기 */
 		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
 		
 		mv.addObject("map", map);
-
-		mv.addObject("memList",memList);
-
 		mv.addObject("comment", comment);
-
 		
 		return mv;
 	}

@@ -30,6 +30,17 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/chat.css'/>"/>
 </head>
 <body>
+	<!--  ************************* Page Title Starts Here ************************** -->
+   <div class="page-nav no-margin row">
+        <div class="container">
+            <div class="row">
+                <h2>채팅</h2>
+                <ul>
+                    <li><i class="fas fa-comment"></i>chat</li>                 
+                </ul>
+            </div>
+        </div>
+    </div>
 
  <div class="msg-container">
       <div class="messaging">
