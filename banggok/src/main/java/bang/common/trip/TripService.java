@@ -22,13 +22,19 @@ public interface TripService {
 	Map<String, Object> tripDetail(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
-	List<Map<String, Object>> tripplaceDetail(Map<String, Object> map) throws Exception;
+	List<Map<String, Object>> tripPlaceDetail(Map<String, Object> map) throws Exception;
+	
+	/* 일정 Day 번호 불러오기 */
+	List<Map<String, Object>>tripDayNum(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
 	void tripModify(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
 	void tripDelete(Map<String, Object> map) throws Exception;
+	
+	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 장소정보 삭제하기 */
+	void tripPlaceDelete(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 검색하기 */
 	List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception;

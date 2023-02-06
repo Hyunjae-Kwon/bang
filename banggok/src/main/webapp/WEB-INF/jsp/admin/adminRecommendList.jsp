@@ -16,8 +16,9 @@
             <div class="row">
                 <h2>여행지 추천 게시판 관리</h2>
                 <ul>
-                    <li> <a href="adminPage.tr"><i class="fas fa-user-alt"></i>관리자 페이지</a></li>
+                    <li><a href="adminPage.tr"><i class="fas fa-user-alt"></i>관리자 페이지</a></li>
                     <li><i class="fas fa-angle-double-right"></i><i class="fas fa-map-marked"></i> 여행지 추천 게시판</li>
+                    <li><a href="recommendWriteForm.tr"><i class="fas fa-angle-double-right"></i><i class="fa-solid fa-pen-to-square"></i> 글쓰기</a></li>
                 </ul>
             </div>
         </div>
