@@ -39,7 +39,7 @@
              		<div class="col-13">${list.CT_CONTENT}</div>
                  	<div class="col-2 unread${list.CH_ROOM}">
                      	<c:if test="${unreadList[status.index].UNREAD > 0}">
-                        <div class="badge bg-danger" style="font-size:0.5em;">${unreadList[status.index].UNREAD}</div>
+                        <div class="badge bg-danger" style="font-size:0.5em; color:#ffffff">${unreadList[status.index].UNREAD}</div>
                     </c:if>
                  	</div>
                     
