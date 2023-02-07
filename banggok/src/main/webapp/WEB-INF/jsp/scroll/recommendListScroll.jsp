@@ -20,7 +20,10 @@
 				                    			<img src="${list.RC_IMAGE}" alt="썸네일 없음" style="width: 245px; height: 245px; object-fit: contain;">
 					                    	</a>
 				                        </div>
-				                        <h3>${list.RC_TITLE}</h3>
+				                        <h3>${list.RC_TITLE}
+				                        	<c:if test="${list.COMCOUNT == null}">[0]</c:if>
+											<c:if test="${list.COMCOUNT != null}">[${list.COMCOUNT}]</c:if>
+				                        </h3>
 				                        <button class="btn btn-outline-success" onClick="location.href='/bang/recommendDetail.tr?RC_NUM=${list.RC_NUM}'">상세 보기</button>
 				                    </div>
 				                </div>

@@ -40,6 +40,7 @@ public class TogetherController {
 		ModelAndView mv = new ModelAndView("/together/togetherList");
 
 		Map<String, Object> resultMap = togetherService.togetherList(commandMap.getMap());
+		
 		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
 		mv.addObject("list", resultMap.get("result"));
 		
