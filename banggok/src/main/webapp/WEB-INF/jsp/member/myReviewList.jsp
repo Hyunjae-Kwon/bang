@@ -50,7 +50,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(myReviewList) > 0}">
+						<c:when test="${fn:length(list) > 0}">
 							<c:forEach items="${myReviewList}" var="list" varStatus="status">
 								<tr>
 									<td align="center">${list.RV_NUM }
