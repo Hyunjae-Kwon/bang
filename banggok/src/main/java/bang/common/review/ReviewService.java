@@ -34,7 +34,7 @@ public interface ReviewService {
 	Map<String,Object> myReviewList(Map<String,Object> map) throws Exception;
 	
 	/* 여행후기 수정 */
-	void reviewModify(Map<String, Object> map) throws Exception;
+	void reviewModify(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
 	
 	/* 여행후기 삭제 */
 	void reviewDelete(Map<String, Object> map) throws Exception;

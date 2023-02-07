@@ -162,8 +162,7 @@
 			UPDATE REVIEW
 			SET
 				RV_TITLE = #{RV_TITLE},
-				RV_CONTENT = #{RV_CONTENT},
-				RV_IMAGE = #{RV_IMAGE}
+				RV_CONTENT = #{RV_CONTENT}
 			WHERE
 				RV_NUM = #{RV_NUM}	
 		]]>

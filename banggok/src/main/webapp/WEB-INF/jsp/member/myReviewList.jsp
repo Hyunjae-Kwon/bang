@@ -63,7 +63,7 @@
 									<td align="center">${list.RV_LIKE }</td>
 									<td align="center" ${list.RV_REGDATE }><fmt:formatDate value="${list.RV_REGDATE}" pattern="yyyy-MM-dd" /></td>
 									<td align="center">
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/reviewModify.tr?RV_NUM=${list.RV_NUM}'">수정</button> 
+									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/reviewModifyForm.tr?RV_NUM=${list.RV_NUM}'">수정</button> 
 									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="return deleteReview()">삭제</button>									  
 									</td>
 								</tr>

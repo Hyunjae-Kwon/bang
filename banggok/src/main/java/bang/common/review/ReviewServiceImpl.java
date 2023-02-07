@@ -83,8 +83,17 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	/* 여행후기 수정 */
-	public void reviewModify(Map<String, Object> map)throws Exception{
+	public void reviewModify(Map<String, Object> map, MultipartHttpServletRequest request)throws Exception{
 		reviewDAO.reviewModify(map);
+		
+		String rvNum = (String) map.get("RV_NUM");
+		
+		Map<String, Object> file = fileUtils.parseInsertFileInfo(map, request);
+		
+		file.put("RV_IMAGE", file.get("IMAGE"));
+		file.put("RV_NUM", rvNum);
+		
+		reviewDAO.reviewImageUpdate(file);
 	}
 	
 	/* 여행후기 삭제 */

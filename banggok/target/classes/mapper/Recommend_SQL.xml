@@ -127,19 +127,20 @@
 	</delete>
 	
 	<!-- [recommendModifyForm] 여행지 추천 게시글 수정 폼 -->
-	<select id="recommendModifyForm" parameterType="hashmap" resultType="hashmap">
+	<!-- <select id="recommendModifyForm" parameterType="hashmap" resultType="hashmap">
       <![CDATA[
          SELECT
             RC_NUM,
             RC_TITLE,
             RC_CONTENT,
-            RC_REGDATE
+            RC_REGDATE,
+            RC_IMAGE
          FROM
             RECOMMEND
          WHERE
             RC_NUM = #{RC_NUM}
       ]]>
-	</select>
+	</select> -->
 
 	<!-- [recommendModify] 여행지 추천 게시글 수정하기 -->
 	<update id="recommendModify" parameterType="hashmap">

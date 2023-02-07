@@ -76,7 +76,6 @@ public class FileUtils {
 	public Map<String,Object> parseInsertFileInfo(Map<String,Object> map, MultipartHttpServletRequest request) throws Exception{
 		
     	Iterator<String> iterator = request.getFileNames();
-    	
     	MultipartFile multipartFile = null;
     	String originalFileName = null;
     	String originalFileExtension = null;
@@ -88,9 +87,29 @@ public class FileUtils {
         	file.mkdirs();
         }
         
-        while(iterator.hasNext()){
-        	multipartFile = request.getFile(iterator.next());
-        	if(multipartFile.isEmpty() == false){
+    	if(map.get("IMAGE") == null) {
+        	if(request.getFile("RV_IMAGE") != null) {
+        		multipartFile = request.getFile("RV_IMAGE");
+    			originalFileName = multipartFile.getOriginalFilename();
+        		originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        		storedFileName = CommonUtils.getNowTimeToString() + "_" + originalFileName;
+        		
+        		file = new File(tempFilePath + storedFileName);
+        		multipartFile.transferTo(file);
+        		
+        		returnUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/GetTempFile.tr?filename="+storedFileName;
+        	} else if(request.getFile("RC_IMAGE") != null) {
+        		multipartFile = request.getFile("RC_IMAGE");
+        		originalFileName = multipartFile.getOriginalFilename();
+        		originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        		storedFileName = CommonUtils.getNowTimeToString() + "_" + originalFileName;
+        		
+        		file = new File(tempFilePath + storedFileName);
+        		multipartFile.transferTo(file);
+        		
+        		returnUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/GetTempFile.tr?filename="+storedFileName;
+        	} else if(request.getFile("TR_IMAGE") != null) {
+        		multipartFile = request.getFile("TR_IMAGE");
         		originalFileName = multipartFile.getOriginalFilename();
         		originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         		storedFileName = CommonUtils.getNowTimeToString() + "_" + originalFileName;
@@ -100,7 +119,10 @@ public class FileUtils {
         		
         		returnUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/GetTempFile.tr?filename="+storedFileName;
         	}
-        }
+    	} else {
+    		returnUrl = (String) map.get("IMAGE");
+    	}
+       
         map.put("IMAGE", returnUrl);
         
 		return map;

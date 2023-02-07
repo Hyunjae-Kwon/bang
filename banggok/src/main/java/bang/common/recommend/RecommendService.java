@@ -31,10 +31,10 @@ public interface RecommendService {
 	void deleteRecommend(Map<String, Object> map) throws Exception;
 	
 	/* 여행지 추천 게시글 수정 폼 */
-	Map<String, Object> recommendModifyForm(Map<String, Object> map) throws Exception;
+//	Map<String, Object> recommendModifyForm(Map<String, Object> map) throws Exception;
 	
 	/* 여행지 추천 게시글 수정하기 */
-	void recommendModify(Map<String, Object> map)throws Exception;
+	void recommendModify(Map<String, Object> map, MultipartHttpServletRequest request)throws Exception;
 	
 	/* 추천하기 */
 	void recommendLike(Map<String, Object> map) throws Exception;
