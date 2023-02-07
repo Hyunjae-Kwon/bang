@@ -49,10 +49,5 @@
 		</param-value>
 	</context-param>
 	
-	<!-- 채팅 서버에 접속하기 위한 요청 URL -->
-	<context-param>
-		<param-name>CHAT_ADDR</param-name>
-		<param-value>ws://localhost:8080/bang</param-value>
-	</context-param>
 
 </web-app>

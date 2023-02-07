@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chat">
+
+   <!-- 메세지 리스트 가져오기 -->
+<select id="selectChatList" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+   SELECT
+    CH_NUM,
+    CH_ROOM,
+    CH_FROMID,
+    CH_TOID,
+    TO_CHAR(CH_SENDTIME, 'YYYY.MM.DD HH24:MI') AS CH_SENDTIME,
+    TO_CHAR(CH_READTIME, 'YYYY.MM.DD HH24:MI') AS CH_READTIME,
+    CH_CONTENT,
+    CH_READ
+    FROM  CHAT
+    WHERE CH_NUM IN
+            (SELECT MAX(NUM)
+                    FROM (SELECT 
+                        CH_NUM AS NUM,
+                        CH_ROOM,
+                        CH_FROMID,
+                        CH_TOID,
+                        CH_CONTENT,
+                        CH_READ
+                        FROM CHAT
+                    WHERE (CH_FROMID = #{MEM_ID} OR CH_TOID= #{MEM_ID})]]> 
+                    <include refid="messageSearch"/><![CDATA[ ) GROUP BY CH_ROOM)
+                    ORDER BY CH_NUM DESC
+]]>    
+</select>
+<sql id="messageSearch">
+   <if test="keyword != null">
+      AND CH_CONTENT LIKE '%' || #{keyword} || '%'
+   </if>
+</sql>
+
+<!-- 닉네임 가져오기 -->
+<select id="selectNickname" parameterType="hashmap" resultType="hashmap">
+    <![CDATA[
+   SELECT MEM_NICKNAME,  		
+   			MEM_BLOCK
+   FROM MEMBER
+   WHERE MEM_ID = #{MEM_ID}
+     ]]>
+</select>
+
+<!-- 안읽은 메세지 개수 가져오기 -->
+<select id="countUnread" parameterType="hashmap" resultType="hashmap">
+    <![CDATA[
+    SELECT /*+ INDEX_DESC(CHAT PK_CHAT) */
+          COUNT(CH_NUM) AS UNREAD
+   FROM CHAT
+   WHERE CH_TOID = #{MEM_ID} AND CH_READ=1 AND CH_ROOM=#{CH_ROOM}
+   ]]>
+</select>
+
+<!-- 메세지 내용 가져오기 -->
+<select id="selectContent" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[	 
+	  SELECT   C.CH_NUM,
+	           C.CH_ROOM,
+	           C.CH_FROMID,
+	           C.CH_TOID,
+	           TO_CHAR(C.CH_SENDTIME, 'YYYY.MM.DD HH24:MI') AS CH_SENDTIME,
+	           TO_CHAR(C.CH_READTIME, 'YYYY.MM.DD HH24:MI') AS CH_READTIME,
+	           C.CH_CONTENT,
+	           C.CH_READ,
+	           M.MEM_NICKNAME
+	   FROM CHAT C, MEMBER M
+	   WHERE C.CH_TOID = M.MEM_ID
+	            AND CH_ROOM= #{CH_ROOM}
+	              AND (C.CH_TOID =#{MEM_ID} OR C.CH_FROMID=#{MEM_ID})
+	              ORDER BY C.CH_NUM ASC
+	 ]]>
+</select>
+
+<!-- 메세지 읽음 처리 -->
+<update id="readCheck" parameterType="hashmap">
+	 <![CDATA[
+	UPDATE CHAT
+	SET CH_READ=0,
+		CH_READTIME=SYSDATE
+	WHERE CH_ROOM=#{CH_ROOM}
+	      AND CH_READ=1 AND CH_TOID=#{MEM_ID}
+	]]>
+</update>
+
+<!-- 메세지 보내기 -->
+<insert id="insertChat" parameterType="hashmap">
+    <![CDATA[
+    INSERT INTO CHAT (
+                CH_NUM,
+                CH_ROOM,
+                CH_FROMID,
+                CH_TOID,
+                CH_SENDTIME,
+                CH_CONTENT
+                )
+      VALUES(
+            CH_NUM_SEQ.NEXTVAL,
+            #{CH_ROOM},
+            #{MEM_ID},
+            #{CH_TOID},
+            SYSDATE,
+            #{CH_CONTENT}
+            )
+       ]]>
+</insert>
+
+<!-- room 번호 최대값 구하기 -->
+<select id="maxRoom"  parameterType="hashmap" resultType="Int">
+   SELECT MAX(CH_ROOM)
+   FROM CHAT
+</select>
+
+<!-- 메세지 이력이 있는지 검색 -->
+<select id="existChat" parameterType="hashmap" resultType="Int">
+<![CDATA[
+   SELECT COUNT(CH_NUM)
+   FROM CHAT
+   WHERE (CH_TOID = #{CH_TOID} AND CH_FROMID = #{MEM_ID})
+		OR (CH_TOID = #{MEM_ID} AND CH_FROMID = #{CH_TOID})
+	  ]]>
+</select>
+
+<!-- 기존 메세지 내역의 room 번호를 가져옴 -->
+<select id="selectRoom"  parameterType="hashmap" resultType="Int">
+   <![CDATA[
+    SELECT DISTINCT
+    		CH_ROOM
+   FROM CHAT
+   WHERE (CH_TOID = #{CH_TOID} AND CH_FROMID= #{MEM_ID})
+           OR(CH_TOID= #{MEM_ID} AND CH_FROMID= #{CH_TOID})
+    ]]>
+</select>
+</mapper>

@@ -127,8 +127,12 @@ border-color: #0078FF !important;
             		<div>
             			<h4>여행 일정 이름</h4>
             			<input type="text" id="TR_TITLE" name="TR_TITLE" placeholder="제목을 입력하세요" class="form-control input-sm">
+            			<!-- <form>안에 input type="text"가 1개 있을 경우 -->
+            			<!-- 입력 후 엔터시 새로고침 작동함, 이를 막기 위해 아래 코드 작성 -->
+            			<input type="text" style="display:none;">
             			<input type="hidden" id="TR_ID" name="TR_ID" value="${MEM_ID}">
             		</div>
+            		
             		<div>
             			<label>썸네일 등록 : </label>&nbsp;&nbsp;<input type="file" id="TR_IMAGE" name="TR_IMAGE" value="">
             		</div>
@@ -143,9 +147,10 @@ border-color: #0078FF !important;
 							});
 						</script>
             		</div>
-                	<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
-                		
-                		<div style="border-left: solid #eaeaea; height: 450px;">
+            		
+            		<div class="row" style="margin-top: 15px; flex-wrap: nowrap;">
+                		<!-- 여행 일정 -->
+                		<div style="border-left: solid #eaeaea; height: 450px; overflow-y: auto;">
                 			<h5 style="margin-left: 30px; margin-right: 20px;">여행 일정</h5>
                 			<input type="button" value="추가" class="btn btn-outline-success btn-sm" onClick="addSch()" style="margin-left: 20px; margin-right: 5px;">
                 			<input type="button" value="삭제" class="btn btn-outline-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
@@ -203,9 +208,10 @@ border-color: #0078FF !important;
             </div>
         </div>
     </div>
-	<form id="commonForm" name="commonForm"></form>
-    <!-- 글 작성 자바스크립트 -->
-	<script>
+	</body>
+    
+    <!--  ************************* 여행 일정 만들기 자바스크립트 ************************** -->
+    <script>
  	function tripWrite(){
  		var id = document.getElementById("TR_ID").value;
 		var title = document.getElementById("TR_TITLE").value;
@@ -341,22 +347,23 @@ border-color: #0078FF !important;
 						for(var i=0; i<list.length; i++){
 							item += '<ul id="placesList2" class="placesLists">' + 
 									'<li class="item">' +
-										'<h5 id=TP_PLACE>' + list[i].R +'. ' + list[i].TP_PLACE + 
-											'<i style="cursor: pointer; float: right;" class="fa-regular fa-circle-xmark" onclick="deletePlace(' + list[i].TP_NUM + ',' + list[i].TP_MAP_LAT + ',' + list[i].TP_MAP_LNG + ')"></i>' + 
-										'</h5>';
-							if(list[i].TP_RADDRESS != null){
-								item +=	'<span id="TP_RADDRESS">' + list[i].TP_RADDRESS + '</span>';
+										'<h5 id=TP_PLACE>' + addPlace[i].R +'. ' + addPlace[i].TP_PLACE + '</h5>';
+							if(addPlace[i].TP_RADDRESS != null){
+								item +=	'<span id="TP_RADDRESS">' + addPlace[i].TP_RADDRESS + '</span>';
 							}
 							if(list[i].TP_ADDRESS != null){
 								item +=	'<span id="TP_ADDRESS" class="jibun gray">' + list[i].TP_ADDRESS + '</span>'; 
 							}			
-							if(list[i].TP_PHONE != null){
-								item +=	'<span class="tel" id="TP_PHONE">' + list[i].TP_PHONE; '</span>';
+							if(addPlace[i].TP_PHONE != null){
+								item +=	'<span class="tel" id="TP_PHONE">' + addPlace[i].TP_PHONE; 
 							}
-							item +=		'<span style="display: none;" id="TP_NUM">' + list.TP_NUM + '</span>' +
-										'<span style="display: none;" id="TP_MAP_LAT">' + list[i].TP_MAP_LAT + '</span>' +
-										'<span style="display: none;" id="TP_MAP_LNG">' + list[i].TP_MAP_LNG + '</span>' +
-										'<span style="display: none;" id="TP_DATE">' + list[i].TP_DATE + '</span>' +
+							item +=		'<input type="button" id="del" style="float: right;"' +
+										'onclick="deletePlace(' + addPlace[i].TP_NUM + ',' + addPlace[i].TP_MAP_LAT + ',' + addPlace[i].TP_MAP_LNG + ')"' + 
+										'value="장소 삭제"></span>' +					 
+										'<span style="display: none;" id="TP_NUM">' + addPlace.TP_NUM + '</span>' +
+										'<span style="display: none;" id="TP_MAP_LAT">' + addPlace[i].TP_MAP_LAT + '</span>' +
+										'<span style="display: none;" id="TP_MAP_LNG">' + addPlace[i].TP_MAP_LNG + '</span>' +
+										'<span style="display: none;" id="TP_DATE">' + addPlace[i].TP_DATE + '</span>' +
 									'</li>' +
 								'</ul>';
 						}
@@ -467,9 +474,7 @@ border-color: #0078FF !important;
 		        // LatLngBounds 객체에 좌표를 추가합니다
 		        bounds.extend(placePosition);
 	
-		        // 마커와 검색결과 항목에 mouseover 했을때
-		        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-		        // mouseout 했을 때는 인포윈도우를 닫습니다
+		        /* mouseout 했을 때는 인포윈도우를 닫습니다 */
 		        (function(marker, title) {
 		            kakao.maps.event.addListener(marker, 'mouseover', function() {
 		                displayInfowindow(marker, title);
@@ -727,8 +732,8 @@ border-color: #0078FF !important;
 		    paginationEl.appendChild(fragment);
 		}
 	
-		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-		// 인포윈도우에 장소명을 표시합니다
+		/* 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수 */
+		/* 인포윈도우에 장소명을 표시 */
 		function displayInfowindow(marker, title) {
 		    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
 	
@@ -736,7 +741,7 @@ border-color: #0078FF !important;
 		    infowindow.open(map, marker);
 		}
 	
-		 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+		/* 검색결과 목록의 자식 Element를 제거하는 함수입니다 */
 		function removeAllChildNods(el) {   
 		    while (el.hasChildNodes()) {
 		        el.removeChild (el.lastChild);
@@ -819,19 +824,19 @@ border-color: #0078FF !important;
     <script>
 	/* 이미지 미리보기 스크립트 */
 	function readImage(input) {
-		// 인풋 태그에 파일이 있는 경우
+		/* 인풋 태그에 파일이 있는 경우 */
 		if(input.files && input.files[0]) {
 			
-			// FileReader 인스턴스 생성
+			/* FileReader 인스턴스 생성 */
 			const reader = new FileReader();
 			
-			// 이미지가 로드가 된 경우
+			/* 이미지가 로드가 된 경우 */
 			reader.onload = e => {
 				const previewImage = document.getElementById("preview-image");
 				previewImage.src = e.target.result;
 			};
 			
-			// reader가 이미지 읽도록 하기
+			/* reader가 이미지 읽도록 하기 */
 			reader.readAsDataURL(input.files[0]);
 		}	
 	}

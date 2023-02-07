@@ -244,7 +244,6 @@ $(document).on("click","[name=reportCom]", function(){
 	return reportCom;
 	
 });  
-
 function reportCom() {
 	var frm = document.getElementById('frmCom');
 	
