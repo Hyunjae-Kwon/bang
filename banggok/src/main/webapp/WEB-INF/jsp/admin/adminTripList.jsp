@@ -52,7 +52,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(trip) > 0}">
+						<c:when test="${trip[0].TR_NUM != null}">
 							<c:forEach items="${trip}" var="list" varStatus="status">
 								<tr class="items">
 									<td align="center">${list.TR_NUM}

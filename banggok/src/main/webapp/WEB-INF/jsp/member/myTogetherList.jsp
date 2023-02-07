@@ -11,12 +11,6 @@
 </head>
 <link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>"/>
 <body>
-<!-- ################# Header Starts Here#######################--->
-
-
- 
-
-    
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -29,8 +23,6 @@
             </div>
         </div>
     </div>
-    
-    
      <!--*************** Blog Starts Here ***************-->
       <br><br>
 <div class="board-list">
@@ -56,7 +48,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(myTogetherList) > 0}">
+						<c:when test="${myTogetherList[0].TG_NUM != null}">
 							<c:forEach items="${myTogetherList}" var="list" varStatus="status">
 								<tr>
 									<td align="center">${list.TG_NUM }
@@ -76,7 +68,7 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="5">조회된 결과가 없습니다.</td>
+								<td colspan="6">조회된 결과가 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
@@ -116,11 +108,5 @@
 		comSubmit.submit();
     }
 	</script>
-
-  <!--  ************************* Footer Start Here ************************** -->
-
-    
-   
     </body>
-
 </html>

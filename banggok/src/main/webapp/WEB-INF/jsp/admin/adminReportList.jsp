@@ -54,7 +54,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(report) > 0}">
+						<c:when test="${report[0].RP_NUM != null}">
 							<c:forEach items="${report}" var="list" varStatus="status">
 								<tr class="items">
 									<td align="center">${list.RP_NUM}</td>

@@ -73,7 +73,7 @@
 	<!-- ################# 댓글 내용 Starts Here ####################### -->
 	<div class="board-list">
 		<div class="container">
-			<table class="board-table">
+			<table class="board-table" id="more_list">
 				<colgroup>
 					<col width="10%" />
 					<col width="50%" />
@@ -122,6 +122,13 @@
 					</c:otherwise>
 				</c:choose>
 			</table>
+		<div id="more_btn_div" align="center">
+			<hr>
+				<a id="more_btn_a" href="javascript:moreContent('more_list', 10);">
+					더보기(More)
+				</a>
+			<hr>
+		</div>	
 		</div>
 		<br>
 		<div style="display: inline-block; width: 78%; margin-left: 96px;">
@@ -320,4 +327,46 @@ function reportCom() {
 	frm.submit();
 }
 </script>
+
+<script>
+moreList(); //함수 호출
+ 
+function moreList() {
+ 
+    var startNum = $("#listBody tr").length;  //마지막 리스트 번호를 알아내기 위해서 tr태그의 length를 구함.
+    var addListHtml = "";  
+    console.log("startNum", startNum); //콘솔로그로 startNum에 값이 들어오는지 확인
+ 
+     $.ajax({
+        url : "/bang/getfilmList.tr",
+        type : "post",
+        dataType : "json",
+        data : {"startNum":startNum},
+        
+        success : function(data) {
+            if(data.length < 10){
+                $("#addBtn").remove();   // 더보기 버튼을 div 클래스로 줘야 할 수도 있음
+            }else{
+            var addListHtml ="";
+            if(data.length > 0){
+                
+                for(var i=0; i<data.length;i++) {
+                    var idx = Number(startNum)+Number(i)+1;   
+                    // 글번호 : startNum 이  10단위로 증가되기 때문에 startNum +i (+1은 i는 0부터 시작하므로 )
+                    addListHtml += "<tr>";
+                    addListHtml += "<td>"+ idx + "</td>";
+                    addListHtml += "<td>"+ data[i].title + "</td>";
+                    addListHtml += "<td>"+ data[i].description + "</td>";
+                    addListHtml += "</tr>";
+                }
+                $("#listBody").append(addListHtml);
+            }
+            }
+        }
+    });
+ 
+}
+</script>
+
+
 </html>

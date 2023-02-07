@@ -34,7 +34,7 @@ public class JoinController {
     }
     
     /* 파일 업로드 경로 [본인 경로로 변경 필요] */
-	private static final String filePath = "/Users/felix/Pictures/profile/";
+	private static final String filePath = "C:\\comm\\tempImages\\";
 
 	/* 회원가입 폼 */
 	@RequestMapping(value = "/joinForm.tr", method = RequestMethod.GET)

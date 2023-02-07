@@ -50,7 +50,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(recommend) > 0}">
+						<c:when test="${recommend[0].RC_NUM != null}">
 							<c:forEach items="${recommend}" var="list" varStatus="status">
 								<tr class="items">
 									<td align="center">${list.RC_NUM}
@@ -70,7 +70,7 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="8">조회된 결과가 없습니다.</td>
+								<td colspan="7">조회된 결과가 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
