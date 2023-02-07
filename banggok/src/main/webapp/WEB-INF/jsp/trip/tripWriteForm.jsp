@@ -104,8 +104,7 @@ border-color: #0078FF;
 .searchBtn:hover{
 background-color: #0078FF !important;
 border-color: #0078FF !important; 
-}	
-
+}
 </style>
 </head>
     <body>
@@ -114,7 +113,6 @@ border-color: #0078FF !important;
         <div class="container">
             <div class="row">
             	<h2>여행 일정 만들기</h2>
-            	<p>원하시는 일정을 선택해주세요.</p>
             </div>
         </div>
     </div>
@@ -126,7 +124,7 @@ border-color: #0078FF !important;
             	<form style="max-width: 100%; margin-left: 20px;" id="frm" name="frm" encType="multipart/form-data" method="post">
             		<br>
             		<div>
-            			<h4>여행 일정 이름</h4>
+            			<h4>여행 일정 제목</h4>
             			<input type="text" id="TR_TITLE" name="TR_TITLE" placeholder="제목을 입력하세요" class="form-control input-sm">
             			<!-- <form>안에 input type="text"가 1개 있을 경우 -->
             			<!-- 입력 후 엔터시 새로고침 작동함, 이를 막기 위해 아래 코드 작성 -->
@@ -154,7 +152,7 @@ border-color: #0078FF !important;
                 		<div style="border-left: solid #eaeaea; height: 450px; overflow-y: auto;">
                 			<h5 style="margin-left: 30px; margin-right: 20px;">여행 일정</h5>
                 			<input type="button" value="추가" class="btn btn-outline-success btn-sm" onClick="addSch()" style="margin-left: 20px; margin-right: 5px;">
-                			<input type="button" value="삭제" class="btn btn-outline-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
+                			<input type="button" value="삭제" class="del btn btn-outline-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
                 			<ul id="schList"></ul>
                 		</div>
                 		
@@ -189,16 +187,16 @@ border-color: #0078FF !important;
             </div>
             <br>
             <div>
-            	<h3>여행 일정 메모</h3>
+            	<h3>여행 일정 내용</h3>
             	<!-- 글 작성 폼 -->
     			<textarea id="summernote" class="TR_CONTENT" name="TR_CONTENT">${TR_CONTENT}</textarea>
             </div>
-            <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
+            <!-- 하단 버튼 -->
             <div style="margin-top:10px;">
                 <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
                 <div class="col-sm-8" style="max-width: 100%; text-align: center;">
                 	<input type="button" class="btn btn-outline-success btn-sm" value="작성하기" onclick="tripWrite()">
-                	<input type="button" class="btn btn-outline-success btn-sm" value="취소하기" onclick="location.href='/bang/main.tr'">
+                	<input type="button" class="del btn btn-outline-success btn-sm" value="취소하기" onclick="tripCancel()">
                 </div>
                 <br>
             </div>
@@ -214,41 +212,56 @@ border-color: #0078FF !important;
 		var content = document.getElementById("summernote").value;
 		var image = document.getElementById("TR_IMAGE").value;
 		
-			if (!$("#TR_TITLE").val()) {
-				alert("제목을 입력하세요.");
-				$("#TR_TITLE").focus();
-				return false;
-			}
-			if (!$(".TR_CONTENT").val()) {
-				alert("일정 내용을 입력하세요.");
-				$(".TR_CONTENT").focus();
-				return false;
-			}
-			if (!$("#TR_IMAGE").val()) {
-				alert("썸네일 이미지를 등록하세요.");
-				$("#TR_IMAGE").focus();
-				return false;
-			}
+		if (!$("#TR_TITLE").val()) {
+			alert("일정 제목을 입력하세요.");
+			$("#TR_TITLE").focus();
+			return false;
+		}
+		if (!$(".TR_CONTENT").val()) {
+			alert("일정 내용을 입력하세요.");
+			$(".TR_CONTENT").focus();
+			return false;
+		}
+		if (!$("#TR_IMAGE").val()) {
+			alert("썸네일 이미지를 등록하세요.");
+			$("#TR_IMAGE").focus();
+			return false;
+		}
 			
 		var form = $("#frm")[0];
 		var formData = new FormData(form);
 		formData.append("TR_CONTENT", content);
 		
+		$.ajax({
+			type: "POST",
+			enctype: "multipart/form-data",
+			url: "<c:url value='tripWrite.tr'/>",
+			data: formData,
+			async: false,
+			contentType: false,
+			processData: false,
+			cache: false,
+			success: function(data){
+				alert("게시글이 정상적으로 등록 되었습니다.");
+				location.href="/bang/myTripList.tr";
+			}	
+	    });
+	}
+ 	
+ 	function tripCancel(){
+ 		var id = document.getElementById("TR_ID").value;
+ 		
+ 		if(confirm("여행 일정 만들기를 취소하시겠습니까?") == true){
 			$.ajax({
 				type: "POST",
-				enctype: "multipart/form-data",
-				url: "<c:url value='tripWrite.tr'/>",
-				data: formData,
-				async: false,
-				contentType: false,
-				processData: false,
-				cache: false,
+				url: "<c:url value='tripCancel.tr'/>",
+				data: {TP_ID: id},
 				success: function(data){
-					alert("게시글이 정상적으로 등록 되었습니다.");
-					location.href="/bang/myTripList.tr";
-				}	
-	        });
-		} 
+					location.href="/bang/main.tr";
+				}
+		    });
+ 		}
+ 	}
 	</script>
     <!-- 카카오 지도 API, services와 clusterer, drawing 라이브러리 불러오기 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fa3a582f3278c83fd4f3031cc4f96d&libraries=services,clusterer,drawing"></script>
@@ -814,27 +827,26 @@ border-color: #0078FF !important;
             		}
             	}
             }
-      }); 
+    }); 
 	
-		  /* 파일 업로드를 위한 Ajax */
-		  function uploadSummernoteImageFile(file, el) {
-				data = new FormData();
-				data.append("file", file);
-				$.ajax({
-					data : data,
-					type : "POST",
-					url : "uploadSummernoteImageFile.tr",	/* 이미지 업로드 경로 */
-					contentType : false,
-					enctype : 'multipart/form-data',	/* 파일 업로드를 위해 꼭 이대로 써줘야함 */
-					processData : false,
-					success : function(data) {
-						$(el).summernote('editor.insertImage', data.url);	/* 이미지를 삽입할 수 있도록 해줌 */
-					}
+	/* 파일 업로드를 위한 Ajax */
+	function uploadSummernoteImageFile(file, el) {
+		data = new FormData();
+		data.append("file", file);
+		$.ajax({
+			data : data,
+			type : "POST",
+			url : "uploadSummernoteImageFile.tr",	/* 이미지 업로드 경로 */
+			contentType : false,
+			enctype : 'multipart/form-data',	/* 파일 업로드를 위해 꼭 이대로 써줘야함 */
+			processData : false,
+			success : function(data) {
+			$(el).summernote('editor.insertImage', data.url);	/* 이미지를 삽입할 수 있도록 해줌 */
+			}
 				
-				});
-			} 
-			
-    </script>
+		});
+	} 
+	</script>
     <script>
 	/* 이미지 미리보기 스크립트 */
 	function readImage(input) {

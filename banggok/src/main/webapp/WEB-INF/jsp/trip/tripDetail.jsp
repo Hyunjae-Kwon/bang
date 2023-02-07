@@ -236,8 +236,15 @@
 				<c:if test="${MEM_ID eq trip.TR_ID}">
 					<!--  작성자일때만 보이게 -->
 					<button class="btn btn-outline-success" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${trip.TR_NUM}'">수정하기</button>
-					<button class="btn btn-outline-success" onClick="return fn_tripDelete()">삭제하기</button>
-					<button class="btn btn-outline-success" onClick="location.href='/bang/tripShare.tr?TR_NUM=${trip.TR_NUM}'">공유하기</button>
+					<button class="del btn btn-outline-success" onClick="deleteTrip(${trip.TR_NUM})">삭제하기</button>
+					<c:if test="${trip.TR_SHARE eq 'Y' }">
+						<button class="del btn btn-outline-success" 
+						onClick="location.href='/bang/tripShare.tr?TR_NUM=${trip.TR_NUM}&TR_SHARE=${trip.TR_SHARE}'">공유취소</button>
+					</c:if>
+					<c:if test="${trip.TR_SHARE eq 'N' }">
+						<button class="btn btn-outline-success" 
+						onClick="location.href='/bang/tripShare.tr?TR_NUM=${trip.TR_NUM}&TR_SHARE=${trip.TR_SHARE}'">공유하기</button>
+					</c:if>
 				</c:if>
 				<c:if test="${MEM_ID != trip.TR_ID }">
 					<!-- 작성자가 아닐 경우에만 추천, 신고버튼 보이게 -->
@@ -274,7 +281,6 @@
 	placeList(1);
 
 	/* 일정 선택 및 장소리스트 */
-
 	function placeList(selectNum){
 		var trNum = document.getElementById("TR_NUM").value;
 		var place = document.getElementById("addListItem");
@@ -294,27 +300,25 @@
 			data: "TP_TRNUM=" + trNum + "&TP_DATE=" + selectNum,
 			success:function(data){
 				addPlace = data.tripPlace;
-				if(addPlace.length>0){
-					for(var i=0; i<addPlace.length; i++){
-						item += '<ul id="placesList2" class="placesLists">' + 
-								'<li class="item">' +
-									'<h5 id=TP_PLACE>' + addPlace[i].R +'. ' + addPlace[i].TP_PLACE + '</h5>';
-						if(addPlace[i].TP_RADDRESS != null){
-							item +=	'<span id="TP_RADDRESS">' + addPlace[i].TP_RADDRESS + '</span>';
-						}
-						if(addPlace[i].TP_ADDRESS != null){
-							item +=	'<span id="TP_ADDRESS" class="jibun gray">' + addPlace[i].TP_ADDRESS + '</span>'; 
-						}			
-						if(addPlace[i].TP_PHONE != null){
-							item +=	'<span class="tel" id="TP_PHONE">' + addPlace[i].TP_PHONE; 
-						}
-						item +=		'<span style="display: none;" id="TP_NUM">' + addPlace.TP_NUM + '</span>' +
-									'<span style="display: none;" id="TP_MAP_LAT">' + addPlace[i].TP_MAP_LAT + '</span>' +
-									'<span style="display: none;" id="TP_MAP_LNG">' + addPlace[i].TP_MAP_LNG + '</span>' +
-									'<span style="display: none;" id="TP_DATE">' + addPlace[i].TP_DATE + '</span>' +
-								'</li>' +
-							'</ul>';
+				for(var i=0; i<addPlace.length; i++){
+					item += '<ul id="placesList2" class="placesLists">' + 
+							'<li class="item">' +
+								'<h5 id=TP_PLACE>' + addPlace[i].R +'. ' + addPlace[i].TP_PLACE + '</h5>';
+					if(addPlace[i].TP_RADDRESS != null){
+						item +=	'<span id="TP_RADDRESS">' + addPlace[i].TP_RADDRESS + '</span>';
 					}
+					if(addPlace[i].TP_ADDRESS != null){
+						item +=	'<span id="TP_ADDRESS" class="jibun gray">' + addPlace[i].TP_ADDRESS + '</span>'; 
+					}			
+					if(addPlace[i].TP_PHONE != null){
+						item +=	'<span class="tel" id="TP_PHONE">' + addPlace[i].TP_PHONE; 
+					}
+					item +=		'<span style="display: none;" id="TP_NUM">' + addPlace.TP_NUM + '</span>' +
+								'<span style="display: none;" id="TP_MAP_LAT">' + addPlace[i].TP_MAP_LAT + '</span>' +
+								'<span style="display: none;" id="TP_MAP_LNG">' + addPlace[i].TP_MAP_LNG + '</span>' +
+								'<span style="display: none;" id="TP_DATE">' + addPlace[i].TP_DATE + '</span>' +
+							'</li>' +
+						'</ul>';
 				}
 				
 				place.innerHTML += item;
@@ -580,16 +584,17 @@ function reportBoard() {
 
 <!-- 게시글 삭제하기 -->
 <script>
-function fn_tripDelete(){
-	var comSubmit = new ComSubmit();
-	var CONFIRM = confirm("정말로 삭제하시겠습니까?");
-	
-	if(CONFIRM==true){
-		comSubmit.setUrl("/bang/tripDelete.tr");
-		comSubmit.addParam("TR_NUM", $("#TR_NUM").val());
-		comSubmit.submit();
-		alert("삭제가 완료되었습니다.");
+function deleteTrip(TR_NUM) {
+	if (confirm("삭제하시겠습니까?") == true) {
+		location.href = "tripDelete.tr?TR_NUM=" + TR_NUM;		
 	}
+}
+
+function fn_search(pageNo){
+	var comSubmit = new ComSubmit();
+	comSubmit.setUrl("<c:url value='/myTripList.tr' />");
+	comSubmit.addParam("currentPageNo", pageNo);
+	comSubmit.submit();
 }
 </script>
 

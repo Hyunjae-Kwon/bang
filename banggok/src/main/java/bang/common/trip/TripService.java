@@ -27,8 +27,20 @@ public interface TripService {
 	/* 일정 Day 번호 불러오기 */
 	List<Map<String, Object>>tripDayNum(Map<String, Object> map) throws Exception;
 	
+	/* 일정 Day 번호 최대값 불러오기 */
+	int maxDayNum(Map<String, Object> map) throws Exception;
+	
 	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
-	void tripModify(Map<String, Object> map) throws Exception;
+	void tripModify(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
+	
+	/* 수정시 TP_DELPLACE가 Y인값 삭제 */
+	void delModifyPlace(Map<String, Object> map) throws Exception;
+	
+	/* 일정 삭제(수정시) */
+	void modifyDelSch(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 삭제(수정시) */
+	void delPlaceList(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
 	void tripDelete(Map<String, Object> map) throws Exception;
@@ -45,10 +57,13 @@ public interface TripService {
 	/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
 	void deletePlaceListNull(Map<String, Object> map) throws Exception;
 	
+	/* 일정 수정 시작시 TP_DELPLACE Y=>N update */
+	void tpDelPlaceUpdate(Map<String, Object> map) throws Exception;
+	
 	/* 여행 일정 만들기 */
 	void tripWrite(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
 	
-	/* 일정 삭제 */
+	/* 일정 삭제(작성시) */
 	void deleteSch(Map<String, Object> map) throws Exception;
 	
 	/* 일정별 추가 장소 리스트(작성시) */
@@ -60,10 +75,10 @@ public interface TripService {
 	/* 여행 일정 번호 업데이트를 위한 최대 번호 구하기 */
 	int maxTRNUM() throws Exception;
 	
-	/* 추가 장소 저장 */
+	/* 추가 장소 저장(작성시) */
 	void addPlaceList(Map<String, Object> map) throws Exception;
 	
-	/* 추가 장소 삭제 */
+	/* 추가 장소 삭제(작성시) */
 	void deletePlaceList(Map<String, Object> map) throws Exception;
 	
 	/* 추천하기 */

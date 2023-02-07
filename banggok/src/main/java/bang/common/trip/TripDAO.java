@@ -51,9 +51,35 @@ public class TripDAO extends AbstractDAO {
 		update("trip.updateHitCnt", map);
 	}
 	
+	/* 일정 Day 번호 최대값 불러오기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> maxDayNum(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("trip.maxDayNum", map);
+	}
+	
 	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
 	public void tripModify(Map<String, Object> map) throws Exception {
 		update ("trip.tripModify", map);
+	}
+	
+	/* 수정시 TP_DELPLACE가 Y인값 삭제 */
+	public void delModifyPlace(Map<String, Object> map) throws Exception {
+		delete ("trip.delModifyPlace", map);
+	}
+	
+	/* 일정 삭제(수정시) */
+	public void modifyDelSch(Map<String, Object> map) throws Exception {
+		delete ("trip.modifyDelSch", map);
+	}
+	
+	/* 추가 장소 삭제(수정시) */
+	public void delPlaceList(Map<String, Object> map) throws Exception {
+		update ("trip.delPlaceList", map);
+	}
+	
+	/* 추가 장소 저장(수정시) */
+	public void modifyPlaceList(Map<String, Object> map) throws Exception {
+		insert ("trip.modifyPlaceList", map);
 	}
 	
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
@@ -83,6 +109,11 @@ public class TripDAO extends AbstractDAO {
 		delete ("trip.deletePlaceListNull", map);
 	}
 	
+	/* 일정 수정 시작시 TP_DELPLACE Y=>N update */
+	public void tpDelPlaceUpdate(Map<String, Object> map) throws Exception {
+		delete ("trip.tpDelPlaceUpdate", map);
+	}
+	
 	/* 여행 일정 만들기 */
 	public void tripWrite(Map<String, Object> map) throws Exception {
 		insert ("trip.tripWrite", map);
@@ -93,7 +124,7 @@ public class TripDAO extends AbstractDAO {
 		update("trip.tripImageUpdate", map);
 	}
 	
-	/* 일정 삭제 */
+	/* 일정 삭제(작성시) */
 	public void deleteSch(Map<String, Object> map) throws Exception {
 		delete ("trip.deleteSch", map);
 	}
@@ -115,12 +146,12 @@ public class TripDAO extends AbstractDAO {
 		return (Map<String, Object>) selectOne("trip.maxTRNUM");
 	}
 	
-	/* 추가 장소 저장 */
+	/* 추가 장소 저장(작성시) */
 	public void addPlaceList(Map<String, Object> map) throws Exception {
 		insert ("trip.addPlaceList", map);
 	}
 	
-	/* 추가 장소 삭제 */
+	/* 추가 장소 삭제(작성시) */
 	public void deletePlaceList(Map<String, Object> map) throws Exception {
 		delete ("trip.deletePlaceList", map);
 	}
