@@ -47,16 +47,16 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(list) > 0}">
-							<c:forEach items="${list }" var="list">
+						<c:when test="${list[0].TG_NUM != null}">
+							<c:forEach items="${list}" var="list">
 								<tr>
-									<td align="center">${list.TG_NUM }</td>
+									<td align="center">${list.TG_NUM}</td>
 									<td><a href="togetherDetail.tr?TG_NUM=${list.TG_NUM}">${list.TG_TITLE}</a>
 									</td>
 
-									<td align="center">${list.TG_ID }
-									<td align="center">${list.TG_CNT }</td>
-									<td align="center" ${list.TG_REGDATE }><fmt:formatDate value="${list.TG_REGDATE}" pattern="yyyy-MM-dd" /></td>
+									<td align="center">${list.TG_ID}
+									<td align="center">${list.TG_CNT}</td>
+									<td align="center" ${list.TG_REGDATE}><fmt:formatDate value="${list.TG_REGDATE}" pattern="yyyy-MM-dd" /></td>
 								</tr>
 							</c:forEach>
 						</c:when>

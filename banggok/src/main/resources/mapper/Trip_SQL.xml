@@ -160,7 +160,7 @@
 			FROM
 				TRIP
 			WHERE
-			    TR_ID = #{MEM_ID}				
+			    TR_ID = #{MEM_ID}
 		]]>
 		<include refid="common.pagingPost"/>
 	</select>

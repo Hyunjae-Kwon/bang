@@ -49,7 +49,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(review) > 0}">
+						<c:when test="${review[0].RV_NUM != null}">
 							<c:forEach items="${review}" var="list" varStatus="status">
 								<tr class="items">
 									<td align="center">${list.RV_NUM}
@@ -70,7 +70,7 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="5">조회된 결과가 없습니다.</td>
+								<td colspan="7">조회된 결과가 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

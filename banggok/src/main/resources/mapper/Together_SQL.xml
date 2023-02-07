@@ -118,7 +118,6 @@
 				TG_REGDATE,
 				TG_ID,
 				TG_CNT,
-				TG_LIKE,
 				TG_CONTENT
 			FROM
 				TOGETHER
@@ -139,7 +138,6 @@
 				TG_REGDATE,
 				TG_ID,
 				TG_CNT,
-				TG_LIKE,
 				TG_CONTENT
 			FROM
 				TOGETHER

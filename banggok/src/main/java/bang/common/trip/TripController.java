@@ -195,7 +195,7 @@ public class TripController {
 		Map<String, Object> resultMap = tripService.myTripList(commandMap.getMap());
 		
 		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
-		mv.addObject("myTripList", resultMap.get("result"));
+		mv.addObject("myTripList", resultMap);
 		
 		return mv;
      }

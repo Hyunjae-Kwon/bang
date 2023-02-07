@@ -25,7 +25,7 @@ public class TripDAO extends AbstractDAO {
 	/* 여행 일정 공유글 리스트(전체&검색) - 공유된 여행 일정 전체 가져오기 */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> tripListPaging(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>)selectList("trip.tripListPaging", map);
+		return (List<Map<String, Object>>) selectList ("trip.tripListPaging", map);
 	}
 	
 	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 */
@@ -64,7 +64,7 @@ public class TripDAO extends AbstractDAO {
 	/* 마이페이지 여행 일정 리스트 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> myTripList(Map<String, Object> map) throws Exception {
-		return (Map<String, Object>)selectPagingList("trip.myTripList", map);
+		return (Map<String, Object>) selectPagingList ("trip.myTripList", map);
 	}
 	
 	/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
@@ -90,7 +90,7 @@ public class TripDAO extends AbstractDAO {
 	/* 일정별 추가 장소 리스트(작성시) */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> writePlaceList(Map<String, Object> map) throws Exception {
-		return (List<Map<String, Object>>)selectList("trip.writePlaceList", map);
+		return (List<Map<String, Object>>) selectList ("trip.writePlaceList", map);
 	}
 		
 	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
@@ -128,6 +128,6 @@ public class TripDAO extends AbstractDAO {
 	/* 관리자 - 여행 일정 공유 게시판 관리 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> adminTripList(Map<String, Object> map) throws Exception {
-		return (Map<String, Object>)selectPagingList("trip.adminTripList", map);
+		return (Map<String, Object>) selectPagingList ("trip.adminTripList", map);
 	}
 }
