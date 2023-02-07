@@ -52,7 +52,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(member) > 0}">
+						<c:when test="${member[0].MEM_ID != null}">
 							<c:forEach items="${member}" var="list" varStatus="status">
 								<tr>
 									<td align="center">${list.RNUM}</td>

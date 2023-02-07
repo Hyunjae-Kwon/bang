@@ -131,29 +131,16 @@ public class TripController {
 		/* TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 		Map<String, Object> trip = tripService.tripDetail(commandMap.getMap());
 		
+		/* TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
+		List<Map<String, Object>> tripplace = tripService.tripplaceDetail(commandMap.getMap());
+		
 		/* 댓글 정보 불러오기 */
 		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
-		
-		/* 일정 Day 번호 불러오기 */
-		List<Map<String, Object>> tripDayNum = tripService.tripDayNum(commandMap.getMap());
-		
-		
-		mv.addObject("trip", trip);
+				
 		mv.addObject("comment", comment);
-		mv.addObject("dayNum", tripDayNum);
+		mv.addObject("trip", trip);
+		mv.addObject("tripplace", tripplace);
 		
-		return mv;
-	}
-	
-	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
-	@RequestMapping(value="/tripPlaceDetail.tr", method=RequestMethod.GET)
-	@ResponseBody
-	public ModelAndView tripPlaceDetail(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("jsonView");
-		
-		List<Map<String, Object>> tripPlace = tripService.tripPlaceDetail(commandMap.getMap());
-		mv.addObject("tripPlace", tripPlace);
-	    		
 		return mv;
 	}
 	
@@ -189,9 +176,6 @@ public class TripController {
 		/* TR_NUM으로 해당 게시글 삭제하기 */
 		tripService.tripDelete(commandMap.getMap());
 		
-		/* TR_NUM으로 해당 장소정보 삭제하기 */
-		tripService.tripPlaceDelete(commandMap.getMap());
-		
 		/* 신고 게시글 삭제 처리 */
 		reportService.reportDelBrdUpdate(commandMap.getMap());
 				
@@ -211,7 +195,7 @@ public class TripController {
 		Map<String, Object> resultMap = tripService.myTripList(commandMap.getMap());
 		
 		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
-		mv.addObject("myTripList", resultMap.get("result"));
+		mv.addObject("myTripList", resultMap);
 		
 		return mv;
      }

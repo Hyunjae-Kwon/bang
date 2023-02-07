@@ -47,7 +47,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(together) > 0}">
+						<c:when test="${together[0].TG_NUM != null}">
 							<c:forEach items="${together}" var="list" varStatus="status">
 								<tr class="items">
 									<td align="center">${list.TG_NUM}
@@ -67,7 +67,7 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="5">조회된 결과가 없습니다.</td>
+								<td colspan="6">조회된 결과가 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

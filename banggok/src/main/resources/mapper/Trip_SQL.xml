@@ -94,36 +94,12 @@
 	]]>
 	</update>
 	
-	<!-- [tripPlaceDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 -->
-	<select id="tripPlaceDetail" parameterType="hashmap" resultType="hashmap">
-	<![CDATA[
-		SELECT 
-			ROWNUM R,
-			TP_NUM,
-			TP_PLACE,
-			TP_ADDRESS,
-			TP_RADDRESS,
-			TP_PHONE,
-			TP_MAP_LAT,
-			TP_MAP_LNG,
-			TP_DATE
-		FROM
-			TRIPPLACE
-		WHERE TP_TRNUM = #{TP_TRNUM} AND TP_DATE = #{TP_DATE}
-		ORDER BY TP_NUM ASC
+	<!-- [tripplaceDetail] 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 -->
+	<select id="tripplaceDetail" parameterType="hashmap" resultType="hashmap">
+	 <![CDATA[
+			SELECT * FROM TRIPPLACE
+			WHERE TP_TRNUM = #{TR_NUM}
 	   ]]>
-	</select>
-	
-	<!-- [tripDayNum] 일정 Day 번호 불러오기 -->
-	<select id="tripDayNum" parameterType="hashmap" resultType="hashmap">
-	<![CDATA[
-		SELECT DISTINCT
-		    TP_DATE
-		FROM
-		    TRIPPLACE
-		WHERE
-		    TP_TRNUM = #{TR_NUM}
-	]]>
 	</select>
 	
 	<!-- [tripModify] 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 -->
@@ -137,21 +113,12 @@
 	   ]]>
 	</update>
 	
-	<!-- [tripDelete] 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 -->
+	<!-- [tripDelete] TR_NUM으로 여행 일정 삭제하기 -->
 	<delete id="tripDelete" parameterType="hashmap">
 		<![CDATA[
 			DELETE 
 			FROM TRIP
 			WHERE TR_NUM = #{TR_NUM}
-		]]>
-	</delete>
-	
-	<!-- [tripPlaceDelete] 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 장소정보 삭제하기 -->
-	<delete id="tripPlaceDelete" parameterType="hashmap">
-		<![CDATA[
-			DELETE 
-			FROM TRIPPLACE
-			WHERE TP_TRNUM = #{TR_NUM}
 		]]>
 	</delete>
 	
@@ -193,7 +160,7 @@
 			FROM
 				TRIP
 			WHERE
-			    TR_ID = #{MEM_ID}				
+			    TR_ID = #{MEM_ID}
 		]]>
 		<include refid="common.pagingPost"/>
 	</select>
@@ -301,16 +268,10 @@
 	
 	<!-- [tripShare] 여행 일정 공유하기 -->
 	<update id="tripShare" parameterType="hashmap">
-		UPDATE TRIP
-		<trim prefix="SET" suffixOverrides=",">
-			<if test='TR_SHARE == "N"'>
-				TR_SHARE = 'Y'
-			</if>
-			<if test='TR_SHARE == "Y"'>
-				TR_SHARE = 'N'
-			</if>
-		</trim>
-		WHERE TR_NUM = #{TR_NUM}
+	<![CDATA[
+		UPDATE TRIP 
+		SET TR_SHARE = 'Y' WHERE TR_NUM = #{TR_NUM}
+	]]>
 	</update>
 	
 	<!-- [adminTripList] 관리자 - 여행 일정 공유 게시판 관리 -->

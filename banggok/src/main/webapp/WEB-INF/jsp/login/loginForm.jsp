@@ -83,6 +83,96 @@
 			$(this).val($(this).val().replace(/\s/gi, ""));
 		})
 	</script>
+	
+	<!-- 아이디/비밀번호 쿠키 저장 -->
+	<script>
+    function setCookie(cookieName, value, exdays){
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+        document.cookie = cookieName + "=" + cookieValue;
+    }
+     
+    function deleteCookie(cookieName){
+        var expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() - 1); //어제날짜를 쿠키 소멸날짜로 설정
+        document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+    }
+     
+    function getCookie(cookieName) {
+        cookieName = cookieName + '=';
+        var cookieData = document.cookie;
+        var start = cookieData.indexOf(cookieName);
+        var cookieValue = '';
+        if(start != -1){
+            start += cookieName.length;
+            var end = cookieData.indexOf(';', start);
+            if(end == -1)end = cookieData.length;
+            cookieValue = cookieData.substring(start, end);
+        }
+        return unescape(cookieValue);
+    }
+    
+    $(document).ready(function() {
+        //Id 쿠키 저장
+        var userInputId = getCookie("userInputId");
+        $("input[class='memid']").val(userInputId); 
+         
+        if($("input[class='memid']").val() != ""){ 
+            $("#idSaveCheck").attr("checked", true); 
+            $("#pwdSaveCheck").removeAttr("disabled");
+        }
+         
+        $("#idSaveCheck").change(function(){ 
+            if($("#idSaveCheck").is(":checked")){                     
+                   //id 저장 클릭시 pwd 저장 체크박스 활성화
+                   $("#pwdSaveCheck").removeAttr("disabled");
+                   $("#pwdSaveCheck").removeClass('no_act');
+                var userInputId = $("input[class='memid']").val();
+                setCookie("userInputId", userInputId, 365);
+            }else{ 
+                deleteCookie("userInputId");
+                $("#pwdSaveCheck").attr("checked", false); 
+                deleteCookie("userInputPwd");
+                $("#pwdSaveCheck").attr("disabled", true);
+                $("#pwdSaveCheck").addClass('no_act');
+            }
+        });
+         
+      
+        $("input[class='memid']").keyup(function(){ 
+            if($("#idSaveCheck").is(":checked")){ 
+                var userInputId = $("input[class='memid']").val();
+                setCookie("userInputId", userInputId, 365);
+            }
+        });
+        
+        //Pwd 쿠키 저장 
+        var userInputPwd = getCookie("userInputPwd");
+        $("input[name='MEM_PW']").val(userInputPwd); 
+         
+        if($("input[name='MEM_PW']").val() != ""){ 
+            $("#pwdSaveCheck").attr("checked", true);
+            $("#pwdSaveCheck").removeClass('no_act');
+        }
+         
+        $("#pwdSaveCheck").change(function(){ 
+            if($("#pwdSaveCheck").is(":checked")){ 
+                var userInputPwd = $("input[name='MEM_PW']").val();
+                setCookie("userInputPwd", userInputPwd, 365);
+            }else{ 
+                deleteCookie("userInputPwd");
+            }
+        });
+      
+        $("input[name='MEM_PW']").keyup(function(){ 
+            if($("#pwdSaveCheck").is(":checked")){ 
+                var userInputPwd = $("input[name='MEM_PW']").val();
+                setCookie("userInputPwd", userInputPwd, 365);
+            }
+        });
+    });
+	</script>
 
 	<div style="text-align: center">
 		<br><br><br><br><br><br>
@@ -92,11 +182,11 @@
 	<div style="text-align: center">
 		<form id="loginForm" name="loginForm" action="/bang/login.tr" method="post">
 			<label for="ID">ID</label><br/> 
-				<input type="text" id="mem_id" name="MEM_ID" maxlength="10"><br/><br/>
+				<input type="text" id="mem_id" name="MEM_ID" class="memid" maxlength="10"><br/><br/>
 			<label for="PW">비밀번호</label><br/>
 				<input type="password" id="mem_pw" name="MEM_PW" onkeypress="keyPress()"><br/><br/>
-				아이디 저장 &nbsp; <input type="checkbox" id="ID_SAVE" name="ID_SAVE"><br><br/>
-			<p></p>
+				<p><label><input type="checkbox" id="idSaveCheck"/> 아이디 저장</label></p>
+				<p><label><input type="checkbox" disabled id="pwdSaveCheck" class="no_act"/> 비밀번호 저장</label></p>
 
 			<div class="gallery-filter d-none d-sm-block">
 				<input type="button" value="로 그 인" class="btn btn-default filter-button" onClick="fsubmit();">
