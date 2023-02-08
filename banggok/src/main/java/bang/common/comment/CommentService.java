@@ -11,6 +11,9 @@ public interface CommentService {
 	/* 댓글 삭제하기 */
 	void comDelete(Map<String, Object> map) throws Exception;
 	
+	/* 게시글 삭제 시 댓글 삭제하기 */
+	void comBoardDelete(Map<String, Object> map) throws Exception;
+	
 	/* 댓글 리스트 불러오기 */
 	List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception;
 	

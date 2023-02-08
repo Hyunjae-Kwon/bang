@@ -1,5 +1,6 @@
 package bang.common.together;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -110,12 +111,20 @@ public class TogetherController {
 	@RequestMapping(value = "/togetherDelete.tr")
 	public ModelAndView boardDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/togetherList.tr");
+		String bc = (String) commandMap.get("TG_NUM");
+		
+		Map<String, Object> bcNum = new HashMap<String, Object>();
+		
+		bcNum.put("BC_NUM", bc);
 		
 		togetherService.togetherDelete(commandMap.getMap());
 		
+		/* 댓글 삭제 처리 */
+		commentService.comBoardDelete(bcNum);
+		
 		/* 신고 게시글 삭제 처리 */
 		reportService.reportDelBrdUpdate(commandMap.getMap());
-
+		
 		return mv; 
 	}
 	

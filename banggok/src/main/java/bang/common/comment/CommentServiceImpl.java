@@ -29,6 +29,12 @@ public class CommentServiceImpl implements CommentService {
 		commentDAO.comDelete(map);
 	}
 	
+	/* 게시글 삭제 시 댓글 삭제하기 */
+	@Override
+	public void comBoardDelete(Map<String, Object> map) throws Exception {
+		commentDAO.comBoardDelete(map);
+	}
+
 	/* 댓글 리스트 불러오기 */
 	@Override
 	public List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception {

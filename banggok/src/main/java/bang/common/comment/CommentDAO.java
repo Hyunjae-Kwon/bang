@@ -20,6 +20,11 @@ public class CommentDAO extends AbstractDAO {
 		delete ("comment.comDelete", map);
 	}
 	
+	/* 게시글 삭제 시 댓글 삭제하기 */
+	public void comBoardDelete(Map<String, Object> map) throws Exception {
+		delete ("comment.comBoardDelete", map);
+	}
+	
 	/* 댓글 리스트 불러오기 */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception {
