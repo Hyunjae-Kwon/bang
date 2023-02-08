@@ -17,7 +17,7 @@
 					               <div class="blog-col">
 					               		<a href="/bang/reviewDetail.tr?RV_NUM=${list.RV_NUM}">
 				                    		<img src="${list.RV_IMAGE}" alt="썸네일 없음" style="width: 245px; height: 245px; object-fit: contain;">
-				                    	</a>
+				                    	</a><br>
 					                    <span>${list.RV_REGDATE}</span>
 					                    <span style="float: right;">${list.RV_ID}</span>
 					                    <h4>${list.RV_TITLE}
