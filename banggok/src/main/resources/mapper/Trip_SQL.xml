@@ -238,8 +238,7 @@
 				TR_CONTENT,
 				TR_SUBCONTENT,
 				TR_REGDATE,
-				TR_SHARE,
-				TR_DATE
+				TR_SHARE
 			FROM
 				TRIP
 			WHERE
@@ -381,8 +380,7 @@
 				TR_CONTENT,
 				TR_SUBCONTENT,
 				TR_REGDATE,
-				TR_SHARE,
-				TR_DATE
+				TR_SHARE
 			FROM
 				TRIP				
 			]]>
