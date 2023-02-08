@@ -23,7 +23,7 @@
 	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[
 		SELECT * FROM BOARDCOMMENT
-		WHERE BC_NUM = #{OBJECT}
+		WHERE BC_NUM = #{OBJECT} AND BC_TYPE = #{BC_TYPE}
 		ORDER BY BC_REGDATE DESC
 	]]>
 	</select>

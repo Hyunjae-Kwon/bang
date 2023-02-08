@@ -15,7 +15,7 @@
 						<c:when test="${fn:length(trip) > 0}">
 							<c:forEach var="list" items="${trip}">
 				                <div class="col-lg-4 col-md-6 col-sm-6" style="padding-bottom: 15px;">
-				                    <div class="pack-col">
+				                    <div align="center" class="pack-col">
 				                    	<a href="/bang/tripDetail.tr?TR_NUM=${list.TR_NUM}">
 				                    		<img src="${list.TR_IMAGE}" alt="썸네일 없음" style="width: 245px; height: 245px; object-fit: contain;">
 				                    	</a>
@@ -30,7 +30,10 @@
 				                            </span>
 				                        </div>
 				                        <div class="detail row no-margin">
-				                            <h4>${list.TR_TITLE}</h4>
+				                            <h4>${list.TR_TITLE}
+				                            	<c:if test="${list.COMCOUNT == null}">[0]</c:if>
+												<c:if test="${list.COMCOUNT != null}">[${list.COMCOUNT}]</c:if>
+				                            </h4>
 				                        </div>
 				                    </div>
 				                </div>
