@@ -65,12 +65,18 @@
 									<td align="center">${list.TR_LIKE}</td>
 									<td align="center" ${list.TR_REGDATE}><fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd" /></td>
 									<td align="center">									  
-										<c:if test="${list.TR_SHARE eq 'Y'}">공유중</c:if>
-										<c:if test="${list.TR_SHARE eq 'N'}"><button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripShare.tr?TR_NUM=${list.TR_NUM}'">공유하기</button></c:if>
+										<c:if test="${list.TR_SHARE eq 'Y' }">
+											 <a style="font-size: 35x; color: black; cursor:pointer;" 
+											 onClick="location.href='/bang/tripShare.tr?TR_NUM=${list.TR_NUM}&TR_SHARE=${list.TR_SHARE}'"><b>공유중</b></a>
+										</c:if>
+										<c:if test="${list.TR_SHARE eq 'N' }">
+											 <a style="font-size: 35x; color: red; cursor:pointer;" 
+											 onClick="location.href='/bang/tripShare.tr?TR_NUM=${list.TR_NUM}&TR_SHARE=${list.TR_SHARE}'"><b>미공유</b></a>
+										</c:if>
 									</td>
 									<td align="center">
 									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${list.TR_NUM}'">수정</button> 
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="deleteTrip()">삭제</button>								  
+									  <button type="button"class="del btn btn-outline-success" style="padding:5px;" onClick="deleteTrip(${list.TR_NUM})">삭제</button>								  
 									</td>
 								</tr>
 							</c:forEach>
@@ -116,11 +122,5 @@
 		comSubmit.submit();
     }
 	</script>
-
-  <!--  ************************* Footer Start Here ************************** -->
-
-    
-   
     </body>
-
 </html>
