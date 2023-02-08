@@ -54,7 +54,7 @@
 				<tbody>
 					<c:choose>
 						<%-- <c:when test="${myTripList != null}"> --%>
-						<c:when test="${tripList != null}">
+						<c:when test="${tripList[0].TR_NUM != null}">
 							<c:forEach items="${myTripList}" var="list" varStatus="status">
 								<tr>
 									<td align="center">${list.TR_NUM }
