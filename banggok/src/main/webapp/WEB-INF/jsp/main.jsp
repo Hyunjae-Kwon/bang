@@ -108,7 +108,6 @@
 	                        </div>
 	                        <div class="detail row no-margin">
 	                            <h4>${list.TR_TITLE}</h4>
-	                            <p>${list.TR_CONTENT}</p>
 	                        </div>
 	                        <!-- 여행 일정에 버튼으로 추가할만한게 있으면 넣으면 좋을듯, 우선 주석 처리 -->
 	                        <!-- <div class="options row no-margin">
@@ -144,7 +143,6 @@
 		                    	</a>
 	                        </div>
 	                        <h3>${list.RC_TITLE}</h3>
-	                        <p>${list.RC_CONTENT}</p>
 	                        <button class="btn btn-outline-success" onClick="location.href='/bang/recommendDetail.tr?RC_NUM=${list.RC_NUM}'">상세 보기</button>
 	                    </div>
 	                </div>
@@ -173,7 +171,6 @@
 	                            </a>
 	                            <span style="float: right;">조회수 | ${list.TG_CNT}</span>
 	                            <span style="float: right;">추천수 | ${list.TG_LIKE}&nbsp;&nbsp;</span>
-	                            <p>${list.TG_CONTENT}</p>
 	                            <h6>${list.TG_ID}</h6>
 	                        </div>
 	                    </div>
@@ -200,7 +197,6 @@
 		                    <span>${list.RV_REGDATE}</span>
 		                    <span style="float: right;">${list.RV_ID}</span>
 		                    <h4>${list.RV_TITLE}</h4>
-		                    <p>${list.RV_CONTENT}</p><br>
 		                    <span style="float: right;">조회수 | ${list.RV_CNT}</span>
 		                    <span style="float: right;">추천수 | ${list.RV_LIKE}&nbsp;&nbsp;</span><br>
 		               </div>

@@ -67,10 +67,10 @@ public class RecommendDAO extends AbstractDAO {
 	}
 	
 	/* 여행지 추천 게시글 수정 폼 */
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> recommendModifyForm(Map<String, Object> map)throws Exception{
-		return (Map<String, Object>)selectOne("recommend.recommendModifyForm", map); 
-	}
+//	@SuppressWarnings("unchecked")
+//	public Map<String, Object> recommendModifyForm(Map<String, Object> map)throws Exception{
+//		return (Map<String, Object>)selectOne("recommend.recommendModifyForm", map); 
+//	}
 
 	/* 여행지 추천 게시글 수정하기 */
 	public void recommendModify(Map<String, Object> map)throws Exception{

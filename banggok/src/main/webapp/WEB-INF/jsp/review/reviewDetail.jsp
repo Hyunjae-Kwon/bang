@@ -5,11 +5,13 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>방방곡곡</title>
 <link type="text/css" rel="stylesheet" href="<c:url value='/resources/css/board.css'/>" />
 </head>
+<style>
+.hide{
+display: none;
+}
+</style>
 <body>
 	<!--  ************************* Page Title Starts Here ************************** -->
 	<div class="page-nav no-margin row">
@@ -71,6 +73,12 @@
 		</div>
 	</div>
 	<!-- ################# 댓글 내용 Starts Here ####################### -->
+	<div style="display: inline-block; width: 78%; margin-left: 96px;">
+   		<textarea name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
+	</div>
+	<div style="display: inline-block; float: right; width: 10%; margin-right: 40px;" >
+		<input type="button" value="댓글쓰기"  id="comWrite" class="btn btn-primary py-2 px-2">
+	</div>
 	<div class="board-list">
 		<div class="container">
 			<table class="board-table">
@@ -82,37 +90,33 @@
 				<c:choose>
 					<c:when test="${fn:length(comment) > 0}">
 						<c:forEach var="list" items="${comment}">
-							<c:if test="${list.BC_TYPE eq 'R'}">
-								<div>
-									<div>
-										<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
-										<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
-									</div>
-									<tbody class="items">			
-										<tr>
-											<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
-											<td align="center" colspan="3">${list.BC_COMMENT }</td>
-											<td align="center" style="font-weight: bold;">
-											<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
-											</td>
-											<td>
-												<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
-												<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID }">
-												<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
-												<c:if test="${MEM_ID != null}">
-													<input type="button" class="com btn btn-outline-success" value="답글">			
-													<input type="button" class="com del btn btn-outline-success" value="신고" name="reportCom">
-												</c:if>	
-												<c:if test="${MEM_ID eq list.BC_ID}">
-													<input type="button" class="com del btn btn-outline-success" onClick="comDelete(${list.BC_BCID})" value="삭제">
-												</c:if>
-											</td>
-										</tr>
-										<!-- 댓글 신고하기 입력 칸 -->
-										<tr class="reportSpace"></tr>
-									</tbody>
-								</div>
-							</c:if>
+							<div>
+								<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
+								<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
+							</div>
+							<tbody class="items">			
+								<tr>
+									<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
+									<td align="center" style="text-align: left;" colspan="3">${list.BC_COMMENT }</td>
+									<td align="center" style="font-weight: bold;">
+									<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
+									</td>
+									<td>
+										<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
+										<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID }">
+										<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
+										<c:if test="${MEM_ID != null}">
+											<input type="button" class="com btn btn-outline-success" value="답글">			
+											<input type="button" class="com del btn btn-outline-success" value="신고" name="reportCom">
+										</c:if>	
+										<c:if test="${MEM_ID eq list.BC_ID}">
+											<input type="button" class="com del btn btn-outline-success" onClick="comDelete(${list.BC_BCID})" value="삭제">
+										</c:if>
+									</td>
+								</tr>
+								<!-- 댓글 신고하기 입력 칸 -->
+								<tr class="reportSpace"></tr>
+							</tbody>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
@@ -123,14 +127,17 @@
 				</c:choose>
 			</table>
 		</div>
-		<br>
-		<div style="display: inline-block; width: 78%; margin-left: 96px;">
-    		<textarea name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
-		</div>
-		<div style="display: inline-block; float: right; width: 10%; margin-right: 40px;" >
-			<input type="button" value="댓글쓰기"  id="comWrite" class="btn btn-primary py-2 px-2">
+		<div align="center">
+			<table>
+				<tbody>
+					<tr>
+						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="width: 1070px; height: 30px;" value="더보기"></td>
+					<tr>
+				</tbody>
+			</table>
 		</div>
 		<!-- 댓글 끝 -->
+		<br>
 		<form id="commonForm" name="commonForm"></form>
 
 		<!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
@@ -155,7 +162,31 @@
 		<div class="report"></div>
 	</div>
 </body>
-
+<!-- 댓글 더보기 -->
+<script>
+$(document).ready(function(){
+	var com = $(".items");
+	var cnt = 0;
+	
+	addCom();
+	
+	function addCom(){
+		for(let i = cnt; i < com.length; i ++){
+			if(i < cnt + 10){
+				com[i].classList.remove('hide')
+			}
+			if(i > cnt + 9){
+				com[i].classList.add('hide')
+			}
+		};
+	}
+	
+	$("#add").click(function(){
+		cnt += 10;
+		addCom();
+	});
+});
+</script>
 <!-- 게시글 삭제 스크립트 -->
 <script>
 	function fn_reviewDelete() {

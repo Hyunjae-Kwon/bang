@@ -15,20 +15,20 @@
 			WHERE R BETWEEN 1 AND 4
 	   ]]>
 	</select>
-
+	
 	<!-- [togetherList] 동행게시판 리스트 -->
 	<select id="togetherList" parameterType="hashmap" resultType="hashmap">
 	<include refid="common.pagingPre"/> 
 	<![CDATA[
-		SELECT
-			ROW_NUMBER() OVER (ORDER BY TG_NUM DESC) RNUM,
-			TG_NUM,
-			TG_TITLE,
-			TG_REGDATE,
-			TG_ID,
-			TG_CNT
-		FROM
-			TOGETHER
+		SELECT ROW_NUMBER() OVER (ORDER BY TG_NUM DESC) RNUM, TG_NUM, TG_TITLE, TG_REGDATE, TG_ID, TG_CNT, COMCOUNT
+		FROM TOGETHER tg 
+		FULL OUTER JOIN (SELECT BC_NUM, COUNT(BC_NUM) COMCOUNT 
+                            FROM (SELECT BC_NUM, BC_TYPE 
+                                	FROM BOARDCOMMENT
+                                	WHERE BC_TYPE LIKE 'TG')
+		                    GROUP BY BC_NUM
+		                    HAVING COUNT(BC_NUM) > 0) bc
+		ON tg.TG_NUM = bc.BC_NUM
 		ORDER BY TG_NUM DESC
 	]]>
 	<include refid="common.pagingPost"/>
@@ -118,7 +118,6 @@
 				TG_REGDATE,
 				TG_ID,
 				TG_CNT,
-				TG_LIKE,
 				TG_CONTENT
 			FROM
 				TOGETHER
@@ -139,7 +138,6 @@
 				TG_REGDATE,
 				TG_ID,
 				TG_CNT,
-				TG_LIKE,
 				TG_CONTENT
 			FROM
 				TOGETHER

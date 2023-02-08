@@ -19,8 +19,14 @@
    		<put-attribute name="content" value="/WEB-INF/jsp/scroll/{1}.jsp"/>
     </definition>
     
-    <definition name="chat/*" extends="empty">
-   		<put-attribute name="content" value="/WEB-INF/jsp/chat/{1}.jsp"/>
+    <!-- chat --> 
+   
+    <definition name="chatContentList" extends="empty">
+   		<put-attribute name="content" value="/WEB-INF/jsp/chat/chatContentList.jsp"/>
+    </definition>
+    
+    <definition name="chatAjaxList" extends="empty">
+   		<put-attribute name="content" value="/WEB-INF/jsp/chat/chatAjaxList.jsp"/>
     </definition>
 
 	<!-- tiles 적용 -->

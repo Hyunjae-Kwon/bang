@@ -20,7 +20,10 @@
 				                    	</a>
 					                    <span>${list.RV_REGDATE}</span>
 					                    <span style="float: right;">${list.RV_ID}</span>
-					                    <h4>${list.RV_TITLE}</h4>
+					                    <h4>${list.RV_TITLE}
+					                    	<c:if test="${list.COMCOUNT == null}">[0]</c:if>
+											<c:if test="${list.COMCOUNT != null}">[${list.COMCOUNT}]</c:if>
+					                    </h4>
 					                    <span style="float: right;">조회수 | ${list.RV_CNT}</span>
 					                    <span style="float: right;">추천수 | ${list.RV_LIKE}&nbsp;&nbsp;</span><br>
 					               </div>

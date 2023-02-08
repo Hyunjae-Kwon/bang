@@ -32,23 +32,21 @@
 	<!-- [recommendListPaging] 여행지 추천 게시글 리스트(전체&검색) -->
 	<select id="recommendListPaging" resultType="hashmap" parameterType="hashmap">
 	<include refid="common.pagingPre"/>
-		SELECT
-			ROW_NUMBER() OVER (ORDER BY RC_NUM DESC) RNUM,
-		    RC_NUM,
-		    RC_TITLE,
-		    RC_REGDATE,
-		    RC_ID,
-		    RC_CNT,
-		    RC_LIKE,
-		    RC_CONTENT,
-		    RC_IMAGE 
-		FROM
-			RECOMMEND
-	    <trim prefix="WHERE" prefixOverrides="OR">
+		SELECT ROW_NUMBER() OVER (ORDER BY RC_NUM DESC) RNUM, RC_NUM, RC_TITLE, RC_REGDATE, RC_ID, RC_CNT, RC_LIKE, RC_CONTENT, RC_IMAGE, COMCOUNT
+		FROM RECOMMEND rc 
+		FULL OUTER JOIN (SELECT BC_NUM, COUNT(BC_NUM) COMCOUNT 
+							FROM (SELECT BC_NUM, BC_TYPE 
+	                                	FROM BOARDCOMMENT
+	                                	WHERE BC_TYPE LIKE 'RC')
+		                    GROUP BY BC_NUM
+		                    HAVING COUNT(BC_NUM) > 0) bc
+		ON rc.RC_NUM = bc.BC_NUM
+		<trim prefix="WHERE" prefixOverrides="OR">
 			<if test="searchKeyword != NULL">
-				RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
+				rc.RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR rc.RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
 			</if>
 		</trim>
+		ORDER BY RC_NUM DESC
 	<include refid="common.pagingPost"/>
 	</select>
 	
@@ -127,19 +125,20 @@
 	</delete>
 	
 	<!-- [recommendModifyForm] 여행지 추천 게시글 수정 폼 -->
-	<select id="recommendModifyForm" parameterType="hashmap" resultType="hashmap">
+	<!-- <select id="recommendModifyForm" parameterType="hashmap" resultType="hashmap">
       <![CDATA[
          SELECT
             RC_NUM,
             RC_TITLE,
             RC_CONTENT,
-            RC_REGDATE
+            RC_REGDATE,
+            RC_IMAGE
          FROM
             RECOMMEND
          WHERE
             RC_NUM = #{RC_NUM}
       ]]>
-	</select>
+	</select> -->
 
 	<!-- [recommendModify] 여행지 추천 게시글 수정하기 -->
 	<update id="recommendModify" parameterType="hashmap">
