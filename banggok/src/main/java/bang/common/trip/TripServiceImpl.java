@@ -51,14 +51,59 @@ public class TripServiceImpl implements TripService {
 	
 	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
 	@Override
-	public List<Map<String, Object>> tripplaceDetail(Map<String, Object> map) throws Exception {
-		return tripDAO.tripplaceDetail(map);
+	public List<Map<String, Object>> tripPlaceDetail(Map<String, Object> map) throws Exception {
+		return tripDAO.tripPlaceDetail(map);
 	}
-
+	
+	/* 일정 Day 번호 불러오기 */
+	@Override
+	public List<Map<String, Object>> tripDayNum(Map<String, Object> map) throws Exception {
+		return tripDAO.tripDayNum(map);
+	}	
+	
+	/* 일정 Day 번호 최대값 불러오기 */
+	@Override
+	public int maxDayNum(Map<String, Object> map) throws Exception {
+		Map<String, Object> maxMap = new HashMap<String, Object>();
+		maxMap = tripDAO.maxDayNum(map);
+		
+		int maxDN;
+		if(maxMap == null) {
+			maxDN = 0;
+		} else {
+			maxDN = Integer.parseInt(String.valueOf(maxMap.get("MAX")));
+		}
+				
+		return maxDN;
+	}
+	
 	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
 	@Override
-	public void tripModify(Map<String, Object> map) throws Exception {
+	public void tripModify(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception {
 		tripDAO.tripModify(map);
+		
+		Map<String, Object> file = fileUtils.parseInsertFileInfo(map, request);
+		
+		file.put("TR_IMAGE", file.get("IMAGE"));
+		
+		tripDAO.tripImageUpdate(file);
+	}
+	
+	/* 수정시 TP_DELPLACE가 Y인값 삭제 */
+	public void delModifyPlace(Map<String, Object> map) throws Exception {
+		tripDAO.delModifyPlace(map);
+	}
+	
+	/* 일정 삭제(수정시) */
+	@Override
+	public void modifyDelSch(Map<String, Object> map) throws Exception {
+		tripDAO.modifyDelSch(map);
+	}
+	
+	/* 추가 장소 삭제(수정시) */
+	@Override
+	public void delPlaceList(Map<String, Object> map) throws Exception {
+		tripDAO.delPlaceList(map);
 	}
 	
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
@@ -67,6 +112,12 @@ public class TripServiceImpl implements TripService {
 		tripDAO.tripDelete(map);
 	}
 	
+	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 장소정보 삭제하기 */
+	@Override
+	public void tripPlaceDelete(Map<String, Object> map) throws Exception {
+		tripDAO.tripPlaceDelete(map);
+	}
+
 	/* 여행 일정 검색 */
 	@Override
 	public List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception {
@@ -83,6 +134,12 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void deletePlaceListNull(Map<String, Object> map) throws Exception {
 		tripDAO.deletePlaceListNull(map);
+	}
+	
+	/* 일정 수정 시작시 TP_DELPLACE Y=>N update */
+	@Override
+	public void tpDelPlaceUpdate(Map<String, Object> map) throws Exception {
+		tripDAO.tpDelPlaceUpdate(map);
 	}
 
 	/* 여행 일정 만들기 */
@@ -108,7 +165,7 @@ public class TripServiceImpl implements TripService {
 		tripDAO.tripImageUpdate(file);
 	}
 	
-	/* 일정 삭제 */
+	/* 일정 삭제(작성시) */
 	@Override
 	public void deleteSch(Map<String, Object> map) throws Exception {
 		tripDAO.deleteSch(map);
@@ -142,13 +199,13 @@ public class TripServiceImpl implements TripService {
 		return maxTR;
 	}
 
-	/* 추가 장소 저장 */
+	/* 추가 장소 저장(작성시) */
 	@Override
 	public void addPlaceList(Map<String, Object> map) throws Exception {
 		tripDAO.addPlaceList(map);
 	}
 
-	/* 추가 장소 삭제 */
+	/* 추가 장소 삭제(작성시) */
 	@Override
 	public void deletePlaceList(Map<String, Object> map) throws Exception {
 		tripDAO.deletePlaceList(map);

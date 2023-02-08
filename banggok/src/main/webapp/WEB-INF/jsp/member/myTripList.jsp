@@ -53,24 +53,31 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${myTripList[0].TR_NUM != null}">
+						<%-- <c:when test="${myTripList != null}"> --%>
+						<c:when test="${tripList != null}">
 							<c:forEach items="${myTripList}" var="list" varStatus="status">
 								<tr>
-									<td align="center">${list.TR_NUM}
-									<input type="hidden" id="TR_NUM" name="TR_NUM" value="${list.TR_NUM}"></td>
+									<td align="center">${list.TR_NUM }
+									<input type="hidden" id="TR_NUM" name="TR_NUM" value="${list.TR_NUM }"></td>
 									<td><a href="tripDetail.tr?TR_NUM=${list.TR_NUM}">${list.TR_TITLE}</a>
 									</td>
-									<td align="center">${list.TR_ID}
-									<td align="center">${list.TR_CNT}</td>
-									<td align="center">${list.TR_LIKE}</td>
-									<td align="center" ${list.TR_REGDATE}><fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd" /></td>
+									<td align="center">${list.TR_ID }
+									<td align="center">${list.TR_CNT }</td>
+									<td align="center">${list.TR_LIKE }</td>
+									<td align="center" ${list.TR_REGDATE }><fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd" /></td>
 									<td align="center">									  
-										<c:if test="${list.TR_SHARE eq 'Y'}">공유중</c:if>
-										<c:if test="${list.TR_SHARE eq 'N'}"><button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripShare.tr?TR_NUM=${list.TR_NUM}'">공유하기</button></c:if>
+										<c:if test="${list.TR_SHARE eq 'Y' }">
+											 <a style="font-size: 35x; color: black; cursor:pointer;" 
+											 onClick="location.href='/bang/tripShare.tr?TR_NUM=${list.TR_NUM}&TR_SHARE=${list.TR_SHARE}'"><b>공유중</b></a>
+										</c:if>
+										<c:if test="${list.TR_SHARE eq 'N' }">
+											 <a style="font-size: 35x; color: red; cursor:pointer;" 
+											 onClick="location.href='/bang/tripShare.tr?TR_NUM=${list.TR_NUM}&TR_SHARE=${list.TR_SHARE}'"><b>미공유</b></a>
+										</c:if>
 									</td>
 									<td align="center">
 									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="location.href='/bang/tripModifyForm.tr?TR_NUM=${list.TR_NUM}'">수정</button> 
-									  <button type="button"class="btn btn-outline-success" style="padding:5px;" onClick="deleteTrip()">삭제</button>								  
+									  <button type="button"class="del btn btn-outline-success" style="padding:5px;" onClick="deleteTrip(${list.TR_NUM})">삭제</button>								  
 									</td>
 								</tr>
 							</c:forEach>
@@ -102,8 +109,7 @@
 		</div>				 
 	</div>
 	<script type="text/javascript">
-	function deleteTrip() {
-		var TR_NUM = document.getElementById("TR_NUM").value;
+	function deleteTrip(TR_NUM) {
 		if (confirm("삭제하시겠습니까?") == true) {
 			location.href = "tripDelete.tr?TR_NUM=" + TR_NUM;		
 		}

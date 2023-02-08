@@ -131,50 +131,119 @@ public class TripController {
 		/* TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 		Map<String, Object> trip = tripService.tripDetail(commandMap.getMap());
 		
-		/* TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
-		List<Map<String, Object>> tripplace = tripService.tripplaceDetail(commandMap.getMap());
-		
 		/* 댓글 정보 불러오기 */
 		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
-				
-		mv.addObject("comment", comment);
+		
+		/* 일정 Day 번호 불러오기 */
+		List<Map<String, Object>> tripDayNum = tripService.tripDayNum(commandMap.getMap());
+		
 		mv.addObject("trip", trip);
-		mv.addObject("tripplace", tripplace);
+		mv.addObject("comment", comment);
+		mv.addObject("dayNum", tripDayNum);
+		
+		return mv;
+	}
+	
+	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
+	@RequestMapping(value="/tripPlaceDetail.tr", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView tripPlaceDetail(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("TP_ID", TR_ID);
+		
+		/* 상세보기 시작시 TP_TRNUM이 NULL인 값 삭제 */
+		tripService.deletePlaceListNull(commandMap.getMap());
+		
+		/* 상세보기 시작시 TP_DELPLACE Y=>N update */
+		tripService.tpDelPlaceUpdate(commandMap.getMap());
+		
+		/* TP_RNUM과 TP_DATE를 이용해서 장소 상세 정보 불러오기 */
+		List<Map<String, Object>> tripPlace = tripService.tripPlaceDetail(commandMap.getMap());
+		mv.addObject("tripPlace", tripPlace);
 		
 		return mv;
 	}
 	
 	/* 여행 일정 공유 게시글 수정하기 폼 */
 	@RequestMapping(value="/tripModifyForm.tr")
-	public ModelAndView tripModifyForm(CommandMap commandMap) throws Exception {
+	@ResponseBody
+	public ModelAndView tripModifyForm(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("trip/tripModifyForm");
+		
+		HttpSession session = request.getSession();
+		String TR_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("TP_ID", TR_ID);
+		
+		/* 일정 수정 시작시 TP_TRNUM이 NULL인 값 삭제 */
+		tripService.deletePlaceListNull(commandMap.getMap());
+		
+		/* 일정 수정 시작시 TP_DELPLACE Y=>N update */
+		tripService.tpDelPlaceUpdate(commandMap.getMap());
 		
 		/* TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 		Map<String, Object> trip = tripService.tripDetail(commandMap.getMap());
-				
 		mv.addObject("trip", trip);
+		
+		/* 일정 Day 번호 최대값 불러오기 */
+		int maxDayNum = tripService.maxDayNum(commandMap.getMap());
+		mv.addObject("maxDayNum", maxDayNum);
 		
 		return mv;
 	}
 	
 	/* 여행 일정 공유 게시글 수정하기 */
 	@RequestMapping(value="/tripModify.tr")
-	public ModelAndView tripModify(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/tripList.tr");
+	@ResponseBody
+	public ModelAndView tripModify(CommandMap commandMap, HttpServletRequest request, MultipartHttpServletRequest fileRequest) throws Exception {
+		ModelAndView mv = new ModelAndView("trip/tripDetail");
 		
 		/* 폼을 통해 입력받은 데이터로 수정하기 */
-		tripService.tripModify(commandMap.getMap());
-				
+		tripService.tripModify(commandMap.getMap(), fileRequest);
+		
+		/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
+		tripService.tripplaceUpdate(commandMap.getMap());
+		
+		/* 수정시 TP_DELPLACE가 Y인값 삭제 */
+		tripService.delModifyPlace(commandMap.getMap());
+		
+		return mv;
+	}
+	
+	/* 일정 삭제(수정시) */
+	@RequestMapping(value="/modifyDelSch.tr", method = RequestMethod.POST)
+	public ModelAndView modifyDelSch(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		tripService.modifyDelSch(commandMap.getMap());
+		
+		return mv;
+	}
+	
+	/* 추가 장소 삭제(수정시) */
+	@RequestMapping(value="/delPlaceList.tr", method = RequestMethod.POST)
+	public ModelAndView delPlaceList(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		tripService.delPlaceList(commandMap.getMap());
+
 		return mv;
 	}
 	
 	/* 여행 일정 공유 게시글 삭제하기 */
 	@RequestMapping(value="/tripDelete.tr")
 	public ModelAndView tripDelete(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/tripList.tr");
+		ModelAndView mv = new ModelAndView("redirect:/myTripList.tr");
 		
 		/* TR_NUM으로 해당 게시글 삭제하기 */
 		tripService.tripDelete(commandMap.getMap());
+		
+		/* TR_NUM으로 해당 장소정보 삭제하기 */
+		tripService.tripPlaceDelete(commandMap.getMap());
 		
 		/* 신고 게시글 삭제 처리 */
 		reportService.reportDelBrdUpdate(commandMap.getMap());
@@ -195,10 +264,12 @@ public class TripController {
 		Map<String, Object> resultMap = tripService.myTripList(commandMap.getMap());
 		
 		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
-		mv.addObject("myTripList", resultMap);
+		mv.addObject("myTripList", resultMap.get("result"));
+		mv.addObject("tripList", resultMap);
 		
 		return mv;
      }
+	
 	
 	/* 여행 일정 만들기 폼 */
 	@RequestMapping(value="/tripWriteForm.tr")
@@ -212,6 +283,9 @@ public class TripController {
 		
 		/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
 		tripService.deletePlaceListNull(commandMap.getMap());
+		
+		/* 일정 만들기 시작시 TP_DELPLACE Y=>N update */
+		tripService.tpDelPlaceUpdate(commandMap.getMap());
 
 		return mv;
 	}
@@ -220,13 +294,14 @@ public class TripController {
 	@RequestMapping(value="/tripWrite.tr", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView tripWrite(CommandMap commandMap, HttpServletRequest request, MultipartHttpServletRequest fileRequest) throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/myTripList.tr");
-
+		ModelAndView mv = new ModelAndView("jsonView");
+		
 		tripService.tripWrite(commandMap.getMap(), fileRequest);
 		
 		int maxTRNUM = tripService.maxTRNUM();
 		
 		commandMap.put("TP_TRNUM", maxTRNUM);
+		
 		/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
 		tripService.tripplaceUpdate(commandMap.getMap());
 
@@ -237,7 +312,7 @@ public class TripController {
 		return mv;
 	}
 	
-	/* 일정 삭제 */
+	/* 일정 삭제(작성시) */
 	@RequestMapping(value="/deleteSch.tr", method = RequestMethod.POST)
 	public ModelAndView deleteSch(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
@@ -267,31 +342,37 @@ public class TripController {
 		return mv;
 	}
 	
-	/* 추가 장소 저장 */
+	/* 추가 장소 저장(작성시, 수정시) */
 	@RequestMapping(value="/addPlaceList.tr", method = RequestMethod.POST)
 	public ModelAndView addPlaceList(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 
 		tripService.addPlaceList(commandMap.getMap());
 
-		HttpSession session = request.getSession();
-		String TR_ID = (String) session.getValue("MEM_ID");
-		session.setAttribute("TR_ID", TR_ID);
-		
 		return mv;
 	}
 	
-	/* 추가 장소 삭제 */
+	/* 추가 장소 삭제(작성시) */
 	@RequestMapping(value="/deletePlaceList.tr", method = RequestMethod.POST)
 	public ModelAndView deletePlaceList(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 
 		tripService.deletePlaceList(commandMap.getMap());
 
-		HttpSession session = request.getSession();
-		String TR_ID = (String) session.getValue("MEM_ID");
-		session.setAttribute("TR_ID", TR_ID);
+		return mv;
+	}
+	
+	/* 취소하기(작성시, 수정시) */
+	@RequestMapping(value="/tripCancel.tr")
+	public ModelAndView tripCancel(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("jsonView");
 		
+		/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
+		tripService.deletePlaceListNull(commandMap.getMap());
+		
+		/* 일정 만들기 시작시 TP_DELPLACE Y=>N update */
+		tripService.tpDelPlaceUpdate(commandMap.getMap());
+
 		return mv;
 	}
 	
@@ -309,7 +390,7 @@ public class TripController {
 	/* 여행 일정 공유하기 */
 	@RequestMapping(value="/tripShare.tr")
 	public ModelAndView tripShare(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/tripList.tr");
+		ModelAndView mv = new ModelAndView("redirect:/myTripList.tr");
 		
 		/* 폼을 통해 입력받은 데이터로 수정하기 */
 		tripService.tripShare(commandMap.getMap());

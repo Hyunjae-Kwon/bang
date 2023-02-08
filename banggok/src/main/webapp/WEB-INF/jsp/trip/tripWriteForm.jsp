@@ -104,8 +104,7 @@ border-color: #0078FF;
 .searchBtn:hover{
 background-color: #0078FF !important;
 border-color: #0078FF !important; 
-}	
-
+}
 </style>
 </head>
     <body>
@@ -114,18 +113,18 @@ border-color: #0078FF !important;
         <div class="container">
             <div class="row">
             	<h2>여행 일정 만들기</h2>
-            	<p>원하시는 일정을 선택해주세요.</p>
             </div>
         </div>
     </div>
-    <!-- ################# 여행 일정 만들기 Starts Here ####################### -->  
+    
+    <!--  ************************* 여행 일정 만들기 Starts Here ************************** -->
     <div class="row contact-rooo no-margin">
         <div class="container">
             <div class="row">
             	<form style="max-width: 100%; margin-left: 20px;" id="frm" name="frm" encType="multipart/form-data" method="post">
             		<br>
             		<div>
-            			<h4>여행 일정 이름</h4>
+            			<h4>여행 일정 제목</h4>
             			<input type="text" id="TR_TITLE" name="TR_TITLE" placeholder="제목을 입력하세요" class="form-control input-sm">
             			<!-- <form>안에 input type="text"가 1개 있을 경우 -->
             			<!-- 입력 후 엔터시 새로고침 작동함, 이를 막기 위해 아래 코드 작성 -->
@@ -153,16 +152,15 @@ border-color: #0078FF !important;
                 		<div style="border-left: solid #eaeaea; height: 450px; overflow-y: auto;">
                 			<h5 style="margin-left: 30px; margin-right: 20px;">여행 일정</h5>
                 			<input type="button" value="추가" class="btn btn-outline-success btn-sm" onClick="addSch()" style="margin-left: 20px; margin-right: 5px;">
-                			<input type="button" value="삭제" class="btn btn-outline-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
+                			<input type="button" value="삭제" class="del btn btn-outline-success btn-sm" onClick="delSch()" style="margin-left: 5px; margin-right: 10px;">
                 			<ul id="schList"></ul>
                 		</div>
-                		                		
+                		
+                		<!-- 일정별 장소 리스트 -->                		
                 		<div id="addListItem" style="border-left: solid #eaeaea; height: 450px; overflow-y: auto; width: 280px;"></div>
 						
 						<div style="border-left: solid #eaeaea; height: 450px;"></div>
-	                    <!-- <div class="row cont-row">
-                    	</div> -->
-                    </div>
+	                </div>
 	            </form>
                 <div class="col-sm-5">
                     <div style="margin:20px" class="serv">
@@ -178,10 +176,6 @@ border-color: #0078FF !important;
 						                    <button class="com searchBtn btn btn-outline-success" type="submit" style="line-height: 1.6;">검색하기</button> 
 						                </form>
 						            </div>
-						            <!-- 방문 장소 추가하기 버튼 -->
-						            <!-- <div>
-						            	<input type="button" id="addPlaceData" value="방문 장소 추가하기" onclick="addPlaceData()">
-						            </div> -->
 						        </div>
 						        <hr>
 						        <ul id="placesList"></ul>
@@ -193,16 +187,16 @@ border-color: #0078FF !important;
             </div>
             <br>
             <div>
-            	<h3>여행 일정 메모</h3>
+            	<h3>여행 일정 내용</h3>
             	<!-- 글 작성 폼 -->
     			<textarea id="summernote" class="TR_CONTENT" name="TR_CONTENT">${TR_CONTENT}</textarea>
             </div>
-            <!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
+            <!-- 하단 버튼 -->
             <div style="margin-top:10px;">
                 <!-- <div style="padding-top:10px;" class="col-sm-3"><label></label></div> -->
                 <div class="col-sm-8" style="max-width: 100%; text-align: center;">
                 	<input type="button" class="btn btn-outline-success btn-sm" value="작성하기" onclick="tripWrite()">
-                	<input type="button" class="btn btn-outline-success btn-sm" value="취소하기" onclick="location.href='/bang/main.tr'">
+                	<input type="button" class="del btn btn-outline-success btn-sm" value="취소하기" onclick="tripCancel()">
                 </div>
                 <br>
             </div>
@@ -218,49 +212,67 @@ border-color: #0078FF !important;
 		var content = document.getElementById("summernote").value;
 		var image = document.getElementById("TR_IMAGE").value;
 		
-			if (!$("#TR_TITLE").val()) {
-				alert("제목을 입력하세요.");
-				$("#TR_TITLE").focus();
-				return false;
-			}
-			if (!$(".TR_CONTENT").val()) {
-				alert("일정 내용을 입력하세요.");
-				$(".TR_CONTENT").focus();
-				return false;
-			}
-			if (!$("#TR_IMAGE").val()) {
-				alert("썸네일 이미지를 등록하세요.");
-				$("#TR_IMAGE").focus();
-				return false;
-			}
+		if (!$("#TR_TITLE").val()) {
+			alert("일정 제목을 입력하세요.");
+			$("#TR_TITLE").focus();
+			return false;
+		}
+		if (!$(".TR_CONTENT").val()) {
+			alert("일정 내용을 입력하세요.");
+			$(".TR_CONTENT").focus();
+			return false;
+		}
+		if (!$("#TR_IMAGE").val()) {
+			alert("썸네일 이미지를 등록하세요.");
+			$("#TR_IMAGE").focus();
+			return false;
+		}
 			
 		var form = $("#frm")[0];
 		var formData = new FormData(form);
 		formData.append("TR_CONTENT", content);
 		
+		$.ajax({
+			type: "POST",
+			enctype: "multipart/form-data",
+			url: "<c:url value='tripWrite.tr'/>",
+			data: formData,
+			async: false,
+			contentType: false,
+			processData: false,
+			cache: false,
+			success: function(data){
+				alert("게시글이 정상적으로 등록 되었습니다.");
+				location.href="/bang/myTripList.tr";
+			}	
+	    });
+	}
+ 	
+ 	function tripCancel(){
+ 		var id = document.getElementById("TR_ID").value;
+ 		
+ 		if(confirm("여행 일정 만들기를 취소하시겠습니까?") == true){
 			$.ajax({
 				type: "POST",
-				enctype: "multipart/form-data",
-				url: "<c:url value='tripWrite.tr'/>",
-				data: formData,
-				async: false,
-				contentType: false,
-				processData: false,
-				cache: false,
+				url: "<c:url value='tripCancel.tr'/>",
+				data: {TP_ID: id},
 				success: function(data){
-					alert("게시글이 정상적으로 등록 되었습니다.");
-					location.href="/bang/myTripList.tr";
-				}	
-	        });
-		} 
+					location.href="/bang/main.tr";
+				}
+		    });
+ 		}
+ 	}
 	</script>
     <!-- 카카오 지도 API, services와 clusterer, drawing 라이브러리 불러오기 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fa3a582f3278c83fd4f3031cc4f96d&libraries=services,clusterer,drawing"></script>
+	
+	<!-- 일정 및 방문 장소 리스트 -->
 	<!-- 카카오 지도 Drawing Library에서 데이터 얻기 스크립트 -->
 	<script>
 		/* 일정번호 초기값 */ 
 		var dayNum = 0;
 		
+		/* 선택한 일정 목록 번호 */
 		var dayIdx;
 		
 		addSch();
@@ -290,7 +302,8 @@ border-color: #0078FF !important;
 			}
 			schList(dayNum);
 		}
-				
+		
+		/* 여행 일정 Day 리스트 */
 		function schList(dayNum){
 			var dayList = document.getElementById('schList');
 			dayList.innerHTML = '';
@@ -310,11 +323,17 @@ border-color: #0078FF !important;
 			
 			dayList.innerHTML += day;
 			
+			/* 일정 목록 삭제시, 장소리스트 일정 번호가 동일 시 아래 function 동작 */
 			if(dayNum+1 == dayIdx){
+				/* 일정 추가 장소 리스트 초기화 */
 				placeList();
+				
+				/* 지도에 표시되는 추가 장소 마커, 커스텀오버레이, 연결선 제거 */
 				removeAddMarker();
 			}
 		}
+		/* 방문 장소 리스트 배열 */
+		var addPlace = [];
 		
 		placeList();
 		
@@ -323,7 +342,6 @@ border-color: #0078FF !important;
 			var id = document.getElementById("TR_ID").value;
 			var place = document.getElementById("addListItem");
 			var item = '';
-			list = [];
 			
 			if(selectNum==null){
 				place.innerHTML = '<h5 style="margin-left: 20px;">일정을 선택해 주세요.</h5>';
@@ -334,25 +352,25 @@ border-color: #0078FF !important;
 				dayIdx = selectNum;
 			}
 			
+			/* 지도에 표시되는 추가 장소 마커, 커스텀오버레이, 연결선 제거 */
 			removeAddMarker();
 			
 			$.ajax({
 				url:"/bang/writePlaceList.tr",
 				method:"GET",
-				dataType:"JSON",
 				data: "TP_ID=" + id + "&TP_DATE=" + selectNum,
 				success:function(data){
-					list = data.writePlaceList;
-					if(list.length>0){
-						for(var i=0; i<list.length; i++){
+					addPlace = data.writePlaceList;
+					if(addPlace.length>0){
+						for(var i=0; i<addPlace.length; i++){
 							item += '<ul id="placesList2" class="placesLists">' + 
 									'<li class="item">' +
 										'<h5 id=TP_PLACE>' + addPlace[i].R +'. ' + addPlace[i].TP_PLACE + '</h5>';
 							if(addPlace[i].TP_RADDRESS != null){
 								item +=	'<span id="TP_RADDRESS">' + addPlace[i].TP_RADDRESS + '</span>';
 							}
-							if(list[i].TP_ADDRESS != null){
-								item +=	'<span id="TP_ADDRESS" class="jibun gray">' + list[i].TP_ADDRESS + '</span>'; 
+							if(addPlace[i].TP_ADDRESS != null){
+								item +=	'<span id="TP_ADDRESS" class="jibun gray">' + addPlace[i].TP_ADDRESS + '</span>'; 
 							}			
 							if(addPlace[i].TP_PHONE != null){
 								item +=	'<span class="tel" id="TP_PHONE">' + addPlace[i].TP_PHONE; 
@@ -371,7 +389,9 @@ border-color: #0078FF !important;
 						item = '<p style="margin-left: 20px;">방문하실 장소를 추가해주세요.</p><br>';
 					}
 					place.innerHTML += item;
-					addPlaceMarker(list);
+					
+					/* 추가 장소 리스트 커스텀 마커, 오버레이, 연결선 지도에 표시 */
+					addPlaceMarker(addPlace);
 				}
 			});
 		}
@@ -379,7 +399,7 @@ border-color: #0078FF !important;
 		/* 검색 결과 마커를 담을 배열 */
 		var markers = [];
 		
-		/* 추가 장소 마커를 담을 배열 */
+		/* 추가 장소 커스텀 마커를 담을 배열 */
 		var addMarkers = [];
 		
 		/* 추가 장소 커스텀 오버레이를 담을 배열 */
@@ -388,29 +408,32 @@ border-color: #0078FF !important;
 		/* 추가 장소 연결선을 담을 배열 */
 		var polylines = [];
 		
-		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+		/* 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다 */
 		var bounds = new kakao.maps.LatLngBounds();
 		
 		/* points 배열에 아무것도 없을 때 기본 위치를 지정하는 배열 */
 		var center = [];
 		center.push(new kakao.maps.LatLng(37.566826, 126.9786567));
 		
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		/* 지도를 표시할 div */
+		var mapContainer = document.getElementById('map'),  
 		    mapOption = {
-		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨
+				/* 지도의 중심좌표 */
+		        center: new kakao.maps.LatLng(37.566826, 126.9786567),
+		        /* 지도의 확대 레벨 */
+		        level: 3
 		    };  
 	
-		// 지도를 생성합니다    
+		/* 지도 생성 */    
 		var map = new kakao.maps.Map(mapContainer, mapOption); 
 	
-		// 장소 검색 객체를 생성합니다
+		/* 장소 검색 객체 생성 */
 		var ps = new kakao.maps.services.Places();  
 	
-		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+		/* 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성 */
 		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 		
-		// 키워드 검색을 요청하는 함수입니다
+		/* 키워드 검색 요청 함수 */
 		function searchPlaces() {
 	
 		    var keyword = document.getElementById('keyword').value;
@@ -420,19 +443,18 @@ border-color: #0078FF !important;
 		        return false;
 		    }
 	
-		    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+		    /* 장소검색 객체를 통해 키워드로 장소검색을 요청 */
 		    ps.keywordSearch( keyword, placesSearchCB); 
 		}
 	
-		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+		/* 장소검색이 완료됐을 때 호출되는 콜백함수 */
 		function placesSearchCB(data, status, pagination) {
 		    if (status === kakao.maps.services.Status.OK) {
 	
-		        // 정상적으로 검색이 완료됐으면
-		        // 검색 목록과 마커를 표출합니다
+		        /* 정상적으로 검색이 완료됐으면 검색 목록과 마커를 표출 */
 		        displayPlaces(data);
 	
-		        // 페이지 번호를 표출합니다
+		        /* 페이지 번호를 표출 */
 		        displayPagination(pagination);
 	
 		    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -448,7 +470,7 @@ border-color: #0078FF !important;
 		    }
 		}
 	
-		// 검색 결과 목록과 마커를 표출하는 함수입니다
+		/* 검색 결과 목록과 마커를 표출하는 함수 */
 		function displayPlaces(places) {
 	
 		    var listEl = document.getElementById('placesList'), 
@@ -457,21 +479,22 @@ border-color: #0078FF !important;
 		    bounds = new kakao.maps.LatLngBounds(), 
 		    listStr = '';
 		    
-		    // 검색 결과 목록에 추가된 항목들을 제거합니다
+		    /* 검색 결과 목록에 추가된 항목들을 제거 */
 		    removeAllChildNods(listEl);
 	
-		    // 지도에 표시되고 있는 마커를 제거합니다
+		    /* 지도에 표시되고 있는 마커를 제거 */
 		    removeMarker();
 		    
 		    for ( var i=0; i<places.length; i++ ) {
 	
-		        // 마커를 생성하고 지도에 표시합니다
+		        /* 마커를 생성하고 지도에 표시 */
 		        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
 		            marker = addMarker(placePosition, i), 
-		            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+		            /* 검색 결과 항목 Element를 생성 */
+		            itemEl = getListItem(i, places[i]);
 		            
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-		        // LatLngBounds 객체에 좌표를 추가합니다
+		        /* 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해 */
+		        /* LatLngBounds 객체에 좌표를 추가 */
 		        bounds.extend(placePosition);
 	
 		        /* mouseout 했을 때는 인포윈도우를 닫습니다 */
@@ -484,10 +507,12 @@ border-color: #0078FF !important;
 		                infowindow.close();
 		            });
 	
-		            itemEl.onmouseover =  function () {
+		         	/* 마커와 검색결과 항목에 mouseover 했을때 인포윈도우에 장소명을 표시 */
+			        itemEl.onmouseover =  function () {
 		                displayInfowindow(marker, title);
 		            };
 	
+		         	/* mouseout 했을 때는 인포윈도우 다음 */
 		            itemEl.onmouseout =  function () {
 		                infowindow.close();
 		            };
@@ -497,15 +522,15 @@ border-color: #0078FF !important;
 		        fragment.appendChild(itemEl);
 		    }
 	
-		    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+		    /* 검색결과 항목들을 검색결과 목록 Element에 추가 */
 		    listEl.appendChild(fragment);
 		    menuEl.scrollTop = 0;
 	
-		    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		    /* 검색된 장소 위치를 기준으로 지도 범위를 재설정 */
 		    map.setBounds(bounds);
 		}
 	
-		// 검색결과 항목을 Element로 반환하는 함수입니다
+		/* 검색결과 항목을 Element로 반환하는 함수 */
 		function getListItem(index, places) {
 			
 		    var el = document.createElement('li'),
@@ -520,7 +545,6 @@ border-color: #0078FF !important;
 		        itemStr += '    <span id="address">' +  places.address_name  + '</span>'; 
 		    }
 		    itemStr += '  <span class="tel" id="phone">' + places.phone  + 
-		    		   /* '<button style="float: right;" id="addPlaceData" onClick="addListItem(' + item + ')">장소 추가</button></span>' + */
 		    		   '<button style="float: right;" id="addPlaceData" onClick="addListItem(\'' + 
 		    				   places.place_name + '\',\'' + places.road_address_name + '\',\'' + places.address_name + '\',\'' + places.phone + '\')">장소 추가</button></span>' +
 		    		   '</div>';           
@@ -582,12 +606,12 @@ border-color: #0078FF !important;
  	        });
 		}
 		
-		/* 커스텀 오버레이 */
-		function addPlaceMarker(list){
+		/* 추가 장소 커스텀 마커, 오버레이, 연결선 */
+		function addPlaceMarker(addPlace){
 			/* 추가한 장소 list를 담을 배열입니다. */
 			var placeNode = [];
 			
-			placeNode = list;
+			placeNode = addPlace;
 			
 			var addPoints = [];
 			
@@ -599,7 +623,7 @@ border-color: #0078FF !important;
 				/* 추가 장소 위치 */
 				addPoints[i] = new kakao.maps.LatLng(addLat, addLng);
 				
-				/* 추가 마커 이미지 */
+				/* 커스텀 마커 이미지 */
 				var imageSrc = 'resources/images/marker.png',
 			  	    imageSize = new kakao.maps.Size(30, 30),
 				    markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
@@ -608,9 +632,9 @@ border-color: #0078FF !important;
 			        	image: markerImage // 마커 이미지
 			    });
 		    	
-				/* 지도 위에 추가 마커를 표출 */
+				/* 지도 위에 커스텀 마커를 표출 */
 				addMarker.setMap(map); 
-				/* 배열에 생성된 추가 마커를 추가 */
+				/* 배열에 생성된 커스텀 마커를 추가 */
 				addMarkers.push(addMarker); 
 				
 			    /* 커스텀오버레이 */
@@ -625,9 +649,9 @@ border-color: #0078FF !important;
 				    	yAnchor: 0.05
 				});
 			    	
-			    /* 지도 위에 커스텀오버레이를 표출 */
+			    /* 지도 위에 커스텀 오버레이를 표출 */
 				customOverlay.setMap(map); 
-				/* 배열에 생성된 커스텀오버레이를 추가 */
+				/* 배열에 생성된 커스텀 오버레이를 추가 */
 				customOverlays.push(customOverlay); 
 			}
 						
@@ -653,6 +677,8 @@ border-color: #0078FF !important;
 				    /* LatLngBounds 객체에 추가장소 리스트 좌표 추가 */
 				    bounds.extend(addPoints[i]);
 				}
+				
+				/* 추가 장소 위치를 기준으로 지도 범위를 재설정 */
 				map.setBounds(bounds);
 			}
 		}
@@ -683,7 +709,7 @@ border-color: #0078FF !important;
 		    markers = [];
 		}
 		
-		/* 지도 위에 추가된 마커 중 삭제된 목록의 마커 제거 */
+		/* 지도 위에 추가된 마커, 커스텀오버레이, 연결선 제거 */
 		function removeAddMarker() {
 			for(var i=0; i < addMarkers.length; i++){
 				addMarkers[i].setMap(null);
@@ -748,10 +774,11 @@ border-color: #0078FF !important;
 		    }
 		}
 
+		/* LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정 */
+		/* 이때 지도의 중심좌표와 레벨이 변경될 수 있음 */
 		function setBounds() {
-		    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
-		    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-		    map.setBounds(bounds);
+			
+			map.setBounds(bounds);
 		}
 	</script>
 	
@@ -800,27 +827,26 @@ border-color: #0078FF !important;
             		}
             	}
             }
-      }); 
+    }); 
 	
-		  /* 파일 업로드를 위한 Ajax */
-		  function uploadSummernoteImageFile(file, el) {
-				data = new FormData();
-				data.append("file", file);
-				$.ajax({
-					data : data,
-					type : "POST",
-					url : "uploadSummernoteImageFile.tr",	/* 이미지 업로드 경로 */
-					contentType : false,
-					enctype : 'multipart/form-data',	/* 파일 업로드를 위해 꼭 이대로 써줘야함 */
-					processData : false,
-					success : function(data) {
-						$(el).summernote('editor.insertImage', data.url);	/* 이미지를 삽입할 수 있도록 해줌 */
-					}
+	/* 파일 업로드를 위한 Ajax */
+	function uploadSummernoteImageFile(file, el) {
+		data = new FormData();
+		data.append("file", file);
+		$.ajax({
+			data : data,
+			type : "POST",
+			url : "uploadSummernoteImageFile.tr",	/* 이미지 업로드 경로 */
+			contentType : false,
+			enctype : 'multipart/form-data',	/* 파일 업로드를 위해 꼭 이대로 써줘야함 */
+			processData : false,
+			success : function(data) {
+			$(el).summernote('editor.insertImage', data.url);	/* 이미지를 삽입할 수 있도록 해줌 */
+			}
 				
-				});
-			} 
-			
-    </script>
+		});
+	} 
+	</script>
     <script>
 	/* 이미지 미리보기 스크립트 */
 	function readImage(input) {
