@@ -162,6 +162,7 @@ display: none;
 		<div class="report"></div>
 	</div>
 </body>
+<!-- 댓글 더보기 -->
 <script>
 $(document).ready(function(){
 	var com = $(".items");

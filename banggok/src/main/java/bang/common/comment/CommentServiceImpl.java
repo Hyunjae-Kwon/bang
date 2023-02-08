@@ -33,11 +33,46 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception {
 		
-		if(!map.isEmpty()) {
-			for(Object key : map.values()) {
-				map.put("OBJECT", key);
+		if(map.get("TR_NUM") != null) {
+			if(!map.isEmpty()) {
+				for(Object key : map.values()) {
+					map.put("OBJECT", key);
+				}
 			}
+			map.put("BC_TYPE", "T");
+			
+		} else if (map.get("TG_NUM") != null) {
+			System.out.println("!234");
+			if(!map.isEmpty()) {
+				for(Object key : map.values()) {
+					map.put("OBJECT", key);
+				}
+			}
+			map.put("BC_TYPE", "TG");
+			
+		} else if (map.get("RV_NUM") != null) {
+			if(!map.isEmpty()) {
+				for(Object key : map.values()) {
+					map.put("OBJECT", key);
+				}
+			}
+			map.put("BC_TYPE", "R");
+			
+		} else if (map.get("RC_NUM") != null) {
+			if(!map.isEmpty()) {
+				for(Object key : map.values()) {
+					map.put("OBJECT", key);
+				}
+			}
+			map.put("BC_TYPE", "RC");
 		}
+		
+//		
+//		if(!map.isEmpty()) {
+//			for(Object key : map.values()) {
+//				map.put("OBJECT", key);
+//			}
+//		}
 		
 		return commentDAO.selectCommentList(map);
 	}

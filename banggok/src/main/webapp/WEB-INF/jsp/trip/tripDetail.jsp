@@ -94,6 +94,10 @@
 .customoverlay .item {display:block;float:left; text-decoration:none;padding:8px 8px;color:#000;text-align:center;border-radius:3px;font-size:11px;font-weight:bold;background: #FA8072;}
 .customoverlay .title {display:block;text-align:center;background:#fff;padding:8px 15px;font-size:11px;font-weight:bold;border-radius:3px;}
 .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+
+.hide{
+display: none;
+}
 </style>
 </head>
 <body>
@@ -167,8 +171,13 @@
 			</div>
 		</div>
 	</div>
-	
 	<!--  ************************* 댓글 내용 Starts Here ************************** -->
+	<div style="display: inline-block; width: 78%; margin-left: 96px;">
+   		<textarea name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
+	</div>
+	<div style="display: inline-block; float: right; width: 10%; margin-right: 40px;" >
+		<input type="button" value="댓글쓰기"  id="comWrite" class="btn btn-primary py-2 px-2">
+	</div>
 	<div class="board-list">
 		<div class="container">
 			<table class="board-table">
@@ -181,34 +190,32 @@
 					<c:when test="${fn:length(comment) > 0}">
 						<c:forEach var="list" items="${comment}">
 							<div>
-								<div>
-									<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
-									<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
-								</div>
-								<tbody class="items">			
-									<tr>
-										<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
-										<td align="center" colspan="3">${list.BC_COMMENT }</td>
-										<td align="center" style="font-weight: bold;">
-										<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
-										</td>
-										<td>
-											<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
-											<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID }">
-											<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
-											<c:if test="${MEM_ID != null}">
-												<input type="button" class="com btn btn-outline-success" value="답글">			
-												<input type="button" class="com del btn btn-outline-success" value="신고" name="reportCom">
-											</c:if>	
-											<c:if test="${MEM_ID eq list.BC_ID}">
-												<input type="button" class="com del btn btn-outline-success" onClick="comDelete(${list.BC_BCID})" value="삭제">
-											</c:if>
-										</td>
-									</tr>
-									<!-- 댓글 신고하기 입력 칸 -->
-									<tr class="reportSpace"></tr>
-								</tbody>
+								<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
+								<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
 							</div>
+							<tbody class="items">			
+								<tr>
+									<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
+									<td align="center" style="text-align: left;" colspan="3">${list.BC_COMMENT }</td>
+									<td align="center" style="font-weight: bold;">
+									<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
+									</td>
+									<td>
+										<input type="hidden" id="BC_ID" name="BC_ID" value="${list.BC_ID}">
+										<input type="hidden" id="BC_BCID" name="BC_BCID" value="${list.BC_BCID }">
+										<input type="hidden" id="BC_COMMENT" name="BC_COMMENT" value="${list.BC_COMMENT}">
+										<c:if test="${MEM_ID != null}">
+											<input type="button" class="com btn btn-outline-success" value="답글">			
+											<input type="button" class="com del btn btn-outline-success" value="신고" name="reportCom">
+										</c:if>	
+										<c:if test="${MEM_ID eq list.BC_ID}">
+											<input type="button" class="com del btn btn-outline-success" onClick="comDelete(${list.BC_BCID})" value="삭제">
+										</c:if>
+									</td>
+								</tr>
+								<!-- 댓글 신고하기 입력 칸 -->
+								<tr class="reportSpace"></tr>
+							</tbody>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
@@ -219,14 +226,17 @@
 				</c:choose>
 			</table>
 		</div>
-		<br>
-		<div style="display: inline-block; width: 78%; margin-left: 96px;">
-    		<textarea name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
-		</div>
-		<div style="display: inline-block; float: right; width: 10%; margin-right: 40px;" >
-			<input type="button" value="댓글쓰기"  id="comWrite" class="btn btn-primary py-2 px-2">
+		<div align="center">
+			<table>
+				<tbody>
+					<tr>
+						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="width: 1070px; height: 30px;" value="더보기"></td>
+					<tr>
+				</tbody>
+			</table>
 		</div>
 		<!-- 댓글 끝 -->
+		<br>
 		<form id="commonForm" name="commonForm"></form>
 
 		<!-- 하단 버튼 (목록으로 돌아가기, 수정하기, 삭제하기, 추천하기 등) -->
@@ -259,6 +269,36 @@
 		<div class="report"></div>
 	</div>
 </body>
+
+<!-- 댓글 더보기 -->
+<script>
+$(document).ready(function(){
+	var com = $(".items");
+	var cnt = 0;
+	
+	console.log(com);
+	
+	addCom();
+	console.log(com.length);
+	console.log(cnt);
+	function addCom(){
+		for(let i = cnt; i < com.length; i ++){
+			console.log(i);
+			if(i < cnt + 10){
+				com[i].classList.remove('hide')
+			}
+			if(i > cnt + 9){
+				com[i].classList.add('hide')
+			}
+		};
+	}
+	
+	$("#add").click(function(){
+		cnt += 10;
+		addCom();
+	});
+});
+</script>
 
 <!-- 카카오 지도 API, services와 clusterer, drawing 라이브러리 불러오기 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fa3a582f3278c83fd4f3031cc4f96d&libraries=services,clusterer,drawing"></script>
@@ -402,7 +442,7 @@
 		
 		if(addPoints.length>0){		
 			/* 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체 생성 */
-			bounds = new kakao.maps.LatLngBounds();    
+			bounds = new kakao.maps.LatLngBounds();
 						
 			for (var i=0; i< addPoints.length; i++) {
 			    /* LatLngBounds 객체에 추가장소 리스트 좌표 추가 */
@@ -412,6 +452,13 @@
 			/* 추가 장소 위치를 기준으로 지도 범위를 재설정 */
 			map.setBounds(bounds);
 		}
+		
+		/* LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정 */
+		/* 이때 지도의 중심좌표와 레벨이 변경될 수 있음 */
+		function setBounds() {
+			map.setBounds(bounds);
+		}
+		
 	}
 	
 	/* 지도 위에 추가 된 커스텀 마커, 오버레이, 연결선 제거 */
@@ -431,21 +478,12 @@
 		}
 		polylines = [];
 	}
-	
-	/* LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정 */
-	/* 이때 지도의 중심좌표와 레벨이 변경될 수 있음 */
-	function setBounds() {
-		
-		map.setBounds(bounds);
-	}
 </script>
 
 <!-- 댓글 내용 작성 후 작성하기 눌렀을 때 동작하는 댓글 입력 함수 -->
 <script>
 	$(document).ready(function(){
-   	/* 저장된 위도 경도로 지도에 마커 및 선 표시 */
-   	setBounds();
-   	
+		
    	/* 댓글 작성하기 */
    	$("#comWrite").click(function(){
    		

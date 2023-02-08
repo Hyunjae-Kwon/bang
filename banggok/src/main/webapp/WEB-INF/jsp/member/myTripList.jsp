@@ -53,17 +53,18 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${myTripList[0].TR_NUM != null}">
+						<%-- <c:when test="${myTripList != null}"> --%>
+						<c:when test="${tripList != null}">
 							<c:forEach items="${myTripList}" var="list" varStatus="status">
 								<tr>
-									<td align="center">${list.TR_NUM}
-									<input type="hidden" id="TR_NUM" name="TR_NUM" value="${list.TR_NUM}"></td>
+									<td align="center">${list.TR_NUM }
+									<input type="hidden" id="TR_NUM" name="TR_NUM" value="${list.TR_NUM }"></td>
 									<td><a href="tripDetail.tr?TR_NUM=${list.TR_NUM}">${list.TR_TITLE}</a>
 									</td>
-									<td align="center">${list.TR_ID}
-									<td align="center">${list.TR_CNT}</td>
-									<td align="center">${list.TR_LIKE}</td>
-									<td align="center" ${list.TR_REGDATE}><fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd" /></td>
+									<td align="center">${list.TR_ID }
+									<td align="center">${list.TR_CNT }</td>
+									<td align="center">${list.TR_LIKE }</td>
+									<td align="center" ${list.TR_REGDATE }><fmt:formatDate value="${list.TR_REGDATE}" pattern="yyyy-MM-dd" /></td>
 									<td align="center">									  
 										<c:if test="${list.TR_SHARE eq 'Y' }">
 											 <a style="font-size: 35x; color: black; cursor:pointer;" 
@@ -108,8 +109,7 @@
 		</div>				 
 	</div>
 	<script type="text/javascript">
-	function deleteTrip() {
-		var TR_NUM = document.getElementById("TR_NUM").value;
+	function deleteTrip(TR_NUM) {
 		if (confirm("삭제하시겠습니까?") == true) {
 			location.href = "tripDelete.tr?TR_NUM=" + TR_NUM;		
 		}
@@ -122,5 +122,11 @@
 		comSubmit.submit();
     }
 	</script>
+
+  <!--  ************************* Footer Start Here ************************** -->
+
+    
+   
     </body>
+
 </html>

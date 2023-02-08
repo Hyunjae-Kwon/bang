@@ -15,7 +15,7 @@ import bang.common.common.FileUtils;
 
 @Service("tripService")
 public class TripServiceImpl implements TripService {
-Logger log = Logger.getLogger(this.getClass());
+	Logger log = Logger.getLogger(this.getClass());
 	
 	@Resource(name="tripDAO")
 	private TripDAO tripDAO;

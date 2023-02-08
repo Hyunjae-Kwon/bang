@@ -124,7 +124,7 @@ border-color: #0078FF !important;
             	<form style="max-width: 100%; margin-left: 20px;" id="frm" name="frm" encType="multipart/form-data" method="post">
             		<br>
             		<div>
-            			<h4>여행 일정 제목</h4>
+            			<h4>여행 일정 이름</h4>
             			<input type="text" id="TR_TITLE" name="TR_TITLE" value="${trip.TR_TITLE}" class="form-control input-sm">
             			<!-- <form>안에 input type="text"가 1개 있을 경우 -->
             			<!-- 입력 후 엔터시 새로고침 작동함, 이를 막기 위해 아래 코드 작성 -->
