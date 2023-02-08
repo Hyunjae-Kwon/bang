@@ -33,7 +33,7 @@
 					<tr>
 						<td>
 							<label>썸네일 이미지 : </label>
-							<img src="${review.RV_IMAGE}" width="100" border="0" id="preview-image">
+							<img src="${review.RV_IMAGE}" width="100" border="0">
 						</td>
 					</tr>
 					<tr>
