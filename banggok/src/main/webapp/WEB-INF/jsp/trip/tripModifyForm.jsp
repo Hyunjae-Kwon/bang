@@ -133,9 +133,11 @@ border-color: #0078FF !important;
             			<input type="hidden" id="TR_NUM" name="TR_NUM" value="${trip.TR_NUM}">
     					<input type="hidden" id="maxDayNum" name="maxDayNum" value="${maxDayNum}">
             		</div>
-            		
             		<div>
-            			<label>썸네일 등록 : </label>&nbsp;&nbsp;<input type="file" id="TR_IMAGE" name="TR_IMAGE" value="">
+						<label>썸네일 이미지 : </label>&nbsp;&nbsp;<img src="${trip.TR_IMAGE}" width="100" border="0">
+					</div>
+            		<div>
+            			<label>썸네일 이미지 수정 : </label>&nbsp;&nbsp;<input type="file" id="TR_IMAGE" name="TR_IMAGE" value="">
             		</div>
             		<div>
             			<label>썸네일 이미지 미리보기 : </label>&nbsp;&nbsp;

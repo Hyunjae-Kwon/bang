@@ -43,7 +43,7 @@ integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifw
 					<tr>
 						<td>
 							<label>썸네일 이미지 : </label>
-							<img src="${map.RC_IMAGE}" width="100" border="0" id="preview-image">
+							<img src="${map.RC_IMAGE}" width="100" border="0">
 						</td>
 					</tr>
 					<tr>
