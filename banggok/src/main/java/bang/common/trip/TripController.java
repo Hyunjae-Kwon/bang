@@ -265,9 +265,11 @@ public class TripController {
 		
 		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
 		mv.addObject("myTripList", resultMap.get("result"));
+		mv.addObject("tripList", resultMap);
 		
 		return mv;
      }
+	
 	
 	/* 여행 일정 만들기 폼 */
 	@RequestMapping(value="/tripWriteForm.tr")

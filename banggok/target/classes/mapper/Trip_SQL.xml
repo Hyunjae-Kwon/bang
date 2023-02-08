@@ -172,9 +172,9 @@
 	<!-- [modifyDelSch] 일정 삭제(수정시) -->
 	<delete id="modifyDelSch" parameterType="hashmap">
 		<![CDATA[
-			DELETE 
-			FROM TRIPPLACE
-			WHERE TP_TRNUM = #{TP_TRNUM} AND TP_DATE = #{TP_DATE}
+			UPDATE TRIPPLACE
+			SET TP_DELPLACE = 'Y'
+			WHERE (TP_TRNUM = #{TP_TRNUM} OR TP_TRNUM IS NULL) AND TP_DATE = #{TP_DATE}
 		]]>
 	</delete>
 	
