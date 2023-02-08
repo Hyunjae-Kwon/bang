@@ -27,7 +27,7 @@
 	<br>
 	<form id="frm" name="frm" action="<c:url value='/recommendWrite.tr'/>" method="post" encType="multipart/form-data">
 	<div class="board-list">
-		<div class="container" style="margin-left: 250px;">
+		<div class="container" align="center">
 			<table class="board-table">
 				<tbody>
 					<tr>

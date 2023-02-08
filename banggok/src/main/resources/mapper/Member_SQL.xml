@@ -236,4 +236,14 @@
 		 MEM_IMAGE = #{MEM_IMAGE}
 		where MEM_ID = #{MEM_ID}
  	</update> 
+ 	
+ 	<!-- [getMemberImage] 회원 이미지 가져오기 -->
+ 	<select id="getMemberImage" parameterType="hashmap" resultType="hashmap">
+ 		<![CDATA[
+ 			SELECT MEM_IMAGE
+ 			FROM MEMBER
+ 			WHERE MEM_ID = #{MEM_ID}
+ 		]]>
+ 	</select>
+ 	
 </mapper>

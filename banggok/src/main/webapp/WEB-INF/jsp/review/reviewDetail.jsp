@@ -84,20 +84,19 @@ display: none;
 			<table class="board-table">
 				<colgroup>
 					<col width="10%" />
-					<col width="50%" />
-					<col width="20%" />
+					<col width="10%" />
+					<col width="40%" />
+					<col width="10%" />
+					<col width="10%" />
 				</colgroup>
 				<c:choose>
 					<c:when test="${fn:length(comment) > 0}">
 						<c:forEach var="list" items="${comment}">
-							<div>
-								<!-- 추후 멤버에 프로필 사진 추가하면 주석 해제 -->
-								<%-- <image src="/resources/images/member/${list.MEM_IMAGE}" alt=""> --%>
-							</div>
 							<tbody class="items">			
 								<tr>
-									<td align="center" style="font-weight: bold;">${list.BC_ID }</td>
-									<td align="center" style="text-align: left;" colspan="3">${list.BC_COMMENT }</td>
+									<td class="profil"></td>
+									<td class="comId" style="text-align: left; font-weight: bold;">${list.BC_ID }</td>
+									<td align="center" style="text-align: left;">${list.BC_COMMENT }</td>
 									<td align="center" style="font-weight: bold;">
 									<fmt:formatDate value="${list.BC_REGDATE}" pattern="yyyy-MM-dd" />
 									</td>
@@ -162,9 +161,9 @@ display: none;
 		<div class="report"></div>
 	</div>
 </body>
-<!-- 댓글 더보기 -->
 <script>
 $(document).ready(function(){
+	/* 댓글 더보기 */
 	var com = $(".items");
 	var cnt = 0;
 	
@@ -185,6 +184,30 @@ $(document).ready(function(){
 		cnt += 10;
 		addCom();
 	});
+	
+	/* 댓글 프로필 이미지 */
+	var comId = $(".comId");
+	var addImg = $(".profil");
+	var mem = [];
+	
+	for(let i = 0; i < comId.length; i ++){
+		var item = '';
+		var id = comId[i].innerText;
+		$.ajax({
+			url:"/bang/getMemberImage.tr",
+			method:"GET",
+			data: {MEM_ID : id},
+			async: false,
+			success: function(data){
+				
+				mem = data.memImg;
+				
+				item += '<img style="width: 50px; height: 50px; border-radius: 50%;" src="http://localhost:8080/bang/getProfileFile.tr?filename=' + mem.MEM_IMAGE + '" alt="썸네일 없음">'
+				
+				addImg[i].innerHTML += item;
+			}
+		});
+	}
 });
 </script>
 <!-- 게시글 삭제 스크립트 -->
