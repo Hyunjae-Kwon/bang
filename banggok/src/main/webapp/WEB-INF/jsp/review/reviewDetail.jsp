@@ -126,13 +126,6 @@ display: none;
 					</c:otherwise>
 				</c:choose>
 			</table>
-		<div id="more_btn_div" align="center">
-			<hr>
-				<a id="more_btn_a" href="javascript:moreContent('more_list', 10);">
-					더보기(More)
-				</a>
-			<hr>
-		</div>	
 		</div>
 		<div align="center">
 			<table>
