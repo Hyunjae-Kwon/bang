@@ -39,21 +39,39 @@
 	<!-- [tripListPaging]여행 일정 공유글 리스트(전체&검색) - 공유된 여행 일정 전체 가져오기 -->
 	<select id="tripListPaging" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/>
-			SELECT ROW_NUMBER() OVER (ORDER BY TR_REGDATE DESC) RNUM, TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_SUBCONTENT, TR_REGDATE, TR_IMAGE, COMCOUNT
-			FROM TRIP tr 
-			FULL OUTER JOIN (SELECT BC_NUM, COUNT(BC_NUM) COMCOUNT 
-								FROM (SELECT BC_NUM, BC_TYPE 
-		                                	FROM BOARDCOMMENT
-		                                	WHERE BC_TYPE LIKE 'T')
-			                    GROUP BY BC_NUM
-			                    HAVING COUNT(BC_NUM) > 0) bc
-			ON tr.TR_NUM = bc.BC_NUM
+			SELECT 
+				ROW_NUMBER() OVER (ORDER BY TR_REGDATE DESC) RNUM,
+				TR_NUM,
+				TR_ID,
+				TR_TITLE,
+				TR_CNT,
+				TR_LIKE,
+				TR_CONTENT,
+				TR_SUBCONTENT,
+				TR_REGDATE,
+				TR_IMAGE
+			FROM(
+				SELECT
+					TR_NUM,
+					TR_ID,
+					TR_TITLE,
+					TR_CNT,
+					TR_LIKE,
+					TR_CONTENT,
+					TR_SUBCONTENT,
+					TR_REGDATE,
+					TR_IMAGE
+				FROM 
+					TRIP
+			    WHERE 
+			    	TR_SHARE = 'Y')
 			<trim prefix="WHERE" prefixOverrides="OR">
 				<if test="searchKeyword != NULL">
-					tr.TR_TITLE LIKE '%'||#{searchKeyword}||'%' OR tr.TR_CONTENT LIKE '%'||#{searchKeyword}||'%'
+					TR_TITLE LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
 				</if>
 			</trim>
-			ORDER BY TR_NUM DESC
 	 	<include refid="common.pagingPost"/>
 	</select>
 	
