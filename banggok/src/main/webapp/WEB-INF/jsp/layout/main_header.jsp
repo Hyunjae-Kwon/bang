@@ -87,7 +87,7 @@
 							<!-- 로그인을 했을 경우 -->
 							<c:if test="${! empty MEM_ID && MEM_ID != 'admin'}">
 								<li>
-									<span><%= session.getAttribute("MEM_ID") %>님</span>
+									<span><img style="width: 25px; height: 25px; border-radius: 50%;" src="http://localhost:8080/bang/getProfileFile.tr?MEM_ID=${MEM_ID}" alt="썸네일 없음">&nbsp;<%= session.getAttribute("MEM_ID") %>님</span>
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/myPage.tr">마이페이지</a> 

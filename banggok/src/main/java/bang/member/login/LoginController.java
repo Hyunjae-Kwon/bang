@@ -47,7 +47,7 @@ public class LoginController {
 
 	/*로그인 처리*/
 	@RequestMapping(value = "/login.tr", method = RequestMethod.POST)
-	public ModelAndView login(CommandMap commandMap,HttpServletRequest request) throws Exception {
+	public ModelAndView login(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("login/login");
 		HttpSession session = request.getSession();
 		Map<String,Object> result = loginService.selectMemberId(commandMap.getMap());		/* 회원 정보 조회 */
