@@ -39,6 +39,12 @@ public interface RecommendService {
 	/* 추천하기 */
 	void recommendLike(Map<String, Object> map) throws Exception;
 	
+	/* 추천 이력 남기기 */
+	void insertLike(Map<String, Object> map) throws Exception;
+	
+	/* 추천 이력 가져오기 */
+	List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception;
+	
 	/* 관리자 - 여행지 추천 게시판 관리 */
 	Map<String,Object> adminRecommendList(Map<String,Object> map) throws Exception;
 }
