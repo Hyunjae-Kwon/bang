@@ -83,6 +83,17 @@ public class RecommendDAO extends AbstractDAO {
 		update("recommend.recommendLike", map);       
 	}
 	
+	/* 추천 이력 남기기 */
+	public void insertLike(Map<String, Object> map) throws Exception {
+		update("recommend.insertLike", map);       
+	}
+	
+	/* 추천 이력 가져오기 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("recommend.selectLike", map);
+	}
+	
 	/* 관리자 - 여행지 추천 게시판 관리 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> adminRecommendList(Map<String, Object> map) throws Exception {

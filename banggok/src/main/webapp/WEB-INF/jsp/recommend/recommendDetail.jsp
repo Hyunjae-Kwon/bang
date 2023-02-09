@@ -164,10 +164,23 @@ display: none;
 		<br>
 		<!-- 게시글 신고하기 -->
 		<div class="report"></div>
+		<!-- 추천하기 리스트 데이터 (hidden) -->
+		<div>
+			<c:choose>
+				<c:when test="${fn:length(like) > 0}">
+					<c:forEach var="list" items="${like}">
+                        <div class="likeList">
+                        	<span style="display: none;">${list.LL_ID}</span>
+                        </div>
+	                </c:forEach>
+				</c:when>
+			</c:choose>
+		</div>
 	</div>
 </body>
 <script>
 $(document).ready(function(){
+	
 	/* 댓글 더보기 */
 	var com = $(".items");
 	var cnt = 0;
@@ -332,15 +345,28 @@ function reportCom() {
 <!-- 추천하기 스크립트 -->
 <script type="text/javascript">
 function fn_recommendLike() {
-	  	var rc_num = "${map.RC_NUM}";
-	  	var comSubmit = new ComSubmit();
-	  	var CONFIRM = confirm("추천하시겠습니까?");
-	  	if(CONFIRM == true) {
-			comSubmit.setUrl("/bang/recommendLike.tr");
-			comSubmit.addParam("RC_NUM", rc_num);
-	      comSubmit.submit();
-	      alert("추천되었습니다.");
-	      }
-	  }
+	var rc_num = "${map.RC_NUM}";
+	var memId = "${MEM_ID}";
+	var likeList = [];
+	
+	likeList = $(".likeList").children();
+	
+	var comSubmit = new ComSubmit();
+	var CONFIRM = confirm("추천하시겠습니까?");
+	
+	if(CONFIRM == true) {
+		for(let i = 0; i < likeList.length; i ++){
+			if(memId == likeList[i].innerText){
+				alert("추천은 한번만 가능합니다.");
+				return false;
+			}
+		}
+		comSubmit.setUrl("/bang/recommendLike.tr");
+		comSubmit.addParam("RC_NUM", rc_num);
+		comSubmit.addParam("MEM_ID", memId);
+		comSubmit.submit();
+		alert("추천되었습니다.");
+	}
+}
 </script>
 </html>
