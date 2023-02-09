@@ -162,6 +162,17 @@ public class TripDAO extends AbstractDAO {
 		update("trip.tripLike", map);       
 	}
 	
+	/* 추천 이력 남기기 */
+	public void insertLike(Map<String, Object> map) throws Exception {
+		insert("trip.insertLike", map);       
+	}
+	
+	/* 추천 이력 가져오기 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("trip.selectLike", map);
+	}
+	
 	/* 여행 일정 공유하기 */
 	public void tripShare(Map<String, Object> map) throws Exception {
 		update("trip.tripShare", map);
