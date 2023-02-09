@@ -145,6 +145,10 @@ public class ReviewController {
 		/* 댓글 리스트 불러오기 */
 		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
 		
+		/* 추천 이력 불러오기 */
+		List<Map<String, Object>> like= reviewService.selectLike(commandMap.getMap());
+		
+		mv.addObject("like", like);
 		mv.addObject("review", review);
 		mv.addObject("comment", comment);
 		
@@ -223,6 +227,9 @@ public class ReviewController {
 		reviewService.reviewLike(commandMap.getMap());
 		
 		mv.addObject("RV_NUM", commandMap.get("RV_NUM"));
+		
+		/* 추천 이력 남기기 */
+		reviewService.insertLike(commandMap.getMap());
 		
 		return mv;
 	}

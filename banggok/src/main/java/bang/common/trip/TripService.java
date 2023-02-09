@@ -84,6 +84,12 @@ public interface TripService {
 	/* 추천하기 */
 	void tripLike(Map<String, Object> map) throws Exception;
 	
+	/* 추천 이력 남기기 */
+	void insertLike(Map<String, Object> map) throws Exception;
+	
+	/* 추천 이력 가져오기 */
+	List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception;
+	
 	/* 여행 일정 공유하기 */
 	void tripShare(Map<String, Object> map) throws Exception;
 	

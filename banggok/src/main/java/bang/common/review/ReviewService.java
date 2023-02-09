@@ -21,6 +21,12 @@ public interface ReviewService {
 	/* 추천하기 */
 	void reviewLike(Map<String, Object> map) throws Exception;
 	
+	/* 추천 이력 남기기 */
+	void insertLike(Map<String, Object> map) throws Exception;
+	
+	/* 추천 이력 가져오기 */
+	List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception;
+	
 	/* 여행후기 상세 */
 	Map<String, Object> reviewDetail(Map<String, Object> map) throws Exception;
 

@@ -137,7 +137,7 @@ display: none;
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="width: 1070px; height: 30px;" value="더보기"></td>
+						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="cursor: pointer; background: none; border: 0px; width: 1070px; height: 60px;" value="댓글 더보기"></td>
 					<tr>
 				</tbody>
 			</table>
@@ -166,6 +166,18 @@ display: none;
 		<br>
 		<!-- 게시글 신고하기 -->
 		<div class="report"></div>
+		<!-- 추천하기 리스트 데이터 (hidden) -->
+		<div>
+			<c:choose>
+				<c:when test="${fn:length(like) > 0}">
+					<c:forEach var="list" items="${like}">
+                        <div class="likeList">
+                        	<span style="display: none;">${list.LL_ID}</span>
+                        </div>
+	                </c:forEach>
+				</c:when>
+			</c:choose>
+		</div>
 	</div>
 </body>
 <script>
@@ -271,18 +283,29 @@ function reportBoard() {
 
 <!-- 게시글 추천하기 -->
 <script type="text/javascript">
-function fn_reviewLike() {
+function fn_recommendLike() {
 	var rv_num = "${review.RV_NUM}";
+	var memId = "${MEM_ID}";
+	var likeList = [];
+	
+	likeList = $(".likeList").children();
+	
 	var comSubmit = new ComSubmit();
 	var CONFIRM = confirm("추천하시겠습니까?");
 	
 	if(CONFIRM == true) {
+		for(let i = 0; i < likeList.length; i ++){
+			if(memId == likeList[i].innerText){
+				alert("추천은 한번만 가능합니다.");
+				return false;
+			}
+		}
 		comSubmit.setUrl("/bang/reviewLike.tr");
 		comSubmit.addParam("RV_NUM", rv_num);
+		comSubmit.addParam("MEM_ID", memId);
 		comSubmit.submit();
-		
 		alert("추천되었습니다.");
-    }
+	}
 }
 </script>
 

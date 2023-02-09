@@ -146,8 +146,7 @@ display: none;
 							<ul id="schList" class="schList"> 
 				  				<li class="day">
 				  					<span id="selectNum">
-				  						<a style="font-size: 25px; cursor:pointer; margin-left: 25px; margin-right: 25px;" 
-				  							onclick="placeList(${day.TP_DATE})">DAY-${day.TP_DATE}</a>
+				  						<a style="font-size: 25px; cursor:pointer; margin-left: 25px; margin-right: 25px;" onclick="placeList(${day.TP_DATE})">DAY-${day.TP_DATE}</a>
 				  					</span>
 				  				</li>
 				  			</ul>
@@ -168,6 +167,9 @@ display: none;
 						</div>
 					</div>
 				</div>
+			</div>
+			<div style="margin-bottom: 20px;">
+				<h5>상세 내용</h5><span>${trip.TR_CONTENT}</span>
 			</div>
 		</div>
 	</div>
@@ -236,7 +238,7 @@ display: none;
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="width: 1070px; height: 30px;" value="더보기"></td>
+						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="cursor: pointer; background: none; border: 0px; width: 1070px; height: 60px;" value="댓글 더보기"></td>
 					<tr>
 				</tbody>
 			</table>
@@ -273,6 +275,18 @@ display: none;
 		<br>
 		<!-- 게시글 신고하기 -->
 		<div class="report"></div>
+		<!-- 추천하기 리스트 데이터 (hidden) -->
+		<div>
+			<c:choose>
+				<c:when test="${fn:length(like) > 0}">
+					<c:forEach var="list" items="${like}">
+                        <div class="likeList">
+                        	<span style="display: none;">${list.LL_ID}</span>
+                        </div>
+	                </c:forEach>
+				</c:when>
+			</c:choose>
+		</div>
 	</div>
 </body>
 
@@ -674,17 +688,28 @@ function fn_search(pageNo){
 <!-- 게시글 추천하기 -->
 <script type="text/javascript">
 function fn_recommendLike() {
-  
-  	var tr_num = "${trip.TR_NUM}";
-  	var comSubmit = new ComSubmit();
-  	var CONFIRM = confirm("추천하시겠습니까?");
-  	if(CONFIRM == true) {
+	var tr_num = "${trip.TR_NUM}";
+	var memId = "${MEM_ID}";
+	var likeList = [];
+	
+	likeList = $(".likeList").children();
+	
+	var comSubmit = new ComSubmit();
+	var CONFIRM = confirm("추천하시겠습니까?");
+	
+	if(CONFIRM == true) {
+		for(let i = 0; i < likeList.length; i ++){
+			if(memId == likeList[i].innerText){
+				alert("추천은 한번만 가능합니다.");
+				return false;
+			}
+		}
 		comSubmit.setUrl("/bang/tripLike.tr");
-		comSubmit.addParam("TR_NUM", tr_num);
-      comSubmit.submit();
-      alert("추천되었습니다.");
-      
-      }
-  }
+		comSubmit.addParam("TR_NUM", rc_num);
+		comSubmit.addParam("MEM_ID", memId);
+		comSubmit.submit();
+		alert("추천되었습니다.");
+	}
+}
 </script>
 </html>

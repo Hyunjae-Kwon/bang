@@ -138,6 +138,10 @@ public class TripController {
 		/* 일정 Day 번호 불러오기 */
 		List<Map<String, Object>> tripDayNum = tripService.tripDayNum(commandMap.getMap());
 		
+		/* 추천 이력 불러오기 */
+		List<Map<String, Object>> like= tripService.selectLike(commandMap.getMap());
+		
+		mv.addObject("like", like);
 		mv.addObject("trip", trip);
 		mv.addObject("comment", comment);
 		mv.addObject("dayNum", tripDayNum);
@@ -391,6 +395,9 @@ public class TripController {
 	public ModelAndView tripLike(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/tripDetail.tr");	
 		tripService.tripLike(commandMap.getMap());
+		
+		/* 추천 이력 남기기 */
+		tripService.insertLike(commandMap.getMap());
 		
 		mv.addObject("TR_NUM", commandMap.get("TR_NUM"));
 		

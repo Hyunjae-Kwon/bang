@@ -216,6 +216,18 @@ public class TripServiceImpl implements TripService {
 	public void tripLike(Map<String, Object> map) throws Exception {
 		tripDAO.tripLike(map);
 	}
+	
+	/* 추천 이력 남기기 */
+	@Override
+	public void insertLike(Map<String, Object> map) throws Exception {
+		tripDAO.insertLike(map);
+	}
+	
+	/* 추천 이력 가져오기 */
+	@Override
+	public List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception {
+		return tripDAO.selectLike(map);
+	}
 
 	/* 여행 일정 공유하기 */
 	@Override

@@ -136,7 +136,7 @@ display: none;
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="width: 1070px; height: 30px;" value="더보기"></td>
+						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="cursor: pointer; background: none; border: 0px; width: 1070px; height: 60px;" value="댓글 더보기"></td>
 					<tr>
 				</tbody>
 			</table>

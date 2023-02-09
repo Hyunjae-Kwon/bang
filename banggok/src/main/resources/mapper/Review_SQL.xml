@@ -154,6 +154,22 @@
 	]]>
 	</update>
 	
+	<!-- [insertLike] 추천 이력 남기기 -->
+	<insert id="insertLike" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO LIKELIST
+		VALUES (#{RV_NUM}, #{MEM_ID}, 'RV')
+	]]>
+	</insert>
+	
+	<!-- [selectLike] 추천 이력 가져오기 -->
+	<select id="selectLike" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT * FROM LIKELIST
+		WHERE LL_NUM = #{RV_NUM} AND LL_TYPE = 'RV'
+	]]>
+	</select>
+	
 	<!-- [reviewModify] 글수정 -->
 	<update id="reviewModify" parameterType="hashmap">
 		<![CDATA[
