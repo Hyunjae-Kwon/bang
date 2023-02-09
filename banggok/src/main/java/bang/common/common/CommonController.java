@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,12 +13,18 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import bang.member.mypage.MyPageService;
+
 @Controller
 public class CommonController {
 	Logger log = Logger.getLogger(this.getClass());
 	private static final String tempFilePath = "C:\\comm\\tempImages\\";
 	private static final String profileFilePath = "C:\\comm\\tempImages\\";
 //	private static final String realFilePath = "/Users/felix/Pictures/realImages/";
+	
+	/* 마이페이지 */
+	@Resource(name="myPageService")
+	private MyPageService myPageService;
 
 	/* 이미지 불러오기 */
 	@RequestMapping(value="/GetTempFile.tr")
@@ -38,17 +45,37 @@ public class CommonController {
 	/* 프로필 이미지 불러오기 */
 	@RequestMapping(value="/getProfileFile.tr")
 	public void getProfileFile(CommandMap commandMap, HttpServletResponse response) throws Exception{
-		Map<String,Object> map = commandMap.getMap();
-		String storedFileName = (String)map.get("filename");
 		
-		byte fileByte[] = FileUtils.readFileToByteArray(new File(profileFilePath+storedFileName));
+		if(commandMap.get("MEM_ID") == null) {
+			Map<String,Object> map = commandMap.getMap();
+			String storedFileName = (String)map.get("filename");
+			
+			byte fileByte[] = FileUtils.readFileToByteArray(new File(profileFilePath+storedFileName));
+			
+			response.setContentType("image/jpeg");
+			response.setContentLength(fileByte.length);
+			response.getOutputStream().write(fileByte);
+			
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} else {
+			Map<String, Object> memId = commandMap.getMap();
+			
+			/* 프로필 이미지 가져오기 */
+			Map<String, Object> memImg = myPageService.getMemberImage(memId);
+			
+			String storedFileName = (String)memImg.get("MEM_IMAGE");
+			
+			byte fileByte[] = FileUtils.readFileToByteArray(new File(profileFilePath+storedFileName));
+			
+			response.setContentType("image/jpeg");
+			response.setContentLength(fileByte.length);
+			response.getOutputStream().write(fileByte);
+			
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		}
 		
-		response.setContentType("image/jpeg");
-		response.setContentLength(fileByte.length);
-		response.getOutputStream().write(fileByte);
-		
-		response.getOutputStream().flush();
-		response.getOutputStream().close();
 	}
 	
 //	@RequestMapping(value="/GetFile.tr") // 게시판 작성후 임시파일을 본 경로로 옮긴 후 받아가기 내용
