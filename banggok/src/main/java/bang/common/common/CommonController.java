@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CommonController {
 	Logger log = Logger.getLogger(this.getClass());
-	private static final String tempFilePath = "/Users/felix/Pictures/tempImages/";
-	private static final String profileFilePath = "/Users/felix/Pictures/profile/";
+	private static final String tempFilePath = "/Users/sitory/Pictures/tempImages/";
+	private static final String profileFilePath = "/Users/sitory/Pictures/profile/";
 //	private static final String realFilePath = "/Users/felix/Pictures/realImages/";
 
 	/* 이미지 불러오기 */

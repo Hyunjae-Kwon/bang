@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 public class FileUtils {
 	
 //	private static final String filePath = "C:\\dev\\file\\";
-	private static final String tempFilePath = "/Users/felix/Pictures/tempImages/";
+	private static final String tempFilePath = "/Users/sitory/Pictures/tempImages/";
 //	private static final String realFilePath = "/Users/felix/Pictures/realImages/";
 
 	/* CommonController 에서 이미지 저장할 때 호출 */
