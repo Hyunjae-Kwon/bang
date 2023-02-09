@@ -73,11 +73,18 @@ display: none;
 		</div>
 	</div>
 	<!-- ################# 댓글 내용 Starts Here ####################### -->
-	<div style="display: inline-block; width: 78%; margin-left: 96px;">
-   		<textarea name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
+	<div class="board-list">
+		<div class="container">
+			<div style="display: inline-block; width: 90%;">
+		   		<textarea style="height: 100px;" name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
+			</div>
+			<div style="display: inline-block; float: right; width: 10%;" >
+				<input type="button" value="댓글쓰기" style="margin: 28px;" id="comWrite" class="btn btn-primary py-2 px-2">
+			</div>
+		</div>
 	</div>
-	<div style="display: inline-block; float: right; width: 10%; margin-right: 40px;" >
-		<input type="button" value="댓글쓰기"  id="comWrite" class="btn btn-primary py-2 px-2">
+	<div style="padding: 0px 140px 10px 140px;">
+		<h5 style="float: left;">총 댓글 수 </h5>&nbsp;<span id="cntPlace"></span>
 	</div>
 	<div class="board-list">
 		<div class="container">
@@ -184,6 +191,11 @@ $(document).ready(function(){
 		cnt += 10;
 		addCom();
 	});
+	
+	/* 댓글 수 */
+	var comCnt = com.length;
+	var cntPlace = document.getElementById("cntPlace");
+	cntPlace.innerText = comCnt;
 	
 	/* 댓글 프로필 이미지 */
 	var comId = $(".comId");

@@ -53,7 +53,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${myTogetherList[0].TG_NUM != null}">
+						<c:when test="${myTripList[0].TR_NUM != null}">
 							<c:forEach items="${myTripList}" var="list" varStatus="status">
 								<tr>
 									<td align="center">${list.TR_NUM }
