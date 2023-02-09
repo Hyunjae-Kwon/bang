@@ -146,8 +146,7 @@ display: none;
 							<ul id="schList" class="schList"> 
 				  				<li class="day">
 				  					<span id="selectNum">
-				  						<a style="font-size: 25px; cursor:pointer; margin-left: 25px; margin-right: 25px;" 
-				  							onclick="placeList(${day.TP_DATE})">DAY-${day.TP_DATE}</a>
+				  						<a style="font-size: 25px; cursor:pointer; margin-left: 25px; margin-right: 25px;" onclick="placeList(${day.TP_DATE})">DAY-${day.TP_DATE}</a>
 				  					</span>
 				  				</li>
 				  			</ul>
@@ -169,14 +168,24 @@ display: none;
 					</div>
 				</div>
 			</div>
+			<div style="margin-bottom: 20px;">
+				<h5>상세 내용</h5><span>${trip.TR_CONTENT}</span>
+			</div>
 		</div>
 	</div>
 	<!--  ************************* 댓글 내용 Starts Here ************************** -->
-	<div style="display: inline-block; width: 78%; margin-left: 96px;">
-   		<textarea name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
+	<div class="board-list">
+		<div class="container">
+			<div style="display: inline-block; width: 90%;">
+		   		<textarea style="height: 100px;" name="comment" id="comment" class="form-control" rows ="1" placeholder="댓글을 입력해주세요."></textarea>
+			</div>
+			<div style="display: inline-block; float: right; width: 10%;" >
+				<input type="button" value="댓글쓰기" style="margin: 28px;" id="comWrite" class="btn btn-primary py-2 px-2">
+			</div>
+		</div>
 	</div>
-	<div style="display: inline-block; float: right; width: 10%; margin-right: 40px;" >
-		<input type="button" value="댓글쓰기"  id="comWrite" class="btn btn-primary py-2 px-2">
+	<div style="padding: 0px 140px 10px 140px;">
+		<h5 style="float: left;">총 댓글 수 </h5>&nbsp;<span id="cntPlace"></span>
 	</div>
 	<div class="board-list">
 		<div class="container">
@@ -229,7 +238,7 @@ display: none;
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="width: 1070px; height: 30px;" value="더보기"></td>
+						<td colspan="6" style="padding: 0px;"><input type="button" id="add" style="cursor: pointer; background: none; border: 0px; width: 1070px; height: 60px;" value="댓글 더보기"></td>
 					<tr>
 				</tbody>
 			</table>
@@ -266,6 +275,18 @@ display: none;
 		<br>
 		<!-- 게시글 신고하기 -->
 		<div class="report"></div>
+		<!-- 추천하기 리스트 데이터 (hidden) -->
+		<div>
+			<c:choose>
+				<c:when test="${fn:length(like) > 0}">
+					<c:forEach var="list" items="${like}">
+                        <div class="likeList">
+                        	<span style="display: none;">${list.LL_ID}</span>
+                        </div>
+	                </c:forEach>
+				</c:when>
+			</c:choose>
+		</div>
 	</div>
 </body>
 
@@ -296,6 +317,11 @@ $(document).ready(function(){
 		cnt += 10;
 		addCom();
 	});
+	
+	/* 댓글 수 */
+	var comCnt = com.length;
+	var cntPlace = document.getElementById("cntPlace");
+	cntPlace.innerText = comCnt;
 	
 	/* 댓글 프로필 이미지 */
 	var comId = $(".comId");
@@ -662,17 +688,28 @@ function fn_search(pageNo){
 <!-- 게시글 추천하기 -->
 <script type="text/javascript">
 function fn_recommendLike() {
-  
-  	var tr_num = "${trip.TR_NUM}";
-  	var comSubmit = new ComSubmit();
-  	var CONFIRM = confirm("추천하시겠습니까?");
-  	if(CONFIRM == true) {
+	var tr_num = "${trip.TR_NUM}";
+	var memId = "${MEM_ID}";
+	var likeList = [];
+	
+	likeList = $(".likeList").children();
+	
+	var comSubmit = new ComSubmit();
+	var CONFIRM = confirm("추천하시겠습니까?");
+	
+	if(CONFIRM == true) {
+		for(let i = 0; i < likeList.length; i ++){
+			if(memId == likeList[i].innerText){
+				alert("추천은 한번만 가능합니다.");
+				return false;
+			}
+		}
 		comSubmit.setUrl("/bang/tripLike.tr");
-		comSubmit.addParam("TR_NUM", tr_num);
-      comSubmit.submit();
-      alert("추천되었습니다.");
-      
-      }
-  }
+		comSubmit.addParam("TR_NUM", rc_num);
+		comSubmit.addParam("MEM_ID", memId);
+		comSubmit.submit();
+		alert("추천되었습니다.");
+	}
+}
 </script>
 </html>

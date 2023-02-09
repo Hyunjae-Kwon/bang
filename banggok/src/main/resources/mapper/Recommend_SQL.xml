@@ -123,22 +123,6 @@
 			WHERE RC_NUM=#{RC_NUM}
 	]]>
 	</delete>
-	
-	<!-- [recommendModifyForm] 여행지 추천 게시글 수정 폼 -->
-	<!-- <select id="recommendModifyForm" parameterType="hashmap" resultType="hashmap">
-      <![CDATA[
-         SELECT
-            RC_NUM,
-            RC_TITLE,
-            RC_CONTENT,
-            RC_REGDATE,
-            RC_IMAGE
-         FROM
-            RECOMMEND
-         WHERE
-            RC_NUM = #{RC_NUM}
-      ]]>
-	</select> -->
 
 	<!-- [recommendModify] 여행지 추천 게시글 수정하기 -->
 	<update id="recommendModify" parameterType="hashmap">
@@ -162,43 +146,21 @@
 	]]>
 	</update>
 	
-	<!-- 댓글목록 -->
-	<select id="rcCommentList" parameterType="hashmap" resultType="hashmap">
-      <![CDATA[
-         SELECT 
-          	BC_BCID, 
-          	BC_NUM, 
-          	BC_COMMENT, 
-          	BC_REGDATE, 
-          	BC_ID      
-         FROM BOARDCOMMENT 
-         WHERE BC_NUM = #{RC_NUM} AND BC_TYPE='RC'
-         ORDER BY BC_BCID DESC 
-      ]]>
-	</select>
-	
-	<!--  여행지 댓글 작성 -->
-	<insert id="rcCommentWrite" parameterType="hashmap">
-		INSERT 
-		INTO BOARDCOMMENT
-		VALUES (	
-			BC_BCID_SEQ.NEXTVAL,
-			#{RC_NUM},
-			#{MEM_ID},
-			SYSDATE,
-			#{BC_COMMENT},
-			'RC'
-		)
+	<!-- [insertLike] 추천 이력 남기기 -->
+	<insert id="insertLike" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO LIKELIST
+		VALUES (#{RC_NUM}, #{MEM_ID}, 'RC')
+	]]>
 	</insert>
 	
-	<!-- 댓글삭제 -->
-	<delete id="rcCommentDelete" parameterType="hashmap">
-   	<![CDATA[
-     	DELETE 
-			FROM BOARDCOMMENT
-			WHERE BC_BCID=#{BC_BCID}
-   	]]>
-	</delete>
+	<!-- [selectLike] 추천 이력 가져오기 -->
+	<select id="selectLike" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT * FROM LIKELIST
+		WHERE LL_NUM = #{RC_NUM} AND LL_TYPE = 'RC'
+	]]>
+	</select>
 	
 	<!-- [adminRecommendList] 관리자 - 여행지 추천 게시판 관리 -->
 	<select id="adminRecommendList" parameterType="hashmap" resultType="hashmap">

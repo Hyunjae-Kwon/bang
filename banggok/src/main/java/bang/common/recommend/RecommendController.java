@@ -126,6 +126,10 @@ public class RecommendController {
 		/* 댓글 리스트 불러오기 */
 		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
 		
+		/* 추천 이력 불러오기 */
+		List<Map<String, Object>> like= recommendService.selectLike(commandMap.getMap());
+		
+		mv.addObject("like", like);
 		mv.addObject("map", map);
 		mv.addObject("comment", comment);
 		
@@ -196,7 +200,11 @@ public class RecommendController {
 	@RequestMapping(value="/recommendLike.tr",  method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView recommendLike(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/recommendDetail.tr");	
+		/* like 증가 */
 		recommendService.recommendLike(commandMap.getMap());
+		
+		/* 추천 이력 남기기 */
+		recommendService.insertLike(commandMap.getMap());
 		
 		mv.addObject("RC_NUM", commandMap.get("RC_NUM"));
 		

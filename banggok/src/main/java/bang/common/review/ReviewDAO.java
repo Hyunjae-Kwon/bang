@@ -33,6 +33,17 @@ public class ReviewDAO extends AbstractDAO {
 		update("review.reviewLike", map);       
 	}
 	
+	/* 추천 이력 남기기 */
+	public void insertLike(Map<String, Object> map) throws Exception {
+		insert("review.insertLike", map);       
+	}
+	
+	/* 추천 이력 가져오기 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("review.selectLike", map);
+	}
+	
 	/* 여행 후기 리스트(전체&검색) */
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> reviewListPaging(Map<String, Object> map) throws Exception {

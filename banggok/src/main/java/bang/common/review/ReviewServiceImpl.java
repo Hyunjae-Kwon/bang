@@ -48,6 +48,18 @@ public class ReviewServiceImpl implements ReviewService {
 	public void reviewLike(Map<String, Object> map) throws Exception {
 		reviewDAO.reviewLike(map);
 	}
+	
+	/* 추천 이력 남기기 */
+	@Override
+	public void insertLike(Map<String, Object> map) throws Exception {
+		reviewDAO.insertLike(map);
+	}
+	
+	/* 추천 이력 가져오기 */
+	@Override
+	public List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception {
+		return reviewDAO.selectLike(map);
+	}
 
 	/* 여행후기 상세 */
 	@Override

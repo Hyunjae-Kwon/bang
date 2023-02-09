@@ -49,7 +49,7 @@
         <div class="header-top">
             <div class="container">
                 <div class="row col-det">
-                    <div class="col-lg-6 d-none d-lg-block">
+                    <div class="col-lg-6 d-none d-lg-block" style="padding: 0px;">
                         <ul class="ulleft">
                         	<li>Contact us<span>|</span></li>
                             <li>
@@ -64,7 +64,7 @@
                         </ul>
                     </div>
                     <!-- 로그인, 로그아웃, 회원가입, 마이페이지, 검색 등 -->
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12" style="padding: 0px;"">
                         <ul id="login" class="ulright">
                         	<!-- 로그인을 하지 않았을 경우 -->
 							<c:if test="${ empty MEM_ID }">
@@ -87,7 +87,7 @@
 							<!-- 로그인을 했을 경우 -->
 							<c:if test="${! empty MEM_ID && MEM_ID != 'admin'}">
 								<li>
-									<span><img style="width: 25px; height: 25px; border-radius: 50%;" src="http://localhost:8080/bang/getProfileFile.tr?MEM_ID=${MEM_ID}" alt="썸네일 없음">&nbsp;<%= session.getAttribute("MEM_ID") %>님</span>
+									<span><img style="width: 25px; height: 25px; border-radius: 50%;" src="http://localhost:8080/bang/getProfileFile.tr?MEM_ID=${MEM_ID}" alt="">&nbsp;<%= session.getAttribute("MEM_ID") %>님</span>
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/myPage.tr">마이페이지</a> 

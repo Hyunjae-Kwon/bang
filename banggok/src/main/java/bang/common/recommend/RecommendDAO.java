@@ -66,12 +66,6 @@ public class RecommendDAO extends AbstractDAO {
 		delete("recommend.deleteRecommend", map);
 	}
 	
-	/* 여행지 추천 게시글 수정 폼 */
-//	@SuppressWarnings("unchecked")
-//	public Map<String, Object> recommendModifyForm(Map<String, Object> map)throws Exception{
-//		return (Map<String, Object>)selectOne("recommend.recommendModifyForm", map); 
-//	}
-
 	/* 여행지 추천 게시글 수정하기 */
 	public void recommendModify(Map<String, Object> map)throws Exception{
 		update("recommend.recommendModify", map);
@@ -81,6 +75,17 @@ public class RecommendDAO extends AbstractDAO {
 	public void recommendLike(Map<String, Object> map) throws Exception {
 		System.out.println(map.get("RC_NUM"));
 		update("recommend.recommendLike", map);       
+	}
+	
+	/* 추천 이력 남기기 */
+	public void insertLike(Map<String, Object> map) throws Exception {
+		insert("recommend.insertLike", map);       
+	}
+	
+	/* 추천 이력 가져오기 */
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception {
+		return (List<Map<String, Object>>) selectList ("recommend.selectLike", map);
 	}
 	
 	/* 관리자 - 여행지 추천 게시판 관리 */
