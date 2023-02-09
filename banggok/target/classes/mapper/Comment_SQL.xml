@@ -19,6 +19,14 @@
 	]]>
 	</delete>
 	
+	<!-- [comBoardDelete] 게시글 삭제 시 댓글 삭제하기 -->
+	<delete id="comBoardDelete" parameterType="hashmap">
+	<![CDATA[
+		DELETE FROM BOARDCOMMENT
+		WHERE BC_NUM = #{BC_NUM}
+	]]>
+	</delete>
+	
 	<!-- [selectCommentList] 게시판 댓글 리스트 -->
 	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
 	<![CDATA[

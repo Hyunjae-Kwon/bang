@@ -31,5 +31,10 @@ public class MyPageServiceImpl implements MyPageService {
 	public void deleteMember(Map<String, Object> map) throws Exception {
 		myPageDAO.deleteMember(map);
 	}
-	
+
+	/* 회원 이미지 가져오기 */
+	@Override
+	public Map<String, Object> getMemberImage(Map<String, Object> map) throws Exception {
+		return myPageDAO.getMemberImage(map);
+	}
 }

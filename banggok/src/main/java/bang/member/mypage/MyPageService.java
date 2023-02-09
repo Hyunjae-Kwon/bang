@@ -15,4 +15,7 @@ public interface MyPageService {
 	/* 회원 탈퇴 */
 	void deleteMember(Map<String, Object> map) throws Exception;
 	
+	/* 회원 이미지 가져오기 */
+	Map<String, Object> getMemberImage(Map<String, Object> map) throws Exception;
+	
 }
