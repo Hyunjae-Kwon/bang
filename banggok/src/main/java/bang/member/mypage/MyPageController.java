@@ -121,4 +121,15 @@ public class MyPageController {
 		return mv;
 	}
 	
+	/* 회원 이미지 가져오기 */
+	@RequestMapping(value="/getMemberImage.tr")
+	public ModelAndView getMemberImage(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+			
+		Map<String, Object> memImg = myPageService.getMemberImage(commandMap.getMap());
+		mv.addObject("memImg", memImg);
+		
+		return mv;
+	}
+	
 }

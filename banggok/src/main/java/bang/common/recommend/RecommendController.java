@@ -1,5 +1,6 @@
 package bang.common.recommend;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -156,7 +157,17 @@ public class RecommendController {
 	@RequestMapping(value = "/recommendDelete.tr")
 	public ModelAndView recommendDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/recommendList.tr");
+		
+		String bc = (String) commandMap.get("RC_NUM");
+		
+		Map<String, Object> bcNum = new HashMap<String, Object>();
+		
+		bcNum.put("BC_NUM", bc);
+		
 		recommendService.deleteRecommend(commandMap.getMap());
+		
+		/* 댓글 삭제 처리 */
+		commentService.comBoardDelete(bcNum);
 
 		return mv;      
 	}
