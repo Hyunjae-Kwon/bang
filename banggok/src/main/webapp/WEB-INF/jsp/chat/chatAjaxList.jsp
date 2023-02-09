@@ -28,7 +28,7 @@
          <div class="chat_people">
             <div class="chat_img" >
                <a href="#">
-                  <img style="width: 40px; height: 40px; border-radius: 50%;" src="http://localhost:8080/bang/getProfileFile.tr?MEM_ID=${list.CH_FROMID}" alt="썸네일 없음">
+                  <img style="width: 40px; height: 40px; border-radius: 50%;" src="http://localhost:8080/bang/getProfileFile.tr?MEM_ID=${nicknameList[status.index].MEM_ID}">
                </a>
             </div>
             <div class="chat_ib">
