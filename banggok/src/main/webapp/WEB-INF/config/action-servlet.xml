@@ -28,6 +28,11 @@
 			<mvc:mapping path="/**"/>	<!-- 전체 패스를 의미하는 "/**" 로 설정 -->
 			<bean id="loggerInterceptor" class="bang.common.logger.LoggerInterceptor"></bean>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**.tr" />
+			<bean id="loginInterceptor"
+				class="bang.common.logger.LoginInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 	
 	<!-- LoggerAspect를 등록 -->

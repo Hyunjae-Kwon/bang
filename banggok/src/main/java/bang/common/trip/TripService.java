@@ -5,26 +5,95 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import bang.common.common.CommandMap;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface TripService {
 	
 	/* 메인 페이지 - 인기 여행 일정 3개 */
 	List<Map<String, Object>> selectHotTrip(Map<String, Object> map) throws Exception;
 	
-	/* 여행 일정 공유 게시판 리스트 - 공유된 여행 일정 전체 가져오기 */
-	List<Map<String, Object>> tripList(Map<String, Object> map) throws Exception;
+	/* 여행 일정 공유글 수(전체&검색) */
+	int tripCount(Map<String, Object> map, HttpServletRequest request) throws Exception;
 	
-	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기*/
+	/* 여행 일정 공유글 리스트(전체&검색) - 공유된 여행 일정 전체 가져오기 */
+	List<Map<String, Object>> tripListPaging(Map<String, Object> map,  HttpServletRequest request) throws Exception;
+	
+	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 글 상세 내용 불러오기 */
 	Map<String, Object> tripDetail(Map<String, Object> map) throws Exception;
 	
+	/* 여행 일정 공유 게시글 상세보기 - TR_NUM 을 이용해서 해당 글에 추가된 장소 데이터 불러오기 */
+	List<Map<String, Object>> tripPlaceDetail(Map<String, Object> map) throws Exception;
+	
+	/* 일정 Day 번호 불러오기 */
+	List<Map<String, Object>>tripDayNum(Map<String, Object> map) throws Exception;
+	
+	/* 일정 Day 번호 최대값 불러오기 */
+	int maxDayNum(Map<String, Object> map) throws Exception;
+	
 	/* 여행 일정 공유 게시글 수정하기 - 폼을 통해 입력받은 데이터로 수정하기 */
-	void tripModify(Map<String, Object> map) throws Exception;
+	void tripModify(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
+	
+	/* 수정시 TP_DELPLACE가 Y인값 삭제 */
+	void delModifyPlace(Map<String, Object> map) throws Exception;
+	
+	/* 일정 삭제(수정시) */
+	void modifyDelSch(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 삭제(수정시) */
+	void delPlaceList(Map<String, Object> map) throws Exception;
 	
 	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 게시글 삭제하기 */
 	void tripDelete(Map<String, Object> map) throws Exception;
 	
+	/* 여행 일정 공유 게시글 삭제하기 - TR_NUM으로 해당 장소정보 삭제하기 */
+	void tripPlaceDelete(Map<String, Object> map) throws Exception;
+	
 	/* 여행 일정 검색하기 */
 	List<Map<String, Object>> searchTrip(Map<String, Object> map, HttpServletRequest request) throws Exception;
+
+	/* 마이페이지 여행 일정 리스트 */
+	Map<String, Object> myTripList(Map<String, Object> map) throws Exception;
+	
+	/* 일정 만들기 시작시 TP_TRNUM이 NULL인 값 삭제 */
+	void deletePlaceListNull(Map<String, Object> map) throws Exception;
+	
+	/* 일정 수정 시작시 TP_DELPLACE Y=>N update */
+	void tpDelPlaceUpdate(Map<String, Object> map) throws Exception;
+	
+	/* 여행 일정 만들기 */
+	void tripWrite(Map<String, Object> map, MultipartHttpServletRequest request) throws Exception;
+	
+	/* 일정 삭제(작성시) */
+	void deleteSch(Map<String, Object> map) throws Exception;
+	
+	/* 일정별 추가 장소 리스트(작성시) */
+	List<Map<String, Object>> writePlaceList(Map<String, Object> map,  HttpServletRequest request) throws Exception;
+
+	/* 여행 장소 테이블의 여행 일정 번호 업데이트 */
+	void tripplaceUpdate(Map<String, Object> map) throws Exception;
+	
+	/* 여행 일정 번호 업데이트를 위한 최대 번호 구하기 */
+	int maxTRNUM() throws Exception;
+	
+	/* 추가 장소 저장(작성시) */
+	void addPlaceList(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 삭제(작성시) */
+	void deletePlaceList(Map<String, Object> map) throws Exception;
+	
+	/* 추천하기 */
+	void tripLike(Map<String, Object> map) throws Exception;
+	
+	/* 추천 이력 남기기 */
+	void insertLike(Map<String, Object> map) throws Exception;
+	
+	/* 추천 이력 가져오기 */
+	List<Map<String, Object>> selectLike(Map<String, Object> map) throws Exception;
+	
+	/* 여행 일정 공유하기 */
+	void tripShare(Map<String, Object> map) throws Exception;
+	
+	/* 관리자 - 여행 일정 공유 게시판 관리 */
+	Map<String, Object> adminTripList(Map<String, Object> map) throws Exception;
 
 }

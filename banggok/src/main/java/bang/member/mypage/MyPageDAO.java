@@ -24,5 +24,10 @@ public class MyPageDAO extends AbstractDAO {
 	public void deleteMember(Map<String, Object> map) throws Exception {
 		delete("member.deleteMember", map);	
 	}
-	
+
+	/* 회원 이미지 가져오기 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getMemberImage(Map<String, Object> map) throws Exception{
+		return (Map<String, Object>)selectOne("member.getMemberImage",map);
+	}
 }

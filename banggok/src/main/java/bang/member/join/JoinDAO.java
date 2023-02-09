@@ -33,5 +33,10 @@ public class JoinDAO extends AbstractDAO {
 	public void insertNaverMember(Map<String, Object> map) throws Exception {
 		insert("member.insertNaverMember", map);
 	}
+	
+	/* 프로필 업로드 */
+	public void updateImg(Map<String, Object> map) throws Exception {
+		update("member.updateImg", map);
+	}
 
 }

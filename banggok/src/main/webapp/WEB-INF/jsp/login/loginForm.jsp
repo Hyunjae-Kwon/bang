@@ -83,6 +83,96 @@
 			$(this).val($(this).val().replace(/\s/gi, ""));
 		})
 	</script>
+	
+	<!-- 아이디/비밀번호 쿠키 저장 -->
+	<script>
+    function setCookie(cookieName, value, exdays){
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+        document.cookie = cookieName + "=" + cookieValue;
+    }
+     
+    function deleteCookie(cookieName){
+        var expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() - 1); //어제날짜를 쿠키 소멸날짜로 설정
+        document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+    }
+     
+    function getCookie(cookieName) {
+        cookieName = cookieName + '=';
+        var cookieData = document.cookie;
+        var start = cookieData.indexOf(cookieName);
+        var cookieValue = '';
+        if(start != -1){
+            start += cookieName.length;
+            var end = cookieData.indexOf(';', start);
+            if(end == -1)end = cookieData.length;
+            cookieValue = cookieData.substring(start, end);
+        }
+        return unescape(cookieValue);
+    }
+    
+    $(document).ready(function() {
+        //Id 쿠키 저장
+        var userInputId = getCookie("userInputId");
+        $("input[class='memid']").val(userInputId); 
+         
+        if($("input[class='memid']").val() != ""){ 
+            $("#idSaveCheck").attr("checked", true); 
+            $("#pwdSaveCheck").removeAttr("disabled");
+        }
+         
+        $("#idSaveCheck").change(function(){ 
+            if($("#idSaveCheck").is(":checked")){                     
+                   //id 저장 클릭시 pwd 저장 체크박스 활성화
+                   $("#pwdSaveCheck").removeAttr("disabled");
+                   $("#pwdSaveCheck").removeClass('no_act');
+                var userInputId = $("input[class='memid']").val();
+                setCookie("userInputId", userInputId, 365);
+            }else{ 
+                deleteCookie("userInputId");
+                $("#pwdSaveCheck").attr("checked", false); 
+                deleteCookie("userInputPwd");
+                $("#pwdSaveCheck").attr("disabled", true);
+                $("#pwdSaveCheck").addClass('no_act');
+            }
+        });
+         
+      
+        $("input[class='memid']").keyup(function(){ 
+            if($("#idSaveCheck").is(":checked")){ 
+                var userInputId = $("input[class='memid']").val();
+                setCookie("userInputId", userInputId, 365);
+            }
+        });
+        
+        //Pwd 쿠키 저장 
+        var userInputPwd = getCookie("userInputPwd");
+        $("input[name='MEM_PW']").val(userInputPwd); 
+         
+        if($("input[name='MEM_PW']").val() != ""){ 
+            $("#pwdSaveCheck").attr("checked", true);
+            $("#pwdSaveCheck").removeClass('no_act');
+        }
+         
+        $("#pwdSaveCheck").change(function(){ 
+            if($("#pwdSaveCheck").is(":checked")){ 
+                var userInputPwd = $("input[name='MEM_PW']").val();
+                setCookie("userInputPwd", userInputPwd, 365);
+            }else{ 
+                deleteCookie("userInputPwd");
+            }
+        });
+      
+        $("input[name='MEM_PW']").keyup(function(){ 
+            if($("#pwdSaveCheck").is(":checked")){ 
+                var userInputPwd = $("input[name='MEM_PW']").val();
+                setCookie("userInputPwd", userInputPwd, 365);
+            }
+        });
+    });
+	</script>
 
 	<div style="text-align: center">
 		<br><br><br><br><br><br>
@@ -92,39 +182,29 @@
 	<div style="text-align: center">
 		<form id="loginForm" name="loginForm" action="/bang/login.tr" method="post">
 			<label for="ID">ID</label><br/> 
-				<input type="text" id="mem_id" name="MEM_ID" maxlength="10"><br/>
+				<input type="text" id="mem_id" name="MEM_ID" class="memid" maxlength="10"><br/><br/>
 			<label for="PW">비밀번호</label><br/>
 				<input type="password" id="mem_pw" name="MEM_PW" onkeypress="keyPress()"><br/><br/>
-				아이디 저장 &nbsp; <input type="checkbox" id="ID_SAVE" name="ID_SAVE"><br>
-			<p></p>
+				<p><label><input type="checkbox" id="idSaveCheck"/> 아이디 저장</label></p>
+				<p><label><input type="checkbox" disabled id="pwdSaveCheck" class="no_act"/> 비밀번호 저장</label></p>
 
 			<div class="gallery-filter d-none d-sm-block">
 				<input type="button" value="로 그 인" class="btn btn-default filter-button" onClick="fsubmit();">
 				<input type="button" value="회원가입" onClick="location.href='/bang/joinForm.tr'" class="btn btn-default filter-button"><br>
 				
-				<div id="naver_id_login"></div> 
-				<ul>
-					<!-- <li>
-						네이버로그인 
-						<a id="naverIdLogin_loginButton" href="javascript:void(0)">
-							<img src="resources/images/naverlogin.png" alt=" " width="200" height="50">
-						</a>
-					</li> -->
-					<li onclick="naverLogout(); return false;">
-						<a href="javascript:void(0)"><span>네이버 로그아웃</span></a>
-					</li>
-				</ul>
+				<div id="naver_id_login" style="margin-bottom: 5px;"></div>
 				<ul>
 					<li>
 						<a href="javascript:kakaoLogin()">
-							<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" alt=" " width="200" height="50">
+							<img src="resources/images/kakaologin.png" alt=" " width="185" height="40">
 						</a>
 					</li>
 				</ul>
+			</div><br>
+			<div class="gallery-filter d-none d-sm-block">
+				<input type="button" value="아이디 찾기" class="btn btn-default filter-button" onClick="location.href='/bang/findId.tr'">
+				<input type="button" value="비밀번호 찾기" class="btn btn-default filter-button" onClick="location.href='/bang/findPw.tr'">
 			</div>
-			<p></p>
-			<a href="/bang/findId.tr" class="nav-link" style="font-size: large;">아이디 찾기</a>
-			<a href="/bang/findPw.tr" class="nav-link" style="font-size: large;">비밀번호 찾기</a>
 		</form>
 		
 		<!-- 카카오 로그인 데이터 전송을 위해 숨겨져 있는 폼 -->
@@ -150,7 +230,7 @@
 	<script type="text/javascript">
 		var naver_id_login = new naver_id_login("szPhTBM3ONRDghB7fr8x", "http://localhost:8080/bang/loginForm.tr");
 	  	var state = naver_id_login.getUniqState();
-	  	naver_id_login.setButton("white", 2,40);
+	  	naver_id_login.setButton("green", 3,40);
 	  	naver_id_login.setDomain("http://localhost:8080/bang");
 	  	naver_id_login.setState(state);
 	  	naver_id_login.init_naver_id_login();
@@ -173,55 +253,6 @@
 	    	document.naverLogin.submit();
 	    } 
 	  	
-	</script>
-	
-	<!-- 기존 네이버 로그인 API -->
-	<script>
-		/* var naverLogin = new naver.LoginWithNaverId({
-			clientId : "MN8DQhdsFSnrmaWRZ4R6", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
-			callbackUrl : "http://localhost:8080/bang/main.tr", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
-			isPopup : false,
-			callbackHandle : true
-		});
-
-		naverLogin.init();
-
-		window.addEventListener('load', function() {
-			naverLogin.getLoginStatus(function(status) {
-				if (status) {
-					var email = naverLogin.user.getEmail(); // 필수로 설정할것을 받아와 아래처럼 조건문을 줍니다.
-
-					console.log(naverLogin.user);
-
-					if (email == undefined || email == null) {
-						alert("이메일은 필수정보입니다. 정보제공을 동의해주세요.");
-						naverLogin.reprompt();
-						return;
-					}
-				} else {
-					console.log("callback 처리에 실패하였습니다.");
-				}
-			});
-		}); */
-
-		/* 네이버 로그아웃 */
-		var testPopUp;
-		function openPopUp() {
-			testPopUp = window
-					.open("https://nid.naver.com/nidlogin.logout", "_blank",
-							"toolbar=yes,scrollbars=yes,resizable=yes,width=1,height=1");
-		}
-		function closePopUp() {
-			testPopUp.close();
-		}
-
-		function naverLogout() {
-			openPopUp();
-			setTimeout(function() {
-				closePopUp();
-			}, 1000);
-
-		}
 	</script>
 	
 	<!-- 카카오 로그인 API -->

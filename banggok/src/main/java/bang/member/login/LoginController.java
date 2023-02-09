@@ -47,7 +47,7 @@ public class LoginController {
 
 	/*로그인 처리*/
 	@RequestMapping(value = "/login.tr", method = RequestMethod.POST)
-	public ModelAndView login(CommandMap commandMap,HttpServletRequest request) throws Exception {
+	public ModelAndView login(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("login/login");
 		HttpSession session = request.getSession();
 		Map<String,Object> result = loginService.selectMemberId(commandMap.getMap());		/* 회원 정보 조회 */
@@ -62,7 +62,7 @@ public class LoginController {
 			
 			session.setAttribute("MEM_ID", request.getParameter("kakaoEmail"));	/* 카카오 이메일을 회원 아이디로 세션에 저장 */
 			
-			mv.addObject("msg", "카카오 로그인 성공!");
+			mv.addObject("msg", "카카오 로그인 및 간편 회원 가입 성공!");
 			mv.addObject("url", "/main.tr");
 			
 			return mv;
@@ -106,7 +106,7 @@ public class LoginController {
 				/* 관리자 체크*/
 				if (result.get("MEM_ID").equals("admin")) {
 					mv.addObject("msg", "관리자 로그인 성공!");
-					mv.addObject("url", "/adminMain.tr");
+					mv.addObject("url", "/adminPage.tr");
 					
 					return mv;
 				} else {

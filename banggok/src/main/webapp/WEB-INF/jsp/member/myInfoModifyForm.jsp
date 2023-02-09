@@ -86,6 +86,26 @@
 		document.getElementById("MEM_ID").focus();
 	}
 </script>
+<script>
+/* 이미지 미리보기 스크립트 */
+function readImage(input) {
+	// 인풋 태그에 파일이 있는 경우
+	if(input.files && input.files[0]) {
+		
+		// FileReader 인스턴스 생성
+		const reader = new FileReader();
+		
+		// 이미지가 로드가 된 경우
+		reader.onload = e => {
+			const previewImage = document.getElementById("preview-image");
+			previewImage.src = e.target.result;
+		};
+		
+		// reader가 이미지 읽도록 하기
+		reader.readAsDataURL(input.files[0]);
+	}	
+}
+</script>
 <!-- 자바스크립트 끝 -->
     
     <body>
@@ -97,10 +117,10 @@
                 <h2>MyPage</h2>
                 <ul>
                     <li><a href="/bang/main.tr"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="/bang/myTripList.tr"><i class="fas fa-blog"></i> 여행 일정</a></li>
-                    <li><a href="/bang/myReviewList.tr"><i class="fas fa-blog"></i> 여행 후기</a></li>
-                    <li><a href="/bang/myTogetherList.tr"><i class="fas fa-blog"></i> 동행</a></li>
-                    <li><a href="/bang/myInfoModifyForm.tr"><i class="fas fa-blog"></i> 회원 정보</a></li>
+                    <li><a href="/bang/myTripList.tr"><i class="fas fa-map-marked"></i> 여행 일정</a></li>
+                    <li><a href="/bang/myReviewList.tr"><i class="fas fa-plane"></i> 여행 후기</a></li>
+                    <li><a href="/bang/myTogetherList.tr"><i class="fas fa-comment"></i> 동행</a></li>
+                    <li><a href="/bang/myInfoModifyForm.tr"><i class="fas fa-user-alt"></i> 회원 정보</a></li>
                 </ul>
             </div>
         </div>
@@ -108,43 +128,66 @@
     <!-- ************************* 회원 정보 수정 ************************** -->
         <div class="row contact-rooo no-margin">
         <div class="container">
-			<form id="modifyForm" name="modifyForm" method="POST" action="/bang/myInfoModify.tr">
+			<form id="modifyForm" name="modifyForm" method="POST" enctype="multipart/form-data" action="/bang/myInfoModify.tr">
                 <div style="padding:20px" class="col-sm-7">
                     <h2 >회원 정보 수정</h2> <br>
                     <div class="row cont-row">
-                        <div  class="col-sm-3"><label>아이디 </label><span>:</span></div>
+                        <div class="col-sm-3"><label>아이디 </label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" placeholder="아이디를 입력하세요." name="MEM_ID" id="MEM_ID" class="form-control input-sm"
                         value="${map.MEM_ID}" readonly ></div>
                     </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>비밀번호 </label><span>:</span></div>
+                    <div class="row cont-row">
+                        <div class="col-sm-3"><label>비밀번호 </label><span>:</span></div>
                         <div class="col-sm-8"><input type="password" name="MEM_PW" id="MEM_PW" placeholder="비밀번호를 입력하세요." class="form-control input-sm"
                         value="${map.MEM_PW}" ></div>
                     </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>비밀번호 확인 </label><span>:</span></div>
+                    <div class="row cont-row">
+                        <div class="col-sm-3"><label>비밀번호 확인 </label><span>:</span></div>
                         <div class="col-sm-8"><input type="password" name="MEM_PW2" id="MEM_PW2" placeholder="비밀번호를 입력하세요." class="form-control input-sm"
                         value="${map.MEM_PW}" ></div>
                     </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>이름</label><span>:</span></div>
+                    <div class="row cont-row">
+                        <div class="col-sm-3"><label>이름</label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" name="MEM_NAME" id="MEM_NAME" placeholder="이름을 입력하세요." class="form-control input-sm"
                         value="${map.MEM_NAME}" readonly ></div>
                     </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>닉네임</label><span>:</span></div>
+                    <div class="row cont-row">
+                        <div class="col-sm-3"><label>닉네임</label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" name="MEM_NICKNAME" id="MEM_NICKNAME" placeholder="닉네임을 입력하세요." class="form-control input-sm"
                         value="${map.MEM_NICKNAME}"></div>
                     </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>이메일 </label><span>:</span></div>
+                    <div class="row cont-row">
+                        <div class="col-sm-3"><label>이메일 </label><span>:</span></div>
                         <div class="col-sm-8"><input type="email" name="MEM_EMAIL" id="MEM_EMAIL" placeholder="이메일을 입력하세요." class="form-control input-sm"
                         value="${map.MEM_EMAIL}" ></div>
                     </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>휴대폰 번호</label><span>:</span></div>
+                    <div class="row cont-row">
+                        <div class="col-sm-3"><label>휴대폰 번호</label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" name="MEM_PHONE" id="MEM_PHONE" placeholder="휴대폰 번호를 입력하세요." class="form-control input-sm"
-                        value="${map.MEM_PHONE}" ></div>
+                        value="${map.MEM_PHONE}" ><input type="hidden" name="MEM_BLOCK" value="N"></div>
+                    </div>
+                    
+                    <div class="row cont-row">
+                        <div class="col-sm-3"><label>프로필</label><span>:</span></div>
+                        <div class="col-sm-8"><input type="file" name="MEM_IMAGE" id="MEM_IMAGE" class="form-control input-sm" ></div>
+                    </div>
+                    <!-- 파일 이미지 출력  -->
+					<div>
+						<label>수정할 프로필 이미지 미리보기</label><span>:</span>
+						<img src="resources/images/banggok_logo.png" width="100" border="0" id="preview-image">
+						<script>
+							// input file에 change 이벤트 부여
+							const inputImage = document.getElementById("MEM_IMAGE");
+							inputImage.addEventListener("change", e=> {
+								readImage(e.target)
+							});
+						</script>
+					</div>
+                    
+                    <div>
+                    	<label>등록된 프로필 이미지</label><span>:</span>
+                        <%-- <div class="col-sm-8"><img style="border-radius: 50%;" src="resources/images/profile/${map.MEM_IMAGE}" alt="" ></div> --%>
+                        <div class="col-sm-8"><img style="border-radius: 50%;" src="http://localhost:8080/bang/getProfileFile.tr?filename=${map.MEM_IMAGE}" alt="" ></div>
                     </div>
                     
                     <div style="margin-top:10px;" class="row">

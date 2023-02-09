@@ -9,7 +9,27 @@
 		<put-attribute name="footer" value="/WEB-INF/jsp/layout/main_footer.jsp" />
 		<put-attribute name="body" value="/WEB-INF/jsp/main.jsp" />
 	</definition>
+	
+	<!-- tiles 제외 -->
+    <definition name="empty" template="/WEB-INF/jsp/layout/empty.jsp">
+   		<put-attribute name="content" value=""/>
+    </definition>
 
+    <definition name="scroll/*" extends="empty">
+   		<put-attribute name="content" value="/WEB-INF/jsp/scroll/{1}.jsp"/>
+    </definition>
+    
+    <!-- chat --> 
+   
+    <definition name="chatContentList" extends="empty">
+   		<put-attribute name="content" value="/WEB-INF/jsp/chat/chatContentList.jsp"/>
+    </definition>
+    
+    <definition name="chatAjaxList" extends="empty">
+   		<put-attribute name="content" value="/WEB-INF/jsp/chat/chatAjaxList.jsp"/>
+    </definition>
+
+	<!-- tiles 적용 -->
 	<definition name="*/*/*" extends="main_layout">
 		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
 	</definition>
@@ -19,5 +39,5 @@
 	<definition name="*" extends="main_layout">
 		<put-attribute name="body" value="/WEB-INF/jsp/{1}.jsp" />
 	</definition>
-	
+
 </tiles-definitions>

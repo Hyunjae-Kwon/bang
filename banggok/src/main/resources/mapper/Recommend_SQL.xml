@@ -18,12 +18,45 @@
 	   ]]>
 	</select>
 	
-	<!-- [recommendList] 여행지 추천 게시글 리스트 -->
-	<select id="recommendList" resultType="hashmap" parameterType="hashmap">
-	 <![CDATA[
-			SELECT * FROM RECOMMEND
-	   ]]>
+	<!-- [recommendCount] 여행지 추천 게시글 수(전체&검색) -->
+ 	<select id="recommendCount" resultType="hashmap">
+		SELECT COUNT(*) COUNT
+		FROM RECOMMEND
+		<trim prefix="WHERE" prefixOverrides="OR">
+			<if test="searchKeyword != NULL">
+				RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</trim>
 	</select>
+	
+	<!-- [recommendListPaging] 여행지 추천 게시글 리스트(전체&검색) -->
+	<select id="recommendListPaging" resultType="hashmap" parameterType="hashmap">
+	<include refid="common.pagingPre"/>
+		SELECT ROW_NUMBER() OVER (ORDER BY RC_NUM DESC) RNUM, RC_NUM, RC_TITLE, RC_REGDATE, RC_ID, RC_CNT, RC_LIKE, RC_CONTENT, RC_IMAGE, COMCOUNT
+		FROM RECOMMEND rc 
+		FULL OUTER JOIN (SELECT BC_NUM, COUNT(BC_NUM) COMCOUNT 
+							FROM (SELECT BC_NUM, BC_TYPE 
+	                                	FROM BOARDCOMMENT
+	                                	WHERE BC_TYPE LIKE 'RC')
+		                    GROUP BY BC_NUM
+		                    HAVING COUNT(BC_NUM) > 0) bc
+		ON rc.RC_NUM = bc.BC_NUM
+		<trim prefix="WHERE" prefixOverrides="OR">
+			<if test="searchKeyword != NULL">
+				rc.RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR rc.RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
+			</if>
+		</trim>
+		ORDER BY RC_NUM DESC
+	<include refid="common.pagingPost"/>
+	</select>
+	
+	<!-- [searchRecommend] 여행지 추천 검색(메인에서 검색) -->
+	<select id="searchRecommend" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT * FROM RECOMMEND
+			WHERE RC_TITLE LIKE '%'||#{searchKeyword}||'%' OR RC_CONTENT LIKE '%'||#{searchKeyword}||'%'
+		]]>
+   </select>
 	
 	<!-- [recommendDetail] 여행지 추천 게시글 상세보기 -->
 	<select id="recommendDetail" parameterType="hashmap" resultType="hashmap">
@@ -45,7 +78,7 @@
     ]]>
 	</update>
 	
-	<!-- 여행지추천글 쓰기 -->
+	<!-- [insertRecommend] 여행지추천글 쓰기 -->
 	<insert id="insertRecommend" parameterType="hashmap"> 
 	<![CDATA[
 			INSERT
@@ -58,10 +91,29 @@
 				0,
 				0,
 				#{RC_CONTENT},
-				#{RC_IMAGE}
+				''
 				)
 		]]>
 	</insert>
+	
+	<!-- [recommendImageUpdate] 여행지 추천 게시판 글 작성 - 썸네일 이미지 등록 -->
+	<insert id="recommendImageUpdate" parameterType="hashmap">
+	<![CDATA[
+		UPDATE RECOMMEND
+		SET RC_IMAGE = #{RC_IMAGE}
+		WHERE RC_NUM = #{RC_NUM}
+	]]>
+	</insert>
+	
+	<!-- [maxRCNUM] 여행지 추천 번호 최대값 -->
+	<select id="maxRCNUM" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			MAX(RC_NUM) MAX 
+		FROM 
+			RECOMMEND
+	]]>
+	</select>
 	
 	<!-- [deleteRecommend] 여행지 추천 게시글 삭제하기 -->
 	<delete id="deleteRecommend" parameterType="hashmap">
@@ -71,21 +123,6 @@
 			WHERE RC_NUM=#{RC_NUM}
 	]]>
 	</delete>
-	
-	<!-- [recommendModifyForm] 여행지 추천 게시글 수정 폼 -->
-	<select id="recommendModifyForm" parameterType="hashmap" resultType="hashmap">
-      <![CDATA[
-         SELECT
-            RC_NUM,
-            RC_TITLE,
-            RC_CONTENT,
-            RC_REGDATE
-         FROM
-            RECOMMEND
-         WHERE
-            RC_NUM = #{RC_NUM}
-      ]]>
-	</select>
 
 	<!-- [recommendModify] 여행지 추천 게시글 수정하기 -->
 	<update id="recommendModify" parameterType="hashmap">
@@ -109,12 +146,40 @@
 	]]>
 	</update>
 	
-	<!-- [searchRecommend] 여행지 추천 검색 -->
-	<select id="searchRecommend" parameterType="hashmap" resultType="hashmap">
+	<!-- [insertLike] 추천 이력 남기기 -->
+	<insert id="insertLike" parameterType="hashmap">
+	<![CDATA[
+		INSERT INTO LIKELIST
+		VALUES (#{RC_NUM}, #{MEM_ID}, 'RC')
+	]]>
+	</insert>
+	
+	<!-- [selectLike] 추천 이력 가져오기 -->
+	<select id="selectLike" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT * FROM LIKELIST
+		WHERE LL_NUM = #{RC_NUM} AND LL_TYPE = 'RC'
+	]]>
+	</select>
+	
+	<!-- [adminRecommendList] 관리자 - 여행지 추천 게시판 관리 -->
+	<select id="adminRecommendList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
 		<![CDATA[
-			SELECT * FROM RECOMMEND
-			WHERE RC_TITLE LIKE '%'||#{keyword}||'%' OR RC_CONTENT LIKE '%'||#{keyword}||'%'
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY RC_NUM DESC) RNUM,
+				RC_NUM,
+				RC_TITLE,
+				RC_REGDATE,
+				RC_ID,
+				RC_CNT,
+				RC_LIKE,
+				RC_CONTENT,
+				RC_IMAGE
+			FROM
+				RECOMMEND
 		]]>
+		<include refid="common.pagingPost"/>
 	</select>
 
 </mapper>

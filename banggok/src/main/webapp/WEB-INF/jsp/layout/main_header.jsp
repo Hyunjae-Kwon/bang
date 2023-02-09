@@ -49,7 +49,7 @@
         <div class="header-top">
             <div class="container">
                 <div class="row col-det">
-                    <div class="col-lg-6 d-none d-lg-block">
+                    <div class="col-lg-6 d-none d-lg-block" style="padding: 0px;">
                         <ul class="ulleft">
                         	<li>Contact us<span>|</span></li>
                             <li>
@@ -63,8 +63,8 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- 로그인, 로그아웃, 회원가입, 마이페이지 등 -->
-                    <div class="col-lg-6 col-md-12">
+                    <!-- 로그인, 로그아웃, 회원가입, 마이페이지, 검색 등 -->
+                    <div class="col-lg-6 col-md-12" style="padding: 0px;"">
                         <ul id="login" class="ulright">
                         	<!-- 로그인을 하지 않았을 경우 -->
 							<c:if test="${ empty MEM_ID }">
@@ -77,20 +77,23 @@
 								<li style="line-height: 1.5; padding: 0px;">
 									<form action="/bang/searchAll.tr" method="GET">
 										<li class="search-box">
-											<input type="text" class="search-txt" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
-											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px;"></i></button>
+											<input type="text" class="search-txt" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px; cursor:pointer;"></i></button>
 										</li>
 									</form>
 								</li>
 							</c:if>
 					
 							<!-- 로그인을 했을 경우 -->
-							<c:if test="${! empty MEM_ID }">
+							<c:if test="${! empty MEM_ID && MEM_ID != 'admin'}">
 								<li>
-									<span><%= session.getAttribute("MEM_ID") %>님</span>
+									<span><img style="width: 25px; height: 25px; border-radius: 50%;" src="http://localhost:8080/bang/getProfileFile.tr?MEM_ID=${MEM_ID}" alt="">&nbsp;<%= session.getAttribute("MEM_ID") %>님</span>
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/myPage.tr">마이페이지</a> 
+								</li>
+								<li>
+									<a style="color: #bfbfbf;" href="/bang/chatList.tr">채팅방</a> 
 								</li>
 								<li>
 									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 
@@ -98,8 +101,32 @@
 								<li style="line-height: 1.5; padding: 0px;">
 									<form action="/bang/searchAll.tr" method="GET">
 										<li class="search-box">
-											<input type="text" class="search-txt" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
-											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px;"></i></button>
+											<input type="text" class="search-txt" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px; cursor:pointer;" ></i></button>
+										</li>
+									</form>
+								</li>
+							</c:if>
+							
+							<!-- 관리자 로그인 했을 경우 -->
+							<c:if test="${MEM_ID == 'admin'}">
+								<li>
+									<span>관리자</span>
+								</li>
+								<li>
+									<a style="color: #bfbfbf;" href="/bang/adminPage.tr">관리자 페이지</a> 
+								</li>
+								<li>
+									<a style="color: #bfbfbf;" href="/bang/chat.tr">채팅방</a> 
+								</li>
+								<li>
+									<a style="color: #bfbfbf;" href="/bang/logout.tr">로그아웃</a> 
+								</li>
+								<li style="line-height: 1.5; padding: 0px;">
+									<form action="/bang/searchAll.tr" method="GET">
+										<li class="search-box">
+											<input type="text" class="search-txt" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력하세요.">&nbsp;&nbsp;
+											<button class="search-btn" onClick="form.submit()"><i class="fas fa-search" style="margin: 0px; cursor:pointer;" ></i></button>
 										</li>
 									</form>
 								</li>
@@ -123,8 +150,8 @@
                     <div id="menu" class="col-lg-9 col-md-12 d-none d-lg-block nav-col">
 	                    <ul class="navbad">
 	                        <li class="nav-item active">
-	                            <a class="nav-link" href="/bang/tripWriteForm.tr">여행 일정 만들기
-	                            </a>
+	                            <a class="nav-link" style="cursor:pointer;" onclick="loginCheck()">여행 일정 만들기</a>
+	                            <input type="hidden" id="MEM_ID" name="MEM_ID" value="${MEM_ID}">
 	                        </li>
 	                        <li class="nav-item">
 	                            <a class="nav-link" href="/bang/togetherList.tr">동행</a>
@@ -138,7 +165,7 @@
 	                        </li>
 	
 	                        <li class="nav-item">
-	                            <a class="nav-link" href="/bang/allRecommendList.tr">여행지 추천</a>
+	                            <a class="nav-link" href="/bang/recommendList.tr">여행지 추천</a>
 	                        </li>
 	                        <!-- 메뉴 버튼 추가를 위해서 우선 주석처리함 -->
 	                        <!-- <li class="nav-item">
@@ -148,6 +175,19 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+        
+        <script>
+        function loginCheck(){
+        	if (!$("#MEM_ID").val()){
+		    	alert("로그인을 해주세요.");
+		    		   
+		    	location.href="/bang/loginForm.tr";
+		    }else{
+	    		location.href="/bang/tripWriteForm.tr";
+		    }
+        }
+	    </script>
+	    
     </header>
 </body>

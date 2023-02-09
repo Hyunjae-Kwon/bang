@@ -11,7 +11,7 @@ public interface TogetherService {
 	List<Map<String, Object>> selectTogetherDesc(Map<String, Object> map) throws Exception;
 	
 	/* 동행게시판 리스트 */
-	List<Map<String,Object>> togetherList(Map<String,Object> Map) throws Exception;
+	Map<String,Object> togetherList(Map<String,Object> map) throws Exception;
 	
 	/* 동행게시판 디테일 */
 	Map<String, Object> togetherDetail(Map<String, Object> map) throws Exception;
@@ -27,4 +27,10 @@ public interface TogetherService {
 
 	/* 동행 구하기 검색하기 */
 	List<Map<String, Object>> searchTogether(Map<String, Object> map, HttpServletRequest request) throws Exception;
+	
+	/* 마이페이지 동행 리스트 */
+	Map<String, Object> myTogetherList(Map<String, Object> map) throws Exception;
+	
+	/* 관리자 - 동행 구하기 게시판 관리 */
+	Map<String, Object> adminTogetherList(Map<String, Object> map) throws Exception;
 }

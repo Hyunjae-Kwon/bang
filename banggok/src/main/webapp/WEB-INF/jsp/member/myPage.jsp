@@ -15,19 +15,23 @@
     
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
-        <div class="container">
+        <div class="container" >
             <div class="row">
                 <h2>MyPage</h2>
                 <ul>
                     <li><a href="/bang/main.tr"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="/bang/myTripList.tr"><i class="fas fa-blog"></i> 여행 일정</a></li>
-                    <li><a href="/bang/myReviewList.tr"><i class="fas fa-blog"></i> 여행 후기</a></li>
-                    <li><a href="/bang/myTogetherList.tr"><i class="fas fa-blog"></i> 동행</a></li>
-                    <li><a href="/bang/myInfoModifyForm.tr"><i class="fas fa-blog"></i> 회원 정보</a></li>
+                    <li><a href="/bang/myTripList.tr"><i class="fas fa-map-marked"></i> 여행 일정</a></li>
+                    <li><a href="/bang/myReviewList.tr"><i class="fas fa-plane"></i> 여행 후기</a></li>
+                    <li><a href="/bang/myTogetherList.tr"><i class="fas fa-comment"></i> 동행</a></li>
+                    <li><a href="/bang/myInfoModifyForm.tr"><i class="fas fa-user-alt"></i> 회원 정보</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    
+    <div class="board-list" style="background-color: #eaeaea">
+    	<div>
+    	<br><br><br><br><br><br><br>
+    	</div>
+    </div>
     </body>
 </html>

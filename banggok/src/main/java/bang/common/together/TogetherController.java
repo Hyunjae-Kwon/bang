@@ -1,5 +1,6 @@
 package bang.common.together;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import bang.common.comment.CommentService;
 import bang.common.common.CommandMap;
+import bang.common.report.ReportService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class TogetherController {
@@ -22,14 +26,24 @@ public class TogetherController {
 
 	@Resource(name = "togetherService")
 	private TogetherService togetherService;
+	
+	/* 댓글 */
+	@Resource(name = "commentService")
+	CommentService commentService;
+	
+	/* 신고 */
+	@Resource(name="reportService")
+	private ReportService reportService;
 
 	/* 동행게시판 리스트 */
 	@RequestMapping(value = "/togetherList.tr")
-	public ModelAndView togetherList(Map<String, Object> commandMap) throws Exception {
+	public ModelAndView togetherList(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("/together/togetherList");
 
-		List<Map<String, Object>> list = togetherService.togetherList(commandMap);
-		mv.addObject("list", list);
+		Map<String, Object> resultMap = togetherService.togetherList(commandMap.getMap());
+		
+		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
+		mv.addObject("list", resultMap.get("result"));
 		
 		return mv;
 	}
@@ -40,7 +54,12 @@ public class TogetherController {
 		ModelAndView mv = new ModelAndView("/together/togetherDetail");
 		
 		Map<String,Object> map = togetherService.togetherDetail(commandMap.getMap());
+		
+		/* 댓글 리스트 불러오기 */
+		List<Map<String, Object>> comment = commentService.selectCommentList(commandMap.getMap());
+		
 		mv.addObject("map", map);
+		mv.addObject("comment", comment);
 		
 		return mv;
 	}
@@ -92,8 +111,20 @@ public class TogetherController {
 	@RequestMapping(value = "/togetherDelete.tr")
 	public ModelAndView boardDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/togetherList.tr");
+		String bc = (String) commandMap.get("TG_NUM");
+		
+		Map<String, Object> bcNum = new HashMap<String, Object>();
+		
+		bcNum.put("BC_NUM", bc);
+		
 		togetherService.togetherDelete(commandMap.getMap());
-
+		
+		/* 댓글 삭제 처리 */
+		commentService.comBoardDelete(bcNum);
+		
+		/* 신고 게시글 삭제 처리 */
+		reportService.reportDelBrdUpdate(commandMap.getMap());
+		
 		return mv; 
 	}
 	
@@ -102,13 +133,31 @@ public class TogetherController {
 	public ModelAndView searchTogether(CommandMap commandMap, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("together/searchTogether");
 		
-		String keyword = request.getParameter("keyword");
+		String searchKeyword = request.getParameter("searchKeyword");
 		
 		/* 동행 구하기 검색 */
 		List<Map<String, Object>> together = togetherService.searchTogether(commandMap.getMap(), request);
 				
-		mv.addObject("keyword", keyword);
+		mv.addObject("searchKeyword", searchKeyword);
 		mv.addObject("together", together);
+		
+		return mv;
+	}
+	
+	/* 마이페이지 동행 리스트 */
+	@RequestMapping(value="/myTogetherList.tr")
+	public ModelAndView myTogetherList(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView("member/myTogetherList");
+		
+		HttpSession session = request.getSession();
+		String TG_ID = (String) session.getValue("MEM_ID");
+		
+		commandMap.put("MEM_ID", TG_ID);	
+		
+		Map<String, Object> resultMap = togetherService.myTogetherList(commandMap.getMap());
+		
+		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
+		mv.addObject("myTogetherList", resultMap.get("result"));
 		
 		return mv;
 	}

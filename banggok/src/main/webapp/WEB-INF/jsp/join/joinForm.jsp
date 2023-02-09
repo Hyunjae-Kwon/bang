@@ -8,9 +8,9 @@
 
  <script type="text/javascript">
 /* 아이디 중복 체크 */	
-function checkId() { 
+function checkId(){ 
 	
-	var inputed = $('#MEM_ID').val();
+	var inputed = $('#memId').val();
 	console.log(inputed);
 	
 	if(inputed != ""){
@@ -20,7 +20,7 @@ function checkId() {
 			    type : "POST",
 			    dataType : "text",
 			    success : function(data){
-			    	var result = JSON.parse(data);
+			    	var result = data;
 			    	if(result > 0) {
 			    		
 			    		$('#idCheck').text("이미 사용중인 아이디입니다.");
@@ -57,7 +57,7 @@ function checkEmail() {
 		    type : "POST",
 		    dataType : "text",
 		    success : function(data){
-		    	result = JSON.parse(data);
+		    	result = data;
 		    	
 		    	if(result > 0) {
 		    		$('#mailSend').text("이미 사용중인 이메일입니다.");
@@ -148,7 +148,7 @@ $(document).ready(function(){
 </script>
 <script>
 	function checks() {
-		var MEM_ID = document.getElementById("MEM_ID");
+		var MEM_ID = document.getElementById("memId");
 		var MEM_PW = document.getElementById("MEM_PW");
 		var MEM_PW2 = document.getElementById("MEM_PW2");
 		var MEM_NAME = document.getElementById("MEM_NAME");
@@ -212,7 +212,7 @@ $(document).ready(function(){
 		    	var result = JSON.parse(data);
 		    	if(result > 0) {
 		    		alert("이미 사용중인 아이디입니다.");
-		    		$('#MEM_ID').val("");
+		    		$('#memId').val("");
 		    	} else if (result == 0) {
 		    		document.joinForm.submit();
 		    	}
@@ -220,6 +220,8 @@ $(document).ready(function(){
 		});
 	}
 </script>  
+</head>
+<body>
 <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
@@ -236,10 +238,10 @@ $(document).ready(function(){
         <div class="container">
             <div >
                 <div style="padding:20px" class="col-sm-11">
-                <form id="joinForm" name="joinForm" method="POST" action="/bang/joinSuccess.tr"> 
+                <form id="joinForm" name="joinForm" method="POST" enctype="multipart/form-data" action="/bang/joinSuccess.tr"> 
                     <div class="row cont-row">
                         <div  class="col-sm-3"><label>아이디 </label></div>
-                        <div class="col-sm-4"><input type="text" id="MEM_ID" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
+                        <div class="col-sm-4"><input type="text" id="memId" name="MEM_ID" placeholder="아이디" class="form-control input-sm" oninput="checkId()"></div>
                         <div class="col-sm-4" align="left"><span id="idCheck"></span></div>
                     </div>
                     <div  class="row cont-row">
@@ -277,7 +279,12 @@ $(document).ready(function(){
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>휴대폰 번호</label></div>
                         <div class="col-sm-4"><input type="text" id="MEM_PHONE"name="MEM_PHONE" placeholder="연락처 " class="form-control input-sm" maxlength="11" ></div>
-                    </div>                
+                    </div>      
+				   	                      
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>프로필</label></div>
+                        <div class="col-sm-4"><input type="file" id="MEM_IMAGE"name="MEM_IMAGE" class="form-control input-sm" ></div>
+                    </div>             
                     
 					<div align="center" class="row cont-row">
 					<div class="col-sm-3"></div>	

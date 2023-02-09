@@ -17,5 +17,7 @@
 <script src="resources/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
 <script src="resources/plugins/slider/js/owl.carousel.min.js"></script>
 <script src="resources/js/script.js"></script>
+<!-- fontawesome webkit -->
+<script src="https://kit.fontawesome.com/a5b16ac6cc.js" crossorigin="anonymous"></script>
 
 </head>
