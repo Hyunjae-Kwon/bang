@@ -1,5 +1,6 @@
 package bang.common.trip;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -239,11 +240,20 @@ public class TripController {
 	public ModelAndView tripDelete(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/myTripList.tr");
 		
+		String bc = (String) commandMap.get("TR_NUM");
+		
+		Map<String, Object> bcNum = new HashMap<String, Object>();
+		
+		bcNum.put("BC_NUM", bc);
+		
 		/* TR_NUM으로 해당 게시글 삭제하기 */
 		tripService.tripDelete(commandMap.getMap());
 		
 		/* TR_NUM으로 해당 장소정보 삭제하기 */
 		tripService.tripPlaceDelete(commandMap.getMap());
+		
+		/* 댓글 삭제 처리 */
+		commentService.comBoardDelete(bcNum);
 		
 		/* 신고 게시글 삭제 처리 */
 		reportService.reportDelBrdUpdate(commandMap.getMap());

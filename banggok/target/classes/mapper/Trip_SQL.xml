@@ -6,9 +6,9 @@
 	<!-- [selectHotTrip] 메인 페이지 - 인기 여행 일정 3개 (좋아요 수 기준) -->
 	<select id="selectHotTrip" resultType="hashmap">
 	 <![CDATA[
-			SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, R
-			FROM (SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, ROWNUM R
-				FROM (SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE
+			SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, TR_IMAGE, R
+			FROM (SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, TR_IMAGE, ROWNUM R
+				FROM (SELECT TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_REGDATE, TR_IMAGE
 					FROM TRIP
 	                WHERE TR_SHARE = 'Y'
 					ORDER BY TR_LIKE DESC)
@@ -39,24 +39,39 @@
 	<!-- [tripListPaging]여행 일정 공유글 리스트(전체&검색) - 공유된 여행 일정 전체 가져오기 -->
 	<select id="tripListPaging" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/>
-			SELECT ROW_NUMBER() OVER (ORDER BY TR_REGDATE DESC) RNUM, TR_NUM, TR_ID, TR_TITLE, TR_CNT, TR_LIKE, TR_CONTENT, TR_SUBCONTENT, TR_REGDATE, TR_IMAGE, COMCOUNT
-			FROM TRIP tr 
-			FULL OUTER JOIN (SELECT BC_NUM, COUNT(BC_NUM) COMCOUNT 
-								FROM (SELECT BC_NUM, BC_TYPE 
-		                                	FROM BOARDCOMMENT
-		                                	WHERE BC_TYPE LIKE 'T')
-			                    GROUP BY BC_NUM
-			                    HAVING COUNT(BC_NUM) > 0) bc
-			ON tr.TR_NUM = bc.BC_NUM
+			SELECT 
+				ROW_NUMBER() OVER (ORDER BY TR_REGDATE DESC) RNUM,
+				TR_NUM,
+				TR_ID,
+				TR_TITLE,
+				TR_CNT,
+				TR_LIKE,
+				TR_CONTENT,
+				TR_SUBCONTENT,
+				TR_REGDATE,
+				TR_IMAGE
+			FROM(
+				SELECT
+					TR_NUM,
+					TR_ID,
+					TR_TITLE,
+					TR_CNT,
+					TR_LIKE,
+					TR_CONTENT,
+					TR_SUBCONTENT,
+					TR_REGDATE,
+					TR_IMAGE
+				FROM 
+					TRIP
+			    WHERE 
+			    	TR_SHARE = 'Y')
 			<trim prefix="WHERE" prefixOverrides="OR">
 				<if test="searchKeyword != NULL">
-					tr.TR_SHARE = 'Y' AND (tr.TR_TITLE LIKE '%'||#{searchKeyword}||'%' OR tr.TR_CONTENT LIKE '%'||#{searchKeyword}||'%')
-				</if>
-				<if test="searchKeyword == NULL">
-					tr.TR_SHARE = 'Y'
+					TR_TITLE LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+					OR TR_SUBCONTENT LIKE '%'||#{searchKeyword}||'%'
 				</if>
 			</trim>
-			ORDER BY TR_NUM DESC
 	 	<include refid="common.pagingPost"/>
 	</select>
 	
@@ -107,7 +122,6 @@
 		    TRIPPLACE
 		WHERE
 		    TP_TRNUM = #{TR_NUM}
-		ORDER BY TP_DATE ASC
 	]]>
 	</select>
 	
@@ -312,7 +326,6 @@
 	<!-- [addPlaceList] 추가 장소 저장(작성시) -->
 	<insert id="addPlaceList" parameterType="hashmap">
 		<![CDATA[
-
 			INSERT INTO TRIPPLACE (TP_NUM, TP_ID, TP_PLACE, TP_ADDRESS, TP_RADDRESS, TP_PHONE, TP_MAP_LAT, TP_MAP_LNG, TP_DATE)
 			VALUES (TP_NUM_SEQ.NEXTVAL, #{TP_ID}, #{TP_PLACE}, #{TP_ADDRESS}, #{TP_RADDRESS}, #{TP_PHONE}, #{TP_MAP_LAT}, #{TP_MAP_LNG}, #{TP_DATE})
 		]]>
