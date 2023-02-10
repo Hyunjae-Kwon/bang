@@ -75,7 +75,7 @@ public interface TripService {
 	/* 여행 일정 번호 업데이트를 위한 최대 번호 구하기 */
 	int maxTRNUM() throws Exception;
 	
-	/* 추가 장소 저장(작성시) */
+	/* 추가 장소 저장(작성시, 수정시) */
 	void addPlaceList(Map<String, Object> map) throws Exception;
 	
 	/* 추가 장소 삭제(작성시) */
@@ -95,5 +95,52 @@ public interface TripService {
 	
 	/* 관리자 - 여행 일정 공유 게시판 관리 */
 	Map<String, Object> adminTripList(Map<String, Object> map) throws Exception;
-
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 */
+	int getLagNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 */
+	void prevTpNumSetZero(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소 TP_NUM에 'lagNum'을 넣음 */
+	void tpNumSetLagNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	void prevTpNumSetTpNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 */
+	int getLeadNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 */
+	void nextTpNumSetZero(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소 TP_NUM에 'leadNum'을 넣음 */
+	void tpNumSetLeadNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	void nextTpNumSetTpNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 */
+	int modifyGetLagNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 */
+	void modifyPrevTpNumSetZero(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소 TP_NUM에 'lagNum'을 넣음 */
+	void modifyTpNumSetLagNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	void modifyPrevTpNumSetTpNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 */
+	int modifyGetLeadNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 */
+	void modifyNextTpNumSetZero(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소 TP_NUM에 'leadNum'을 넣음 */
+	void modifyTpNumSetLeadNum(Map<String, Object> map) throws Exception;
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	void modifyNextTpNumSetTpNum(Map<String, Object> map) throws Exception;
 }

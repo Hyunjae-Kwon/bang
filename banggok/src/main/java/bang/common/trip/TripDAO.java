@@ -183,4 +183,88 @@ public class TripDAO extends AbstractDAO {
 	public Map<String, Object> adminTripList(Map<String, Object> map) throws Exception {
 		return (Map<String, Object>)selectPagingList("trip.adminTripList", map);
 	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getLagNum(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("trip.getLagNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 */
+	public void prevTpNumSetZero(Map<String, Object> map) throws Exception {
+		update ("trip.prevTpNumSetZero", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소 TP_NUM에 'lagNum'을 넣음 */
+	public void tpNumSetLagNum(Map<String, Object> map) throws Exception {
+		update ("trip.tpNumSetLagNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	public void prevTpNumSetTpNum(Map<String, Object> map) throws Exception {
+		update ("trip.prevTpNumSetTpNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getLeadNum(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("trip.getLeadNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 */
+	public void nextTpNumSetZero(Map<String, Object> map) throws Exception {
+		update ("trip.nextTpNumSetZero", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소 TP_NUM에 'leadNum'을 넣음 */
+	public void tpNumSetLeadNum(Map<String, Object> map) throws Exception {
+		update ("trip.tpNumSetLeadNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이gn 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	public void nextTpNumSetTpNum(Map<String, Object> map) throws Exception {
+		update ("trip.nextTpNumSetTpNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> modifyGetLagNum(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("trip.modifyGetLagNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 */
+	public void modifyPrevTpNumSetZero(Map<String, Object> map) throws Exception {
+		update ("trip.modifyPrevTpNumSetZero", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소 TP_NUM에 'lagNum'을 넣음 */
+	public void modifyTpNumSetLagNum(Map<String, Object> map) throws Exception {
+		update ("trip.modifyTpNumSetLagNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	public void modifyPrevTpNumSetTpNum(Map<String, Object> map) throws Exception {
+		update ("trip.modifyPrevTpNumSetTpNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> modifyGetLeadNum(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("trip.modifyGetLeadNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 */
+	public void modifyNextTpNumSetZero(Map<String, Object> map) throws Exception {
+		update ("trip.modifyNextTpNumSetZero", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소 TP_NUM에 'leadNum'을 넣음 */
+	public void modifyTpNumSetLeadNum(Map<String, Object> map) throws Exception {
+		update ("trip.modifyTpNumSetLeadNum", map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이gn 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	public void modifyNextTpNumSetTpNum(Map<String, Object> map) throws Exception {
+		update ("trip.modifyNextTpNumSetTpNum", map);
+	}
 }

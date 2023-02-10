@@ -50,7 +50,7 @@
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
 #placesList2 {margin-left: 5px; margin-right: 5px;}
 #placesList2 li {list-style: none; font-size:14px;}
-#placesList2 .item {position:relative;border-bottom:1px solid #eaeaea;overflow: hidden;cursor: pointer;min-height: 65px;}
+#placesList2 .item {position:relative;border-bottom:1px solid #eaeaea;overflow: hidden;min-height: 65px;}
 #placesList2 .item span {display: block;margin-top:4px;}
 #placesList2 .item h5, #placesList2 .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 #placesList2 .item .info{padding:10px 0 10px 55px;}
@@ -363,8 +363,12 @@ border-color: #0078FF !important;
 					if(addPlace.length>0){
 						for(var i=0; i<addPlace.length; i++){
 							item += '<ul id="placesList2" class="placesLists">' + 
-									'<li class="item">' +
-										'<h5 id=TP_PLACE>' + addPlace[i].R +'. ' + addPlace[i].TP_PLACE + '</h5>';
+									'<li class="item">';
+							if(i > 0){
+								item += '<span style="text-align:right; color:blue; cursor:pointer;"' +
+										'onclick="moveUp(' + addPlace[i].TP_NUM + ',' + addPlace[i].TP_DATE + ');">▲</span>';
+							}		
+							item +=		'<h4 id=TP_PLACE style="font-size: 17px;"><b>' + addPlace[i].R +'. ' + addPlace[i].TP_PLACE + '</b></h4>';
 							if(addPlace[i].TP_RADDRESS != null){
 								item +=	'<span id="TP_RADDRESS">' + addPlace[i].TP_RADDRESS + '</span>';
 							}
@@ -374,10 +378,14 @@ border-color: #0078FF !important;
 							if(addPlace[i].TP_PHONE != null){
 								item +=	'<span class="tel" id="TP_PHONE">' + addPlace[i].TP_PHONE; 
 							}
-							item +=		'<input type="button" id="del" style="float: right;"' +
+							item +=		'<input type="button" id="del" style="float: right; cursor:pointer;"' +
 										'onclick="deletePlace(' + addPlace[i].TP_NUM + ',' + addPlace[i].TP_MAP_LAT + ',' + addPlace[i].TP_MAP_LNG + ')"' + 
-										'value="장소 삭제"></span>' +					 
-										'<span style="display: none;" id="TP_NUM">' + addPlace.TP_NUM + '</span>' +
+										'value="장소 삭제"></span>';
+							if(i < addPlace.length-1){
+								item += '<span style="text-align:left; color:red; cursor:pointer;"' + 
+										'onclick="moveDown(' + addPlace[i].TP_NUM + ',' + addPlace[i].TP_DATE + ');">▼</span>';
+							}
+							item +=		'<span style="display: none;" id="TP_NUM">' + addPlace.TP_NUM + '</span>' +
 										'<span style="display: none;" id="TP_MAP_LAT">' + addPlace[i].TP_MAP_LAT + '</span>' +
 										'<span style="display: none;" id="TP_MAP_LNG">' + addPlace[i].TP_MAP_LNG + '</span>' +
 										'<span style="display: none;" id="TP_DATE">' + addPlace[i].TP_DATE + '</span>' +
@@ -679,6 +687,39 @@ border-color: #0078FF !important;
 				/* 추가 장소 위치를 기준으로 지도 범위를 재설정 */
 				map.setBounds(bounds);
 			}
+		}
+		
+		/* 추가 장소 순서 Up */
+		function moveUp(tpNum, tpDate){
+			var id = document.getElementById("TR_ID").value;
+			var selectNum = dayIdx;
+			
+			/* 추가 장소 DB에서 순서 Up */
+			$.ajax({
+ 				type: "POST",
+ 				url: "<c:url value='placeMoveUp.tr'/>",
+ 				data: {TP_NUM:tpNum, TP_ID:id, TP_DATE:tpDate},
+ 				success: function(data){
+ 					placeList(selectNum);
+ 				}
+			});
+		}
+		
+		/* 추가 장소 순서 Down */
+		function moveDown(tpNum, tpDate){
+			var id = document.getElementById("TR_ID").value;
+			var selectNum = dayIdx;
+			
+			/* 추가 장소 DB에서 순서 Down */
+			$.ajax({
+ 				type: "POST",
+ 				url: "<c:url value='placeMoveDown.tr'/>",
+ 				data: {TP_NUM:tpNum, TP_ID:id, TP_DATE:tpDate},
+ 				success: function(data){
+ 					
+ 					placeList(selectNum);
+ 				}
+			});
 		}
 		
 		/* 추가한 장소 삭제하기 */

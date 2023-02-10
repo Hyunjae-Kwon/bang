@@ -279,7 +279,6 @@ public class TripController {
 		
 		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
 		mv.addObject("myTripList", resultMap.get("result"));
-		mv.addObject("tripList", resultMap);
 		
 		return mv;
      }
@@ -412,6 +411,90 @@ public class TripController {
 		/* 폼을 통해 입력받은 데이터로 수정하기 */
 		tripService.tripShare(commandMap.getMap());
 				
+		return mv;
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) */
+	@RequestMapping(value="/placeMoveUp.tr", method = RequestMethod.POST)
+	public ModelAndView placeMoveUp(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		/* 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 */
+		int lagNum = tripService.getLagNum(commandMap.getMap());
+		commandMap.put("lagNum", lagNum);
+		
+		/* 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 */
+		tripService.prevTpNumSetZero(commandMap.getMap());
+
+		/* 지정 장소 TP_NUM에 'lagNum'을 넣음 */
+		tripService.tpNumSetLagNum(commandMap.getMap());
+		
+		/* 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+		tripService.prevTpNumSetTpNum(commandMap.getMap());
+		
+		return mv;
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) */
+	@RequestMapping(value="/placeMoveDown.tr", method = RequestMethod.POST)
+	public ModelAndView placeMoveDown(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		/* 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 */
+		int leadNum = tripService.getLeadNum(commandMap.getMap());
+		commandMap.put("leadNum", leadNum);
+		
+		/* 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 */
+		tripService.nextTpNumSetZero(commandMap.getMap());
+
+		/* 지정 장소 TP_NUM에 'leadNum'을 넣음 */
+		tripService.tpNumSetLeadNum(commandMap.getMap());
+		
+		/* 지정 장소의 이후 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+		tripService.nextTpNumSetTpNum(commandMap.getMap());
+		
+		return mv;
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) */
+	@RequestMapping(value="/placeModifyUp.tr", method = RequestMethod.POST)
+	public ModelAndView placeModifyUp(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		/* 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 */
+		int lagNum = tripService.modifyGetLagNum(commandMap.getMap());
+		commandMap.put("lagNum", lagNum);
+		
+		/* 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 */
+		tripService.modifyPrevTpNumSetZero(commandMap.getMap());
+
+		/* 지정 장소 TP_NUM에 'lagNum'을 넣음 */
+		tripService.modifyTpNumSetLagNum(commandMap.getMap());
+		
+		/* 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+		tripService.modifyPrevTpNumSetTpNum(commandMap.getMap());
+		
+		return mv;
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) */
+	@RequestMapping(value="/placeModifyDown.tr", method = RequestMethod.POST)
+	public ModelAndView placeModifyDown(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		/* 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 */
+		int leadNum = tripService.modifyGetLeadNum(commandMap.getMap());
+		commandMap.put("leadNum", leadNum);
+		
+		/* 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 */
+		tripService.modifyNextTpNumSetZero(commandMap.getMap());
+
+		/* 지정 장소 TP_NUM에 'leadNum'을 넣음 */
+		tripService.modifyTpNumSetLeadNum(commandMap.getMap());
+		
+		/* 지정 장소의 이후 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+		tripService.modifyNextTpNumSetTpNum(commandMap.getMap());
+		
 		return mv;
 	}
 }

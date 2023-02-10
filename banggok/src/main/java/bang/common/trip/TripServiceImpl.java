@@ -199,7 +199,7 @@ public class TripServiceImpl implements TripService {
 		return maxTR;
 	}
 
-	/* 추가 장소 저장(작성시) */
+	/* 추가 장소 저장(작성시, 수정시) */
 	@Override
 	public void addPlaceList(Map<String, Object> map) throws Exception {
 		tripDAO.addPlaceList(map);
@@ -239,5 +239,141 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public Map<String, Object> adminTripList(Map<String, Object> map) throws Exception {
 		return tripDAO.adminTripList(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 */
+	@Override
+	public int getLagNum(Map<String, Object> map) throws Exception {
+		Map<String, Object> lagMap = new HashMap<String, Object>();
+		lagMap = tripDAO.getLagNum(map);
+		
+		int lagNum;
+		if(lagMap == null) {
+			lagNum = 0;
+		} else {
+			lagNum = Integer.parseInt(String.valueOf(lagMap.get("LAG_TP_NUM")));
+		}
+		
+		return lagNum;
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 */
+	@Override
+	public void prevTpNumSetZero(Map<String, Object> map) throws Exception {
+		tripDAO.prevTpNumSetZero(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소 TP_NUM에 'lagNum'을 넣음 */
+	@Override
+	public void tpNumSetLagNum(Map<String, Object> map) throws Exception {
+		tripDAO.tpNumSetLagNum(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	@Override
+	public void prevTpNumSetTpNum(Map<String, Object> map) throws Exception {
+		tripDAO.prevTpNumSetTpNum(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 */
+	@Override
+	public int getLeadNum(Map<String, Object> map) throws Exception {
+		Map<String, Object> leadMap = new HashMap<String, Object>();
+		leadMap = tripDAO.getLeadNum(map);
+		
+		int leadNum;
+		if(leadMap == null) {
+			leadNum = 0;
+		} else {
+			leadNum = Integer.parseInt(String.valueOf(leadMap.get("LEAD_TP_NUM")));
+		}
+		
+		return leadNum;
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 */
+	@Override
+	public void nextTpNumSetZero(Map<String, Object> map) throws Exception {
+		tripDAO.nextTpNumSetZero(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소 TP_NUM에 'leadNum'을 넣음 */
+	@Override
+	public void tpNumSetLeadNum(Map<String, Object> map) throws Exception {
+		tripDAO.tpNumSetLeadNum(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	@Override
+	public void nextTpNumSetTpNum(Map<String, Object> map) throws Exception {
+		tripDAO.nextTpNumSetTpNum(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 */
+	@Override
+	public int modifyGetLagNum(Map<String, Object> map) throws Exception {
+		Map<String, Object> lagMap = new HashMap<String, Object>();
+		lagMap = tripDAO.modifyGetLagNum(map);
+		
+		int lagNum;
+		if(lagMap == null) {
+			lagNum = 0;
+		} else {
+			lagNum = Integer.parseInt(String.valueOf(lagMap.get("LAG_TP_NUM")));
+		}
+		
+		return lagNum;
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 */
+	@Override
+	public void modifyPrevTpNumSetZero(Map<String, Object> map) throws Exception {
+		tripDAO.modifyPrevTpNumSetZero(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소 TP_NUM에 'lagNum'을 넣음 */
+	@Override
+	public void modifyTpNumSetLagNum(Map<String, Object> map) throws Exception {
+		tripDAO.modifyTpNumSetLagNum(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	@Override
+	public void modifyPrevTpNumSetTpNum(Map<String, Object> map) throws Exception {
+		tripDAO.modifyPrevTpNumSetTpNum(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 */
+	@Override
+	public int modifyGetLeadNum(Map<String, Object> map) throws Exception {
+		Map<String, Object> leadMap = new HashMap<String, Object>();
+		leadMap = tripDAO.modifyGetLeadNum(map);
+		
+		int leadNum;
+		if(leadMap == null) {
+			leadNum = 0;
+		} else {
+			leadNum = Integer.parseInt(String.valueOf(leadMap.get("LEAD_TP_NUM")));
+		}
+		
+		return leadNum;
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 */
+	@Override
+	public void modifyNextTpNumSetZero(Map<String, Object> map) throws Exception {
+		tripDAO.modifyNextTpNumSetZero(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소 TP_NUM에 'leadNum'을 넣음 */
+	@Override
+	public void modifyTpNumSetLeadNum(Map<String, Object> map) throws Exception {
+		tripDAO.modifyTpNumSetLeadNum(map);
+	}
+	
+	/* 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 */
+	@Override
+	public void modifyNextTpNumSetTpNum(Map<String, Object> map) throws Exception {
+		tripDAO.modifyNextTpNumSetTpNum(map);
 	}
 }

@@ -387,5 +387,219 @@
 			</trim>
 	 	<include refid="common.pagingPost"/>
 	</select>
+	
+	<!-- [getLagNum] 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 -->
+	<select id="getLagNum" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			LAG_TP_NUM
+		FROM(
+    		SELECT
+    			TP_NUM, LAG(TP_NUM) OVER(ORDER BY TP_NUM ASC) LAG_TP_NUM
+    		FROM
+    			TRIPPLACE
+    		WHERE 
+    			TP_DATE = #{TP_DATE} AND TP_ID = #{TP_ID} AND TP_TRNUM IS NULL)
+		WHERE
+    		TP_NUM = #{TP_NUM}	
+	]]>
+	</select>
+	
+	<!-- [prevTpNumSetZero] 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 -->
+	<update id="prevTpNumSetZero" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = 0
+		WHERE 
+			TP_NUM = #{lagNum}
+	]]>
+	</update>
+	
+	<!-- [tpNumSetLagNum] 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소 TP_NUM에 'lagNum'을 넣음 -->
+	<update id="tpNumSetLagNum" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = #{lagNum}
+		WHERE 
+			TP_NUM = #{TP_NUM}	
+	]]>
+	</update>
+	
+	<!-- [prevTpNumSetTpNum] 추가 장소 중 지정 장소 moveUp(작성시) - 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 -->
+	<update id="prevTpNumSetTpNum" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = #{TP_NUM}
+		WHERE 
+			TP_DATE = #{TP_DATE} AND TP_ID = #{TP_ID} AND TP_NUM = 0
+	
+	]]>
+	</update>
+	
+	<!-- [getLeadNum] 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 -->
+	<select id="getLeadNum" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			LEAD_TP_NUM
+		FROM(
+    		SELECT
+    			TP_NUM, LEAD(TP_NUM) OVER(ORDER BY TP_NUM ASC) LEAD_TP_NUM
+    		FROM
+    			TRIPPLACE
+    		WHERE 
+    			TP_DATE = #{TP_DATE} AND TP_ID = #{TP_ID} AND TP_TRNUM IS NULL)
+		WHERE
+    		TP_NUM = #{TP_NUM}	
+	]]>
+	</select>
+	
+	<!-- [nextTpNumSetZero] 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 -->
+	<update id="nextTpNumSetZero" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = 0
+		WHERE 
+			TP_NUM = #{leadNum}
+	]]>
+	</update>
+	
+	<!-- [tpNumSetLeadNum] 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소 TP_NUM에 'leadNum'을 넣음 -->
+	<update id="tpNumSetLeadNum" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = #{leadNum}
+		WHERE 
+			TP_NUM = #{TP_NUM}	
+	]]>
+	</update>
+	
+	<!-- [nextTpNumSetTpNum] 추가 장소 중 지정 장소 moveDown(작성시) - 지정 장소의 이후 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 -->
+	<update id="nextTpNumSetTpNum" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = #{TP_NUM}
+		WHERE 
+			TP_DATE = #{TP_DATE} AND TP_ID = #{TP_ID} AND TP_NUM = 0
+	]]>
+	</update>
+	
+	<!-- [modifyGetLagNum] 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM을 구해서 'lagNum'에 저장 -->
+	<select id="modifyGetLagNum" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			LAG_TP_NUM
+		FROM(
+    		SELECT
+    			TP_NUM, LAG(TP_NUM) OVER(ORDER BY TP_NUM ASC) LAG_TP_NUM
+    		FROM
+    			TRIPPLACE
+    		WHERE 
+    			(TP_TRNUM = #{TP_TRNUM} OR TP_TRNUM IS NULL) AND TP_DATE = #{TP_DATE} AND TP_ID = #{TP_ID} AND TP_DELPLACE = 'N')
+		WHERE
+    		TP_NUM = #{TP_NUM}
+	]]>
+	</select>
+	
+	<!-- [modifyPrevTpNumSetZero] 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM에 '0'을 넣음 -->
+	<update id="modifyPrevTpNumSetZero" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = 0
+		WHERE 
+			TP_NUM = #{lagNum}
+	]]>
+	</update>
+	
+	<!-- [modifyTpNumSetLagNum] 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소 TP_NUM에 'lagNum'을 넣음 -->
+	<update id="modifyTpNumSetLagNum" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = #{lagNum}
+		WHERE 
+			TP_NUM = #{TP_NUM}	
+	]]>
+	</update>
+	
+	<!-- [modifyPrevTpNumSetTpNum] 추가 장소 중 지정 장소 moveUp(수정시) - 지정 장소의 이전 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 -->
+	<update id="modifyPrevTpNumSetTpNum" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = #{TP_NUM}
+		WHERE 
+			TP_DATE = #{TP_DATE} AND TP_ID = #{TP_ID} AND TP_NUM = 0
+	
+	]]>
+	</update>
+	
+	<!-- [modifyGetLeadNum] 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM을 구해서 'leadNum'에 저장 -->
+	<select id="modifyGetLeadNum" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			LEAD_TP_NUM
+		FROM(
+    		SELECT
+    			TP_NUM, LEAD(TP_NUM) OVER(ORDER BY TP_NUM ASC) LEAD_TP_NUM
+    		FROM
+    			TRIPPLACE
+    		WHERE 
+    			(TP_TRNUM = #{TP_TRNUM} OR TP_TRNUM IS NULL) AND TP_DATE = #{TP_DATE} AND TP_ID = #{TP_ID} AND TP_DELPLACE = 'N')
+		WHERE
+    		TP_NUM = #{TP_NUM}	
+	]]>
+	</select>
+	
+	<!-- [modifyNextTpNumSetZero] 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM에 '0'을 넣음 -->
+	<update id="modifyNextTpNumSetZero" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = 0
+		WHERE 
+			TP_NUM = #{leadNum}
+	]]>
+	</update>
+	
+	<!-- [modifyTpNumSetLeadNum] 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소 TP_NUM에 'leadNum'을 넣음 -->
+	<update id="modifyTpNumSetLeadNum" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = #{leadNum}
+		WHERE 
+			TP_NUM = #{TP_NUM}	
+	]]>
+	</update>
+	
+	<!-- [modifyNextTpNumSetTpNum] 추가 장소 중 지정 장소 moveDown(수정시) - 지정 장소의 이후 장소 TP_NUM에 지정 장소 'TP_NUM'을 넣음 -->
+	<update id="modifyNextTpNumSetTpNum" parameterType="hashmap">
+	<![CDATA[
+		UPDATE 
+			TRIPPLACE
+		SET 
+			TP_NUM = #{TP_NUM}
+		WHERE 
+			TP_DATE = #{TP_DATE} AND TP_ID = #{TP_ID} AND TP_NUM = 0
+	]]>
+	</update>
 
 </mapper>
