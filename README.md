@@ -21,7 +21,10 @@
  
 </br>
 
-## 3. 프로젝트 상세 내용 및 진행 후 
+## 3. ERD
+![Untitled](https://user-images.githubusercontent.com/109747270/219311107-285da997-707a-4a3f-9910-51fa7604fc47.png)
+
+## 4. 프로젝트 상세 내용 및 진행 후 
  - https://kwonprenst.notion.site/ca1504fbf8fe42c4b9096f3ac73fe468
 
   
